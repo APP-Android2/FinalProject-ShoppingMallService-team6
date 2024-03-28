@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/fragment_home"
+        android:enabled="true"
+        android:icon="@drawable/home_icon"
+        android:title="홈" />
+    <item
+        android:id="@+id/fragment_buy"
+        android:enabled="true"
+        android:icon="@drawable/buy_icon"
+        android:title="작품 구매" />
+    <item
+        android:id="@+id/fragment_rank"
+        android:enabled="true"
+        android:icon="@drawable/rank_icon"
+        android:title="랭킹" />
+    <item
+        android:id="@+id/fragment_mygallery"
+        android:enabled="true"
+        android:icon="@drawable/mygallery_cion"
+        android:title="나의 갤러리" />
+    <item
+        android:id="@+id/fragment_mypage"
+        android:enabled="true"
+        android:icon="@drawable/mypage_icon"
+        android:title="마이페이지" />
+</menu>
