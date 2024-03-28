@@ -18,7 +18,7 @@
     <item
         android:id="@+id/fragment_mygallery"
         android:enabled="true"
-        android:icon="@drawable/mygallery_cion"
+        android:icon="@drawable/mygallery_icon"
         android:title="나의 갤러리" />
     <item
         android:id="@+id/fragment_mypage"

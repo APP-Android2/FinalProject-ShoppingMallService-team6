@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_cart"
+        android:enabled="true"
+        android:icon="@drawable/shopcart_icon"
+        app:showAsAction="always"
+        android:title="작품 구매" />
+</menu>

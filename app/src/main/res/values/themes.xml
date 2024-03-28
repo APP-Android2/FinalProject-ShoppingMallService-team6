@@ -17,4 +17,10 @@
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
 
+    <!-- Toolbar Title TextApperance 설정 -->
+    <style name="Theme.Title.Toolbar" parent="ThemeOverlay.Material3.Toolbar.Surface">
+        <item name="android:textSize">20sp</item>
+        <item name="fontFamily">@font/pretendard_bold</item>
+    </style>
+
 </resources>
