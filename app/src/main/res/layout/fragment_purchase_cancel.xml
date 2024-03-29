@@ -43,7 +43,7 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textViewRefundDeliveryCharge"
+                        android:id="@+id/textViewurchaseCancelPieceName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/pretendard_regular"
@@ -51,7 +51,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textViewPuerchaseCancelArtistName"
+                        android:id="@+id/textViewPurchaseCancelArtistName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -60,7 +60,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/textViewPuerchaseCancelPiecePrice"
+                        android:id="@+id/textViewPurchaseCancelPiecePrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
@@ -161,7 +161,7 @@
                     app:helperText="클릭해서 취소 사유를 선택해주세요.">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textFieldPurcheaseCancelReason"
+                        android:id="@+id/textFieldPurchaseCancelReason"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
@@ -258,7 +258,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/textViewPurchaseCancelPiecePrice"
+                            android:id="@+id/textViewPurchaseCancelPiecePrice2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
@@ -278,7 +278,7 @@
                             android:textSize="14sp" />
 
                         <TextView
-                            android:id="@+id/textViewPurchaseCanelDiscount"
+                            android:id="@+id/textViewPurchaseCancelDiscount"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
