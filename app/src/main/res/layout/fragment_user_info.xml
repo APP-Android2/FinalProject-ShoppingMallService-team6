@@ -22,68 +22,64 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/textfield_radius"
-            android:hint="이름"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:hint="이름">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/second"
-                android:inputType="text" />
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/textfield_radius"
-            android:hint="닉네임"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:layout_marginTop="8dp"
+            android:hint="닉네임">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserNickName"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/second"
-                android:inputType="text" />
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/textfield_radius"
-            android:hint="휴대폰 번호"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:layout_marginTop="8dp"
+            android:hint="휴대폰 번호">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserPhoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/second"
-                android:inputType="text" />
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/textfield_radius"
-            android:hint="아이디"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp">
+            android:layout_marginTop="8dp"
+            android:hint="아이디">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserPw"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/second"
-                android:inputType="text" />
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:inputType="text"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <Button
