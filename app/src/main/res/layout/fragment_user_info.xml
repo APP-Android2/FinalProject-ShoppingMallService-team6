@@ -22,7 +22,10 @@
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="이름">
+            android:hint="이름"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserName"
@@ -38,7 +41,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="닉네임">
+            android:hint="닉네임"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserNickName"
@@ -54,7 +60,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="휴대폰 번호">
+            android:hint="휴대폰 번호"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserPhoneNumber"
@@ -70,7 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:hint="아이디">
+            android:hint="아이디"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textInputModifyUserPw"
