@@ -7,13 +7,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityLoginBinding
-import kr.co.lion.unipiece.ui.buy.BuyFragment
-import kr.co.lion.unipiece.ui.home.HomeFragment
-import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
-import kr.co.lion.unipiece.ui.mypage.MyPageFragment
-import kr.co.lion.unipiece.ui.rank.RankFragment
 import kr.co.lion.unipiece.util.LoginFragmentName
-import kr.co.lion.unipiece.util.MainFragmentName
 
 class LoginActivity : AppCompatActivity() {
 
