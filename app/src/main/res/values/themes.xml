@@ -7,12 +7,12 @@
 
     <style name="Theme.UniPiece" parent="Base.Theme.UniPiece" />
 
-    <!--Bottomnavigation 글자 설정-->
-    <style name="BottomNavigationView" parent="@style/TextAppearance.AppCompat.Caption">
+    <!--Bottomnavigation, tablayout 글자 설정-->
+    <style name="BottomNaviTab" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
-    <style name="BottomNavigationView.Active" parent="@style/TextAppearance.AppCompat.Caption">
+    <style name="BottomNaviTab.Active" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">12sp</item>
         <item name="android:fontFamily">@font/pretendard_bold</item>
     </style>
