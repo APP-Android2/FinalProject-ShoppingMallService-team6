@@ -17,8 +17,11 @@
             android:exported="false" />
         <activity
             android:name=".ui.login.LoginActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.SplashScreenActivity"
             android:exported="true"
-            android:theme="@style/AppTheme.Starting">
+            android:theme="@style/Base.Theme.Seonguk">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -3,7 +3,6 @@ package kr.co.lion.unipiece.ui.login
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityLoginBinding
@@ -14,7 +13,6 @@ class LoginActivity : AppCompatActivity() {
     lateinit var binding: ActivityLoginBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        installSplashScreen()
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
         replaceFragment(LoginFragmentName.LOGIN_FRAGMENT, false)

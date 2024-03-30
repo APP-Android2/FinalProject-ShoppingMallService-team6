@@ -26,12 +26,17 @@
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
 
-    <style name="AppTheme.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/fourth</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/icon</item>
-        <item name="windowSplashScreenAnimationDuration">1200</item>
-        <item name="postSplashScreenTheme">@style/Theme.UniPiece</item>
-
+    <style name="Base.Theme.Seonguk" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- 초기로딩시 검은 화면 없애기-->
+        <!--  이 설정은 preview window를 보이게 할지 안할지 설정하는 것이다. Default는 false로 설정 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 이 설정은 window를 투명으로 설정할지 말지에 대한 설정이다. true로 설정하면 window를 투명설정 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowFullscreen">true</item>
     </style>
+
+    <style name="Theme.Seonguk" parent="Base.Theme.Seonguk" />
+
 
 </resources>
