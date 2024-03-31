@@ -3,6 +3,9 @@
     <style name="Base.Theme.UniPiece" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- 상태바의 색상을 바꿔보자 -->
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
     </style>
 
     <style name="Theme.UniPiece" parent="Base.Theme.UniPiece" />
@@ -22,5 +25,18 @@
         <item name="android:textSize">20sp</item>
         <item name="fontFamily">@font/pretendard_bold</item>
     </style>
+
+    <style name="Base.Theme.Seonguk" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- 초기로딩시 검은 화면 없애기-->
+        <!--  이 설정은 preview window를 보이게 할지 안할지 설정하는 것이다. Default는 false로 설정 -->
+        <item name="android:windowContentOverlay">@null</item>
+        <!-- 이 설정은 window를 투명으로 설정할지 말지에 대한 설정이다. true로 설정하면 window를 투명설정 -->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowActivityTransitions">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+    <style name="Theme.Seonguk" parent="Base.Theme.Seonguk" />
+
 
 </resources>
