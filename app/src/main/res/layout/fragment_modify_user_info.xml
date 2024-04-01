@@ -39,8 +39,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:inputType="text"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp" />
+                    android:paddingLeft="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -58,8 +57,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:inputType="text"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp" />
+                    android:paddingLeft="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -77,8 +75,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:inputType="text"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp" />
+                    android:paddingLeft="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -96,8 +93,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:inputType="text"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp" />
+                    android:paddingLeft="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -115,8 +111,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:inputType="text"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="16dp" />
+                    android:paddingLeft="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <Button
