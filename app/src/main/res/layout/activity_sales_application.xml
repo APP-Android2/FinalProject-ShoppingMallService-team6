@@ -53,7 +53,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:hint="작품 이름"
-                app:endIconMode="clear_text">
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/second">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textFieldSalesApplicationPieceName"
@@ -71,7 +74,10 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:hint="카테고리"
-                app:endIconMode="none">
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="none"
+                app:hintTextColor="@color/second">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textFieldSalesApplicationCategory"
@@ -90,7 +96,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="가격"
-                app:endIconMode="clear_text">
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/second">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textFieldSalesApplicationPrice"
@@ -109,7 +118,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="제작 날짜"
-                app:endIconMode="none">
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="none"
+                app:hintTextColor="@color/second">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textFieldSalesApplicationDate"
@@ -129,7 +141,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:hint="작품 설명"
-                app:endIconMode="clear_text">
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/second">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textFieldSalesApplicationDescription"
