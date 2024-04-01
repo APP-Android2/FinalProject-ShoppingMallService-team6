@@ -3,6 +3,8 @@ package kr.co.lion.unipiece.ui.mygallery
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.view.isVisible
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.MaterialDatePicker
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 
@@ -35,6 +37,33 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingView() {
         binding.apply {
             imageViewSalesApplication.isVisible = false
+
+            textFieldSalesApplicationDate.setOnClickListener {
+                showDatePickerDialog()
+            }
         }
+    }
+
+    fun showDatePickerDialog() {
+        val today = MaterialDatePicker.todayInUtcMilliseconds()
+
+        val constraintsBuilder = CalendarConstraints.Builder()
+            .setEnd(today)
+
+        val datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText("Select date")
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .setCalendarConstraints(constraintsBuilder.build())
+            .build()
+
+        datePicker.addOnPositiveButtonClickListener { selection ->
+            binding.textFieldSalesApplicationDate.setText(datePicker.headerText)
+
+            if(binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled) {
+                binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled = false
+            }
+        }
+
+        datePicker.show(supportFragmentManager, datePicker.toString())
     }
 }
