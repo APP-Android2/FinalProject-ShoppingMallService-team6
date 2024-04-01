@@ -46,6 +46,10 @@ class MainActivity : AppCompatActivity() {
                 val headerDrawerBinding = HeaderBuyDrawerBinding.inflate(layoutInflater)
                 addHeaderView(headerDrawerBinding.root)
 
+                headerDrawerBinding.backBtn.setOnClickListener {
+                    drawerBuyLayout.close()
+                }
+
                 setNavigationItemSelectedListener {
                     SystemClock.sleep(200)
 
