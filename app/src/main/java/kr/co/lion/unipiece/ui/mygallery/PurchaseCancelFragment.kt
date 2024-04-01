@@ -15,7 +15,7 @@ import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 class PurchaseCancelFragment : Fragment() {
 
     lateinit var binding: FragmentPurchaseCancelBinding
-    lateinit var PurchasedPieceDetailActivity: PurchasedPieceDetailActivity
+    lateinit var purchasedPieceDetailActivity: PurchasedPieceDetailActivity
 
     var cancelReasonDialogData = arrayOf(
         "작품이 마음에 들지 않아요", "다른 작품으로 변경하고 싶어요", "배송지를 변경하고 싶어요", "주문을 잘못했어요"
@@ -24,10 +24,10 @@ class PurchaseCancelFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentPurchaseCancelBinding.inflate(inflater, container, false)
-        PurchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
+        purchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
 
         settingToolbar()
-        settingTextField()
+        settingTextFieldPurchaseCancelReason()
 
         return binding.root
     }
@@ -39,13 +39,13 @@ class PurchaseCancelFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    PurchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT)
+                    purchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT)
                 }
             }
         }
     }
 
-    fun settingTextField() {
+    fun settingTextFieldPurchaseCancelReason() {
         binding.apply {
             textFieldPurchaseCancelReason.setOnClickListener {
                 showCancelReasonDialog()
@@ -54,7 +54,7 @@ class PurchaseCancelFragment : Fragment() {
     }
 
     fun showCancelReasonDialog() {
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(PurchasedPieceDetailActivity)
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(purchasedPieceDetailActivity)
         materialAlertDialogBuilder.setTitle("취소 사유")
         materialAlertDialogBuilder.setNegativeButton("취소", null)
         materialAlertDialogBuilder.setItems(cancelReasonDialogData) { dialogInterface: DialogInterface, i: Int ->
