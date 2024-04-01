@@ -54,7 +54,10 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            app:menu="@menu/menu_buy_drawer" />
+            app:menu="@menu/menu_buy_drawer"
+            app:itemBackground="@color/color_buydrawer"
+            app:itemTextColor="@color/text_buydrawer"
+            app:itemTextAppearance="@font/pretendard_medium"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 

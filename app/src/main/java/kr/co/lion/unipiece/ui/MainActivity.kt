@@ -1,8 +1,15 @@
 package kr.co.lion.unipiece.ui
 
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.TextAppearanceSpan
+import android.util.TypedValue
+import android.view.Menu
+import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
@@ -42,7 +49,10 @@ class MainActivity : AppCompatActivity() {
                     SystemClock.sleep(200)
 
                     when(it.itemId){
-                        R.id.menuArtUni -> {
+                        R.id.menuAll -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtAll -> {
                             drawerBuyLayout.close()
                         }
                         R.id.menuArtWest -> {
@@ -78,7 +88,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.menuArtAni -> {
                             drawerBuyLayout.close()
                         }
-                        R.id.menuHumUni -> {
+                        R.id.menuHumAll -> {
                             drawerBuyLayout.close()
                         }
                         R.id.menuHumFiction -> {
@@ -90,7 +100,7 @@ class MainActivity : AppCompatActivity() {
                         R.id.menuHumScript -> {
                             drawerBuyLayout.close()
                         }
-                        R.id.menuEngUni -> {
+                        R.id.menuEngAll -> {
                             drawerBuyLayout.close()
                         }
                         R.id.menuEngSoft -> {
