@@ -18,3 +18,9 @@ enum class LoginFragmentName(var str:String){
     LOGIN_FRAGMENT("LoginFragment"),
     JOIN_FRAGMENT("JoinFragment")
 }
+
+//작가 등록 Fragment 이름
+enum class AddAuthorFragmentName(var str:String){
+    GUIDE_LINE_FRAGMENT("GuideLineFragment"),
+    REGISTER_AUTHOR_FRAGMENT("RegisterAuthorFragment")
+}
