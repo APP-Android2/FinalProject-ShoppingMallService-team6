@@ -27,7 +27,7 @@ class UpdateAuthorActivity : AppCompatActivity() {
                 }
             }
             buttonAuthorUpdate.setOnClickListener {
-                startActivity(Intent(this@UpdateAuthorActivity, InfoOneActivity::class.java))
+
             }
         }
     }
