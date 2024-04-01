@@ -15,17 +15,37 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <LinearLayout
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fl_container"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"/>
 
-                <androidx.fragment.app.FragmentContainerView
-                    android:id="@+id/fl_container"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lightgray"
+                android:layout_gravity="bottom"
+                app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-            </LinearLayout>
+            <com.google.android.material.bottomnavigation.BottomNavigationView
+                android:id="@+id/bottomNavigationView"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:background="@color/white"
+                android:layout_gravity="bottom"
+                app:itemBackground="@android:color/transparent"
+                app:itemActiveIndicatorStyle="@null"
+                app:itemIconSize="24dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                app:itemIconTint="@color/color_bottomnavi"
+                app:itemTextAppearanceActive="@style/BottomNaviTab.Active"
+                app:itemTextAppearanceInactive="@style/BottomNaviTab"
+                app:itemTextColor="@color/color_bottomnavi"
+                app:labelVisibilityMode="labeled"
+                app:menu="@menu/menu_bottomnavi" />
 
         </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
@@ -37,34 +57,5 @@
             app:menu="@menu/menu_buy_drawer" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/lightgray"
-        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bottomNavigationView"
-        android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:background="@color/white"
-        app:itemBackground="@android:color/transparent"
-        app:itemActiveIndicatorStyle="@null"
-        app:itemIconSize="24dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        app:itemIconTint="@color/color_bottomnavi"
-        app:itemTextAppearanceActive="@style/BottomNaviTab.Active"
-        app:itemTextAppearanceInactive="@style/BottomNaviTab"
-        app:itemTextColor="@color/color_bottomnavi"
-        app:labelVisibilityMode="labeled"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_container"
-        app:menu="@menu/menu_bottomnavi" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

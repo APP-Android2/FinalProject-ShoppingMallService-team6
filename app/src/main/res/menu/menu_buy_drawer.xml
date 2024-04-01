@@ -73,7 +73,7 @@
 
     <item
         android:id="@+id/menuEngUni"
-        android:title="인문 대학" >
+        android:title="공과 대학" >
         <menu>
             <item
                 android:id="@+id/menuEngSoft"
