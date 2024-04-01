@@ -8,28 +8,62 @@ import android.view.View
 import android.view.ViewGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.FragmentPurchaseCancelBinding
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceDetailBinding
+import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 
 class PurchaseCancelFragment : Fragment() {
 
-    lateinit var binding: FragmentPurchasedPieceDetailBinding
+    lateinit var binding: FragmentPurchaseCancelBinding
+    lateinit var PurchasedPieceDetailActivity: PurchasedPieceDetailActivity
+
+    var cancelReasonDialogData = arrayOf(
+        "작품이 마음에 들지 않아요", "다른 작품으로 변경하고 싶어요", "배송지를 변경하고 싶어요", "주문을 잘못했어요"
+    )
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
-        binding = FragmentPurchasedPieceDetailBinding.inflate(inflater, container, false)
+        binding = FragmentPurchaseCancelBinding.inflate(inflater, container, false)
+        PurchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
 
         settingToolbar()
+        settingTextField()
 
         return binding.root
     }
 
     fun settingToolbar() {
         binding.apply {
-            toolbarPurchasedPieceDetail.apply {
+            toolbarPurchaseCancel.apply {
                 title = "구매 취소"
 
                 setNavigationIcon(R.drawable.back_icon)
+                setNavigationOnClickListener {
+                    PurchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT)
+                }
             }
         }
+    }
+
+    fun settingTextField() {
+        binding.apply {
+            textFieldPurchaseCancelReason.setOnClickListener {
+                showCancelReasonDialog()
+            }
+        }
+    }
+
+    fun showCancelReasonDialog() {
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(PurchasedPieceDetailActivity)
+        materialAlertDialogBuilder.setTitle("취소 사유")
+        materialAlertDialogBuilder.setNegativeButton("취소", null)
+        materialAlertDialogBuilder.setItems(cancelReasonDialogData) { dialogInterface: DialogInterface, i: Int ->
+            binding.textFieldPurchaseCancelReason.setText(cancelReasonDialogData[i])
+
+            if(binding.textInputLayoutPurchaseCancelReason.isHelperTextEnabled) {
+                binding.textInputLayoutPurchaseCancelReason.isHelperTextEnabled = false
+            }
+        }
+        materialAlertDialogBuilder.show()
     }
 }

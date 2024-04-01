@@ -6,12 +6,6 @@ import android.os.SystemClock
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityPurchasedPieceDetailBinding
-import kr.co.lion.unipiece.ui.buy.BuyFragment
-import kr.co.lion.unipiece.ui.home.HomeFragment
-import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
-import kr.co.lion.unipiece.ui.mypage.MyPageFragment
-import kr.co.lion.unipiece.ui.rank.RankFragment
-import kr.co.lion.unipiece.util.MainFragmentName
 import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 
 class PurchasedPieceDetailActivity : AppCompatActivity() {
@@ -52,7 +46,7 @@ class PurchasedPieceDetailActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
-    fun removeFragment(name: MainFragmentName){
+    fun removeFragment(name: PurchasedPieceDetailFragmentName){
         SystemClock.sleep(200)
 
         // 지정한 이름으로 있는 Fragment를 BackStack에서 제거
