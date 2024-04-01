@@ -9,6 +9,7 @@ import android.text.Spanned
 import android.text.style.TextAppearanceSpan
 import android.util.TypedValue
 import android.view.Menu
+import androidx.core.view.GravityCompat
 import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
@@ -113,6 +114,16 @@ class MainActivity : AppCompatActivity() {
 
                     true
                 }
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        with(binding){
+            if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
+                drawerBuyLayout.close()
+            } else {
+                super.onBackPressed()
             }
         }
     }
