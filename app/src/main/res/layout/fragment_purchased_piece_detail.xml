@@ -118,6 +118,7 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:dividerColor="@color/lightgray"
                 app:dividerInsetEnd="16dp"
                 app:dividerInsetStart="16dp" />
 
@@ -238,6 +239,7 @@
                 android:id="@+id/dividerRefundApproval"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:dividerColor="@color/lightgray"
                 app:dividerInsetEnd="16dp"
                 app:dividerInsetStart="16dp" />
 
@@ -409,6 +411,7 @@
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:dividerColor="@color/lightgray"
                 app:dividerInsetEnd="16dp"
                 app:dividerInsetStart="16dp" />
 
