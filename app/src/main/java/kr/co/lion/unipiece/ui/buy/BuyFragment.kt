@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyBinding
 import kr.co.lion.unipiece.util.setMenuIconColor
@@ -20,9 +22,13 @@ class BuyFragment : Fragment() {
 
         binding = FragmentBuyBinding.inflate(inflater, container, false)
 
-        settingToolbarBuy()
-
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        settingToolbarBuy()
+        initViewPager()
     }
 
     fun settingToolbarBuy(){
@@ -38,6 +44,38 @@ class BuyFragment : Fragment() {
                 requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
 
             }
+        }
+    }
+
+    fun initViewPager() {
+
+        val titles = listOf("인기 순", "신규 순")
+        val vpAdapter = BuyAdapter(requireActivity())
+        vpAdapter.addFragment(BuyPopFragment())
+        vpAdapter.addFragment(BuyNewFragment())
+
+        with(binding){
+            buyVP.adapter = vpAdapter
+
+            buyVP.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                }
+            })
+
+            // ViewPager TabLayout 연결
+            TabLayoutMediator(tabLayout, buyVP) { tab, position ->
+                tab.text = titles[position]
+            }.attach()
+
+            // 각 탭에 OnClickListener 설정
+            for (i in 0 until tabLayout.tabCount) {
+                val tab = tabLayout.getTabAt(i)
+                tab?.view?.setOnClickListener {
+                    buyVP.currentItem = i
+                }
+            }
+
         }
     }
 

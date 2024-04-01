@@ -7,4 +7,5 @@
     <color name="second">#AC87C5</color>
     <color name="third">#E0AED0</color>
     <color name="fourth">#FFE5E5</color>
+    <color name="colorTransparent">#00000000</color>
 </resources>
