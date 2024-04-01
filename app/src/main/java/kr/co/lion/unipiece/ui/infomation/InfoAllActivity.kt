@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.infomation
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
@@ -85,6 +86,9 @@ class InfoAllActivity : AppCompatActivity() {
             holder.infoAllBinding.textInfoAllTitle.text = "UniPiece"
             holder.infoAllBinding.textInfoAllDate.text = "2024-04-01 ~ 2024-04-26"
             holder.infoAllBinding.textInfoAllAuthorName.text = "멋쟁이 사람들"
+            holder.infoAllBinding.root.setOnClickListener {
+                startActivity(Intent(this@InfoAllActivity, InfoOneActivity::class.java))
+            }
         }
     }
 }
