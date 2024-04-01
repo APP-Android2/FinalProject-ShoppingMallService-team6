@@ -1,9 +1,11 @@
 package kr.co.lion.unipiece.ui.author
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityUpdateAuthorBinding
+import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
 
 class UpdateAuthorActivity : AppCompatActivity() {
 
@@ -21,8 +23,11 @@ class UpdateAuthorActivity : AppCompatActivity() {
                 title = "작가 갱신"
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-
+                    finish()
                 }
+            }
+            buttonAuthorUpdate.setOnClickListener {
+                startActivity(Intent(this@UpdateAuthorActivity, InfoOneActivity::class.java))
             }
         }
     }
