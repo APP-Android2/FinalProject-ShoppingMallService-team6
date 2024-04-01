@@ -45,6 +45,10 @@ class SalesApplicationActivity : AppCompatActivity() {
         binding.apply {
             imageViewSalesApplication.isVisible = false
 
+            textFieldSalesApplicationCategory.setOnClickListener {
+                showCategoryDialog()
+            }
+
             textFieldSalesApplicationDate.setOnClickListener {
                 showDatePickerDialog()
             }
