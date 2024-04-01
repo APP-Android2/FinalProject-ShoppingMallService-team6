@@ -13,6 +13,9 @@
         android:theme="@style/Theme.UniPiece"
         tools:targetApi="31">
         <activity
+            android:name=".ui.mygallery.PurchasedPieceDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

@@ -12,3 +12,10 @@ enum class MainFragmentName(var str:String){
     MY_GALLERY_FRAGMENT("MyGalleryFragment"),
     MY_PAGE_FRAGMENT("MyPageFragment")
 }
+
+// PurchasedPieceDetailActivity 프래그먼트 이름
+enum class PurchasedPieceDetailFragmentName(var str: String) {
+    PURCHEASED_PIECE_DETAIL_FRAGMENT("PurchasedPieceDetailFramgent"),
+    PURCHASE_CANCEL_FRAGEMNT("PurchaseCancelFragment"),
+    REFUND_FRAGMENT("Refund_Fragment")
+}
