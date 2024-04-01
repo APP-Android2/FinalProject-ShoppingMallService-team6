@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:text="아이디 중복 확인 버튼"
-                android:textAppearance="@style/BottomNaviTab"
+                android:textAppearance="@style/BottomNaviTab.Active"
                 android:textColor="@color/first" />
 
             <com.google.android.material.textfield.TextInputLayout
