@@ -1,7 +1,6 @@
 package kr.co.lion.unipiece.util
 
 class FragmentUtil {
-
 }
 
 // MainActivity에서 보여줄 프래그먼트들의 이름

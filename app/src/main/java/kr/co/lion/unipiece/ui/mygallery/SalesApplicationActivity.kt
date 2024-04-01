@@ -7,6 +7,7 @@ import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
+import kr.co.lion.unipiece.util.ToolUtil
 
 class SalesApplicationActivity : AppCompatActivity() {
 
@@ -41,6 +42,21 @@ class SalesApplicationActivity : AppCompatActivity() {
             textFieldSalesApplicationDate.setOnClickListener {
                 showDatePickerDialog()
             }
+
+            textFieldSalesApplicationPieceName.apply {
+                setOnEditorActionListener { v, actionId, event ->
+                    ToolUtil.hideSoftInput(this@SalesApplicationActivity)
+                    true
+                }
+            }
+
+            textFieldSalesApplicationPrice.apply {
+                setOnEditorActionListener { v, actionId, event ->
+                    ToolUtil.hideSoftInput(this@SalesApplicationActivity)
+                    showDatePickerDialog()
+                    true
+                }
+            }
         }
     }
 
@@ -51,7 +67,6 @@ class SalesApplicationActivity : AppCompatActivity() {
             .setEnd(today)
 
         val datePicker = MaterialDatePicker.Builder.datePicker()
-            .setTitleText("Select date")
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setCalendarConstraints(constraintsBuilder.build())
             .build()
@@ -62,6 +77,8 @@ class SalesApplicationActivity : AppCompatActivity() {
             if(binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled) {
                 binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled = false
             }
+
+            ToolUtil.showSoftInput(this@SalesApplicationActivity, binding.textFieldSalesApplicationDescription)
         }
 
         datePicker.show(supportFragmentManager, datePicker.toString())
