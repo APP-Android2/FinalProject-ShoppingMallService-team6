@@ -103,29 +103,42 @@ class SalesApplicationActivity : AppCompatActivity() {
             setView(categoryDialogBinding.root)
 
             categoryDialogBinding.apply {
-                radioGroup1.isVisible = false
-                radioGroup2.isVisible = false
-                radioGroup3.isVisible = false
+                radioGroupArt.isVisible = false
+                radioGroupHumanities.isVisible = false
+                radioGroupEngineering.isVisible = false
 
                 cardViewCategoryDialogArt.setOnClickListener {
-                    toggleRadioGroupVisibility(radioGroup1, imageViewCategoryDialogArt, !radioGroup1.isVisible)
+                    toggleRadioGroupVisibility(radioGroupArt, imageViewArt, !radioGroupArt.isVisible)
+                    hideOtherRadioGroups(radioGroupHumanities, radioGroupEngineering)
+                    updateImageViewVisibility(imageViewHumanities, imageViewEngineering)
+                    clearCheckedRadioButtons(radioGroupHumanities, radioGroupEngineering)
                 }
 
                 cardViewCategoryDialogHumanities.setOnClickListener {
-                    toggleRadioGroupVisibility(radioGroup2, imageViewCategoryDialogHumanities, !radioGroup2.isVisible)
+                    toggleRadioGroupVisibility(radioGroupHumanities, imageViewHumanities, !radioGroupHumanities.isVisible)
+                    hideOtherRadioGroups(radioGroupArt, radioGroupEngineering)
+                    updateImageViewVisibility(imageViewArt, imageViewEngineering)
+                    clearCheckedRadioButtons(radioGroupArt, radioGroupEngineering)
                 }
 
                 cardViewCategoryDialogEngineering.setOnClickListener {
-                    toggleRadioGroupVisibility(radioGroup3, imageViewCategoryDialogEngineering, !radioGroup3.isVisible)
+                    toggleRadioGroupVisibility(radioGroupEngineering, imageViewEngineering, !radioGroupEngineering.isVisible)
+                    hideOtherRadioGroups(radioGroupArt, radioGroupHumanities)
+                    updateImageViewVisibility(imageViewArt, imageViewHumanities)
+                    clearCheckedRadioButtons(radioGroupArt, radioGroupHumanities)
                 }
             }
 
             setNegativeButton("취소", null)
             setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
                 val selectedRadioButton = when {
-                    categoryDialogBinding.radioGroup1.checkedRadioButtonId != -1 -> categoryDialogBinding.radioGroup1.findViewById<RadioButton>(categoryDialogBinding.radioGroup1.checkedRadioButtonId)
-                    categoryDialogBinding.radioGroup2.checkedRadioButtonId != -1 -> categoryDialogBinding.radioGroup2.findViewById<RadioButton>(categoryDialogBinding.radioGroup2.checkedRadioButtonId)
-                    else -> categoryDialogBinding.radioGroup3.findViewById<RadioButton>(categoryDialogBinding.radioGroup3.checkedRadioButtonId)
+                    categoryDialogBinding.radioGroupArt.checkedRadioButtonId != -1
+                    -> categoryDialogBinding.radioGroupArt.findViewById<RadioButton>(categoryDialogBinding.radioGroupArt.checkedRadioButtonId)
+
+                    categoryDialogBinding.radioGroupHumanities.checkedRadioButtonId != -1
+                    -> categoryDialogBinding.radioGroupHumanities.findViewById<RadioButton>(categoryDialogBinding.radioGroupHumanities.checkedRadioButtonId)
+
+                    else -> categoryDialogBinding.radioGroupEngineering.findViewById<RadioButton>(categoryDialogBinding.radioGroupEngineering.checkedRadioButtonId)
                 }
                 binding.textFieldSalesApplicationCategory.setText(selectedRadioButton?.text ?: "")
 
@@ -139,5 +152,18 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun toggleRadioGroupVisibility(radioGroup: RadioGroup, imageView: ImageView, show: Boolean) {
         radioGroup.isVisible = !radioGroup.isVisible
         imageView.setImageResource(if (show) R.drawable.arrowdropup_icon else R.drawable.arrowdropdown_icon)
+    }
+
+    fun hideOtherRadioGroups(vararg radioGroups: RadioGroup) {
+        radioGroups.forEach { it.isVisible = false }
+    }
+
+    fun updateImageViewVisibility(imageView1: ImageView, imageView2: ImageView) {
+        imageView1.setImageResource(R.drawable.arrowdropdown_icon)
+        imageView2.setImageResource(R.drawable.arrowdropdown_icon)
+    }
+
+    fun clearCheckedRadioButtons(vararg radioGroups: RadioGroup) {
+        radioGroups.forEach { it.clearCheck() }
     }
 }

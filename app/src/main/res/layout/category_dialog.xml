@@ -41,7 +41,7 @@
                             android:textSize="18sp" />
 
                         <ImageView
-                            android:id="@+id/imageViewCategoryDialogArt"
+                            android:id="@+id/imageViewArt"
                             android:layout_width="60dp"
                             android:layout_height="24dp"
                             android:layout_weight="1"
@@ -49,7 +49,7 @@
                     </LinearLayout>
 
                     <RadioGroup
-                        android:id="@+id/radioGroup1"
+                        android:id="@+id/radioGroupArt"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp">
@@ -196,7 +196,7 @@
                             android:textSize="18sp" />
 
                         <ImageView
-                            android:id="@+id/imageViewCategoryDialogHumanities"
+                            android:id="@+id/imageViewHumanities"
                             android:layout_width="60dp"
                             android:layout_height="24dp"
                             android:layout_weight="1"
@@ -204,7 +204,7 @@
                     </LinearLayout>
 
                     <RadioGroup
-                        android:id="@+id/radioGroup2"
+                        android:id="@+id/radioGroupHumanities"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp">
@@ -271,7 +271,7 @@
                             android:textSize="18sp" />
 
                         <ImageView
-                            android:id="@+id/imageViewCategoryDialogEngineering"
+                            android:id="@+id/imageViewEngineering"
                             android:layout_width="60dp"
                             android:layout_height="24dp"
                             android:layout_weight="1"
@@ -279,7 +279,7 @@
                     </LinearLayout>
 
                     <RadioGroup
-                        android:id="@+id/radioGroup3"
+                        android:id="@+id/radioGroupEngineering"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="10dp">
