@@ -9,11 +9,14 @@ import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyBinding
+import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class BuyFragment : Fragment() {
 
     lateinit var binding: FragmentBuyBinding
+
+    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,6 +24,8 @@ class BuyFragment : Fragment() {
     ): View? {
 
         binding = FragmentBuyBinding.inflate(inflater, container, false)
+
+        mainActivity= activity as MainActivity
 
         return binding.root
     }
@@ -37,6 +42,9 @@ class BuyFragment : Fragment() {
             toolbarBuy.apply {
 
                 setNavigationIcon(R.drawable.menu_icon)
+                setNavigationOnClickListener {
+                    mainActivity.binding.drawerBuyLayout.open()
+                }
 
                 inflateMenu(R.menu.menu_search_cart)
 

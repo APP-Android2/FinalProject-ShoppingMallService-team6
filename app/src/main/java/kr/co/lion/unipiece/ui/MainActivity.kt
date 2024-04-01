@@ -1,11 +1,20 @@
 package kr.co.lion.unipiece.ui
 
+import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.SpannableString
+import android.text.Spanned
+import android.text.style.TextAppearanceSpan
+import android.util.TypedValue
+import android.view.Menu
+import androidx.core.view.GravityCompat
+import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
+import kr.co.lion.unipiece.databinding.HeaderBuyDrawerBinding
 import kr.co.lion.unipiece.ui.buy.BuyFragment
 import kr.co.lion.unipiece.ui.home.HomeFragment
 import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
@@ -23,11 +32,104 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNaviClick()
+        setBuyNaviDrawer()
         initView()
     }
 
     fun initView() {
         binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+    }
+
+    fun setBuyNaviDrawer(){
+        with(binding){
+            with(navigationDrawer){
+                val headerDrawerBinding = HeaderBuyDrawerBinding.inflate(layoutInflater)
+                addHeaderView(headerDrawerBinding.root)
+
+                headerDrawerBinding.backBtn.setOnClickListener {
+                    drawerBuyLayout.close()
+                }
+
+                setNavigationItemSelectedListener {
+                    SystemClock.sleep(200)
+
+                    when(it.itemId){
+                        R.id.menuAll -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtAll -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtWest -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtOri -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtCalli -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtSculp -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtPrint -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtWood -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtGlass -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtFabric -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtMetal -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtComic -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtAni -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumAll -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumFiction -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumPoem -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumScript -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuEngAll -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuEngSoft -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuEngHard -> {
+                            drawerBuyLayout.close()
+                        }
+                    }
+
+                    true
+                }
+            }
+        }
+    }
+
+    override fun onBackPressed() {
+        with(binding){
+            if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
+                drawerBuyLayout.close()
+            } else {
+                super.onBackPressed()
+            }
+        }
     }
 
     fun bottomNaviClick() {
