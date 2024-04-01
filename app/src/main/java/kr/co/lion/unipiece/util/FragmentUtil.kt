@@ -24,3 +24,10 @@ enum class AddAuthorFragmentName(var str:String){
     GUIDE_LINE_FRAGMENT("GuideLineFragment"),
     REGISTER_AUTHOR_FRAGMENT("RegisterAuthorFragment")
 }
+
+// PurchasedPieceDetailActivity 프래그먼트 이름
+enum class PurchasedPieceDetailFragmentName(var str: String) {
+    PURCHEASED_PIECE_DETAIL_FRAGMENT("PurchasedPieceDetailFramgent"),
+    PURCHASE_CANCEL_FRAGEMNT("PurchaseCancelFragment"),
+    REFUND_FRAGMENT("Refund_Fragment")
+}

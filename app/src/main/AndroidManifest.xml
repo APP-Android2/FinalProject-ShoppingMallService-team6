@@ -14,6 +14,9 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.infomation.InfoOneActivity"
+                  android:exported="false" />
+        <activity
+            android:name=".ui.mygallery.PurchasedPieceDetailActivity"
             android:exported="false" />
         <activity
             android:name=".ui.UserInfoActivity"
