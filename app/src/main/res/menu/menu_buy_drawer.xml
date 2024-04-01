@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/menuArtUni"
+        android:title="예술 대학" >
+        <menu>
+            <item
+                android:id="@+id/menuArtWest"
+                android:checkable="true"
+                android:title="서양화" />
+            <item
+                android:id="@+id/menuArtOri"
+                android:checkable="true"
+                android:title="동양화" />
+            <item
+                android:id="@+id/menuArtCalli"
+                android:checkable="true"
+                android:title="서예" />
+            <item
+                android:id="@+id/menuArtSculp"
+                android:checkable="true"
+                android:title="조소" />
+            <item
+                android:id="@+id/menuArtPrint"
+                android:checkable="true"
+                android:title="판화" />
+            <item
+                android:id="@+id/menuArtWood"
+                android:checkable="true"
+                android:title="가구/목재" />
+            <item
+                android:id="@+id/menuArtGlass"
+                android:checkable="true"
+                android:title="도자기/유리" />
+            <item
+                android:id="@+id/menuArtFabric"
+                android:checkable="true"
+                android:title="섬유/염색" />
+            <item
+                android:id="@+id/menuArtMetal"
+                android:checkable="true"
+                android:title="금속" />
+            <item
+                android:id="@+id/menuArtComic"
+                android:checkable="true"
+                android:title="만화" />
+            <item
+                android:id="@+id/menuArtAni"
+                android:checkable="true"
+                android:title="애니메이션" />
+
+        </menu>
+    </item>
+    <item
+        android:id="@+id/menuHumUni"
+        android:title="인문 대학" >
+        <menu>
+            <item
+                android:id="@+id/menuHumFiction"
+                android:checkable="true"
+                android:title="소설" />
+            <item
+                android:id="@+id/menuHumPoem"
+                android:checkable="true"
+                android:title="시" />
+            <item
+                android:id="@+id/menuHumScript"
+                android:checkable="true"
+                android:title="극본" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/menuEngUni"
+        android:title="인문 대학" >
+        <menu>
+            <item
+                android:id="@+id/menuEngSoft"
+                android:checkable="true"
+                android:title="소프트웨어" />
+            <item
+                android:id="@+id/menuEngHard"
+                android:checkable="true"
+                android:title="하드웨어" />
+        </menu>
+    </item>
+
+</menu>
