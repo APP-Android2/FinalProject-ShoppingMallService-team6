@@ -13,7 +13,8 @@
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -39,6 +40,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/button_radius"
+                android:fontFamily="@font/pretendard_regular"
                 android:text="사진 첨부하기"
                 android:textColor="@color/white"
                 app:icon="@android:drawable/ic_menu_camera"
@@ -57,6 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
+                    android:fontFamily="@font/pretendard_regular"
                     android:inputType="text"
                     android:paddingStart="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -76,6 +79,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:focusable="false"
+                    android:fontFamily="@font/pretendard_regular"
                     android:inputType="none"
                     android:paddingStart="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -93,6 +97,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
+                    android:fontFamily="@font/pretendard_regular"
                     android:inputType="number"
                     android:paddingStart="10dp" />
 
@@ -113,6 +118,7 @@
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
                     android:focusable="false"
+                    android:fontFamily="@font/pretendard_regular"
                     android:inputType="none"
                     android:paddingStart="10dp" />
 
@@ -131,6 +137,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="56dp"
                     android:background="@drawable/textfield_radius"
+                    android:fontFamily="@font/pretendard_regular"
                     android:inputType="text|textMultiLine"
                     android:paddingStart="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -142,6 +149,7 @@
                 android:layout_gravity="center"
                 android:layout_margin="20dp"
                 android:background="@drawable/button_radius"
+                android:fontFamily="@font/pretendard_regular"
                 android:text="완료"
                 android:textColor="@color/white"
                 android:textSize="18sp" />
