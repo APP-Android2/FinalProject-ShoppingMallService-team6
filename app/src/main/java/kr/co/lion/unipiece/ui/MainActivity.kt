@@ -6,6 +6,7 @@ import android.os.SystemClock
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
+import kr.co.lion.unipiece.databinding.HeaderBuyDrawerBinding
 import kr.co.lion.unipiece.ui.buy.BuyFragment
 import kr.co.lion.unipiece.ui.home.HomeFragment
 import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
@@ -23,11 +24,87 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNaviClick()
+        setBuyNaviDrawer()
         initView()
     }
 
     fun initView() {
         binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+    }
+
+    fun setBuyNaviDrawer(){
+        with(binding){
+            with(navigationDrawer){
+                val headerDrawerBinding = HeaderBuyDrawerBinding.inflate(layoutInflater)
+                addHeaderView(headerDrawerBinding.root)
+
+                setNavigationItemSelectedListener {
+                    SystemClock.sleep(200)
+
+                    when(it.itemId){
+                        R.id.menuArtUni -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtWest -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtOri -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtCalli -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtSculp -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtPrint -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtWood -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtGlass -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtFabric -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtMetal -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtComic -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuArtAni -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumUni -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumFiction -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumPoem -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuHumScript -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuEngUni -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuEngSoft -> {
+                            drawerBuyLayout.close()
+                        }
+                        R.id.menuEngHard -> {
+                            drawerBuyLayout.close()
+                        }
+                    }
+
+                    true
+                }
+            }
+        }
     }
 
     fun bottomNaviClick() {
