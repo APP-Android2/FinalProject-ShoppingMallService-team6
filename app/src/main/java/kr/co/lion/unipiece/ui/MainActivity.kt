@@ -24,6 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         bottomNaviClick()
         initView()
+
     }
 
     fun initView() {
