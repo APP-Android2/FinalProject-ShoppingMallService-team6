@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.mypage.ApplyVisitGalleryFragment">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarApplyVisitGallery"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:minHeight="?attr/actionBarSize"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="이름"
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:hintTextColor="@color/second">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputApplyVisitGalleryName"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/textfield_radius"
+                    android:inputType="text"
+                    android:paddingLeft="10dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="16dp"
+                android:hint="휴대폰 번호"
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:hintTextColor="@color/second">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputApplyVisitGalleryPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/textfield_radius"
+                    android:inputType="text|textPhonetic"
+                    android:paddingLeft="10dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <TextView
+                android:id="@+id/textViewApplyVisitGalleryMemberCount"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="방문 인원"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/buttonMemberCountDown"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="8dp"
+                        android:background="@drawable/button_radius"
+                        android:src="@drawable/minus_icon"
+                        android:tint="@color/white" />
+
+                    <EditText
+                        android:id="@+id/editTextApplyVisitGalleryMemberCounter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:backgroundTint="#AC87C5"
+                        android:ems="2"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:textAlignment="center" />
+
+                    <androidx.appcompat.widget.AppCompatImageButton
+                        android:id="@+id/buttonMemberCountUp"
+                        android:layout_width="48dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="8dp"
+                        android:background="@drawable/button_radius"
+                        android:src="@drawable/add_icon"
+                        android:tint="@color/white" />
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textViewApplyVisitGalleryDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="방문 날짜"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_horizontal"
+                android:orientation="horizontal">
+
+                <DatePicker
+                    android:id="@+id/datePickerApplyVisitGallery"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:headerBackground="@drawable/button_radius" />
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonApplyVisitGalleryConfirm"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="16dp"
+                android:background="@drawable/button_radius"
+                android:text="신청 완료"
+                android:textColor="@color/white"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -10,6 +10,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AddAuthorActivity
+import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 
 class HomeFragment : Fragment() {
 
@@ -29,6 +30,9 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding.apply {
             button.setOnClickListener {
                 startActivity(Intent(mainActivity, AddAuthorActivity::class.java))
+            }
+            button2.setOnClickListener {
+                startActivity(Intent(mainActivity, InfoAllActivity::class.java))
             }
         }
     }
