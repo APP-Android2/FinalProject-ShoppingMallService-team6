@@ -16,6 +16,9 @@
             android:name=".ui.mypage.VisitGalleryActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.infomation.InfoAllActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.infomation.InfoOneActivity"
             android:exported="false" />
         <activity
