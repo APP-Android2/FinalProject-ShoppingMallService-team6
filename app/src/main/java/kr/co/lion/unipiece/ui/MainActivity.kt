@@ -1,16 +1,10 @@
 package kr.co.lion.unipiece.ui
 
-import android.content.res.Resources
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.text.SpannableString
-import android.text.Spanned
-import android.text.style.TextAppearanceSpan
-import android.util.TypedValue
-import android.view.Menu
+import android.util.Log
 import androidx.core.view.GravityCompat
-import androidx.core.view.get
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
@@ -32,13 +26,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         bottomNaviClick()
-        setBuyNaviDrawer()
         initView()
-
+        setBuyNaviDrawer()
     }
 
+    fun printFragmentBackStack(name: String) {
+        val fragmentManager = supportFragmentManager
+        val count = fragmentManager.backStackEntryCount
+        Log.d("$name BackStack", "백 스택에 있는 프래그먼트 수: $count")
+        for (index in 0 until count) {
+            val backStackEntry = fragmentManager.getBackStackEntryAt(index)
+            Log.d("$name BackStack", "백 스택 #$index: ${backStackEntry.name}")
+        }
+    }
+
+
     fun initView() {
-        binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+        replaceFragment(HOME_FRAGMENT, false)
     }
 
     fun setBuyNaviDrawer(){
@@ -129,32 +133,65 @@ class MainActivity : AppCompatActivity() {
                 drawerBuyLayout.close()
             } else {
                 super.onBackPressed()
+                updateBottomNavi()
+                printFragmentBackStack("back")
             }
         }
     }
 
+    fun updateBottomNavi(){
+        printFragmentBackStack("update")
+        val fragment = supportFragmentManager.findFragmentById(R.id.fl_container)
+        when(fragment) {
+            is HomeFragment -> {
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+                printFragmentBackStack("update home")
+            }
+            is BuyFragment -> {
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
+                printFragmentBackStack("update buy")
+            }
+            is RankFragment -> {
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
+                printFragmentBackStack("update rank")
+            }
+            is MyGalleryFragment -> {
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_mygallery
+                printFragmentBackStack("update gallery")
+            }
+            is MyPageFragment ->{
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_mypage
+                printFragmentBackStack("update mypage")
+            }
+        }
+    }
     fun bottomNaviClick() {
-
+        printFragmentBackStack("navi")
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.fragment_home -> {
                     replaceFragment(HOME_FRAGMENT, true)
+                    printFragmentBackStack("navi home")
                     true
                 }
                 R.id.fragment_buy -> {
                     replaceFragment(BUY_FRAGMENT, true)
+                    printFragmentBackStack("navi buy")
                     true
                 }
                 R.id.fragment_rank -> {
                     replaceFragment(RANK_FRAGMENT, true)
+                    printFragmentBackStack("navi rank")
                     true
                 }
                 R.id.fragment_mygallery -> {
                     replaceFragment(MY_GALLERY_FRAGMENT, true)
+                    printFragmentBackStack("navi gallery")
                     true
                 }
                 R.id.fragment_mypage -> {
                     replaceFragment(MY_PAGE_FRAGMENT, true)
+                    printFragmentBackStack("navi mypage")
                     true
                 }
                 else -> {
@@ -181,15 +218,25 @@ class MainActivity : AppCompatActivity() {
             MY_PAGE_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, MyPageFragment())
         }
 
-
-
-        // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
-        if(addToBackStack == true){
-            // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-            fragmentTransaction.addToBackStack(name.str)
+        if(supportFragmentManager.backStackEntryCount > 0){
+            val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
+            // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
+            if(addToBackStack && lastFragmentName != name.str){
+                // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
+                fragmentTransaction.addToBackStack(name.str)
+            }
+            // Fragment 교체를 확정한다.
+            fragmentTransaction.commit()
+        } else {
+            // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
+            if(addToBackStack == true){
+                // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
+                fragmentTransaction.addToBackStack(name.str)
+            }
+            // Fragment 교체를 확정한다.
+            fragmentTransaction.commit()
         }
-        // Fragment 교체를 확정한다.
-        fragmentTransaction.commit()
+
     }
 
     fun removeFragment(name: MainFragmentName){
