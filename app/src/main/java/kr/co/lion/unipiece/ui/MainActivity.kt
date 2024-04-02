@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         bottomNaviClick()
         initView()
-        replaceFragment(HOME_FRAGMENT, false)
+
     }
 
     fun initView() {
