@@ -52,8 +52,11 @@ class MyGalleryFragment : Fragment() {
         tabTextList.add("구매한 작품")
         tabTextList.add("판매 작품")
 
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = tabTextList[position]
-        }.attach()
+        // ViewPager2에 Fragment가 추가된 후에 TabLayoutMediator 설정
+        viewPager.post {
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = tabTextList[position]
+            }.attach()
+        }
     }
 }
