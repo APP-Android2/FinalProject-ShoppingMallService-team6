@@ -19,6 +19,7 @@ import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.util.setMenuIconColor
 import java.util.Timer
 import java.util.TimerTask
 
@@ -53,9 +54,12 @@ class HomeFragment : Fragment() {
         fragmentHomeBinding.apply {
             toolBarHome.apply {
 
-                setNavigationIcon(R.drawable.logo_toolbar)
+                setNavigationIcon(R.drawable.logo_toolbar_2)
 
                 inflateMenu(R.menu.menu_search_cart)
+
+                requireContext().setMenuIconColor(menu, R.id.menu_search, R.color.third)
+                requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_search -> {
