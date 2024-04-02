@@ -104,8 +104,10 @@
                 android:orientation="horizontal">
 
                 <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewAuthor"
                     android:layout_width="match_parent"
-                    android:layout_height="100dp" />
+                    android:layout_height="100dp"
+                    android:clipToPadding="false" />
             </LinearLayout>
 
             <LinearLayout

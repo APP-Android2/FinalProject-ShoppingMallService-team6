@@ -9,8 +9,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.addCallback
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.AuthorListBinding
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
@@ -39,6 +43,7 @@ class HomeFragment : Fragment() {
         connectAdapterPromote()
         connectAdapterNews()
         connectAdapterGallery()
+        settingAdapter()
 
         return fragmentHomeBinding.root
     }
@@ -183,6 +188,43 @@ class HomeFragment : Fragment() {
                 }
             }
         }, 4000, 4000)
+    }
+
+    private fun settingAdapter(){
+        fragmentHomeBinding.apply {
+            recyclerViewAuthor.apply {
+                adapter = AuthorListRecycler()
+                layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)
+                val deco = MaterialDividerItemDecoration(mainActivity, MaterialDividerItemDecoration.HORIZONTAL)
+                addItemDecoration(deco)
+            }
+        }
+    }
+
+    inner class AuthorListRecycler : RecyclerView.Adapter<AuthorListRecycler.AuthorViewHolder>(){
+
+        inner class AuthorViewHolder(authorListBinding: AuthorListBinding):RecyclerView.ViewHolder(authorListBinding.root){
+            val authorListBinding:AuthorListBinding
+
+            init {
+                this.authorListBinding = authorListBinding
+            }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorViewHolder {
+            val authorListBinding = AuthorListBinding.inflate(layoutInflater)
+            val authorViewHolder = AuthorViewHolder(authorListBinding)
+            return authorViewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return 15
+        }
+
+        override fun onBindViewHolder(holder: AuthorViewHolder, position: Int) {
+            holder.authorListBinding.imageAuthorNameList.setImageResource(R.drawable.mypage_icon)
+            holder.authorListBinding.textAuthorNameList.text = "작가명"
+        }
     }
 
 
