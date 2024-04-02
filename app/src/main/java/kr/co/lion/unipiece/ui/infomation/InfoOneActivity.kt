@@ -6,6 +6,7 @@ import android.os.Bundle
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoOneBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.util.setMenuIconColor
 
 class InfoOneActivity : AppCompatActivity() {
 
@@ -27,6 +28,7 @@ class InfoOneActivity : AppCompatActivity() {
                     finish()
                 }
                 inflateMenu(R.menu.menu_home)
+                setMenuIconColor(menu, R.id.menu_home, R.color.second)
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {

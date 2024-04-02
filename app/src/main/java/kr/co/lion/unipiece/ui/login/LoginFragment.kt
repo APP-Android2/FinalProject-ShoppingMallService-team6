@@ -35,6 +35,7 @@ class LoginFragment : Fragment() {
             buttonLogin.setOnClickListener {
                 val newIntent = Intent(loginActivity, MainActivity::class.java)
                 startActivity(newIntent)
+                loginActivity.finish()
             }
         }
     }

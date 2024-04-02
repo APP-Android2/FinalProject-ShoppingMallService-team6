@@ -34,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         setBuyNaviDrawer()
         initView()
+
     }
 
     fun initView() {

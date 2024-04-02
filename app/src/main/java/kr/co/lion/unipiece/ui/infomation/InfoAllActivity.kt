@@ -4,12 +4,14 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.ViewGroup
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoAllBinding
 import kr.co.lion.unipiece.databinding.InfoAllBinding
+import kr.co.lion.unipiece.util.setMenuIconColor
 
 class InfoAllActivity : AppCompatActivity() {
 
@@ -32,6 +34,7 @@ class InfoAllActivity : AppCompatActivity() {
                     finish()
                 }
                 inflateMenu(R.menu.menu_home)
+                setMenuIconColor(menu, R.id.menu_home, R.color.second)
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
