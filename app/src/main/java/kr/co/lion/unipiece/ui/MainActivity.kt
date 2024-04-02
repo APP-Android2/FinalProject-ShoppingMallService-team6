@@ -201,7 +201,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun replaceFragment(name: MainFragmentName, addToBackStack:Boolean){
+    fun replaceFragment(name: MainFragmentName, addToBackStack:Boolean) {
 
         SystemClock.sleep(200)
 
@@ -218,25 +218,26 @@ class MainActivity : AppCompatActivity() {
             MY_PAGE_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, MyPageFragment())
         }
 
-        if(supportFragmentManager.backStackEntryCount > 0){
-            val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
-            // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
-            if(addToBackStack && lastFragmentName != name.str){
-                // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-                fragmentTransaction.addToBackStack(name.str)
-            }
-            // Fragment 교체를 확정한다.
-            fragmentTransaction.commit()
-        } else {
-            // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
-            if(addToBackStack == true){
-                // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-                fragmentTransaction.addToBackStack(name.str)
-            }
-            // Fragment 교체를 확정한다.
-            fragmentTransaction.commit()
-        }
+        // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
+        if(addToBackStack){
+            // BackStack에 Fragment가 있을 경우에 실행한다.
+            if(supportFragmentManager.backStackEntryCount > 0){
+                // BackStack 최상단에 있는 fragmen 이름을 가져온다.
+                val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
 
+                // BackStack 최상위 Fragment 값이 지정된 Fragment와 다를 경우에 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
+                if(lastFragmentName != name.str){
+                    // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
+                    fragmentTransaction.addToBackStack(name.str)
+                }
+            } else {
+                // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
+                fragmentTransaction.addToBackStack(name.str)
+                }
+            }
+
+        // Fragment 교체를 확정한다.
+        fragmentTransaction.commit()
     }
 
     fun removeFragment(name: MainFragmentName){
