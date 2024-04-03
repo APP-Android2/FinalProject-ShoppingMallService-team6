@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:transitionGroup="true">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarModifyUserInfo"
+        android:id="@+id/toolbarUserInfo"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:minHeight="?attr/actionBarSize"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -38,10 +40,13 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserName"
+                        android:id="@+id/textInputUserInfoName"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
                         android:inputType="text"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -56,10 +61,13 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserNickName"
+                        android:id="@+id/textInputUserInfoNickName"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
                         android:inputType="text"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -74,10 +82,13 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPhoneNumber"
+                        android:id="@+id/textInputUserInfoPhoneNumber"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
                         android:inputType="text"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -92,10 +103,13 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPw"
+                        android:id="@+id/textInputUserInfoPw"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
                         android:inputType="text"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>

@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:transitionGroup="true">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarModifyUserInfo"
@@ -12,11 +13,12 @@
         android:minHeight="?attr/actionBarSize"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"

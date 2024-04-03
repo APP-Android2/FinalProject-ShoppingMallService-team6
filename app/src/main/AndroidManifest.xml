@@ -31,7 +31,7 @@
             android:name=".ui.mygallery.PurchasedPieceDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.UserInfoActivity"
+            android:name=".ui.mypage.UserInfoActivity"
             android:exported="false" />
         <activity
             android:name=".ui.author.UpdateAuthorActivity"
