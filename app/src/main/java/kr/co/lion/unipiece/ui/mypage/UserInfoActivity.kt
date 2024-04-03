@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui
+package kr.co.lion.unipiece.ui.mypage
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
