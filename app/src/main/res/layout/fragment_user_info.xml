@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarModifyUserInfo"
+        android:id="@+id/toolbarUserInfo"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:minHeight="?attr/actionBarSize"

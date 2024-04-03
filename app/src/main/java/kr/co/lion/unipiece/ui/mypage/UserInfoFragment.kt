@@ -32,7 +32,7 @@ class UserInfoFragment : Fragment() {
     // 툴바 셋팅
     private fun settingToolbar(){
         fragmentUserInfoBinding.apply {
-            toolbarModifyUserInfo.apply {
+            toolbarUserInfo.apply {
                 title = "회원 정보"
 
                 inflateMenu(R.menu.menu_home)
