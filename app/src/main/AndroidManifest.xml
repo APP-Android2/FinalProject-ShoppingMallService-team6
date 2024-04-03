@@ -14,7 +14,8 @@
         tools:targetApi="31">
         <activity
             android:name=".ui.payment.cart.CartActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/Base.Theme.SplashScreen.Unipiece"/>
         <activity
             android:name=".ui.author.AuthorInfoActivity"
             android:exported="false" />
