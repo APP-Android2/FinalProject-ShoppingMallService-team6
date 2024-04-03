@@ -2,14 +2,10 @@ package kr.co.lion.unipiece.util
 
 import android.app.Activity
 import android.content.Context
-import android.graphics.PorterDuff
-import android.graphics.PorterDuffColorFilter
 import android.os.SystemClock
-import android.view.Menu
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat
 import kotlin.concurrent.thread
 
     fun Context.showSoftInput(view: View){

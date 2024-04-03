@@ -13,7 +13,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
-import kr.co.lion.unipiece.util.ToolUtil
+import kr.co.lion.unipiece.util.hideSoftInput
+import kr.co.lion.unipiece.util.showSoftInput
 
 class SalesApplicationActivity : AppCompatActivity() {
 
@@ -55,7 +56,7 @@ class SalesApplicationActivity : AppCompatActivity() {
 
             textFieldSalesApplicationPieceName.apply {
                 setOnEditorActionListener { v, actionId, event ->
-                    ToolUtil.hideSoftInput(this@SalesApplicationActivity)
+                    this@SalesApplicationActivity.hideSoftInput()
                     showCategoryDialog()
                     true
                 }
@@ -63,7 +64,7 @@ class SalesApplicationActivity : AppCompatActivity() {
 
             textFieldSalesApplicationPrice.apply {
                 setOnEditorActionListener { v, actionId, event ->
-                    ToolUtil.hideSoftInput(this@SalesApplicationActivity)
+                    this@SalesApplicationActivity.hideSoftInput()
                     showDatePickerDialog()
                     true
                 }
@@ -89,7 +90,7 @@ class SalesApplicationActivity : AppCompatActivity() {
                 binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled = false
             }
 
-            ToolUtil.showSoftInput(this@SalesApplicationActivity, binding.textFieldSalesApplicationDescription)
+            this@SalesApplicationActivity.showSoftInput(binding.textFieldSalesApplicationDescription)
         }
 
         datePicker.show(supportFragmentManager, datePicker.toString())
@@ -142,7 +143,7 @@ class SalesApplicationActivity : AppCompatActivity() {
                 }
                 binding.textFieldSalesApplicationCategory.setText(selectedRadioButton?.text ?: "")
 
-                ToolUtil.showSoftInput(this@SalesApplicationActivity, binding.textFieldSalesApplicationPrice)
+                this@SalesApplicationActivity.showSoftInput(binding.textFieldSalesApplicationPrice)
             }
 
             show()
