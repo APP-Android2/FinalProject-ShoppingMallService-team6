@@ -18,7 +18,7 @@
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         <Button
-            android:id="@+id/fab"
+            android:id="@+id/buttonSalePieceAddPiece"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
@@ -53,7 +53,7 @@
             android:text="작가로 등록되어 있지 않습니다" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/buttonSalePieceAddArtist"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
