@@ -30,3 +30,9 @@ enum class PurchasedPieceDetailFragmentName(var str: String) {
     PURCHASE_CANCEL_FRAGEMNT("PurchaseCancelFragment"),
     REFUND_FRAGMENT("Refund_Fragment")
 }
+
+// UserInfoActivity 프래그먼트 이름
+enum class UserInfoFragmentName(var str:String){
+    USER_INFO_FRAGMENT("UserInfoFragment"),
+    MODIFY_USER_INFO_FRAGMENT("ModifyUserInfoFragment"),
+}
