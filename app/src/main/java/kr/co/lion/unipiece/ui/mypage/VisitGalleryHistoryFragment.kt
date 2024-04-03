@@ -41,6 +41,14 @@ class VisitGalleryHistoryFragment : Fragment() {
                 title = "전시실 방문 신청 목록"
 
                 inflateMenu(R.menu.menu_home)
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_home -> {
+                            visitGalleryActivity.finish()
+                        }
+                    }
+                    true
+                }
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
