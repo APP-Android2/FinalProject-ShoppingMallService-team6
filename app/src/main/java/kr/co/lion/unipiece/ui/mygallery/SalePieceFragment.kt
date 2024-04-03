@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -29,6 +30,7 @@ class SalePieceFragment : Fragment() {
 
         initView()
         settingRecyclerView()
+        settingButtonSalePieceAddPiece()
 
         return binding.root
     }
@@ -39,6 +41,14 @@ class SalePieceFragment : Fragment() {
                 layoutNotArtist.isVisible = false
             } else {
                 layoutArtist.isVisible = false
+            }
+        }
+    }
+
+    fun settingButtonSalePieceAddPiece() {
+        binding.apply {
+            buttonSalePieceAddPiece.setOnClickListener {
+                startActivity(Intent(mainActivity, SalesApplicationActivity::class.java))
             }
         }
     }
