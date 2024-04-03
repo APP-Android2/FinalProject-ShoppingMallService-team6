@@ -12,7 +12,8 @@
         android:minHeight="?attr/actionBarSize"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
