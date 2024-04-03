@@ -25,6 +25,7 @@ class ApplyVisitGalleryFragment : Fragment() {
         visitGalleryActivity = activity as VisitGalleryActivity
 
         settingToolbar()
+        settingButtonMember()
         settingButtonApplyConfirm()
 
         return fragmentApplyVisitGalleryBinding.root
@@ -40,6 +41,19 @@ class ApplyVisitGalleryFragment : Fragment() {
                 setNavigationOnClickListener {
                     visitGalleryActivity.removeFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT)
                 }
+            }
+        }
+    }
+
+    private fun settingButtonMember(){
+        fragmentApplyVisitGalleryBinding.apply {
+            // 감소 버튼
+            buttonMemberCountDown.setOnClickListener {
+
+            }
+            // 증가 버튼
+            buttonMemberCountUp.setOnClickListener {
+
             }
         }
     }
