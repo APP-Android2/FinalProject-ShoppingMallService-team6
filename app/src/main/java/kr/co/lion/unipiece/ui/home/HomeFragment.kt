@@ -199,8 +199,7 @@ class HomeFragment : Fragment() {
             recyclerViewAuthor.apply {
                 adapter = AuthorListRecycler()
                 layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)
-                val deco = MaterialDividerItemDecoration(mainActivity, MaterialDividerItemDecoration.HORIZONTAL)
-                addItemDecoration(deco)
+
             }
         }
     }

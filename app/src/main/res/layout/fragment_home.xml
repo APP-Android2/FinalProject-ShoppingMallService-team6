@@ -147,6 +147,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="40dp"
+                android:layout_marginBottom="100dp"
                 android:background="@drawable/button_radius"
                 android:text="전시실 방문 신청"
                 android:textColor="@color/white"
