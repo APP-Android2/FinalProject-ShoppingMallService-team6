@@ -31,6 +31,7 @@ class SearchResultFragment : Fragment() {
         with(binding.toolbarSearchResult) {
             setNavigationOnClickListener {
                 activity?.supportFragmentManager?.popBackStack()
+                activity?.supportFragmentManager?.popBackStack()
             }
 
             inflateMenu(R.menu.menu_cart)
@@ -46,4 +47,5 @@ class SearchResultFragment : Fragment() {
             requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
         }
     }
+
 }

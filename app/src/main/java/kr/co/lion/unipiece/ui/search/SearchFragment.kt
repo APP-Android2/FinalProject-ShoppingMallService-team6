@@ -57,7 +57,7 @@ class SearchFragment : Fragment() {
             searchBar.setOnEditorActionListener { textView, action, Event ->
                 if(action == EditorInfo.IME_ACTION_SEARCH){
                     val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                    fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.commit()
+                    fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.addToBackStack("SearchFragment")?.commit()
                     handled = true
                     requireActivity().hideSoftInput()
                 }
@@ -69,7 +69,7 @@ class SearchFragment : Fragment() {
                     val touchArea = searchBar.right - searchBar.compoundDrawables[2].bounds.width() - 50
                     if(event.rawX >= touchArea) {
                         val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                        fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.commit()
+                        fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.addToBackStack("SearchFragment")?.commit()
                         requireActivity().hideSoftInput()
                         handled = true
                     }
