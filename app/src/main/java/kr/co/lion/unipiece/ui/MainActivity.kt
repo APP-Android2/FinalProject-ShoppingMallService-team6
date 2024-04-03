@@ -222,7 +222,7 @@ class MainActivity : AppCompatActivity() {
         if(addToBackStack){
             // BackStack에 Fragment가 있을 경우에 실행한다.
             if(supportFragmentManager.backStackEntryCount > 0){
-                // BackStack 최상단에 있는 fragmen 이름을 가져온다.
+                // BackStack 최상단에 있는 fragment 이름을 가져온다.
                 val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
 
                 // BackStack 최상위 Fragment 값이 지정된 Fragment와 다를 경우에 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
