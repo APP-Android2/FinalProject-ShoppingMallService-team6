@@ -1,14 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.search.SearchResultFragment">
+    android:orientation="vertical"
+    tools:context=".ui.search.SearchFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarSearchResult"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/back_icon"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
-</FrameLayout>
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/searchResultBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:background="@drawable/textfield_radius"
+        android:drawableRight="@drawable/search_icon"
+        android:drawableTint="@color/third"
+        android:fontFamily="@font/pretendard_regular"
+        android:hint="작품명 또는 작가명 검색"
+        android:paddingLeft="16dp"
+        android:paddingRight="10dp"
+        android:textColorHint="@color/lightgray"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarSearchResult"
+        android:imeOptions="actionSearch"
+        android:inputType="text"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
