@@ -10,7 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.SearchFragment
+import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.ui.buy.adapter.BuyAdapter
 import kr.co.lion.unipiece.util.setMenuIconColor
 

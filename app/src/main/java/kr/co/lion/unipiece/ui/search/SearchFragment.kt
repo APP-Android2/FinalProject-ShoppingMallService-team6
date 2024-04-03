@@ -1,12 +1,15 @@
-package kr.co.lion.unipiece.ui
+package kr.co.lion.unipiece.ui.search
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchBinding
+import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class SearchFragment : Fragment() {
@@ -24,6 +27,7 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         settingToolbarSearch()
+        search()
     }
 
     fun settingToolbarSearch(){
@@ -43,6 +47,35 @@ class SearchFragment : Fragment() {
                 }
             }
             requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
+        }
+    }
+
+    fun search(){
+        with(binding){
+            var handled = false
+
+            searchBar.setOnEditorActionListener { textView, action, Event ->
+                if(action == EditorInfo.IME_ACTION_SEARCH){
+                    val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
+                    fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.commit()
+                    handled = true
+                    requireActivity().hideSoftInput()
+                }
+                handled
+            }
+
+            searchBar.setOnTouchListener { view, event ->
+                if(event.action == MotionEvent.ACTION_UP) {
+                    val touchArea = searchBar.right - searchBar.compoundDrawables[2].bounds.width() - 50
+                    if(event.rawX >= touchArea) {
+                        val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
+                        fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.commit()
+                        requireActivity().hideSoftInput()
+                        handled = true
+                    }
+                }
+                handled
+            }
         }
     }
 }
