@@ -10,6 +10,9 @@
 
     <style name="Theme.UniPiece" parent="Base.Theme.UniPiece" />
 
+    <!-- Material3 테마 설정-->
+    <style name="Theme.Material3" parent="Theme.Material3.DayNight.NoActionBar" />
+
     <!--Bottomnavigation, tablayout 글자 설정-->
     <style name="BottomNaviTab" parent="@style/TextAppearance.AppCompat.Caption">
         <item name="android:textSize">12sp</item>
