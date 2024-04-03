@@ -20,7 +20,7 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayoutMyGallery"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/toolbarMyGallery"
         app:tabBackground="@color/white"
         app:tabIndicatorColor="@color/first"
@@ -34,7 +34,8 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpagerMyGallery"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginTop="106dp"
         app:layout_constraintTop_toBottomOf="@id/tabLayoutMyGallery" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
