@@ -92,8 +92,5 @@ class CartActivity : AppCompatActivity() {
         override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
             holder.rowCartBinding.textViewRowCart.text = "이거슨 테스트"
         }
-
-
     }
-
 }
