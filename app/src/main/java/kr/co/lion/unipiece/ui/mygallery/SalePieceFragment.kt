@@ -1,60 +1,89 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.FragmentSalePieceBinding
+import kr.co.lion.unipiece.databinding.RowSalePieceBinding
+import kr.co.lion.unipiece.ui.MainActivity
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [SalePieceFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class SalePieceFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    lateinit var binding: FragmentSalePieceBinding
+    lateinit var mainActivity: MainActivity
+
+    var isArtist = true
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentSalePieceBinding.inflate(inflater, container, false)
+        mainActivity = activity as MainActivity
+
+        initView()
+        settingRecyclerView()
+
+        return binding.root
+    }
+
+    fun initView() {
+        binding.apply {
+            if(isArtist) {
+                layoutNotArtist.isVisible = false
+            } else {
+                layoutArtist.isVisible = false
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_sale_piece, container, false)
+    fun settingRecyclerView() {
+        binding.apply {
+            recyclerViewSalePiece.apply {
+                adapter = RecyclerViewAdpater()
+                layoutManager = LinearLayoutManager(mainActivity)
+                val deco = MaterialDividerItemDecoration(mainActivity, MaterialDividerItemDecoration.VERTICAL)
+                deco.dividerInsetStart = 50
+                deco.dividerInsetEnd = 50
+                deco.dividerColor = ContextCompat.getColor(mainActivity, R.color.lightgray)
+                addItemDecoration(deco)
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment SalePieceFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            SalePieceFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    inner class RecyclerViewAdpater : RecyclerView.Adapter<RecyclerViewAdpater.ViewHolder>() {
+        inner class ViewHolder(rowSalePieceBinding: RowSalePieceBinding) : RecyclerView.ViewHolder(rowSalePieceBinding.root) {
+            val rowSalePieceBinding: RowSalePieceBinding
+
+            init {
+                this.rowSalePieceBinding = rowSalePieceBinding
+
+                this.rowSalePieceBinding.root.layoutParams = ViewGroup.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
             }
+        }
+
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+            val rowSalePieceBinding = RowSalePieceBinding.inflate(layoutInflater)
+            val viewHolder = ViewHolder(rowSalePieceBinding)
+
+            return viewHolder
+        }
+
+        override fun getItemCount(): Int {
+            return 10
+        }
+
+        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
+            holder.rowSalePieceBinding.textViewRowSalePieceName.text = "$position"
+        }
     }
 }
