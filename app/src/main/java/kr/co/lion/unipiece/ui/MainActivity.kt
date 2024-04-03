@@ -132,7 +132,13 @@ class MainActivity : AppCompatActivity() {
             if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
                 drawerBuyLayout.close()
             } else {
+                // 안드로이드 뒤로가기 버튼 실행
                 super.onBackPressed()
+
+                // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
+                if(supportFragmentManager.backStackEntryCount == 0) {
+                    finish()
+                }
                 updateBottomNavi()
                 printFragmentBackStack("back")
             }

@@ -97,11 +97,6 @@ class HomeFragment : Fragment() {
 
             }
         }
-
-        //backButton을 눌렀을 때
-        mainActivity.onBackPressedDispatcher.addCallback {
-            mainActivity.finish()
-        }
     }
 
     //전시홍보 ViewPager 연결
