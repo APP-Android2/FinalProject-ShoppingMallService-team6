@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.buy
+package kr.co.lion.unipiece.ui.buy.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
