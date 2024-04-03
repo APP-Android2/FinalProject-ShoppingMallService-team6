@@ -39,7 +39,7 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserName"
+                        android:id="@+id/textInputUserInfoName"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
@@ -60,7 +60,7 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserNickName"
+                        android:id="@+id/textInputUserInfoNickName"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
@@ -81,7 +81,7 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPhoneNumber"
+                        android:id="@+id/textInputUserInfoPhoneNumber"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
@@ -102,7 +102,7 @@
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPw"
+                        android:id="@+id/textInputUserInfoPw"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
