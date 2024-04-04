@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentLoginBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.LoginFragmentName
 
 
@@ -36,6 +37,10 @@ class LoginFragment : Fragment() {
                 val newIntent = Intent(loginActivity, MainActivity::class.java)
                 startActivity(newIntent)
                 loginActivity.finish()
+            }
+            imageKaKao.setOnClickListener {
+                val dialog = CustomDialog("안녕", "반가워")
+                dialog.show(loginActivity.supportFragmentManager, "CustomDialog")
             }
         }
     }

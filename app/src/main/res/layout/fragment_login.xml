@@ -100,7 +100,7 @@
             android:orientation="horizontal">
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/imageKaKao"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginRight="5dp"
@@ -109,7 +109,7 @@
                 android:src="@drawable/kakao" />
 
             <ImageView
-                android:id="@+id/imageView7"
+                android:id="@+id/imageNaver"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
                 android:layout_marginLeft="5dp"
