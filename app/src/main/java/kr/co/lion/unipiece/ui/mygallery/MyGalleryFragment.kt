@@ -5,56 +5,82 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
+import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.FragmentMyGalleryBinding
+import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.util.setMenuIconColor
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [MyGalleryFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MyGalleryFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    lateinit var binding: FragmentMyGalleryBinding
+    lateinit var mainActivity: MainActivity
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        binding = FragmentMyGalleryBinding.inflate(inflater, container, false)
+        mainActivity = activity as MainActivity
+
+        settingToolbar()
+        initView()
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // ViewPager의 높이를 동적으로 계산하여 설정
+        binding.viewpagerMyGallery.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val viewPager = binding.viewpagerMyGallery
+                val screenHeight = resources.displayMetrics.heightPixels
+
+                // ViewPager의 높이 계산
+                val viewpagerLayoutParams = viewPager.layoutParams
+                val density = resources.displayMetrics.density
+                val additionalHeightInPixel = (80 * density).toInt()
+                // 나머지 화면 높이 계산
+                viewpagerLayoutParams.height = screenHeight - viewPager.top - additionalHeightInPixel
+                viewPager.layoutParams = viewpagerLayoutParams
+
+                // OnGlobalLayoutListener 제거
+                viewPager.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
+
+    fun settingToolbar() {
+        binding.apply {
+            toolbarMyGallery.apply {
+                inflateMenu(R.menu.menu_cart)
+
+                requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_gallery, container, false)
-    }
+    fun initView() {
+        val viewPager = binding.viewpagerMyGallery
+        val tabLayout = binding.tabLayoutMyGallery
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MyGalleryFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MyGalleryFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+        val fragmentList = ArrayList<Fragment>()
+        fragmentList.add(InterestingPieceFragment())
+        fragmentList.add(PurchasedPieceFragment())
+        fragmentList.add(SalePieceFragment())
+
+        viewPager.adapter = MyGalleryViewPagerAdapter(fragmentList, mainActivity)
+
+        val tabTextList = ArrayList<String?>()
+        tabTextList.add("관심 작품")
+        tabTextList.add("구매한 작품")
+        tabTextList.add("판매 작품")
+
+        // ViewPager2에 Fragment가 추가된 후에 TabLayoutMediator 설정
+        viewPager.post {
+            TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+                tab.text = tabTextList[position]
+            }.attach()
+        }
     }
 }

@@ -1,14 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".ui.mygallery.MyGalleryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarMyGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayoutMyGallery"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:tabBackground="@color/white"
+        app:tabIndicatorColor="@color/first"
+        app:tabIndicatorHeight="1dp"
+        app:tabRippleColor="@color/colorTransparent"
+        app:tabSelectedTextAppearance="@style/BottomNaviTab.Active"
+        app:tabSelectedTextColor="@color/first"
+        app:tabTextAppearance="@style/BottomNaviTab"
+        app:tabTextColor="@color/lightgray" />
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewpagerMyGallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="gallery" />
+        android:paddingBottom="10dp"/>
 
-</FrameLayout>
+</LinearLayout>
