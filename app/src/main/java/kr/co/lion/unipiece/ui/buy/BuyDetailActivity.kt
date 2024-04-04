@@ -12,6 +12,9 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class BuyDetailActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityBuyDetailBinding
+
+    // 좋아요 버튼 테스트 데이터
+    var click = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -19,6 +22,7 @@ class BuyDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setToolbar()
+        likeBtnClick()
     }
 
     fun setToolbar(){
@@ -54,5 +58,19 @@ class BuyDetailActivity : AppCompatActivity() {
         intent.putExtra(name, true)
         startActivity(intent)
         finish()
+    }
+
+    fun likeBtnClick(){
+
+        with(binding.likeBtn){
+            setOnClickListener {
+                click = !click
+                if(click){
+                    setImageResource(R.drawable.heart_icon)
+                } else {
+                    setImageResource(R.drawable.heartoff_icon)
+                }
+            }
+        }
     }
 }

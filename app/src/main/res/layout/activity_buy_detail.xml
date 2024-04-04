@@ -286,6 +286,7 @@
                 app:dividerInsetStart="-4dp" />
 
             <Button
+                android:id="@+id/galleryBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="20dp"
@@ -305,19 +306,22 @@
         android:padding="20dp">
         
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/likeBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginRight="20dp"
             android:src="@drawable/heartoff_icon"
             app:tint="@color/third"/>
 
         <ImageView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:id="@+id/shopBtn"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:src="@drawable/shopcart_icon"
             app:tint="@color/second"/>
 
         <Button
+            android:id="@+id/buyBtn"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginLeft="20dp"
