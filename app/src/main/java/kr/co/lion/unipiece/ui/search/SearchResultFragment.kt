@@ -26,7 +26,7 @@ class SearchResultFragment : Fragment() {
         R.drawable.icon, R.drawable.logo, R.drawable.icon,
         R.drawable.logo, R.drawable.icon, R.drawable.logo)
 
-    /*val authorAdapter: SearchAuthorAdapter by lazy {
+    val authorAdapter: SearchAuthorAdapter by lazy {
         SearchAuthorAdapter(testAuthorList,
             itemClickListener = { testAuthorId ->
                 Log.d("testAuthor", testAuthorId.toString())
@@ -40,7 +40,7 @@ class SearchResultFragment : Fragment() {
                 Log.d("testPiece", testPieceId.toString())
             }
         )
-    }*/
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,6 +54,8 @@ class SearchResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingToolbarSearchResult()
+        setAuthorRecyclerView()
+        setPieceRecyclerView()
 
     }
 
@@ -78,7 +80,7 @@ class SearchResultFragment : Fragment() {
         }
     }
 
-    /*fun setAuthorRecyclerView(){
+    fun setAuthorRecyclerView(){
         with(binding) {
             searchAuthorRV.adapter = authorAdapter
             searchAuthorRV.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
@@ -92,6 +94,6 @@ class SearchResultFragment : Fragment() {
             searchPieceRV.layoutManager = GridLayoutManager(activity, 2)
             pieceAdpater.notifyDataSetChanged()
         }
-    }*/
+    }
 
 }
