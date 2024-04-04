@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/itemPiece"
+    android:id="@+id/itemAuthor"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:padding="20dp">
 
     <ImageView
-        android:id="@+id/pieceImg"
+        android:id="@+id/authorImg"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon" />
+        android:src="@drawable/mypage_icon" />
 
     <TextView
         android:id="@+id/authorName"
@@ -21,7 +21,7 @@
         android:paddingTop="8dp"
         android:text="홍길동"
         android:textColor="@color/black"
-        android:textSize="14sp" />
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/followCount"
@@ -29,17 +29,8 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_medium"
         android:paddingTop="8dp"
-        android:text="작품 이름"
+        android:text="124 팔로워"
         android:textColor="@color/black"
         android:textSize="16sp" />
 
-    <TextView
-        android:id="@+id/piecePrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pretendard_medium"
-        android:paddingTop="8dp"
-        android:text="100,000원"
-        android:textColor="@color/black"
-        android:textSize="16sp" />
 </LinearLayout>
