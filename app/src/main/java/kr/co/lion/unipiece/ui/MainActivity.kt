@@ -14,6 +14,7 @@ import kr.co.lion.unipiece.ui.home.HomeFragment
 import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
 import kr.co.lion.unipiece.ui.mypage.MyPageFragment
 import kr.co.lion.unipiece.ui.rank.RankFragment
+import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.MainFragmentName
 import kr.co.lion.unipiece.util.MainFragmentName.*
 
@@ -132,13 +133,33 @@ class MainActivity : AppCompatActivity() {
             if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
                 drawerBuyLayout.close()
             } else {
-                // 안드로이드 뒤로가기 버튼 실행
-                super.onBackPressed()
+
+                var isSearchFragmentOnTop = false
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    // 백 스택의 마지막 항목의 이름을 가져옵니다.
+                    val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
+                    // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
+                    isSearchFragmentOnTop = "SearchFragment" == lastFragmentName
+                } else {
+                    // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
+                    isSearchFragmentOnTop = false
+                }
+
+                if (isSearchFragmentOnTop) {
+                    // SearchFragment가 백 스택의 최상단에 존재합니다.
+                    // 안드로이드 뒤로가기 버튼 실행
+                    super.onBackPressed()
+                    super.onBackPressed()
+                } else {
+                    // 안드로이드 뒤로가기 버튼 실행
+                    super.onBackPressed()
+                }
 
                 // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
                 if(supportFragmentManager.backStackEntryCount == 0) {
                     finish()
                 }
+
                 updateBottomNavi()
                 printFragmentBackStack("back")
             }
