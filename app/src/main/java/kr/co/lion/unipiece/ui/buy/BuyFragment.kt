@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.ui.buy.adapter.BuyAdapter
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -26,7 +27,7 @@ class BuyFragment : Fragment() {
 
         binding = FragmentBuyBinding.inflate(inflater, container, false)
 
-        mainActivity= activity as MainActivity
+        mainActivity = activity as MainActivity
 
         return binding.root
     }
@@ -47,7 +48,23 @@ class BuyFragment : Fragment() {
                     mainActivity.binding.drawerBuyLayout.open()
                 }
 
+
                 inflateMenu(R.menu.menu_search_cart)
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.menu_search -> {
+                            val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
+                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("BuyFragment")?.commit()
+                            true
+                        }
+                        R.id.menu_cart -> {
+
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
 
                 requireContext().setMenuIconColor(menu, R.id.menu_search, R.color.third)
                 requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)

@@ -14,6 +14,7 @@ import kr.co.lion.unipiece.ui.home.HomeFragment
 import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
 import kr.co.lion.unipiece.ui.mypage.MyPageFragment
 import kr.co.lion.unipiece.ui.rank.RankFragment
+import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.MainFragmentName
 import kr.co.lion.unipiece.util.MainFragmentName.*
 
@@ -132,13 +133,33 @@ class MainActivity : AppCompatActivity() {
             if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
                 drawerBuyLayout.close()
             } else {
-                // 안드로이드 뒤로가기 버튼 실행
-                super.onBackPressed()
+
+                var isSearchFragmentOnTop = false
+                if (supportFragmentManager.backStackEntryCount > 0) {
+                    // 백 스택의 마지막 항목의 이름을 가져옵니다.
+                    val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
+                    // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
+                    isSearchFragmentOnTop = "SearchFragment" == lastFragmentName
+                } else {
+                    // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
+                    isSearchFragmentOnTop = false
+                }
+
+                if (isSearchFragmentOnTop) {
+                    // SearchFragment가 백 스택의 최상단에 존재합니다.
+                    // 안드로이드 뒤로가기 버튼 실행
+                    super.onBackPressed()
+                    super.onBackPressed()
+                } else {
+                    // 안드로이드 뒤로가기 버튼 실행
+                    super.onBackPressed()
+                }
 
                 // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
                 if(supportFragmentManager.backStackEntryCount == 0) {
                     finish()
                 }
+
                 updateBottomNavi()
                 printFragmentBackStack("back")
             }
@@ -212,16 +233,16 @@ class MainActivity : AppCompatActivity() {
         SystemClock.sleep(200)
 
         // Fragment를 교체할 수 있는 객체를 추출한다.
-        val fragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragmentManager = supportFragmentManager.beginTransaction()
 
         // 이름으로 분기한다.
         // Fragment의 객체를 생성하여 변수에 담아준다.
         when(name){
-            HOME_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, HomeFragment())
-            BUY_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, BuyFragment())
-            RANK_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, RankFragment())
-            MY_GALLERY_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, MyGalleryFragment())
-            MY_PAGE_FRAGMENT -> fragmentTransaction.replace(R.id.fl_container, MyPageFragment())
+            HOME_FRAGMENT -> fragmentManager.replace(R.id.fl_container, HomeFragment())
+            BUY_FRAGMENT -> fragmentManager.replace(R.id.fl_container, BuyFragment())
+            RANK_FRAGMENT -> fragmentManager.replace(R.id.fl_container, RankFragment())
+            MY_GALLERY_FRAGMENT -> fragmentManager.replace(R.id.fl_container, MyGalleryFragment())
+            MY_PAGE_FRAGMENT -> fragmentManager.replace(R.id.fl_container, MyPageFragment())
         }
 
         // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
@@ -234,16 +255,16 @@ class MainActivity : AppCompatActivity() {
                 // BackStack 최상위 Fragment 값이 지정된 Fragment와 다를 경우에 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
                 if(lastFragmentName != name.str){
                     // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-                    fragmentTransaction.addToBackStack(name.str)
+                    fragmentManager.addToBackStack(name.str)
                 }
             } else {
                 // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-                fragmentTransaction.addToBackStack(name.str)
+                fragmentManager.addToBackStack(name.str)
                 }
             }
-
+        
         // Fragment 교체를 확정한다.
-        fragmentTransaction.commit()
+        fragmentManager.commit()
     }
 
     fun removeFragment(name: MainFragmentName){
