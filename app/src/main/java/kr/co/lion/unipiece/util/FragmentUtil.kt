@@ -42,3 +42,10 @@ enum class VisitGalleryFragmentName(var str:String){
     VISIT_GALLERY_HISTORY_FRAGMENT("VisitGalleryHistoryFragment"),
     APPLY_VISIT_GALLERY_FRAGMENT("ApplyVisitGalleryFragment"),
 }
+
+// AuthorInfoActivity 프래그먼트 이름
+enum class AuthorInfoFragmentName(var str:String){
+    AUTHOR_INFO_FRAGMENT("AuthorInfoFragment"),
+    AUTHOR_REVIEW_BOTTOM_SHEET_FRAGMENT("AuthorReviewBottomSheetFragment"),
+    MODIFY_AUTHOR_INFO_FRAGMENT("ModifyAuthorInfoFragment"),
+}
