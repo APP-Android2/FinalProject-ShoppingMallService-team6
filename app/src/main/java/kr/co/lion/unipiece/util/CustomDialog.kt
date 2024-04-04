@@ -26,10 +26,12 @@ class CustomDialog(val title:String, val message:String) : DialogFragment() {
         binding.textMessage.text = message
 
         binding.buttonOK.setOnClickListener {
+            buttonCilckListener.okButtonClick()
             dismiss()
         }
 
         binding.buttonNo.setOnClickListener {
+            buttonCilckListener.noButtonClick()
             dismiss()
         }
 
@@ -37,4 +39,19 @@ class CustomDialog(val title:String, val message:String) : DialogFragment() {
 
         return binding.root
     }
+
+    interface OnButtonClickListener{
+        fun okButtonClick()
+        fun noButtonClick()
+    }
+
+
+    //클릭 이벤트 설정
+    fun setButtonClickListener(buttonClickListener: OnButtonClickListener){
+        this.buttonCilckListener = buttonClickListener
+    }
+
+
+    //클릭 이벤트 설정
+    private lateinit var buttonCilckListener: OnButtonClickListener
 }

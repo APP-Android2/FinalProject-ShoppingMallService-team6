@@ -17,8 +17,11 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.AuthorListBinding
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.AddAuthorActivity
+import kr.co.lion.unipiece.ui.author.GuideLineFragment
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.util.Timer
 import java.util.TimerTask
@@ -94,7 +97,18 @@ class HomeFragment : Fragment() {
             }
 
             buttonHomeVisitGallery.setOnClickListener {
+                val dialog = CustomDialog("작가 등록", "작가 등록이 되어 있지 않습니다\n등록하시겠습니까?")
+                dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
+                    override fun okButtonClick() {
+                        startActivity(Intent(mainActivity, AddAuthorActivity::class.java))
+                    }
 
+                    override fun noButtonClick() {
+
+                    }
+
+                })
+                dialog.show(mainActivity.supportFragmentManager, "CustomDialog")
             }
         }
     }
