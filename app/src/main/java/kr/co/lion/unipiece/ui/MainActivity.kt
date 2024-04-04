@@ -234,11 +234,11 @@ class MainActivity : AppCompatActivity() {
                 // BackStack 최상위 Fragment 값이 지정된 Fragment와 다를 경우에 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
                 if(lastFragmentName != name.str){
                     // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-                    fragmentTransaction.addToBackStack(name.str)
+                    fragmentManager.addToBackStack(name.str)
                 }
             } else {
                 // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
-                fragmentTransaction.addToBackStack(name.str)
+                fragmentManager.addToBackStack(name.str)
                 }
             }
         
