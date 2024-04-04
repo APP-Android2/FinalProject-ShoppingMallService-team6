@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.buy
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -11,6 +12,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyNewBinding
 import kr.co.lion.unipiece.ui.buy.adapter.BuyNewAdapter
 import kr.co.lion.unipiece.ui.buy.adapter.BuyPopAdapter
+import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
 
 class BuyNewFragment : Fragment() {
 
@@ -40,7 +42,10 @@ class BuyNewFragment : Fragment() {
 
         adapter = BuyNewAdapter(testImageList,
             itemClickListener = { testReviewId ->
-                Log.d("test", testReviewId.toString())})
+                Log.d("test", testReviewId.toString())
+                startActivity(Intent(requireActivity(), BuyDetailActivity::class.java))
+            }
+        )
 
         with(binding){
             buyNewRV.adapter = adapter
