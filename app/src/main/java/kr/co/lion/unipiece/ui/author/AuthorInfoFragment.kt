@@ -5,14 +5,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Space
 import androidx.core.view.isVisible
+import androidx.core.view.marginRight
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
-import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 
 class AuthorInfoFragment : Fragment() {
@@ -50,13 +51,12 @@ class AuthorInfoFragment : Fragment() {
                 }
 
                 // 회원 유형에 따라 메뉴 아이콘 다르게 표시
-                menu.apply {
+                // 추후 수정 필요
+                if(true){
                     // 작가인 경우 작가 정보 수정 아이콘 표시
-                    if(false){
-                        getItem(R.id.menu_edit).isVisible = true
-                    }else{
-                        getItem(R.id.menu_edit).isVisible = false
-                    }
+                    menu.findItem(R.id.menu_edit).isVisible = true
+                }else{
+                    menu.findItem(R.id.menu_edit).isVisible = false
                 }
 
                 // 툴바 메뉴 클릭 이벤트
@@ -81,6 +81,7 @@ class AuthorInfoFragment : Fragment() {
         // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
         fragmentAuthorInfoBinding.apply {
             // 작가가 아니면
+            // 추후 수정
             if(true){
                 buttonAuthorFollow.isVisible = true
                 buttonAuthorReview.isVisible = true
@@ -99,8 +100,10 @@ class AuthorInfoFragment : Fragment() {
     // 리뷰 버튼 클릭
     private fun settingButtonReview(){
         // 리뷰 버튼 클릭 시 리뷰 프래그먼트 보이기
-        val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
-        authorReviewBottomSheetFragment.show(authorInfoActivity.supportFragmentManager, "BottomSheet")
+        fragmentAuthorInfoBinding.buttonAuthorReview.setOnClickListener {
+            val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
+            authorReviewBottomSheetFragment.show(authorInfoActivity.supportFragmentManager, "BottomSheet")
+        }
     }
 
     // 리사이클러 뷰 셋팅
@@ -126,7 +129,7 @@ class AuthorInfoFragment : Fragment() {
                 this.rowAuthorPiecesBinding = rowAuthorPiecesBinding
 
                 this.rowAuthorPiecesBinding.root.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT
                 )
             }
