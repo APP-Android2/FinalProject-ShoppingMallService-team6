@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentMyGalleryBinding
@@ -24,6 +25,29 @@ class MyGalleryFragment : Fragment() {
         initView()
 
         return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // ViewPager의 높이를 동적으로 계산하여 설정
+        binding.viewpagerMyGallery.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val viewPager = binding.viewpagerMyGallery
+                val screenHeight = resources.displayMetrics.heightPixels
+
+                // ViewPager의 높이 계산
+                val viewpagerLayoutParams = viewPager.layoutParams
+                val density = resources.displayMetrics.density
+                val additionalHeightInPixel = (80 * density).toInt()
+                // 나머지 화면 높이 계산
+                viewpagerLayoutParams.height = screenHeight - viewPager.top - additionalHeightInPixel
+                viewPager.layoutParams = viewpagerLayoutParams
+
+                // OnGlobalLayoutListener 제거
+                viewPager.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
     }
 
     fun settingToolbar() {

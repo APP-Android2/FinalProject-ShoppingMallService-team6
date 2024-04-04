@@ -30,7 +30,7 @@
             android:fontFamily="@font/pretendard_medium"
             android:paddingLeft="12dp"
             android:paddingRight="16dp"
-            android:text="작픔 등록"
+            android:text="작품 등록"
             android:textColor="@color/white"
             android:textSize="16sp"
             app:hideOnScroll="true"
