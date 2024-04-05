@@ -45,4 +45,5 @@ enum class VisitGalleryFragmentName(var str:String){
 
 enum class RankFragmentName(var str: String) {
     RANK_PIECE_FRAGMENT("RankPieceFragment"),
+    RANK_AUTHOR_FRAGMENT("RankAuthorFragment")
 }

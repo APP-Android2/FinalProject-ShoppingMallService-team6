@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankBinding
 import kr.co.lion.unipiece.ui.search.SearchFragment
@@ -30,6 +31,7 @@ class RankFragment : Fragment() {
 
         settingToolbarRank()
         initView()
+        setFragmentBtn()
     }
 
     private fun initView() {
@@ -46,7 +48,7 @@ class RankFragment : Fragment() {
                     when (menuItem.itemId) {
                         R.id.menu_search -> {
                             val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("BuyFragment")?.commit()
+                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("RankFragment")?.commit()
                             true
                         }
                         else -> false
@@ -59,6 +61,23 @@ class RankFragment : Fragment() {
         }
     }
 
+    private fun setFragmentBtn() {
+        with(binding.menuBtn) {
+            setOnClickListener {
+                val popup = PopupMenu(requireContext(), it)
+                popup.menuInflater.inflate(R.menu.menu_rank, popup.menu)
+                popup.setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.menu_author -> setFragment(RANK_AUTHOR_FRAGMENT)
+                        R.id.menu_piece -> setFragment(RANK_PIECE_FRAGMENT)
+                    }
+                    return@setOnMenuItemClickListener true
+                }
+                popup.show()
+            }
+        }
+    }
+
     private fun setFragment(name: RankFragmentName) {
 
         val fragmentMananger = childFragmentManager.beginTransaction()
@@ -67,6 +86,10 @@ class RankFragment : Fragment() {
                 RANK_PIECE_FRAGMENT -> {
                     fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
                     binding.rankTitle.text = "작품 랭킹"
+                }
+                RANK_AUTHOR_FRAGMENT -> {
+                    fragmentMananger.replace(R.id.rank_fragment, RankAuthorFragment())
+                    binding.rankTitle.text ="작가 랭킹"
                 }
             }
 
