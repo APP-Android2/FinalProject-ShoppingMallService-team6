@@ -8,6 +8,7 @@
     android:padding="20dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/authorCardView"
         app:cardCornerRadius="100dp"
         android:layout_width="150dp"
         android:layout_height="150dp"
@@ -21,6 +22,16 @@
             android:scaleType="fitXY"/>
 
     </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/authorRank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_bold"
+        android:paddingTop="8dp"
+        android:text="01"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
 
     <TextView
         android:id="@+id/authorName"
