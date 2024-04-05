@@ -10,6 +10,7 @@ import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentMyGalleryBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.mygallery.adapter.MyGalleryViewPagerAdapter
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class MyGalleryFragment : Fragment() {
