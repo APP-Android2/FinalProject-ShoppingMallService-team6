@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 
     fun initView() {
         updateBottomNavi()
-        replaceFragment(HOME_FRAGMENT, false)
+        replaceFragment(HOME_FRAGMENT, true)
     }
 
     fun setBuyNaviDrawer(){

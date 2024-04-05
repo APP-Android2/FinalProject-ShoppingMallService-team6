@@ -30,7 +30,7 @@ class BuyDetailActivity : AppCompatActivity() {
             toolbarBuyDetail.apply{
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    setIntent("BuyFragment")
+                    finish()
                 }
 
                 inflateMenu(R.menu.menu_search)

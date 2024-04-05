@@ -44,6 +44,12 @@ enum class VisitGalleryFragmentName(var str:String){
     APPLY_VISIT_GALLERY_FRAGMENT("ApplyVisitGalleryFragment"),
 }
 
+// RankFragment 이동
+enum class RankFragmentName(var str: String) {
+    RANK_PIECE_FRAGMENT("RankPieceFragment"),
+    RANK_AUTHOR_FRAGMENT("RankAuthorFragment")
+}
+
 // AuthorInfoActivity 프래그먼트 이름
 enum class AuthorInfoFragmentName(var str:String){
     AUTHOR_INFO_FRAGMENT("AuthorInfoFragment"),
