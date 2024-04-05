@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.mygallery
+package kr.co.lion.unipiece.ui.mygallery.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.appcompat.app.AppCompatActivity

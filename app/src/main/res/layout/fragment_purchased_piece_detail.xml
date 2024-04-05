@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.mygallery.PurchasedPieceDetailFragment" >
+    tools:context=".ui.mygallery.PurchasedPieceDetailFragment"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarPurchasedPieceDetail"
@@ -13,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -90,7 +92,7 @@
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal">
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonPurchasedPieceDetailOrderCancel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -101,7 +103,7 @@
                         android:textColor="#ffffff"
                         android:textSize="18sp" />
 
-                    <Button
+                    <androidx.appcompat.widget.AppCompatButton
                         android:id="@+id/buttonPurchasedPieceDetailRefund"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
