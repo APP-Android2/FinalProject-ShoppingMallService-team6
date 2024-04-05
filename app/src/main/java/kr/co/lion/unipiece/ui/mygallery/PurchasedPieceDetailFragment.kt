@@ -14,12 +14,12 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class PurchasedPieceDetailFragment : Fragment() {
 
     lateinit var binding: FragmentPurchasedPieceDetailBinding
-    lateinit var PurchasedPieceDetailActivity: PurchasedPieceDetailActivity
+    lateinit var purchasedPieceDetailActivity: PurchasedPieceDetailActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentPurchasedPieceDetailBinding.inflate(inflater, container, false)
-        PurchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
+        purchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
 
         settingToolbar()
         settingRefundApprovalView()
@@ -34,6 +34,9 @@ class PurchasedPieceDetailFragment : Fragment() {
                 title = "구매한 작품 상세보기"
 
                 setNavigationIcon(R.drawable.back_icon)
+                setNavigationOnClickListener {
+                    purchasedPieceDetailActivity.finish()
+                }
 
                 inflateMenu(R.menu.menu_home)
 
@@ -52,11 +55,11 @@ class PurchasedPieceDetailFragment : Fragment() {
     fun settingButtons() {
         binding.apply {
             buttonPurchasedPieceDetailOrderCancel.setOnClickListener {
-                PurchasedPieceDetailActivity.replaceFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT, true)
+                purchasedPieceDetailActivity.replaceFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT, true)
             }
 
             buttonPurchasedPieceDetailRefund.setOnClickListener {
-                PurchasedPieceDetailActivity.replaceFragment(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT, true)
+                purchasedPieceDetailActivity.replaceFragment(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT, true)
             }
         }
     }

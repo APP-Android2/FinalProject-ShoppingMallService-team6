@@ -10,6 +10,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceDetailBinding
 import kr.co.lion.unipiece.databinding.FragmentRefundBinding
+import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 
 class RefundFragment : Fragment() {
 
@@ -37,6 +38,9 @@ class RefundFragment : Fragment() {
                 title = "반품 접수"
 
                 setNavigationIcon(R.drawable.back_icon)
+                setNavigationOnClickListener {
+                    purchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT)
+                }
             }
         }
     }
