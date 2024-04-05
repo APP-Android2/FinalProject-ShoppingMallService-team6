@@ -38,7 +38,24 @@ class HomeFragment : Fragment() {
     val handler = Handler(Looper.getMainLooper())
 
     val authorAdapter:AuthorAdapter by lazy {
-        AuthorAdapter()
+        var adapter = AuthorAdapter()
+        adapter.setRecyclerviewClickListener(object : AuthorAdapter.AuthorOnClickListener{
+            override fun authorItemClickListener() {
+                val dialog = CustomDialog("성공", "클릭 이벤트\n나중에 수정합니다!")
+                dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+                    override fun okButtonClick() {
+
+                    }
+
+                    override fun noButtonClick() {
+
+                    }
+
+                })
+                dialog.show(mainActivity.supportFragmentManager, "CustomDialog")
+            }
+        })
+        adapter
     }
 
     override fun onCreateView(

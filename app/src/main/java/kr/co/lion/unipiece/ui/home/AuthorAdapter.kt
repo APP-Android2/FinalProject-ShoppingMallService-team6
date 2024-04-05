@@ -6,7 +6,15 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.AuthorListBinding
 
+
 class AuthorAdapter : RecyclerView.Adapter<AuthorViewHolder>() {
+
+    private lateinit var authorItemClickListener:AuthorOnClickListener
+
+    fun setRecyclerviewClickListener(authorItemOnClickListener: AuthorOnClickListener){
+        this.authorItemClickListener = authorItemOnClickListener
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorViewHolder {
 
         val layoutInflater = LayoutInflater.from(parent.context)
@@ -23,6 +31,13 @@ class AuthorAdapter : RecyclerView.Adapter<AuthorViewHolder>() {
     override fun onBindViewHolder(holder: AuthorViewHolder, position: Int) {
         holder.authorListBinding.imageAuthorNameList.setImageResource(R.drawable.mypage_icon)
         holder.authorListBinding.textAuthorNameList.text = "작가명"
+        holder.authorListBinding.root.setOnClickListener {
+            authorItemClickListener.authorItemClickListener()
+        }
+    }
+
+    interface AuthorOnClickListener{
+        fun authorItemClickListener()
     }
 }
 
