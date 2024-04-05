@@ -31,7 +31,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingToolbar() {
         binding.apply {
             toolbarSalesApplication.apply {
-                title = "작품 판매 신청"
+                title = "작품 등록 신청"
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
@@ -80,6 +80,7 @@ class SalesApplicationActivity : AppCompatActivity() {
         val datePicker = MaterialDatePicker.Builder.datePicker()
             .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
             .setCalendarConstraints(constraintsBuilder.build())
+            .setTheme(R.style.Theme_App_DatePicker)
             .build()
 
         datePicker.addOnPositiveButtonClickListener { selection ->
@@ -96,7 +97,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     }
 
     fun showCategoryDialog() {
-        MaterialAlertDialogBuilder(this@SalesApplicationActivity).apply {
+        MaterialAlertDialogBuilder(this@SalesApplicationActivity, R.style.Theme_Category_App_MaterialAlertDialog).apply {
             setTitle("카테고리")
 
             val categoryDialogBinding = CategoryDialogBinding.inflate(layoutInflater)

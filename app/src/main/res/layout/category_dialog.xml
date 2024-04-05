@@ -19,7 +19,7 @@
                 android:id="@+id/cardViewCategoryDialogArt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/textfield_radius">
+                android:theme="@style/Theme.Category.App.Card">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
-                            android:fontFamily="@font/pretendard_bold"
+                            android:fontFamily="@font/pretendard_semibold"
                             android:text="예술 대학"
                             android:textSize="18sp" />
 
@@ -58,111 +58,111 @@
                             android:id="@+id/radioButton1"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="서양화"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton2"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="동양화"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton3"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="서예"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton4"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="조소"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton5"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="판화"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton6"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="가구/목재"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton7"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="도자기/유리"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton8"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="섬유/염색"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton9"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="금속"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton10"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="만화"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton11"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="애니메이션"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -174,7 +174,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/textfield_radius">
+                android:theme="@style/Theme.Category.App.Card">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -191,7 +191,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
-                            android:fontFamily="@font/pretendard_bold"
+                            android:fontFamily="@font/pretendard_semibold"
                             android:text="인문 대학"
                             android:textSize="18sp" />
 
@@ -213,31 +213,31 @@
                             android:id="@+id/radioButton12"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="소설"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton13"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="시"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton14"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="극본"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
                     </RadioGroup>
 
                 </LinearLayout>
@@ -249,7 +249,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/textfield_radius">
+                android:theme="@style/Theme.Category.App.Card">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -266,7 +266,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_weight="3"
-                            android:fontFamily="@font/pretendard_bold"
+                            android:fontFamily="@font/pretendard_semibold"
                             android:text="공과 대학"
                             android:textSize="18sp" />
 
@@ -288,21 +288,21 @@
                             android:id="@+id/radioButton15"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="소프트웨어"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
 
                         <RadioButton
                             android:id="@+id/radioButton16"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
-                            android:buttonTint="@color/second"
                             android:fontFamily="@font/pretendard_regular"
                             android:padding="8dp"
                             android:text="하드웨어"
-                            android:textSize="14sp" />
+                            android:textSize="14sp"
+                            android:theme="@style/Theme.Category.App.RadioButton" />
                     </RadioGroup>
 
                 </LinearLayout>
