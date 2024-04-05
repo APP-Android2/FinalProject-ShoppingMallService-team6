@@ -9,7 +9,8 @@ enum class MainFragmentName(var str:String){
     BUY_FRAGMENT("BuyFragment"),
     RANK_FRAGMENT("RankFragment"),
     MY_GALLERY_FRAGMENT("MyGalleryFragment"),
-    MY_PAGE_FRAGMENT("MyPageFragment")
+    MY_PAGE_FRAGMENT("MyPageFragment"),
+    SEARCH_FRAGMENT("SearchFragment")
 }
 
 //LoginActivity에서 보여줄 프래그먼트들의 이름
@@ -43,7 +44,15 @@ enum class VisitGalleryFragmentName(var str:String){
     APPLY_VISIT_GALLERY_FRAGMENT("ApplyVisitGalleryFragment"),
 }
 
+// RankFragment 이동
 enum class RankFragmentName(var str: String) {
     RANK_PIECE_FRAGMENT("RankPieceFragment"),
     RANK_AUTHOR_FRAGMENT("RankAuthorFragment")
+}
+
+// AuthorInfoActivity 프래그먼트 이름
+enum class AuthorInfoFragmentName(var str:String){
+    AUTHOR_INFO_FRAGMENT("AuthorInfoFragment"),
+    AUTHOR_REVIEW_BOTTOM_SHEET_FRAGMENT("AuthorReviewBottomSheetFragment"),
+    MODIFY_AUTHOR_INFO_FRAGMENT("ModifyAuthorInfoFragment"),
 }

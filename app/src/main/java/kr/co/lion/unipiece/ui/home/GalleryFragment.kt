@@ -15,14 +15,12 @@ class GalleryFragment(val imgRes : Int) : Fragment() {
 
     lateinit var fragmentGalleryBinding: FragmentGalleryBinding
 
-    lateinit var mainActivity:MainActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentGalleryBinding = FragmentGalleryBinding.inflate(layoutInflater)
         fragmentGalleryBinding.imageGallery.setImageResource(imgRes)
-        mainActivity = activity as MainActivity
         settingEvent()
         return fragmentGalleryBinding.root
     }
@@ -31,7 +29,7 @@ class GalleryFragment(val imgRes : Int) : Fragment() {
     private fun settingEvent(){
         fragmentGalleryBinding.apply {
             imageGallery.setOnClickListener {
-                startActivity(Intent(mainActivity, InfoOneActivity::class.java))
+                startActivity(Intent(requireActivity(), InfoOneActivity::class.java))
             }
         }
     }

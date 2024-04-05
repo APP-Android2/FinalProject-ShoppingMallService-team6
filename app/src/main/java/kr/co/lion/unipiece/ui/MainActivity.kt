@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
         setBuyNaviDrawer()
+        setOpenFragment()
     }
 
     fun printFragmentBackStack(name: String) {
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun initView() {
+        updateBottomNavi()
         replaceFragment(HOME_FRAGMENT, true)
     }
 
@@ -57,7 +59,6 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 setNavigationItemSelectedListener {
-                    SystemClock.sleep(200)
 
                     when(it.itemId){
                         R.id.menuAll -> {
@@ -147,7 +148,7 @@ class MainActivity : AppCompatActivity() {
 
                 if (isSearchFragmentOnTop) {
                     // SearchFragment가 백 스택의 최상단에 존재합니다.
-                    // 안드로이드 뒤로가기 버튼 실행
+                    // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
                     super.onBackPressed()
                     super.onBackPressed()
                 } else {
@@ -243,6 +244,7 @@ class MainActivity : AppCompatActivity() {
             RANK_FRAGMENT -> fragmentManager.replace(R.id.fl_container, RankFragment())
             MY_GALLERY_FRAGMENT -> fragmentManager.replace(R.id.fl_container, MyGalleryFragment())
             MY_PAGE_FRAGMENT -> fragmentManager.replace(R.id.fl_container, MyPageFragment())
+            SEARCH_FRAGMENT -> fragmentManager.replace(R.id.fl_container, SearchFragment())
         }
 
         // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
@@ -272,5 +274,17 @@ class MainActivity : AppCompatActivity() {
 
         // 지정한 이름으로 있는 Fragment를 BackStack에서 제거한다.
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
+
+    fun setOpenFragment() {
+
+        if (intent.getBooleanExtra("SearchFragment", false)) {
+            replaceFragment(SEARCH_FRAGMENT, true)
+        }
+        if(intent.getBooleanExtra("BuyFragment", false)) {
+            replaceFragment(BUY_FRAGMENT, true)
+        }
+
+        updateBottomNavi()
     }
 }

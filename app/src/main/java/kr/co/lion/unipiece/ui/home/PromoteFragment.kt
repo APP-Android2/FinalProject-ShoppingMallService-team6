@@ -15,13 +15,11 @@ class PromoteFragment(val imgRes : Int) : Fragment() {
 
     lateinit var fragmentPromoteBinding: FragmentPromoteBinding
 
-    lateinit var mainActivity: MainActivity
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentPromoteBinding = FragmentPromoteBinding.inflate(layoutInflater)
         fragmentPromoteBinding.imagePromote.setImageResource(imgRes)
-        mainActivity = activity as MainActivity
         settingEvent()
         return fragmentPromoteBinding.root
     }
@@ -31,7 +29,7 @@ class PromoteFragment(val imgRes : Int) : Fragment() {
     private fun settingEvent(){
         fragmentPromoteBinding.apply {
             imagePromote.setOnClickListener {
-                startActivity(Intent(mainActivity, InfoOneActivity::class.java))
+                startActivity(Intent(requireActivity(), InfoOneActivity::class.java))
             }
         }
     }

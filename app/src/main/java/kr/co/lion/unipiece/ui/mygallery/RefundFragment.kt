@@ -50,7 +50,7 @@ class RefundFragment : Fragment() {
     }
 
     fun showRefundReasonDialog() {
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(purchasedPieceDetailActivity)
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(purchasedPieceDetailActivity, R.style.Theme_Category_App_MaterialAlertDialog)
         materialAlertDialogBuilder.setTitle("반품 사유")
         materialAlertDialogBuilder.setNegativeButton("취소", null)
         materialAlertDialogBuilder.setItems(refundReasonDialogData) { dialogInterface: DialogInterface, i: Int ->

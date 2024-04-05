@@ -54,7 +54,7 @@ class PurchaseCancelFragment : Fragment() {
     }
 
     fun showCancelReasonDialog() {
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(purchasedPieceDetailActivity)
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(purchasedPieceDetailActivity, R.style.Theme_Category_App_MaterialAlertDialog)
         materialAlertDialogBuilder.setTitle("취소 사유")
         materialAlertDialogBuilder.setNegativeButton("취소", null)
         materialAlertDialogBuilder.setItems(cancelReasonDialogData) { dialogInterface: DialogInterface, i: Int ->
