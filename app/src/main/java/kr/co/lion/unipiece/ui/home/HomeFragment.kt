@@ -37,6 +37,10 @@ class HomeFragment : Fragment() {
     val timer = Timer()
     val handler = Handler(Looper.getMainLooper())
 
+    val authorAdapter:AuthorAdapter by lazy {
+        AuthorAdapter()
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -203,41 +207,15 @@ class HomeFragment : Fragment() {
         }, 4000, 4000)
     }
 
-    private fun settingAdapter(){
+    private fun settingAdapter() {
         fragmentHomeBinding.apply {
             recyclerViewAuthor.apply {
-                adapter = AuthorListRecycler()
-                layoutManager = LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)
+                adapter = authorAdapter
+                layoutManager =
+                    LinearLayoutManager(mainActivity, LinearLayoutManager.HORIZONTAL, false)
 
             }
         }
     }
-
-    inner class AuthorListRecycler : RecyclerView.Adapter<AuthorListRecycler.AuthorViewHolder>(){
-
-        inner class AuthorViewHolder(authorListBinding: AuthorListBinding):RecyclerView.ViewHolder(authorListBinding.root){
-            val authorListBinding:AuthorListBinding
-
-            init {
-                this.authorListBinding = authorListBinding
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorViewHolder {
-            val authorListBinding = AuthorListBinding.inflate(layoutInflater)
-            val authorViewHolder = AuthorViewHolder(authorListBinding)
-            return authorViewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return 15
-        }
-
-        override fun onBindViewHolder(holder: AuthorViewHolder, position: Int) {
-            holder.authorListBinding.imageAuthorNameList.setImageResource(R.drawable.mypage_icon)
-            holder.authorListBinding.textAuthorNameList.text = "작가명"
-        }
-    }
-
 
 }
