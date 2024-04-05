@@ -5,56 +5,65 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.viewpager2.widget.ViewPager2
+import com.google.android.material.tabs.TabLayoutMediator
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.FragmentRankAuthorBinding
+import kr.co.lion.unipiece.ui.buy.BuyNewFragment
+import kr.co.lion.unipiece.ui.buy.BuyPopFragment
+import kr.co.lion.unipiece.ui.buy.adapter.BuyAdapter
+import kr.co.lion.unipiece.ui.rank.adapter.RankAuthorVPAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RankAuthorFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RankAuthorFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+    lateinit var binding: FragmentRankAuthorBinding
+
+    val vpAdapter: RankAuthorVPAdapter by lazy {
+        RankAuthorVPAdapter(requireActivity())
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rank_author, container, false)
+
+        binding = FragmentRankAuthorBinding.inflate(inflater, container,false)
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RankAuthorFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RankAuthorFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initViewPager()
+    }
+
+    fun initViewPager() {
+
+        val titles = listOf("팔로워 순", "판매횟수 순")
+        vpAdapter.addFragment(RankFollowerFragment())
+        vpAdapter.addFragment(RankSaleFragment())
+
+        with(binding){
+            rankAuthorVP.adapter = vpAdapter
+
+            rankAuthorVP.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+                override fun onPageSelected(position: Int) {
+                    super.onPageSelected(position)
+                }
+            })
+
+            // ViewPager TabLayout 연결
+            TabLayoutMediator(tabLayout, rankAuthorVP) { tab, position ->
+                tab.text = titles[position]
+            }.attach()
+
+            // 각 탭에 OnClickListener 설정
+            for (i in 0 until tabLayout.tabCount) {
+                val tab = tabLayout.getTabAt(i)
+                tab?.view?.setOnClickListener {
+                    rankAuthorVP.currentItem = i
                 }
             }
+
+        }
     }
 }
