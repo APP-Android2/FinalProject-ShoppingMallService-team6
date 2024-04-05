@@ -36,7 +36,7 @@ class CartActivity : AppCompatActivity() {
                 // 어댑터를 가져와서 selectAll 함수를 호출합니다.
                 // 이때, 체크박스의 현재 상태(isChecked)를 인자로 전달합니다.
                 // 이는 모든 항목을 현재 체크박스의 상태와 동일하게 선택하거나 선택 해제하는 기능을 수행합니다.
-                val adapter = activityCartBinding.recyclerViewCartList.adapter as MainRecyclerViewAdapter
+                val adapter = activityCartBinding.recyclerViewCartList.adapter as CartRecyclerViewAdapter
                 adapter.selectAll(isChecked)
             }
         }
@@ -88,7 +88,7 @@ class CartActivity : AppCompatActivity() {
                 // MainRecyclerViewAdapter의 초기화 시점에 받는 리스너
                 // 이 리스너는 항목의 체크 상태가 변경될 때 호출되어,
                 // 전체 선택 체크박스의 상태를 업데이트하는 데 사용됩니다.
-                adapter = MainRecyclerViewAdapter(object : OnItemCheckStateChangeListener {
+                adapter = CartRecyclerViewAdapter(object : OnItemCheckStateChangeListener {
                     override fun onItemCheckStateChanged(isAllSelected: Boolean) {
                         // 모든 항목이 선택되었는지 여부에 따라 전체 선택 체크박스의 상태를 업데이트합니다.
                         checkBoxCartAll.isChecked = isAllSelected
@@ -101,8 +101,8 @@ class CartActivity : AppCompatActivity() {
     }
 
     // 메인 화면의 RecyclerView의 어댑터
-    inner class MainRecyclerViewAdapter(private val listener: OnItemCheckStateChangeListener) :
-        RecyclerView.Adapter<MainRecyclerViewAdapter.MainViewHolder>() {
+    inner class CartRecyclerViewAdapter(private val listener: OnItemCheckStateChangeListener) :
+        RecyclerView.Adapter<CartRecyclerViewAdapter.CartViewHolder>() {
 
         // 항목의 선택 상태를 저장하는 리스트
         var isCheckedList = MutableList(10) { false } // 여기서 10은 항목의 수, 초기 상태는 모두 false(선택 안됨)
@@ -117,7 +117,7 @@ class CartActivity : AppCompatActivity() {
             notifyDataSetChanged()
         }
 
-        inner class MainViewHolder(rowCartBinding: RowCartBinding) :
+        inner class CartViewHolder(rowCartBinding: RowCartBinding) :
             RecyclerView.ViewHolder(rowCartBinding.root) {
             val rowCartBinding: RowCartBinding
 
@@ -131,9 +131,9 @@ class CartActivity : AppCompatActivity() {
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
             val rowCartBinding = RowCartBinding.inflate(layoutInflater)
-            val mainViewHolder = MainViewHolder(rowCartBinding)
+            val mainViewHolder = CartViewHolder(rowCartBinding)
             return mainViewHolder
         }
 
@@ -141,7 +141,7 @@ class CartActivity : AppCompatActivity() {
             return isCheckedList.size
         }
 
-        override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
             // 체크박스 상태를 명시적으로 설정
             // isSelectedList에서 현재 position에 해당하는 항목의 선택 상태를 가져와서
             // 해당 항목의 체크박스 상태를 설정합니다.
