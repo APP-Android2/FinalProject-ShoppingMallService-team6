@@ -14,6 +14,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
 import kr.co.lion.unipiece.util.hideSoftInput
+import kr.co.lion.unipiece.util.isKeyboardVisible
 import kr.co.lion.unipiece.util.showSoftInput
 
 class SalesApplicationActivity : AppCompatActivity() {
@@ -100,6 +101,10 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun showCategoryDialog() {
         MaterialAlertDialogBuilder(this@SalesApplicationActivity, R.style.Theme_Category_App_MaterialAlertDialog).apply {
             setTitle("카테고리")
+
+            if(this@SalesApplicationActivity.isKeyboardVisible()) {
+                this@SalesApplicationActivity.hideSoftInput()
+            }
 
             val categoryDialogBinding = CategoryDialogBinding.inflate(layoutInflater)
             setView(categoryDialogBinding.root)
