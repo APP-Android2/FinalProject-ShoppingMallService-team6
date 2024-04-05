@@ -43,7 +43,7 @@ class MainActivity : AppCompatActivity() {
 
 
     fun initView() {
-        replaceFragment(HOME_FRAGMENT, false)
+        replaceFragment(HOME_FRAGMENT, true)
     }
 
     fun setBuyNaviDrawer(){
