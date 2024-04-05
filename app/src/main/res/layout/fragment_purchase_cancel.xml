@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.mygallery.PurchaseCancelFragment" >
+    tools:context=".ui.mygallery.PurchaseCancelFragment"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarPurchaseCancel"
@@ -13,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -168,6 +170,7 @@
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
                         android:focusable="false"
+                        android:fontFamily="@font/pretendard_regular"
                         android:inputType="none"
                         tools:ignore="SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -312,7 +315,7 @@
                 app:dividerInsetEnd="16dp"
                 app:dividerInsetStart="16dp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonPurchaseCancel"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"

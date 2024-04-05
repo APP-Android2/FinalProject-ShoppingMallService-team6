@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.mygallery.RefundFragment" >
+    tools:context=".ui.mygallery.RefundFragment"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarRefund"
@@ -13,7 +14,8 @@
         android:layout_height="wrap_content"
         android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme" />
+        android:theme="?attr/actionBarTheme"
+        app:titleTextAppearance="@style/Theme.Title.Toolbar"/>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -200,6 +202,7 @@
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
                         android:focusable="false"
+                        android:fontFamily="@font/pretendard_regular"
                         android:inputType="none"
                         tools:ignore="SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -251,6 +254,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:fontFamily="@font/pretendard_regular"
                         android:inputType="text|textMultiLine"
                         tools:ignore="SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -291,16 +295,17 @@
                         android:textSize="14sp" />
                 </LinearLayout>
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/buttonRefundPicture"
                     android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginTop="15dp"
-                    android:background="@drawable/button_radius"
+                    android:background="@null"
                     android:fontFamily="@font/pretendard_regular"
                     android:text="사진 첨부하기"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/first"
+                    android:textSize="18sp" />
 
                 <ImageView
                     android:id="@+id/imageViewRefundReason"
@@ -449,7 +454,7 @@
                 app:dividerInsetEnd="16dp"
                 app:dividerInsetStart="16dp" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonRefund"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
