@@ -18,7 +18,13 @@ class InfoAllActivity : AppCompatActivity() {
     lateinit var activityInfoAllBinding: ActivityInfoAllBinding
 
     val infoAllAdapter:InfoAllAdapter by lazy {
-        InfoAllAdapter()
+        val adapter = InfoAllAdapter()
+        adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
+            override fun recyclerviewClickListener() {
+                startActivity(Intent(this@InfoAllActivity, InfoOneActivity::class.java))
+            }
+        })
+        adapter
     }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -27,6 +33,7 @@ class InfoAllActivity : AppCompatActivity() {
         settingToolBar()
         settingAdapter()
     }
+
 
     //툴바
     private fun settingToolBar(){

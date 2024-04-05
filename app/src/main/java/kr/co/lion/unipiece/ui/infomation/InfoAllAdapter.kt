@@ -8,6 +8,12 @@ import kr.co.lion.unipiece.databinding.InfoAllBinding
 
 class InfoAllAdapter() : RecyclerView.Adapter<ViewHolderClass>() {
 
+    private lateinit var itemOnClickListener: ItemOnClickListener
+
+    fun setRecyclerviewClickListener(itemOnClickListener: ItemOnClickListener){
+        this.itemOnClickListener = itemOnClickListener
+    }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolderClass {
 
@@ -28,8 +34,13 @@ class InfoAllAdapter() : RecyclerView.Adapter<ViewHolderClass>() {
         holder.infoAllBinding.textInfoAllDate.text = "2024-04-01 ~ 2024-04-26"
         holder.infoAllBinding.textInfoAllAuthorName.text = "멋쟁이 사람들"
         holder.infoAllBinding.root.setOnClickListener {
+            itemOnClickListener.recyclerviewClickListener()
 
         }
+    }
+
+    interface ItemOnClickListener{
+        fun recyclerviewClickListener()
     }
 }
 

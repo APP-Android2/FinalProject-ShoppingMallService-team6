@@ -15,13 +15,12 @@ class NewsFragment(val imgRes : Int) : Fragment() {
 
     lateinit var fragmentNewsBinding: FragmentNewsBinding
 
-    lateinit var mainActivity:MainActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentNewsBinding = FragmentNewsBinding.inflate(layoutInflater)
         fragmentNewsBinding.imageNews.setImageResource(imgRes)
-        mainActivity = activity as MainActivity
         settingEvent()
         return fragmentNewsBinding.root
     }
@@ -30,7 +29,7 @@ class NewsFragment(val imgRes : Int) : Fragment() {
     private fun settingEvent(){
         fragmentNewsBinding.apply {
             imageNews.setOnClickListener {
-                startActivity(Intent(mainActivity, InfoOneActivity::class.java))
+                startActivity(Intent(requireActivity(), InfoOneActivity::class.java))
             }
         }
     }
