@@ -167,6 +167,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:focusable="false"
                         android:inputType="none"
                         tools:ignore="SpeakableTextPresentCheck" />
                 </com.google.android.material.textfield.TextInputLayout>
