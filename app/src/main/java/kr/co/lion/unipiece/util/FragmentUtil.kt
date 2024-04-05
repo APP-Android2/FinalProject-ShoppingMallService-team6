@@ -42,3 +42,7 @@ enum class VisitGalleryFragmentName(var str:String){
     VISIT_GALLERY_HISTORY_FRAGMENT("VisitGalleryHistoryFragment"),
     APPLY_VISIT_GALLERY_FRAGMENT("ApplyVisitGalleryFragment"),
 }
+
+enum class RankFragmentName(var str: String) {
+    RANK_PIECE_FRAGMENT("RankPieceFragment"),
+}

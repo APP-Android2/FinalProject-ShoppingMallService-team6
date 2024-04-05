@@ -6,55 +6,74 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.FragmentRankBinding
+import kr.co.lion.unipiece.ui.search.SearchFragment
+import kr.co.lion.unipiece.util.RankFragmentName
+import kr.co.lion.unipiece.util.RankFragmentName.*
+import kr.co.lion.unipiece.util.setMenuIconColor
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [RankFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class RankFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
+    lateinit var binding: FragmentRankBinding
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rank, container, false)
+
+        binding = FragmentRankBinding.inflate(inflater, container, false)
+
+        return binding.root
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment RankFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            RankFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        settingToolbarRank()
+        initView()
+    }
+
+    private fun initView() {
+        setFragment(RANK_PIECE_FRAGMENT)
+    }
+
+    private fun settingToolbarRank(){
+
+        with(binding) {
+            toolbarRank.apply {
+
+                inflateMenu(R.menu.menu_search)
+                setOnMenuItemClickListener { menuItem ->
+                    when (menuItem.itemId) {
+                        R.id.menu_search -> {
+                            val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
+                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("BuyFragment")?.commit()
+                            true
+                        }
+                        else -> false
+                    }
+                }
+
+                requireContext().setMenuIconColor(menu, R.id.menu_search, R.color.second)
+
+            }
+        }
+    }
+
+    private fun setFragment(name: RankFragmentName) {
+
+        val fragmentMananger = childFragmentManager.beginTransaction()
+
+            when(name) {
+                RANK_PIECE_FRAGMENT -> {
+                    fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
+                    binding.rankTitle.text = "작품 랭킹"
                 }
             }
+
+        fragmentMananger.setReorderingAllowed(true)
+        fragmentMananger.addToBackStack(name.str)
+        fragmentMananger.commit()
     }
+
+
 }
