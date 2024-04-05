@@ -1,11 +1,13 @@
 package kr.co.lion.unipiece.ui.author
 
+import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Space
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.core.view.marginRight
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +22,8 @@ class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
     lateinit var authorInfoActivity: AuthorInfoActivity
+
+    var authorFollow = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -94,7 +98,34 @@ class AuthorInfoFragment : Fragment() {
 
     // 팔로우 버튼 클릭
     private fun settingButtonFollow(){
-        // 팔로우 버튼 클릭 여부에 따라 버튼 디자인 변경
+        changeFollowButton()
+
+        fragmentAuthorInfoBinding.buttonAuthorFollow.setOnClickListener {
+            if(!authorFollow){
+                authorFollow = true
+            }else{
+                authorFollow = false
+            }
+            changeFollowButton()
+        }
+    }
+
+    // 팔로우 버튼 변경
+    private fun changeFollowButton(){
+        val followButton = fragmentAuthorInfoBinding.buttonAuthorFollow
+        if(authorFollow){
+            followButton.apply {
+                setBackgroundResource(R.drawable.button_radius)
+                setTextColor(ContextCompat.getColor(authorInfoActivity, R.color.white))
+                text = "팔로잉"
+            }
+        }else{
+            followButton.apply {
+                setBackgroundResource(R.drawable.textfield_radius)
+                setTextColor(ContextCompat.getColor(authorInfoActivity, R.color.first))
+                text = "팔로우"
+            }
+        }
     }
 
     // 리뷰 버튼 클릭
