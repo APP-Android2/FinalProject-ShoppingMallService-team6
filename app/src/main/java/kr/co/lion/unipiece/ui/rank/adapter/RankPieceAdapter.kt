@@ -18,6 +18,7 @@ class RankPieceAdapter (val imageList: ArrayList<Int>, private val itemClickList
 
     override fun onBindViewHolder(holder: RankPieceViewHolder, position: Int){
         holder.pieceImg.setImageResource(imageList[position])
+        holder.pieceRank.text = (position + 1).toString()
     }
 
     override fun getItemCount(): Int = imageList.size
