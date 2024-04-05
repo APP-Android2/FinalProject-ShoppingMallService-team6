@@ -9,7 +9,8 @@ enum class MainFragmentName(var str:String){
     BUY_FRAGMENT("BuyFragment"),
     RANK_FRAGMENT("RankFragment"),
     MY_GALLERY_FRAGMENT("MyGalleryFragment"),
-    MY_PAGE_FRAGMENT("MyPageFragment")
+    MY_PAGE_FRAGMENT("MyPageFragment"),
+    SEARCH_FRAGMENT("SearchFragment")
 }
 
 //LoginActivity에서 보여줄 프래그먼트들의 이름
