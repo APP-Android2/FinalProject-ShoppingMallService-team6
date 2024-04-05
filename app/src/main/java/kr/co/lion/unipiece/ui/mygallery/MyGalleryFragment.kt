@@ -16,11 +16,9 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class MyGalleryFragment : Fragment() {
 
     lateinit var binding: FragmentMyGalleryBinding
-    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMyGalleryBinding.inflate(inflater, container, false)
-        mainActivity = activity as MainActivity
 
         settingToolbar()
         initView()
@@ -70,7 +68,7 @@ class MyGalleryFragment : Fragment() {
         fragmentList.add(PurchasedPieceFragment())
         fragmentList.add(SalePieceFragment())
 
-        viewPager.adapter = MyGalleryViewPagerAdapter(fragmentList, mainActivity)
+        viewPager.adapter = MyGalleryViewPagerAdapter(fragmentList, requireActivity())
 
         val tabTextList = ArrayList<String?>()
         tabTextList.add("관심 작품")
