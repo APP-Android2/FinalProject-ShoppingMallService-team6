@@ -35,7 +35,7 @@ class PurchaseCancelFragment : Fragment() {
     fun settingToolbar() {
         binding.apply {
             toolbarPurchaseCancel.apply {
-                title = "구매 취소"
+                title = "주문 취소"
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {

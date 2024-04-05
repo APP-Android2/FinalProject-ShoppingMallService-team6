@@ -24,3 +24,8 @@ import kotlin.concurrent.thread
             window.currentFocus?.clearFocus()
         }
     }
+
+    fun Activity.isKeyboardVisible(): Boolean {
+        val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        return imm.isAcceptingText
+    }
