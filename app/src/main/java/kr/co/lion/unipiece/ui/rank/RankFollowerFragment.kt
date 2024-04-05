@@ -18,12 +18,12 @@ class RankFollowerFragment : Fragment() {
 
     lateinit var binding: FragmentRankFollowerBinding
 
-    val testPieceList = arrayListOf(R.drawable.mypage_icon, R.drawable.icon, R.drawable.mypage_icon,
+    val testAuthorList = arrayListOf(R.drawable.mypage_icon, R.drawable.icon, R.drawable.mypage_icon,
         R.drawable.mypage_icon, R.drawable.test_piece_img, R.drawable.icon,
         R.drawable.logo, R.drawable.test_piece_img, R.drawable.mypage_icon)
 
     val adapter: RankFollowerAdapter by lazy {
-        RankFollowerAdapter(testPieceList,
+        RankFollowerAdapter(testAuthorList,
             itemClickListener = { testId ->
                 Log.d("test", testId.toString())
             })
