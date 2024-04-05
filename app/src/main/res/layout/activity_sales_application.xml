@@ -5,16 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".ui.mygallery.SalesApplicationActivity">
+    tools:context=".ui.mygallery.SalesApplicationActivity"
+    android:background="@color/white">
 
     <com.google.android.material.appbar.MaterialToolbar
         android:id="@+id/toolbarSalesApplication"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary"
+        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:theme="?attr/actionBarTheme"
-        app:titleTextAppearance="@style/Theme.Title.Toolbar"/>
+        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -33,7 +34,7 @@
                 android:adjustViewBounds="true"
                 android:src="@drawable/ic_launcher_foreground" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonSalesApplicationPictureAdd"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
@@ -43,9 +44,7 @@
                 android:fontFamily="@font/pretendard_regular"
                 android:text="사진 첨부하기"
                 android:textColor="@color/first"
-                android:textSize="18sp"
-                app:icon="@drawable/album_24fx"
-                app:iconGravity="textStart" />
+                android:textSize="18sp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutSalesApplicationPieceName"
@@ -156,7 +155,7 @@
                     android:paddingStart="15dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/buttonSalesApplicationSubmit"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"

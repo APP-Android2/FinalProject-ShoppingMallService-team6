@@ -11,7 +11,10 @@
     <style name="Theme.UniPiece" parent="Base.Theme.UniPiece" />
 
     <!-- Material3 테마 설정-->
-    <style name="Theme.Material3" parent="Theme.Material3.DayNight.NoActionBar" />
+    <style name="Theme.Material3" parent="Theme.Material3.DayNight.NoActionBar" >
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
 
     <!--Bottomnavigation, tablayout 글자 설정-->
     <style name="BottomNaviTab" parent="@style/TextAppearance.AppCompat.Caption">
@@ -40,6 +43,30 @@
     </style>
 
     <style name="Theme.SplashUni" parent="Base.Theme.SplashScreen.Unipiece" />
+
+    <!-- 작품 등록 신청 Category MaterialAlertDialog 설정 -->
+    <style name="Theme.Category.App.MaterialAlertDialog" parent="ThemeOverlay.Material3.MaterialAlertDialog">
+        <item name="colorPrimary">@color/first</item>
+        <item name="colorSecondary">@color/second</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <!-- 작품 등록 신청 DatePicker 설정 -->
+    <style name="Theme.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
+        <item name="colorPrimary">@color/first</item>
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <!-- 작품 등록 신청 Category CardView 설정 -->
+    <style name="Theme.Category.App.Card" parent="">
+        <item name="colorSecondary">@color/second</item>
+        <item name="colorSurface">@color/white</item>
+    </style>
+
+    <!-- 작품 등록 신청 Category RadioButton 설정 -->
+    <style name="Theme.Category.App.RadioButton" parent="">
+        <item name="colorPrimary">@color/first</item>
+    </style>
 
 
 </resources>

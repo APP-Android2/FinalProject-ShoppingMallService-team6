@@ -20,7 +20,8 @@
             android:exported="false" />
         <activity
             android:name=".ui.mygallery.SalesApplicationActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.Material3"/>
         <activity
             android:name=".ui.mypage.VisitGalleryActivity"
             android:exported="false" />
