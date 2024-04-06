@@ -56,3 +56,9 @@ enum class AuthorInfoFragmentName(var str:String){
     AUTHOR_REVIEW_BOTTOM_SHEET_FRAGMENT("AuthorReviewBottomSheetFragment"),
     MODIFY_AUTHOR_INFO_FRAGMENT("ModifyAuthorInfoFragment"),
 }
+
+// OrderActivity에서 보여줄 프래그먼트들의 이름
+enum class OrderFragmentName(var str:String){
+    ORDER_MAIN_FRAGMENT("OrderMainFragment"),
+    ORDER_SUCCESS_FRAGMENT("OrderSuccessFragment"),
+}

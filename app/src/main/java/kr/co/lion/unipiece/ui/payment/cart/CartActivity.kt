@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityCartBinding
 import kr.co.lion.unipiece.databinding.RowCartBinding
+import kr.co.lion.unipiece.ui.payment.order.OrderActivity
 
 class CartActivity : AppCompatActivity() {
     lateinit var activityCartBinding: ActivityCartBinding
@@ -67,11 +68,9 @@ class CartActivity : AppCompatActivity() {
         activityCartBinding.apply {
             buttonCartOrder.apply {
                 setOnClickListener {
-//                    // OrderActivity를 실행한다.
-//                    val orderIntent = Intent(this@CartActivity, OrderActivity::class.java)
-//                    startActivity(orderIntent)
-//                    // CartActivity를 종료한다.
-//                    finish()
+                    // OrderActivity를 실행한다.
+                    val orderIntent = Intent(this@CartActivity, OrderActivity::class.java)
+                    startActivity(orderIntent)
 
                 }
             }
