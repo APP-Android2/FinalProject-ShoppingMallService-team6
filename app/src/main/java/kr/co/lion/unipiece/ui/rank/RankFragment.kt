@@ -80,22 +80,20 @@ class RankFragment : Fragment() {
 
     private fun setFragment(name: RankFragmentName) {
 
-        val fragmentMananger = childFragmentManager.beginTransaction()
+        val fragmentMananger = activity?.supportFragmentManager?.beginTransaction()
 
             when(name) {
                 RANK_PIECE_FRAGMENT -> {
-                    fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
+                    fragmentMananger?.replace(R.id.rank_fragment, RankPieceFragment())
                     binding.rankTitle.text = "작품 랭킹"
                 }
                 RANK_AUTHOR_FRAGMENT -> {
-                    fragmentMananger.replace(R.id.rank_fragment, RankAuthorFragment())
-                    binding.rankTitle.text ="작가 랭킹"
+                    fragmentMananger?.replace(R.id.rank_fragment, RankAuthorFragment())
+                    binding.rankTitle.text = "작가 랭킹"
                 }
             }
-
-        fragmentMananger.setReorderingAllowed(true)
-        fragmentMananger.addToBackStack(name.str)
-        fragmentMananger.commit()
+        fragmentMananger?.addToBackStack(name.str)
+        fragmentMananger?.commit()
     }
 
 

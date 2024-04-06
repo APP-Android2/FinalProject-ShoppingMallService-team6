@@ -23,7 +23,9 @@ class RankPieceFragment : Fragment() {
     val adapter: RankPieceAdapter by lazy {
         RankPieceAdapter(testPieceList,
             itemClickListener = { testId ->
-                startActivity(Intent(requireActivity(), BuyDetailActivity::class.java))
+                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                intent.putExtra("RankFragment", true)
+                startActivity(intent)
             })
     }
 

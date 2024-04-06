@@ -33,7 +33,8 @@ class SearchFragment : Fragment() {
     fun settingToolbarSearch(){
         with(binding.toolbarSearch) {
             setNavigationOnClickListener {
-                activity?.supportFragmentManager?.popBackStack()
+                activity?.onBackPressed()
+                activity?.onBackPressed()
             }
 
             inflateMenu(R.menu.menu_cart)

@@ -54,7 +54,7 @@ class BuyFragment : Fragment() {
                     when (menuItem.itemId) {
                         R.id.menu_search -> {
                             val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("BuyFragment")?.commit()
+                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack(null)?.commit()
                             true
                         }
                         R.id.menu_cart -> {

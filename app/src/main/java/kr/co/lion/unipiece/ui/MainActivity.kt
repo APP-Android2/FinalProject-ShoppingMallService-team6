@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
         setBuyNaviDrawer()
-        setOpenFragment()
+        openSearchFragment()
     }
 
     fun printFragmentBackStack(name: String) {
@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity() {
             if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
                 drawerBuyLayout.close()
             } else {
-
                 var isSearchFragmentOnTop = false
+
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     // 백 스택의 마지막 항목의 이름을 가져옵니다.
                     val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
@@ -149,10 +149,12 @@ class MainActivity : AppCompatActivity() {
                 if (isSearchFragmentOnTop) {
                     // SearchFragment가 백 스택의 최상단에 존재합니다.
                     // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
+                    printFragmentBackStack("two back")
                     super.onBackPressed()
                     super.onBackPressed()
                 } else {
                     // 안드로이드 뒤로가기 버튼 실행
+                    printFragmentBackStack("one back")
                     super.onBackPressed()
                 }
 
@@ -162,13 +164,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 updateBottomNavi()
-                printFragmentBackStack("back")
             }
         }
     }
 
     fun updateBottomNavi(){
-        printFragmentBackStack("update")
+        // printFragmentBackStack("update")
         val fragment = supportFragmentManager.findFragmentById(R.id.fl_container)
         when(fragment) {
             is HomeFragment -> {
@@ -194,7 +195,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun bottomNaviClick() {
-        printFragmentBackStack("navi")
+        // printFragmentBackStack("navi")
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.fragment_home -> {
@@ -276,15 +277,43 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun setOpenFragment() {
+    fun openSearchFragment() {
 
-        if (intent.getBooleanExtra("SearchFragment", false)) {
-            replaceFragment(SEARCH_FRAGMENT, true)
+        /*if (intent.getBooleanExtra(RANK_FRAGMENT.str, false)) {
+            binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
+            if(intent.getBooleanExtra("SearchFragment", false)){
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStack()
+                replaceFragment(SEARCH_FRAGMENT, true)
+            }
         }
-        if(intent.getBooleanExtra("BuyFragment", false)) {
-            replaceFragment(BUY_FRAGMENT, true)
+        if (intent.getBooleanExtra(BUY_FRAGMENT.str, false)) {
+            binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
+
+            if(intent.getBooleanExtra("SearchFragment", false)){
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStack()
+                replaceFragment(SEARCH_FRAGMENT, true)
+            }
+        }*/
+
+        val isRankFragment = intent.getBooleanExtra(RANK_FRAGMENT.str, false)
+        val isBuyFragment = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
+        val isSearchFragment = intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)
+
+        // RANK_FRAGMENT 또는 BUY_FRAGMENT가 true인 경우에만 로직을 실행합니다.
+        if (isRankFragment || isBuyFragment) {
+
+            // 선택된 탭을 설정합니다.
+            binding.bottomNavigationView.selectedItemId = if (isRankFragment) R.id.fragment_rank else R.id.fragment_buy
+
+            // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
+            if (isSearchFragment) {
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStack()
+                replaceFragment(SEARCH_FRAGMENT, true)
+            }
         }
 
-        updateBottomNavi()
     }
 }

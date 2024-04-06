@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.buy
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
@@ -54,7 +55,13 @@ class BuyDetailActivity : AppCompatActivity() {
     }
 
     fun setIntent(name: String) {
+        val buyIntent = intent.getBooleanExtra("BuyFragment", false)
+        val rankIntent = intent.getBooleanExtra("RankFragment", false)
+
         val intent = Intent(this@BuyDetailActivity, MainActivity::class.java)
+        intent.putExtra("RankFragment", rankIntent)
+        intent.putExtra("BuyFragment", buyIntent)
+
         intent.putExtra(name, true)
         startActivity(intent)
         finish()
