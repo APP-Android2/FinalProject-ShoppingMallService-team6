@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentUserInfoBinding
 import kr.co.lion.unipiece.util.UserInfoFragmentName
+import kr.co.lion.unipiece.util.setMenuIconColor
 
 class UserInfoFragment : Fragment() {
 
@@ -36,6 +37,7 @@ class UserInfoFragment : Fragment() {
                 title = "회원 정보"
 
                 inflateMenu(R.menu.menu_home)
+                requireContext().setMenuIconColor(menu, R.id.menu_home, R.color.second)
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
