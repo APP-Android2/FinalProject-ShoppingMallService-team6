@@ -279,15 +279,40 @@ class MainActivity : AppCompatActivity() {
 
     fun openSearchFragment() {
 
-        if (intent.getBooleanExtra(RANK_FRAGMENT.str, false)
-            || intent.getBooleanExtra(BUY_FRAGMENT.str, false)) {
-
-            supportFragmentManager.popBackStack()
-
+        /*if (intent.getBooleanExtra(RANK_FRAGMENT.str, false)) {
+            binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
             if(intent.getBooleanExtra("SearchFragment", false)){
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStack()
                 replaceFragment(SEARCH_FRAGMENT, true)
             }
+        }
+        if (intent.getBooleanExtra(BUY_FRAGMENT.str, false)) {
+            binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
 
+            if(intent.getBooleanExtra("SearchFragment", false)){
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStack()
+                replaceFragment(SEARCH_FRAGMENT, true)
+            }
+        }*/
+
+        val isRankFragment = intent.getBooleanExtra(RANK_FRAGMENT.str, false)
+        val isBuyFragment = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
+        val isSearchFragment = intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)
+
+        // RANK_FRAGMENT 또는 BUY_FRAGMENT가 true인 경우에만 로직을 실행합니다.
+        if (isRankFragment || isBuyFragment) {
+
+            // 선택된 탭을 설정합니다.
+            binding.bottomNavigationView.selectedItemId = if (isRankFragment) R.id.fragment_rank else R.id.fragment_buy
+
+            // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
+            if (isSearchFragment) {
+                supportFragmentManager.popBackStack()
+                supportFragmentManager.popBackStack()
+                replaceFragment(SEARCH_FRAGMENT, true)
+            }
         }
 
     }
