@@ -83,12 +83,12 @@ class OrderMainFragment : Fragment() {
     }
 
     ///////////////////////////////// 리사이클러뷰 ///////////////////////////////////////
-    // 메인 화면의 RecyclerView 설정
+    // 주문하기 화면의 RecyclerView 설정
     fun setRecyclerViewCart(){
         fragmentOrderMainBinding.apply {
             recyclerViewOrderList.apply {
                 // 어뎁터
-                adapter = MainRecyclerViewAdapter()
+                adapter = OrderRecyclerViewAdapter()
                 // 레이아웃 매니저
                 layoutManager = LinearLayoutManager(orderActivity)
 
@@ -96,10 +96,10 @@ class OrderMainFragment : Fragment() {
         }
     }
 
-    // 메인 화면의 RecyclerView의 어뎁터
-    inner class MainRecyclerViewAdapter :
-        RecyclerView.Adapter<MainRecyclerViewAdapter.MainViewHolder>() {
-        inner class MainViewHolder(rowCartBinding: RowCartBinding) :
+    // 주문하기 화면의 RecyclerView의 어뎁터
+    inner class OrderRecyclerViewAdapter :
+        RecyclerView.Adapter<OrderRecyclerViewAdapter.OrderViewHolder>() {
+        inner class OrderViewHolder(rowCartBinding: RowCartBinding) :
             RecyclerView.ViewHolder(rowCartBinding.root) {
             val rowCartBinding: RowCartBinding
 
@@ -112,17 +112,17 @@ class OrderMainFragment : Fragment() {
             }
         }
 
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MainViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderViewHolder {
             val rowCartBinding = RowCartBinding.inflate(layoutInflater)
-            val mainViewHolder = MainViewHolder(rowCartBinding)
-            return mainViewHolder
+            val orderViewHolder = OrderViewHolder(rowCartBinding)
+            return orderViewHolder
         }
 
         override fun getItemCount(): Int {
             return 10
         }
 
-        override fun onBindViewHolder(holder: MainViewHolder, position: Int) {
+        override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
             holder.rowCartBinding.textViewRowCart.text = "이거슨 테스트"
         }
     }

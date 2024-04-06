@@ -79,12 +79,12 @@ class CartActivity : AppCompatActivity() {
 
     ///////////////////////////////////// 리사이클러뷰 ////////////////////////////////////
 
-    // 메인 화면의 RecyclerView 설정
+    // 장바구니 화면의 RecyclerView 설정
     fun setRecyclerViewCart(){
         activityCartBinding.apply {
             recyclerViewCartList.apply {
                 // 어댑터 초기화 시 OnItemCheckStateChangeListener 구현을 전달
-                // MainRecyclerViewAdapter의 초기화 시점에 받는 리스너
+                // CartRecyclerViewAdapter의 초기화 시점에 받는 리스너
                 // 이 리스너는 항목의 체크 상태가 변경될 때 호출되어,
                 // 전체 선택 체크박스의 상태를 업데이트하는 데 사용됩니다.
                 adapter = CartRecyclerViewAdapter(object : OnItemCheckStateChangeListener {
@@ -99,14 +99,14 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    // 메인 화면의 RecyclerView의 어댑터
+    // 장바구니 화면의 RecyclerView의 어댑터
     inner class CartRecyclerViewAdapter(private val listener: OnItemCheckStateChangeListener) :
         RecyclerView.Adapter<CartRecyclerViewAdapter.CartViewHolder>() {
 
         // 항목의 선택 상태를 저장하는 리스트
         var isCheckedList = MutableList(10) { false } // 여기서 10은 항목의 수, 초기 상태는 모두 false(선택 안됨)
 
-        // MainRecyclerViewAdapter 내부
+        // CartRecyclerViewAdapter 내부
         fun selectAll(isChecked: Boolean) {
             // 모든 항목의 선택 상태를 변경합니다.
             // isSelected 파라미터 값에 따라 모든 항목을 선택하거나 선택 해제합니다.
