@@ -21,6 +21,7 @@ import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.author.GuideLineFragment
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.util.Timer
@@ -87,7 +88,9 @@ class HomeFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_search -> {
-
+                            val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
+                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack(null)?.commit()
+                            true
                         }
 
                         R.id.menu_cart -> {
