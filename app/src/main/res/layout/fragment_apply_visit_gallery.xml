@@ -11,6 +11,7 @@
         android:id="@+id/toolbarApplyVisitGallery"
         android:layout_width="match_parent"
         android:layout_height="64dp"
+        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
