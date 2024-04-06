@@ -22,7 +22,7 @@ class RankAuthorVPAdapter (fragmentActivity: FragmentActivity) : FragmentStateAd
 
     fun removeFragement() {
         fragments.removeLast()
-        notifyItemRemoved(fragments.size)
+        notifyItemRemoved(fragments.size - 1)
     }
 
 }
