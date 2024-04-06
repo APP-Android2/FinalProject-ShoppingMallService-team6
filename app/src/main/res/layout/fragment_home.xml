@@ -11,8 +11,9 @@
         android:id="@+id/toolBarHome"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="?attr/colorPrimary"
+        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
+        android:paddingStart="20dp"
         android:theme="?attr/actionBarTheme" />
 
     <ScrollView
