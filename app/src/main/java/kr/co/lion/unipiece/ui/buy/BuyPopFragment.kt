@@ -38,8 +38,9 @@ class BuyPopFragment : Fragment() {
 
         adapter = BuyPopAdapter(testImageList,
             itemClickListener = { testReviewId ->
-                Log.d("test", testReviewId.toString())
-                startActivity(Intent(requireActivity(), BuyDetailActivity::class.java))
+                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                intent.putExtra("BuyFragment", true)
+                startActivity(intent)
             }
         )
 

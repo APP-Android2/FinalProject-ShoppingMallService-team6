@@ -29,7 +29,7 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
         setBuyNaviDrawer()
-        setOpenFragment()
+        openSearchFragment()
     }
 
     fun printFragmentBackStack(name: String) {
@@ -134,8 +134,8 @@ class MainActivity : AppCompatActivity() {
             if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
                 drawerBuyLayout.close()
             } else {
-
                 var isSearchFragmentOnTop = false
+
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     // 백 스택의 마지막 항목의 이름을 가져옵니다.
                     val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
@@ -149,10 +149,12 @@ class MainActivity : AppCompatActivity() {
                 if (isSearchFragmentOnTop) {
                     // SearchFragment가 백 스택의 최상단에 존재합니다.
                     // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
+                    printFragmentBackStack("two back")
                     super.onBackPressed()
                     super.onBackPressed()
                 } else {
                     // 안드로이드 뒤로가기 버튼 실행
+                    printFragmentBackStack("one back")
                     super.onBackPressed()
                 }
 
@@ -162,13 +164,12 @@ class MainActivity : AppCompatActivity() {
                 }
 
                 updateBottomNavi()
-                printFragmentBackStack("back")
             }
         }
     }
 
     fun updateBottomNavi(){
-        printFragmentBackStack("update")
+        // printFragmentBackStack("update")
         val fragment = supportFragmentManager.findFragmentById(R.id.fl_container)
         when(fragment) {
             is HomeFragment -> {
@@ -194,7 +195,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
     fun bottomNaviClick() {
-        printFragmentBackStack("navi")
+        // printFragmentBackStack("navi")
         binding.bottomNavigationView.setOnItemSelectedListener {
             when(it.itemId) {
                 R.id.fragment_home -> {
@@ -276,15 +277,18 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun setOpenFragment() {
+    fun openSearchFragment() {
 
-        if (intent.getBooleanExtra("SearchFragment", false)) {
-            replaceFragment(SEARCH_FRAGMENT, true)
-        }
-        if(intent.getBooleanExtra("BuyFragment", false)) {
-            replaceFragment(BUY_FRAGMENT, true)
+        if (intent.getBooleanExtra(RANK_FRAGMENT.str, false)
+            || intent.getBooleanExtra(BUY_FRAGMENT.str, false)) {
+
+            supportFragmentManager.popBackStack()
+
+            if(intent.getBooleanExtra("SearchFragment", false)){
+                replaceFragment(SEARCH_FRAGMENT, true)
+            }
+
         }
 
-        updateBottomNavi()
     }
 }

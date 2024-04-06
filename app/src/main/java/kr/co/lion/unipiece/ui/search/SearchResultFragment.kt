@@ -62,8 +62,28 @@ class SearchResultFragment : Fragment() {
     fun settingToolbarSearchResult(){
         with(binding.toolbarSearchResult) {
             setNavigationOnClickListener {
-                activity?.supportFragmentManager?.popBackStack()
-                activity?.supportFragmentManager?.popBackStack()
+
+                val supportFragmentManager = activity?.supportFragmentManager
+
+                var isSearchFragmentOnTop = false
+                val count = supportFragmentManager?.backStackEntryCount ?: 0
+                if (count > 0) {
+                    // 백 스택의 마지막 항목의 이름을 가져옵니다.
+                    val lastFragmentName = activity?.supportFragmentManager?.getBackStackEntryAt(count - 1)?.name
+                    // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
+                    isSearchFragmentOnTop = "SearchFragment" == lastFragmentName
+                } else {
+                    // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
+                    isSearchFragmentOnTop = false
+                }
+
+                if(isSearchFragmentOnTop) {
+                    activity?.onBackPressed()
+                    activity?.onBackPressed()
+                } else {
+                    activity?.onBackPressed()
+                }
+
             }
 
             inflateMenu(R.menu.menu_cart)
