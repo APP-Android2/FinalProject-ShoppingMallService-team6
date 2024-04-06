@@ -27,22 +27,22 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <Button
+        <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
             android:id="@+id/fabApplyVisitGallery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_margin="0dp"
-            android:background="@drawable/fab_radius"
-            android:drawableStart="@drawable/add_icon"
-            android:drawableTint="@color/white"
-            android:paddingLeft="12dp"
-            android:paddingRight="16dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginBottom="5dp"
             android:text="방문 신청"
             android:textColor="@color/white"
             android:textSize="16sp"
             android:textStyle="bold"
+            android:theme="@style/Theme.Material3"
+            app:backgroundTint="@color/second"
             app:icon="@drawable/add_icon"
-            app:iconTint="@color/white" />
+            app:iconTint="@color/white"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </LinearLayout>
