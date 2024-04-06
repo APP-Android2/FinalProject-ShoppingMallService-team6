@@ -13,6 +13,9 @@
         android:theme="@style/Theme.UniPiece"
         tools:targetApi="31">
         <activity
+            android:name=".ui.payment.order.OrderActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.payment.cart.CartActivity"
             android:exported="false" />
         <activity
