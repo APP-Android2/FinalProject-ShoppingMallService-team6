@@ -83,14 +83,16 @@
                     android:layout_height="wrap_content"
                     android:orientation="horizontal">
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonMemberCountDown"
-                        android:layout_width="48dp"
+                        style="@style/Widget.Material3.Button.IconButton.Filled"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginRight="8dp"
-                        android:background="@drawable/button_radius"
-                        android:src="@drawable/minus_icon"
-                        android:tint="@color/white" />
+                        android:theme="@style/Theme.Material3"
+                        app:backgroundTint="@color/first"
+                        app:cornerRadius="15dp"
+                        app:icon="@drawable/minus_icon" />
 
                     <EditText
                         android:id="@+id/editTextApplyVisitGalleryMemberCounter"
@@ -103,14 +105,16 @@
                         android:maxLength="2"
                         android:textAlignment="center" />
 
-                    <androidx.appcompat.widget.AppCompatImageButton
+                    <com.google.android.material.button.MaterialButton
                         android:id="@+id/buttonMemberCountUp"
-                        android:layout_width="48dp"
+                        style="@style/Widget.Material3.Button.IconButton.Filled"
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="8dp"
-                        android:background="@drawable/button_radius"
-                        android:src="@drawable/add_icon"
-                        android:tint="@color/white" />
+                        android:theme="@style/Theme.Material3"
+                        app:backgroundTint="@color/first"
+                        app:cornerRadius="15dp"
+                        app:icon="@drawable/add_icon" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -134,7 +138,8 @@
                     android:id="@+id/datePickerApplyVisitGallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:headerBackground="@drawable/button_radius" />
+                    android:headerBackground="@color/first"
+                    android:theme="@style/Theme.Material3" />
             </LinearLayout>
 
             <Button
