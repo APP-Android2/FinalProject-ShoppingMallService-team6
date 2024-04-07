@@ -10,34 +10,24 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchResultBinding
-import kr.co.lion.unipiece.ui.search.adapter.SearchAuthorAdapter
-import kr.co.lion.unipiece.ui.search.adapter.SearchPieceAdapter
+import kr.co.lion.unipiece.ui.search.adapter.SearchAuthorData
+import kr.co.lion.unipiece.ui.search.adapter.SearchPieceData
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultAdapter
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultData
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType.*
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class SearchResultFragment : Fragment() {
 
     lateinit var binding: FragmentSearchResultBinding
 
-    val testAuthorList = arrayListOf(R.drawable.mypage_icon, R.drawable.icon, R.drawable.icon,
-        R.drawable.icon, R.drawable.mypage_icon, R.drawable.icon,
-        R.drawable.mypage_icon, R.drawable.icon, R.drawable.mypage_icon)
+    val testList: ArrayList<SearchResultData> = arrayListOf()
 
-    val testPieceList = arrayListOf(R.drawable.logo, R.drawable.icon, R.drawable.logo,
-        R.drawable.icon, R.drawable.logo, R.drawable.icon,
-        R.drawable.logo, R.drawable.icon, R.drawable.logo)
-
-    val authorAdapter: SearchAuthorAdapter by lazy {
-        SearchAuthorAdapter(testAuthorList,
-            itemClickListener = { testAuthorId ->
-                Log.d("testAuthor", testAuthorId.toString())
-            }
-        )
-    }
-
-    val pieceAdpater: SearchPieceAdapter by lazy {
-        SearchPieceAdapter(testPieceList,
-            itemClickListener = {testPieceId ->
-                Log.d("testPiece", testPieceId.toString())
+    val searchAdpater: SearchResultAdapter by lazy {
+        SearchResultAdapter(
+            itemClickListener = {test ->
+                Log.d("test", test.toString())
             }
         )
     }
@@ -54,8 +44,8 @@ class SearchResultFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingToolbarSearchResult()
-        setAuthorRecyclerView()
-        setPieceRecyclerView()
+        setTestList(testList)
+        setRecyclerView()
 
     }
 
@@ -100,20 +90,32 @@ class SearchResultFragment : Fragment() {
         }
     }
 
-    fun setAuthorRecyclerView(){
+    fun setRecyclerView(){
         with(binding) {
-            searchAuthorRV.adapter = authorAdapter
-            searchAuthorRV.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
-            authorAdapter.notifyDataSetChanged()
+            searchResultRV.adapter = searchAdpater
+            searchResultRV.layoutManager = GridLayoutManager(activity, 2)
+            searchAdpater.setData(testList)
         }
     }
 
-    fun setPieceRecyclerView(){
-        with(binding) {
-            searchPieceRV.adapter = pieceAdpater
-            searchPieceRV.layoutManager = GridLayoutManager(activity, 2)
-            pieceAdpater.notifyDataSetChanged()
+    fun setTestList(testList: ArrayList<SearchResultData>) {
+        testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), AUTHOR_TITLE))
+        testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), AUTHOR_TITLE, false))
+        for(i in 0 until 4){
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), AUTHOR_CONTENT))
+        }
+
+        if(testList.filter { it.viewType == SearchResultViewType.AUTHOR_CONTENT }.count() % 2 == 0){
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), PIECE_TITLE))
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), PIECE_TITLE, false))
+        } else {
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), PIECE_TITLE, false))
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), PIECE_TITLE))
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), PIECE_TITLE, false))
+        }
+
+        for(i in 0 until 10){
+            testList.add(SearchResultData(SearchAuthorData(), SearchPieceData(), PIECE_CONTENT))
         }
     }
-
 }
