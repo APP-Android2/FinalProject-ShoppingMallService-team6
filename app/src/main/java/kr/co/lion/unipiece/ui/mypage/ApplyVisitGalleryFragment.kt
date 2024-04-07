@@ -1,13 +1,11 @@
 package kr.co.lion.unipiece.ui.mypage
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.databinding.ActivityVisitGalleryBinding
 import kr.co.lion.unipiece.databinding.FragmentApplyVisitGalleryBinding
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 
@@ -26,6 +24,7 @@ class ApplyVisitGalleryFragment : Fragment() {
 
         settingToolbar()
         settingButtonMember()
+        settingDatePicker()
         settingButtonApplyConfirm()
 
         return fragmentApplyVisitGalleryBinding.root
@@ -44,6 +43,17 @@ class ApplyVisitGalleryFragment : Fragment() {
             }
         }
     }
+
+    // 방문 날짜
+    private fun settingDatePicker(){
+        fragmentApplyVisitGalleryBinding.apply {
+            datePickerApplyVisitGallery.apply {
+                // 오늘 날짜 부터 선택 가능
+                minDate = System.currentTimeMillis()
+            }
+        }
+    }
+
 
     private fun settingButtonMember(){
         fragmentApplyVisitGalleryBinding.apply {
