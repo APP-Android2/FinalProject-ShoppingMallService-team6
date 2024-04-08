@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,11 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceDetailBinding
+import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.home.HomeFragment
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.ui.search.SearchFragment
+import kr.co.lion.unipiece.util.MainFragmentName
 import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -39,6 +45,17 @@ class PurchasedPieceDetailFragment : Fragment() {
                 }
 
                 inflateMenu(R.menu.menu_home)
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.menu_home -> {
+                            val intent = Intent(requireActivity(), MainActivity::class.java)
+                            purchasedPieceDetailActivity.finish()
+                            startActivity(intent)
+                        }
+                    }
+
+                    true
+                }
 
                 requireContext().setMenuIconColor(menu, R.id.menu_home, R.color.second)
             }

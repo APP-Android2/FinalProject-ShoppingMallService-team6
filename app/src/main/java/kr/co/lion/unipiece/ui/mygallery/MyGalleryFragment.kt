@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentMyGalleryBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.mygallery.adapter.MyGalleryViewPagerAdapter
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class MyGalleryFragment : Fragment() {
@@ -53,6 +55,16 @@ class MyGalleryFragment : Fragment() {
         binding.apply {
             toolbarMyGallery.apply {
                 inflateMenu(R.menu.menu_cart)
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.id.menu_cart -> {
+                            val intent = Intent(requireActivity(), CartActivity::class.java)
+                            startActivity(intent)
+                        }
+                    }
+
+                    true
+                }
 
                 requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
             }
