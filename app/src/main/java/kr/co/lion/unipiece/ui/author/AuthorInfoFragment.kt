@@ -1,21 +1,19 @@
 package kr.co.lion.unipiece.ui.author
 
-import android.graphics.Color
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Space
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.core.view.marginRight
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
+import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -182,6 +180,11 @@ class AuthorInfoFragment : Fragment() {
         override fun onBindViewHolder(holder: ViewHolder, position: Int) {
             // 이미지
             holder.rowAuthorPiecesBinding.imageViewAuthorPiece.setImageResource(R.drawable.ic_launcher_background)
+            // 작품 클릭 시 설명 화면 이동
+            holder.rowAuthorPiecesBinding.root.setOnClickListener {
+                val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                startActivity(pieceIntent)
+            }
         }
     }
 
