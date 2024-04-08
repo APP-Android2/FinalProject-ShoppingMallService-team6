@@ -179,8 +179,8 @@ class DeliveryManagerFragment : Fragment() {
 
                 // 선택 버튼 클릭 시
                 this.rowDeliveryBinding.buttonDeliverySelect.setOnClickListener {
-                    val orderIntent = Intent(deliveryActivity,OrderActivity::class.java)
-                    startActivity(orderIntent)
+//                    val orderIntent = Intent(deliveryActivity,OrderActivity::class.java)
+//                    startActivity(orderIntent)
                     deliveryActivity.finish()
                 }
 

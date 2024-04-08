@@ -22,7 +22,7 @@ class OrderActivity : AppCompatActivity() {
         activityOrderBinding = ActivityOrderBinding.inflate(layoutInflater)
         setContentView(activityOrderBinding.root)
 
-        replaceFragment(OrderFragmentName.ORDER_MAIN_FRAGMENT, true, false, null)
+        replaceFragment(OrderFragmentName.ORDER_MAIN_FRAGMENT, false, false, null)
     }
 
     // 지정한 Fragment를 보여주는 메서드

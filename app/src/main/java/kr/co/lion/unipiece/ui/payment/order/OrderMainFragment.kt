@@ -66,8 +66,6 @@ class OrderMainFragment : Fragment() {
                 // DeliveryActivity를 실행한다.
                 val deliveryIntent = Intent(orderActivity, DeliveryActivity::class.java)
                 startActivity(deliveryIntent)
-                // OrderActivity를 종료한다.
-                orderActivity.finish()
             }
         }
     }

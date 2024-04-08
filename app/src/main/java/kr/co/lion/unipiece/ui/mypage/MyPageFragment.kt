@@ -13,19 +13,16 @@ import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
-import kr.co.lion.unipiece.util.MainFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 
 class MyPageFragment : Fragment() {
 
     lateinit var fragmentMyPageBinding: FragmentMyPageBinding
-    lateinit var mainActivity: MainActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
-        mainActivity = activity as MainActivity
 
         setToolbar()
         clickButtonUserInfo()
