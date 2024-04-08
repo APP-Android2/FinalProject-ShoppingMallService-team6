@@ -40,9 +40,9 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_radius"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/first"
             android:text="취소"
-            android:textColor="@color/first" />
+            android:textColor="@color/white" />
 
         <Button
             android:id="@+id/buttonOK"
@@ -51,8 +51,8 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:background="@drawable/button_radius"
-            android:backgroundTint="@color/white"
+            android:backgroundTint="@color/first"
             android:text="확인"
-            android:textColor="@color/first" />
+            android:textColor="@color/white" />
     </LinearLayout>
 </LinearLayout>

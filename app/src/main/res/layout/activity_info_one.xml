@@ -35,45 +35,45 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendard_bold" />
 
             <TextView
                 android:id="@+id/textInfoOneDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendard_bold"
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/textInfoOnePlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendard_bold"
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/textInfoOneInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendard_bold"
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/textInfoOneCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendard_bold"
+                android:text="TextView" />
 
             <TextView
                 android:id="@+id/textInfoOneUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:text="TextView"
-                android:textStyle="bold" />
+                android:fontFamily="@font/pretendard_bold"
+                android:text="TextView" />
         </LinearLayout>
     </ScrollView>
 
