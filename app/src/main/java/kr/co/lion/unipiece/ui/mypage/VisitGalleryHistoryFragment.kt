@@ -13,6 +13,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
+import kr.co.lion.unipiece.util.setMenuIconColor
 
 class VisitGalleryHistoryFragment : Fragment() {
 
@@ -41,6 +42,8 @@ class VisitGalleryHistoryFragment : Fragment() {
                 title = "전시실 방문 신청 목록"
 
                 inflateMenu(R.menu.menu_home)
+                requireContext().setMenuIconColor(menu, R.id.menu_home, R.color.second)
+
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {

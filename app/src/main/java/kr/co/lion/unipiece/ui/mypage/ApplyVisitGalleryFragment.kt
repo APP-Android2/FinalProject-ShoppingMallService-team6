@@ -1,13 +1,12 @@
 package kr.co.lion.unipiece.ui.mypage
 
-import android.icu.lang.UCharacter.GraphemeClusterBreak.V
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.databinding.ActivityVisitGalleryBinding
 import kr.co.lion.unipiece.databinding.FragmentApplyVisitGalleryBinding
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 
@@ -26,6 +25,7 @@ class ApplyVisitGalleryFragment : Fragment() {
 
         settingToolbar()
         settingButtonMember()
+        settingDatePicker()
         settingButtonApplyConfirm()
 
         return fragmentApplyVisitGalleryBinding.root
@@ -44,6 +44,17 @@ class ApplyVisitGalleryFragment : Fragment() {
             }
         }
     }
+
+    // 방문 날짜
+    private fun settingDatePicker(){
+        fragmentApplyVisitGalleryBinding.apply {
+            datePickerApplyVisitGallery.apply {
+                // 오늘 날짜 부터 선택 가능
+                minDate = System.currentTimeMillis()
+            }
+        }
+    }
+
 
     private fun settingButtonMember(){
         fragmentApplyVisitGalleryBinding.apply {
@@ -66,6 +77,18 @@ class ApplyVisitGalleryFragment : Fragment() {
                 visitGalleryActivity.removeFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT)
             }
         }
+    }
+
+    // 선택한 날짜 값을 반환하는 메서드
+    private fun gettingDateValue():String{
+        val datePicker = fragmentApplyVisitGalleryBinding.datePickerApplyVisitGallery
+        val year = datePicker.year
+        val month = datePicker.month
+        val day = datePicker.dayOfMonth
+        // 추후 수정 필요
+        val result = "${year}년 ${month + 1}월 ${day}일"
+        Log.d("test1234", result)
+        return result
     }
 
 }

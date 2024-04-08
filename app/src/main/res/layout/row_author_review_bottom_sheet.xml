@@ -23,8 +23,8 @@
 
         <Button
             android:id="@+id/buttonRowAuthorReviewDelete"
-            style="@style/Widget.Material3.Button.Icon"
-            android:layout_width="50dp"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableStart="@drawable/close_icon" />
 

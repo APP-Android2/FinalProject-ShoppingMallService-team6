@@ -17,6 +17,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.setMenuIconColor
 
 class AuthorInfoFragment : Fragment() {
 
@@ -48,6 +49,8 @@ class AuthorInfoFragment : Fragment() {
             toolbarAuthorInfo.apply {
 
                 inflateMenu(R.menu.menu_edit_home)
+                requireContext().setMenuIconColor(menu, R.id.menu_edit, R.color.third)
+                requireContext().setMenuIconColor(menu, R.id.menu_home, R.color.second)
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
@@ -121,7 +124,7 @@ class AuthorInfoFragment : Fragment() {
             }
         }else{
             followButton.apply {
-                setBackgroundResource(R.drawable.textfield_radius)
+                setBackgroundResource(R.drawable.button_radius2)
                 setTextColor(ContextCompat.getColor(authorInfoActivity, R.color.first))
                 text = "팔로우"
             }
