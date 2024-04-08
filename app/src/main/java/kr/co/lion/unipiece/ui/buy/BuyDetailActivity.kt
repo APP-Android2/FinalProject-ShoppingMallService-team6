@@ -6,6 +6,7 @@ import android.os.Bundle
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.util.MainFragmentName.*
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -23,6 +24,8 @@ class BuyDetailActivity : AppCompatActivity() {
 
         setToolbar()
         likeBtnClick()
+        cartBtnClick()
+
     }
 
     fun setToolbar(){
@@ -81,4 +84,14 @@ class BuyDetailActivity : AppCompatActivity() {
             }
         }
     }
+
+    fun cartBtnClick() {
+        with(binding.cartBtn){
+            setOnClickListener {
+                val intent = Intent(this@BuyDetailActivity, CartActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
 }
