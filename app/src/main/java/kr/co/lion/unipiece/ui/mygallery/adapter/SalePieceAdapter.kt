@@ -1,9 +1,12 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
+import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowSalePieceBinding
+import kr.co.lion.unipiece.ui.mygallery.SalesApplicationActivity
 
 class SalePieceAdapter (private val onItemClick: (position: Int) -> Unit): RecyclerView.Adapter<SalePieceViewHolderClass>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SalePieceViewHolderClass {
@@ -17,7 +20,7 @@ class SalePieceAdapter (private val onItemClick: (position: Int) -> Unit): Recyc
     }
 
     override fun onBindViewHolder(holder: SalePieceViewHolderClass, position: Int) {
-        holder.bind(position)
+        holder.bind(holder.itemView.context, position)
     }
 }
 
@@ -37,7 +40,11 @@ class SalePieceViewHolderClass(private val binding: RowSalePieceBinding, onItemC
 
     }
 
-    fun bind(position: Int) {
+    fun bind(context: Context, position: Int) {
         binding.textViewRowSalePieceName.text = "$position"
+        binding.buttonRowSalePieceModify.setOnClickListener {
+            val intent = Intent(context, SalesApplicationActivity::class.java)
+            context.startActivity(intent)
+        }
     }
 }

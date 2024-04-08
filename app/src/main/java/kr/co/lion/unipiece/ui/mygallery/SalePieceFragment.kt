@@ -38,7 +38,6 @@ class SalePieceFragment : Fragment() {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)
 
         initView()
-        settingButtonSalePieceAddPiece()
 
         return binding.root
     }
@@ -48,6 +47,7 @@ class SalePieceFragment : Fragment() {
             if(isArtist) {
                 layoutNotArtist.isVisible = false
                 settingRecyclerView()
+                settingButtonSalePieceAddPiece()
             } else {
                 layoutArtist.isVisible = false
             }
@@ -57,7 +57,8 @@ class SalePieceFragment : Fragment() {
     fun settingButtonSalePieceAddPiece() {
         binding.apply {
             buttonSalePieceAddPiece.setOnClickListener {
-                startActivity(Intent(requireActivity(), SalesApplicationActivity::class.java))
+                val intent = Intent(requireActivity(), SalesApplicationActivity::class.java)
+                startActivity(intent)
             }
         }
     }
