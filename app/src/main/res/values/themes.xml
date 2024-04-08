@@ -49,6 +49,7 @@
         <item name="colorPrimary">@color/first</item>
         <item name="colorSecondary">@color/second</item>
         <item name="android:background">@color/white</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
     <!-- 작품 등록 신청 DatePicker 설정 -->

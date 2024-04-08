@@ -33,7 +33,7 @@ class SalePieceFragment : Fragment() {
         }
     }
 
-    var isArtist = false
+    var isArtist = true
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)

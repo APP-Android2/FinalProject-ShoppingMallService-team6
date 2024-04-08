@@ -13,6 +13,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
+import kr.co.lion.unipiece.databinding.DialogCustomBinding
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.isKeyboardVisible
 import kr.co.lion.unipiece.util.showSoftInput
@@ -20,6 +22,7 @@ import kr.co.lion.unipiece.util.showSoftInput
 class SalesApplicationActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySalesApplicationBinding
+    lateinit var dialogCustomBinding: DialogCustomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,6 +71,19 @@ class SalesApplicationActivity : AppCompatActivity() {
                     this@SalesApplicationActivity.hideSoftInput()
                     showDatePickerDialog()
                     true
+                }
+            }
+
+            buttonSalesApplicationSubmit.setOnClickListener {
+                MaterialAlertDialogBuilder(this@SalesApplicationActivity, R.style.Theme_Category_App_MaterialAlertDialog).apply {
+                    setTitle("작품 등록 신청 완료")
+                    setMessage("작품 등록 신청이 완료되었습니다.\n작품 등록 완료 시까지 1~2일 정도 소요됩니다.")
+
+                    setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                        finish()
+                    }
+
+                    show()
                 }
             }
         }
