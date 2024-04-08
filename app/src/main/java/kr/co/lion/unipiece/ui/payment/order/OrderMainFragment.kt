@@ -74,7 +74,6 @@ class OrderMainFragment : Fragment() {
             buttonOrderPaymentSubmit.apply {
                 setOnClickListener {
                     orderActivity.replaceFragment(OrderFragmentName.ORDER_SUCCESS_FRAGMENT,false)
-                    orderActivity.finish()
                     // 추후 수정
                 }
             }
