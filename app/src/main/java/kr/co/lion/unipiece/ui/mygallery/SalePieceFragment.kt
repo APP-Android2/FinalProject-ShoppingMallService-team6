@@ -26,7 +26,9 @@ class SalePieceFragment : Fragment() {
 
     val salePieceAdapter: SalePieceAdapter by lazy {
         SalePieceAdapter { position ->
-            Snackbar.make(requireView(), "${position}번째 항목", Snackbar.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+            intent.putExtra("MyGalleryFragment", true)
+            startActivity(intent)
         }
     }
 
