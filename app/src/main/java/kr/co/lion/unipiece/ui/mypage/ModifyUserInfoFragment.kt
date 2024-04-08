@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentModifyUserInfoBinding
+import kr.co.lion.unipiece.ui.login.LoginActivity
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 
 class ModifyUserInfoFragment : Fragment() {
@@ -66,17 +68,16 @@ class ModifyUserInfoFragment : Fragment() {
     // 회원 탈퇴 버튼
     private fun settingButtonDeleteUser(){
         fragmentModifyUserInfoBinding.buttonDeleteUser.apply {
-
-            // 추후 제거
             setOnClickListener {
-                userInfoActivity.removeFragment(UserInfoFragmentName.MODIFY_USER_INFO_FRAGMENT)
-            }
+                // 회원 탈퇴 확인 다이얼로그
 
-            // 회원 탈퇴 확인 다이얼로그
-            
-            // 회원 탈퇴 처리
-            
-            // 로그인 화면으로 이동
+                // 회원 탈퇴 처리
+
+                // 로그인 화면으로 이동
+                requireActivity().finish()
+                val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(loginIntent)
+            }
 
         }
 
