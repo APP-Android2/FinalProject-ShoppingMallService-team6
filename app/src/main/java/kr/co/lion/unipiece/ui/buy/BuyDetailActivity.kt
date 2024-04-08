@@ -3,11 +3,10 @@ package kr.co.lion.unipiece.ui.buy
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.search.SearchFragment
+import kr.co.lion.unipiece.util.MainFragmentName.*
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class BuyDetailActivity : AppCompatActivity() {
@@ -55,12 +54,14 @@ class BuyDetailActivity : AppCompatActivity() {
     }
 
     fun setIntent(name: String) {
-        val buyIntent = intent.getBooleanExtra("BuyFragment", false)
-        val rankIntent = intent.getBooleanExtra("RankFragment", false)
+        val buyIntent = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
+        val rankIntent = intent.getBooleanExtra(RANK_FRAGMENT.str, false)
+        val mygalleryIntent = intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false)
 
         val intent = Intent(this@BuyDetailActivity, MainActivity::class.java)
         intent.putExtra("RankFragment", rankIntent)
         intent.putExtra("BuyFragment", buyIntent)
+        intent.putExtra("MyGalleryFragment", mygalleryIntent)
 
         intent.putExtra(name, true)
         startActivity(intent)

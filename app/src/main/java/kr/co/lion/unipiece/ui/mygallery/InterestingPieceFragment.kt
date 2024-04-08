@@ -27,7 +27,9 @@ class InterestingPieceFragment : Fragment() {
 
     val interestingPieceAdapter: InterestingPieceAdapter by lazy {
         InterestingPieceAdapter { position ->
-            startActivity(Intent(requireActivity(), BuyDetailActivity::class.java))
+            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+            intent.putExtra("MyGalleryFragment", true)
+            startActivity(intent)
         }
     }
 
