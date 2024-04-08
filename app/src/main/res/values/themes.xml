@@ -56,6 +56,7 @@
     <style name="Theme.App.DatePicker" parent="@style/ThemeOverlay.Material3.MaterialCalendar">
         <item name="colorPrimary">@color/first</item>
         <item name="android:background">@color/white</item>
+        <item name="android:fontFamily">@font/pretendard_regular</item>
     </style>
 
     <!-- 작품 등록 신청 Category CardView 설정 -->
