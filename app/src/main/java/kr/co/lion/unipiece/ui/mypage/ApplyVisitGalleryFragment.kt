@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.ui.mypage
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -76,6 +77,18 @@ class ApplyVisitGalleryFragment : Fragment() {
                 visitGalleryActivity.removeFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT)
             }
         }
+    }
+
+    // 선택한 날짜 값을 반환하는 메서드
+    private fun gettingDateValue():String{
+        val datePicker = fragmentApplyVisitGalleryBinding.datePickerApplyVisitGallery
+        val year = datePicker.year
+        val month = datePicker.month
+        val day = datePicker.dayOfMonth
+        // 추후 수정 필요
+        val result = "${year}년 ${month + 1}월 ${day}일"
+        Log.d("test1234", result)
+        return result
     }
 
 }
