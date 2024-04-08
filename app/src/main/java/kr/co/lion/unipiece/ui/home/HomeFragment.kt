@@ -18,9 +18,12 @@ import kr.co.lion.unipiece.databinding.AuthorListBinding
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AddAuthorActivity
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.author.GuideLineFragment
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.setMenuIconColor
@@ -42,18 +45,7 @@ class HomeFragment : Fragment() {
         var adapter = AuthorAdapter()
         adapter.setRecyclerviewClickListener(object : AuthorAdapter.AuthorOnClickListener{
             override fun authorItemClickListener() {
-                val dialog = CustomDialog("성공", "클릭 이벤트\n나중에 수정합니다!")
-                dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
-                    override fun okButtonClick() {
-
-                    }
-
-                    override fun noButtonClick() {
-
-                    }
-
-                })
-                dialog.show(mainActivity.supportFragmentManager, "CustomDialog")
+                startActivity(Intent(mainActivity, AuthorInfoActivity::class.java))
             }
         })
         adapter
@@ -94,7 +86,7 @@ class HomeFragment : Fragment() {
                         }
 
                         R.id.menu_cart -> {
-
+                            startActivity(Intent(mainActivity, CartActivity::class.java))
                         }
                     }
 
@@ -121,18 +113,7 @@ class HomeFragment : Fragment() {
             }
 
             buttonHomeVisitGallery.setOnClickListener {
-                val dialog = CustomDialog("작가 등록", "작가 등록이 되어 있지 않습니다\n등록하시겠습니까?")
-                dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
-                    override fun okButtonClick() {
-                        startActivity(Intent(mainActivity, AddAuthorActivity::class.java))
-                    }
-
-                    override fun noButtonClick() {
-
-                    }
-
-                })
-                dialog.show(mainActivity.supportFragmentManager, "CustomDialog")
+                startActivity(Intent(mainActivity, VisitGalleryActivity::class.java))
             }
         }
     }

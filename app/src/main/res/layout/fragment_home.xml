@@ -11,7 +11,6 @@
         android:id="@+id/toolBarHome"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/white"
         android:minHeight="?attr/actionBarSize"
         android:paddingStart="20dp"
         android:theme="?attr/actionBarTheme" />
@@ -36,9 +35,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="15"
+                    android:fontFamily="@font/pretendard_bold"
                     android:text="전시 홍보"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Button
                     android:id="@+id/buttonAllPromote"
@@ -46,6 +45,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/pretendard_semibold"
                     android:gravity="end"
                     android:text="전체보기"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -68,9 +68,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="15"
+                    android:fontFamily="@font/pretendard_bold"
                     android:text="소식"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Button
                     android:id="@+id/buttonAllNews"
@@ -78,6 +78,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/pretendard_semibold"
                     android:gravity="end"
                     android:text="전체보기"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
@@ -94,9 +95,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
+                android:fontFamily="@font/pretendard_bold"
                 android:text="작가"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textStyle="bold" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -122,9 +123,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="15"
+                    android:fontFamily="@font/pretendard_bold"
                     android:text="전시실 작품"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                    android:textStyle="bold" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
                 <Button
                     android:id="@+id/buttonAllGallery"
@@ -132,6 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:fontFamily="@font/pretendard_semibold"
                     android:gravity="end"
                     android:text="전체보기"
                     android:textAppearance="@style/TextAppearance.AppCompat.Small"
