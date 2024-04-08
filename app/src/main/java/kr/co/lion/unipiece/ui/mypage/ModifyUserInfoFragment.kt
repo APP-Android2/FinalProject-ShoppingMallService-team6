@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentModifyUserInfoBinding
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 
 class ModifyUserInfoFragment : Fragment() {
@@ -70,13 +71,25 @@ class ModifyUserInfoFragment : Fragment() {
         fragmentModifyUserInfoBinding.buttonDeleteUser.apply {
             setOnClickListener {
                 // 회원 탈퇴 확인 다이얼로그
+                val dialog = CustomDialog("회원 탈퇴", "회원 탈퇴 시 되돌릴 수 없습니다. \n탈퇴하시겠습니까?")
 
-                // 회원 탈퇴 처리
+                dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
+                    override fun okButtonClick() {
+                        // 회원 탈퇴 처리
 
-                // 로그인 화면으로 이동
-                val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
-                loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(loginIntent)
+                        // 로그인 화면으로 이동
+                        val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
+                        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                        startActivity(loginIntent)
+                    }
+
+                    override fun noButtonClick() {
+                    }
+
+                })
+
+                dialog.show(requireActivity().supportFragmentManager, "DeleteUser")
+
             }
 
         }
