@@ -279,33 +279,22 @@ class MainActivity : AppCompatActivity() {
 
     fun openSearchFragment() {
 
-        /*if (intent.getBooleanExtra(RANK_FRAGMENT.str, false)) {
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
-            if(intent.getBooleanExtra("SearchFragment", false)){
-                supportFragmentManager.popBackStack()
-                supportFragmentManager.popBackStack()
-                replaceFragment(SEARCH_FRAGMENT, true)
-            }
-        }
-        if (intent.getBooleanExtra(BUY_FRAGMENT.str, false)) {
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
-
-            if(intent.getBooleanExtra("SearchFragment", false)){
-                supportFragmentManager.popBackStack()
-                supportFragmentManager.popBackStack()
-                replaceFragment(SEARCH_FRAGMENT, true)
-            }
-        }*/
-
         val isRankFragment = intent.getBooleanExtra(RANK_FRAGMENT.str, false)
         val isBuyFragment = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
+        val isMyGalleryFragment = intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false)
         val isSearchFragment = intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)
 
-        // RANK_FRAGMENT 또는 BUY_FRAGMENT가 true인 경우에만 로직을 실행합니다.
-        if (isRankFragment || isBuyFragment) {
+        // RANK_FRAGMENT 또는 BUY_FRAGMENT 또는 MY_GALLERY가 true인 경우에만 로직을 실행합니다.
+        if (isRankFragment || isBuyFragment || isMyGalleryFragment) {
 
             // 선택된 탭을 설정합니다.
-            binding.bottomNavigationView.selectedItemId = if (isRankFragment) R.id.fragment_rank else R.id.fragment_buy
+             if (isRankFragment) {
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
+            } else if (isBuyFragment) {
+                 binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
+            } else {
+                binding.bottomNavigationView.selectedItemId = R.id.fragment_mygallery
+             }
 
             // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
             if (isSearchFragment) {
