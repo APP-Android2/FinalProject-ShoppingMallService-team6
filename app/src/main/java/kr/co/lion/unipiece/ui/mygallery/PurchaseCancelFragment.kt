@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentPurchaseCancelBinding
-import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceDetailBinding
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 
 class PurchaseCancelFragment : Fragment() {
@@ -28,6 +28,7 @@ class PurchaseCancelFragment : Fragment() {
 
         settingToolbar()
         settingTextFieldPurchaseCancelReason()
+        settingButtonPurchaseCancel()
 
         return binding.root
     }
@@ -65,5 +66,24 @@ class PurchaseCancelFragment : Fragment() {
             }
         }
         materialAlertDialogBuilder.show()
+    }
+
+    fun settingButtonPurchaseCancel() {
+        binding.apply {
+            buttonPurchaseCancel.setOnClickListener {
+                val dialog = CustomDialog("주문 취소", "취소하면 되돌일 수 없습니다.\n취소하시겠습니까?")
+
+                dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
+                    override fun okButtonClick() {
+                        purchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT)
+                    }
+
+                    override fun noButtonClick() {
+                    }
+                })
+
+                dialog.show(purchasedPieceDetailActivity.supportFragmentManager, "CustomDialog")
+            }
+        }
     }
 }

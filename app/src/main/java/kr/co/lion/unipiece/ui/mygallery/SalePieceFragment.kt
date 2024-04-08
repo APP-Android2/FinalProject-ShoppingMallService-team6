@@ -17,6 +17,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSalePieceBinding
 import kr.co.lion.unipiece.databinding.RowSalePieceBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mygallery.adapter.SalePieceAdapter
 
@@ -26,7 +27,9 @@ class SalePieceFragment : Fragment() {
 
     val salePieceAdapter: SalePieceAdapter by lazy {
         SalePieceAdapter { position ->
-            Snackbar.make(requireView(), "${position}번째 항목", Snackbar.LENGTH_SHORT).show()
+            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+            intent.putExtra("MyGalleryFragment", true)
+            startActivity(intent)
         }
     }
 
@@ -36,7 +39,6 @@ class SalePieceFragment : Fragment() {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)
 
         initView()
-        settingButtonSalePieceAddPiece()
 
         return binding.root
     }
@@ -46,8 +48,10 @@ class SalePieceFragment : Fragment() {
             if(isArtist) {
                 layoutNotArtist.isVisible = false
                 settingRecyclerView()
+                settingButtonSalePieceAddPiece()
             } else {
                 layoutArtist.isVisible = false
+                settingButtonSalePieceAddArtist()
             }
         }
     }
@@ -55,7 +59,17 @@ class SalePieceFragment : Fragment() {
     fun settingButtonSalePieceAddPiece() {
         binding.apply {
             buttonSalePieceAddPiece.setOnClickListener {
-                startActivity(Intent(requireActivity(), SalesApplicationActivity::class.java))
+                val intent = Intent(requireActivity(), SalesApplicationActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    fun settingButtonSalePieceAddArtist() {
+        binding.apply {
+            buttonSalePieceAddArtist.setOnClickListener {
+                val intent = Intent(requireActivity(), AddAuthorActivity::class.java)
+                startActivity(intent)
             }
         }
     }
