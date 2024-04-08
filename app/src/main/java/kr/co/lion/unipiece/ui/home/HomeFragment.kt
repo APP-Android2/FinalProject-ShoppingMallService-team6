@@ -18,6 +18,7 @@ import kr.co.lion.unipiece.databinding.AuthorListBinding
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AddAuthorActivity
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.author.GuideLineFragment
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
@@ -43,18 +44,7 @@ class HomeFragment : Fragment() {
         var adapter = AuthorAdapter()
         adapter.setRecyclerviewClickListener(object : AuthorAdapter.AuthorOnClickListener{
             override fun authorItemClickListener() {
-                val dialog = CustomDialog("성공", "클릭 이벤트\n나중에 수정합니다!")
-                dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
-                    override fun okButtonClick() {
-
-                    }
-
-                    override fun noButtonClick() {
-
-                    }
-
-                })
-                dialog.show(mainActivity.supportFragmentManager, "CustomDialog")
+                startActivity(Intent(mainActivity, AuthorInfoActivity::class.java))
             }
         })
         adapter
