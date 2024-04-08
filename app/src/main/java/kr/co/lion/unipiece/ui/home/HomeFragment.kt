@@ -21,6 +21,7 @@ import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.author.GuideLineFragment
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.setMenuIconColor
@@ -94,7 +95,7 @@ class HomeFragment : Fragment() {
                         }
 
                         R.id.menu_cart -> {
-
+                            startActivity(Intent(mainActivity, CartActivity::class.java))
                         }
                     }
 
