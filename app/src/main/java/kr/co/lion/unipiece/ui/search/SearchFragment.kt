@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchBinding
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -32,6 +34,7 @@ class SearchFragment : Fragment() {
 
     fun settingToolbarSearch(){
         with(binding.toolbarSearch) {
+
             setNavigationOnClickListener {
                 activity?.onBackPressed()
                 activity?.onBackPressed()
@@ -41,7 +44,8 @@ class SearchFragment : Fragment() {
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_cart -> {
-
+                        val intent = Intent(requireActivity(), CartActivity::class.java)
+                        startActivity(intent)
                         true
                     }
                     else -> false

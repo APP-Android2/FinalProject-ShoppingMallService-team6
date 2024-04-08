@@ -314,7 +314,7 @@
             app:tint="@color/third"/>
 
         <ImageView
-            android:id="@+id/shopBtn"
+            android:id="@+id/cartBtn"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/shopcart_icon"

@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.buy
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import kr.co.lion.unipiece.databinding.FragmentBuyBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.ui.buy.adapter.BuyAdapter
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class BuyFragment : Fragment() {
@@ -58,7 +60,8 @@ class BuyFragment : Fragment() {
                             true
                         }
                         R.id.menu_cart -> {
-
+                            val intent = Intent(requireActivity(), CartActivity::class.java)
+                            startActivity(intent)
                             true
                         }
                         else -> false
