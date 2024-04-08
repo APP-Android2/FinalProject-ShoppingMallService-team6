@@ -52,7 +52,7 @@ class AuthorInfoFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    authorInfoActivity.finish()
+                    requireActivity().finish()
                 }
 
                 // 회원 유형에 따라 메뉴 아이콘 다르게 표시
@@ -72,7 +72,7 @@ class AuthorInfoFragment : Fragment() {
                             authorInfoActivity.replaceFragment(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT, true, modifyBundle)
                         }
                         R.id.menu_home -> {
-                            authorInfoActivity.finish()
+                            requireActivity().finish()
                         }
                     }
                     true

@@ -48,7 +48,7 @@ class VisitGalleryHistoryFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
-                            visitGalleryActivity.finish()
+                            requireActivity().finish()
                         }
                     }
                     true
@@ -56,7 +56,7 @@ class VisitGalleryHistoryFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    visitGalleryActivity.finish()
+                    requireActivity().finish()
                 }
             }
         }

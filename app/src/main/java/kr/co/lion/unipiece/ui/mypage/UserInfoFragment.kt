@@ -44,14 +44,14 @@ class UserInfoFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    userInfoActivity.finish()
+                    requireActivity().finish()
                 }
 
                 // 툴바 메뉴 클릭 이벤트
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
-                            userInfoActivity.finish()
+                            requireActivity().finish()
                         }
                     }
                     true
