@@ -17,6 +17,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSalePieceBinding
 import kr.co.lion.unipiece.databinding.RowSalePieceBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mygallery.adapter.SalePieceAdapter
 
@@ -32,7 +33,7 @@ class SalePieceFragment : Fragment() {
         }
     }
 
-    var isArtist = true
+    var isArtist = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)
@@ -50,6 +51,7 @@ class SalePieceFragment : Fragment() {
                 settingButtonSalePieceAddPiece()
             } else {
                 layoutArtist.isVisible = false
+                settingButtonSalePieceAddArtist()
             }
         }
     }
@@ -58,6 +60,15 @@ class SalePieceFragment : Fragment() {
         binding.apply {
             buttonSalePieceAddPiece.setOnClickListener {
                 val intent = Intent(requireActivity(), SalesApplicationActivity::class.java)
+                startActivity(intent)
+            }
+        }
+    }
+
+    fun settingButtonSalePieceAddArtist() {
+        binding.apply {
+            buttonSalePieceAddArtist.setOnClickListener {
+                val intent = Intent(requireActivity(), AddAuthorActivity::class.java)
                 startActivity(intent)
             }
         }
