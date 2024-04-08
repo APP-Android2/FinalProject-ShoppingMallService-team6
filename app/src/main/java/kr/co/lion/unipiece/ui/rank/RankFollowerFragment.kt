@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankFollowerBinding
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.rank.adapter.RankFollowerAdapter
 import kr.co.lion.unipiece.ui.rank.adapter.RankPieceAdapter
@@ -25,7 +26,8 @@ class RankFollowerFragment : Fragment() {
     val adapter: RankFollowerAdapter by lazy {
         RankFollowerAdapter(testAuthorList,
             itemClickListener = { testId ->
-                Log.d("test", testId.toString())
+                val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                startActivity(intent)
             })
     }
 

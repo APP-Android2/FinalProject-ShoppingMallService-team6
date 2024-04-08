@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.rank
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankSaleBinding
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.rank.adapter.RankSaleAdapter
 
 class RankSaleFragment : Fragment() {
@@ -22,7 +24,8 @@ class RankSaleFragment : Fragment() {
     val adapter: RankSaleAdapter by lazy {
         RankSaleAdapter(testAuthorList,
             itemClickListener = {testId ->
-                Log.d("test", testId.toString())
+                val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                startActivity(intent)
             })
     }
 
