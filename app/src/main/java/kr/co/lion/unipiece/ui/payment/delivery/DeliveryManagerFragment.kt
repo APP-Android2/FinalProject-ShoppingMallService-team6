@@ -18,7 +18,6 @@ import kr.co.lion.unipiece.util.CustomDialog
 class DeliveryManagerFragment : Fragment() {
     lateinit var fragmentDeliveryManagerBinding: FragmentDeliveryManagerBinding
     lateinit var rowDeliveryBinding: RowDeliveryBinding
-    lateinit var deliveryActivity: DeliveryActivity
 
 
     override fun onCreateView(
@@ -29,8 +28,6 @@ class DeliveryManagerFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentDeliveryManagerBinding = FragmentDeliveryManagerBinding.inflate(layoutInflater)
         rowDeliveryBinding = RowDeliveryBinding.inflate(layoutInflater)
-
-        deliveryActivity = activity as DeliveryActivity
 
         setToolbar()
         clickButtonDeliveryNewAdd()
@@ -57,9 +54,7 @@ class DeliveryManagerFragment : Fragment() {
 
                 // 뒤로가기 버튼 클릭 시
                 setNavigationOnClickListener {
-                    val orderIntent = Intent(deliveryActivity, OrderActivity::class.java)
-                    startActivity(orderIntent)
-                    deliveryActivity.finish()
+                    requireActivity().finish()
                 }
             }
         }
@@ -76,7 +71,7 @@ class DeliveryManagerFragment : Fragment() {
 
                         // 다이얼로그 호출
                         getDialog(
-                            deliveryActivity,
+                            requireActivity(),
                             "신규 배송지 등록",
                             "저장하기",
                             object : CustomFullDialogListener {
@@ -85,13 +80,13 @@ class DeliveryManagerFragment : Fragment() {
 
                                 // 저장하기 버튼 클릭 후 동작
                                 override fun onClickSaveButton() {
-                                    Toast.makeText(deliveryActivity, "저장했다!", Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireActivity(), "저장했다!", Toast.LENGTH_SHORT)
                                         .show()
                                 }
 
                                 // 뒤로가기 버튼 클릭 후 동작
                                 override fun onClickCancelButton() {
-                                    Toast.makeText(deliveryActivity, "뒤로갔다!", Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireActivity(), "뒤로갔다!", Toast.LENGTH_SHORT)
                                         .show()
 
 
@@ -113,7 +108,7 @@ class DeliveryManagerFragment : Fragment() {
                 // 어뎁터
                 adapter = DeliveryRecyclerViewAdapter()
                 // 레이아웃 매니저
-                layoutManager = LinearLayoutManager(deliveryActivity)
+                layoutManager = LinearLayoutManager(requireActivity())
 
             }
         }
@@ -142,7 +137,7 @@ class DeliveryManagerFragment : Fragment() {
                         }
 
                     })
-                    dialog.show(deliveryActivity.supportFragmentManager, "CustomDialog")
+                    dialog.show(requireActivity().supportFragmentManager, "CustomDialog")
 
                 }
 
@@ -153,7 +148,7 @@ class DeliveryManagerFragment : Fragment() {
                     CustomFullDialogMaker.apply {
                         // 다이얼로그 호출
                         getDialog(
-                            deliveryActivity,
+                            requireActivity(),
                             "배송지 수정",
                             "저장하기",
                             object : CustomFullDialogListener {
@@ -161,13 +156,13 @@ class DeliveryManagerFragment : Fragment() {
                                 // 클릭한 이후 동작
                                 // 저장하기 버튼 클릭 후 동작
                                 override fun onClickSaveButton() {
-                                    Toast.makeText(deliveryActivity, "저장했다!", Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireActivity(), "저장했다!", Toast.LENGTH_SHORT)
                                         .show()
                                 }
 
                                 // 뒤로가기 버튼 클릭 후 동작
                                 override fun onClickCancelButton() {
-                                    Toast.makeText(deliveryActivity, "뒤로갔다!", Toast.LENGTH_SHORT)
+                                    Toast.makeText(requireActivity(), "뒤로갔다!", Toast.LENGTH_SHORT)
                                         .show()
 
 
@@ -179,9 +174,8 @@ class DeliveryManagerFragment : Fragment() {
 
                 // 선택 버튼 클릭 시
                 this.rowDeliveryBinding.buttonDeliverySelect.setOnClickListener {
-                    val orderIntent = Intent(deliveryActivity,OrderActivity::class.java)
-                    startActivity(orderIntent)
-                    deliveryActivity.finish()
+
+                    requireActivity().finish()
                 }
 
                 // 항목 클릭 시 클릭되는 범위 설정

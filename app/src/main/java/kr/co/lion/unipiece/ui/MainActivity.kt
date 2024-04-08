@@ -303,6 +303,5 @@ class MainActivity : AppCompatActivity() {
                 replaceFragment(SEARCH_FRAGMENT, true)
             }
         }
-
     }
 }
