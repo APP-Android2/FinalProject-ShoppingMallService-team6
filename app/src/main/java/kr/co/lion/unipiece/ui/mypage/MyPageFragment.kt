@@ -1,60 +1,112 @@
 package kr.co.lion.unipiece.ui.mypage
 
+
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.databinding.FragmentMyPageBinding
+import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.util.MainFragmentName
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [MyPageFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class MyPageFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+    lateinit var fragmentMyPageBinding: FragmentMyPageBinding
+    lateinit var mainActivity: MainActivity
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+        // Inflate the layout for this fragment
+        fragmentMyPageBinding = FragmentMyPageBinding.inflate(layoutInflater)
+        mainActivity = activity as MainActivity
+
+        setToolbar()
+        clickButtonFollowAuthor()
+
+        return fragmentMyPageBinding.root
+    }
+
+    // 툴바 셋팅
+    fun setToolbar(){
+        fragmentMyPageBinding.apply {
+            materialToolbar.apply {
+
+                // 장바구니가 있는 메뉴 셋팅
+                inflateMenu(R.menu.menu_cart)
+                // 장바구니 메뉴 클릭 시
+                setOnMenuItemClickListener {
+                    when(it.itemId) {
+                        R.menu.menu_cart -> {
+                            val cartIntent = Intent(requireActivity(), CartActivity::class.java)
+                            startActivity(cartIntent)
+                            requireActivity().finish()
+                        }
+
+                    }
+                    true
+                }
+                // 뒤로가기 메뉴 셋팅
+                setNavigationIcon(R.drawable.back_icon)
+                // 뒤로가기 내비 아이콘 클릭 시
+                setNavigationOnClickListener {
+                    mainActivity.replaceFragment(MainFragmentName.HOME_FRAGMENT,false)
+                }
+            }
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_my_page, container, false)
+    // 회원 정보 보기
+    fun clickButtonUserInfo(){
+        with(fragmentMyPageBinding){
+            // 회원 정보 보기 버튼 클릭 시
+            textButtonMyPageInfo.setOnClickListener{
+
+            }
+        }
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment MyPageFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            MyPageFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    // 전시실 방문 신청 목록
+    fun clickButtonVisitGallery(){
+        with(fragmentMyPageBinding){
+            // 전시실 방문 신청 목록 버튼 클릭 시
+            textButtonMyPageVisitList.setOnClickListener{
+
             }
+        }
+    }
+
+    // 팔로잉한 작가
+    fun clickButtonFollowAuthor(){
+        with(fragmentMyPageBinding){
+            // 팔로잉한 작가 버튼 클릭 시
+            textButtonMyPageFollowAuth.setOnClickListener {
+                val followIntent = Intent(requireActivity(), FollowActivity::class.java)
+                startActivity(followIntent)
+            }
+        }
+    }
+
+    // 작가 정보 보기
+    fun clickButtonAuthorInfo(){
+        with(fragmentMyPageBinding){
+            // 작가 정보 보기 버튼 클릭 시
+            textButtonMyPageAuthInfo.setOnClickListener {
+
+            }
+        }
+    }
+
+    // 로그아웃
+    fun clickButtonLogout(){
+        with(fragmentMyPageBinding){
+            // 로그아웃 버튼 클릭 시
+            textButtonMyPageLogout.setOnClickListener {
+
+            }
+        }
     }
 }
