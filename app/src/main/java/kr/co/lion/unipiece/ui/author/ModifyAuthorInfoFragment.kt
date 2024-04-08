@@ -2,14 +2,11 @@ package kr.co.lion.unipiece.ui.author
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.result.ActivityResultLauncher
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.FragmentModifyAuthorInfoBinding
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 
@@ -58,8 +55,9 @@ class ModifyAuthorInfoFragment : Fragment() {
     // 작가 갱신 버튼
     private fun settingButtonUpdateAuthor(){
         fragmentModifyAuthorInfoBinding.buttonModifyAuthorUpdateAuthor.setOnClickListener {
-            // 추후 수정
-            authorInfoActivity.removeFragment(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT)
+            // 작가 갱신 액티비티로 이동
+            val updateAuthorIntent = Intent(requireActivity(), UpdateAuthorActivity::class.java)
+            startActivity(updateAuthorIntent)
         }
     }
 

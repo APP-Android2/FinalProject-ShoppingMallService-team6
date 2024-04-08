@@ -12,6 +12,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
+import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -47,7 +48,7 @@ class VisitGalleryHistoryFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
-                            visitGalleryActivity.finish()
+                            requireActivity().finish()
                         }
                     }
                     true
@@ -55,7 +56,7 @@ class VisitGalleryHistoryFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    visitGalleryActivity.finish()
+                    requireActivity().finish()
                 }
             }
         }
@@ -124,6 +125,15 @@ class VisitGalleryHistoryFragment : Fragment() {
             holder.rowVisitGalleryHistoryBinding.textViewRowVisitListStatus.text="승인 대기중"
             // 신청 수정 버튼 여부
             holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.isVisible = true
+
+            // 신청 수정 버튼 클릭 이벤트
+            holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.setOnClickListener {
+                // 추후 전달할 데이터는 여기에 담기
+                val modifyBundle = Bundle()
+                modifyBundle.putBoolean("isModify", true)
+                // 회원 정보 수정 프래그먼트 교체
+                visitGalleryActivity.replaceFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT,true, modifyBundle)
+            }
         }
     }
 

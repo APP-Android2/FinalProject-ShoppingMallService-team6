@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -7,6 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentUserInfoBinding
+import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
+import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -41,7 +44,17 @@ class UserInfoFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    userInfoActivity.finish()
+                    requireActivity().finish()
+                }
+
+                // 툴바 메뉴 클릭 이벤트
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_home -> {
+                            requireActivity().finish()
+                        }
+                    }
+                    true
                 }
             }
         }
@@ -67,8 +80,9 @@ class UserInfoFragment : Fragment() {
         fragmentUserInfoBinding.buttonManageAddress.apply {
             setOnClickListener {
                 // 추후 전달할 데이터는 여기에 담기
-
+                val deliveryIntent = Intent(requireActivity(), DeliveryActivity::class.java)
                 // 배송지 관리 액티비티 실행
+                startActivity(deliveryIntent)
             }
         }
     }
