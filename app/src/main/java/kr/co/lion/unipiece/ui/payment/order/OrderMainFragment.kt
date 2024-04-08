@@ -13,6 +13,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentOrderMainBinding
 import kr.co.lion.unipiece.databinding.RowCartBinding
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
 
 import kr.co.lion.unipiece.util.OrderFragmentName
 
@@ -62,11 +63,11 @@ class OrderMainFragment : Fragment() {
     fun clickButtonDeliveryChange(){
         fragmentOrderMainBinding.apply {
             buttonOrderDeliveryChange.setOnClickListener {
-//                // DeliveryActivity를 실행한다.
-//                val deliveryIntent = Intent(orderActivity, DeliveryActivity::class.java)
-//                startActivity(deliveryIntent)
-//                // OrderActivity를 종료한다.
-//                orderActivity.finish()
+                // DeliveryActivity를 실행한다.
+                val deliveryIntent = Intent(orderActivity, DeliveryActivity::class.java)
+                startActivity(deliveryIntent)
+                // OrderActivity를 종료한다.
+                orderActivity.finish()
             }
         }
     }
