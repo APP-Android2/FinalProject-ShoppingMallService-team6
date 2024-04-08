@@ -35,40 +35,8 @@
         android:textColorHint="@color/lightgray"
         android:textSize="12sp" />
 
-    <TextView
-        android:id="@+id/searchAuthorTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/pretendard_bold"
-        android:text="작가 검색 결과"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
-
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchAuthorRV"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="20dp">
-
-    </androidx.recyclerview.widget.RecyclerView>
-
-    <TextView
-        android:id="@+id/searchPieceTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/pretendard_bold"
-        android:text="작품 검색 결과"
-        android:textColor="@color/black"
-        android:textSize="18sp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/searchPieceRV"
+        android:id="@+id/searchResultRV"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
