@@ -59,15 +59,11 @@ class BuyDetailActivity : AppCompatActivity() {
     }
 
     fun setIntent(name: String) {
-        val buyIntent = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
-        val rankIntent = intent.getBooleanExtra(RANK_FRAGMENT.str, false)
-        val mygalleryIntent = intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false)
 
-        val intent = Intent(this@BuyDetailActivity, MainActivity::class.java)
-        intent.putExtra("RankFragment", rankIntent)
-        intent.putExtra("BuyFragment", buyIntent)
-        intent.putExtra("MyGalleryFragment", mygalleryIntent)
-
+        val intent = Intent(this@BuyDetailActivity, MainActivity::class.java).apply {
+            // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
         intent.putExtra(name, true)
         startActivity(intent)
         finish()

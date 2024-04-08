@@ -48,7 +48,7 @@ class RankFragment : Fragment() {
                     when (menuItem.itemId) {
                         R.id.menu_search -> {
                             val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("RankFragment")?.commit()
+                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("SearchFragment")?.commit()
                             true
                         }
                         else -> false
@@ -80,20 +80,19 @@ class RankFragment : Fragment() {
 
     private fun setFragment(name: RankFragmentName) {
 
-        val fragmentMananger = activity?.supportFragmentManager?.beginTransaction()
+        val fragmentMananger = parentFragmentManager.beginTransaction()
 
             when(name) {
                 RANK_PIECE_FRAGMENT -> {
-                    fragmentMananger?.replace(R.id.rank_fragment, RankPieceFragment())
+                    fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
                     binding.rankTitle.text = "작품 랭킹"
                 }
                 RANK_AUTHOR_FRAGMENT -> {
-                    fragmentMananger?.replace(R.id.rank_fragment, RankAuthorFragment())
+                    fragmentMananger.replace(R.id.rank_fragment, RankAuthorFragment())
                     binding.rankTitle.text = "작가 랭킹"
                 }
             }
-        fragmentMananger?.addToBackStack(name.str)
-        fragmentMananger?.commit()
+        fragmentMananger.commit()
     }
 
 

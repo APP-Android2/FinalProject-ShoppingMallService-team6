@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
@@ -29,8 +30,17 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
         setBuyNaviDrawer()
+        // openSearchFragment()
+    }
+
+    override fun onNewIntent(intent: Intent) {
+        super.onNewIntent(intent)
+        // 새로운 Intent를 현재 Intent로 설정
+        setIntent(intent)
+        // 필요한 경우 여기서 openSearchFragment()를 호출할 수도 있습니다.
         openSearchFragment()
     }
+
 
     fun printFragmentBackStack(name: String) {
         val fragmentManager = supportFragmentManager
@@ -134,13 +144,17 @@ class MainActivity : AppCompatActivity() {
             if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
                 drawerBuyLayout.close()
             } else {
+                super.onBackPressed()
+                updateBottomNavi()
+
                 var isSearchFragmentOnTop = false
 
                 if (supportFragmentManager.backStackEntryCount > 0) {
                     // 백 스택의 마지막 항목의 이름을 가져옵니다.
                     val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
                     // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
-                    isSearchFragmentOnTop = "SearchFragment" == lastFragmentName
+                    isSearchFragmentOnTop = SEARCH_FRAGMENT.str == lastFragmentName || "SearchResultFragment" == lastFragmentName
+
                 } else {
                     // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
                     isSearchFragmentOnTop = false
@@ -151,11 +165,6 @@ class MainActivity : AppCompatActivity() {
                     // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
                     printFragmentBackStack("two back")
                     super.onBackPressed()
-                    super.onBackPressed()
-                } else {
-                    // 안드로이드 뒤로가기 버튼 실행
-                    printFragmentBackStack("one back")
-                    super.onBackPressed()
                 }
 
                 // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
@@ -163,7 +172,6 @@ class MainActivity : AppCompatActivity() {
                     finish()
                 }
 
-                updateBottomNavi()
             }
         }
     }
@@ -279,29 +287,11 @@ class MainActivity : AppCompatActivity() {
 
     fun openSearchFragment() {
 
-        val isRankFragment = intent.getBooleanExtra(RANK_FRAGMENT.str, false)
-        val isBuyFragment = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
-        val isMyGalleryFragment = intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false)
         val isSearchFragment = intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)
-
-        // RANK_FRAGMENT 또는 BUY_FRAGMENT 또는 MY_GALLERY가 true인 경우에만 로직을 실행합니다.
-        if (isRankFragment || isBuyFragment || isMyGalleryFragment) {
-
-            // 선택된 탭을 설정합니다.
-             if (isRankFragment) {
-                binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
-            } else if (isBuyFragment) {
-                 binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
-            } else {
-                binding.bottomNavigationView.selectedItemId = R.id.fragment_mygallery
-             }
-
-            // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
-            if (isSearchFragment) {
-                supportFragmentManager.popBackStack()
-                supportFragmentManager.popBackStack()
-                replaceFragment(SEARCH_FRAGMENT, true)
-            }
+        // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
+        if (isSearchFragment) {
+            replaceFragment(SEARCH_FRAGMENT, true)
         }
+
     }
 }
