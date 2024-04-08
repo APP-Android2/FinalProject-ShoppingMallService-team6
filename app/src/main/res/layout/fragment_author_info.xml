@@ -96,7 +96,7 @@
                             android:layout_height="30dp"
                             android:layout_marginRight="5dp"
                             android:layout_weight="1"
-                            android:background="@drawable/textfield_radius"
+                            android:background="@drawable/button_radius2"
                             android:paddingTop="0dp"
                             android:paddingBottom="0dp"
                             android:text="팔로우"

@@ -124,7 +124,7 @@ class AuthorInfoFragment : Fragment() {
             }
         }else{
             followButton.apply {
-                setBackgroundResource(R.drawable.textfield_radius)
+                setBackgroundResource(R.drawable.button_radius2)
                 setTextColor(ContextCompat.getColor(authorInfoActivity, R.color.first))
                 text = "팔로우"
             }
