@@ -25,11 +25,13 @@ class OrderMainFragment : Fragment() {
 
     lateinit var fragmentOrderMainBinding: FragmentOrderMainBinding
     lateinit var orderActivity: OrderActivity
+    lateinit var cartActivity:CartActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentOrderMainBinding = FragmentOrderMainBinding.inflate(layoutInflater)
         orderActivity = activity as OrderActivity
+        cartActivity = activity as CartActivity
         setToolbar()
         clickButtonDeliveryChange()
         setRecyclerViewCart()
@@ -51,9 +53,7 @@ class OrderMainFragment : Fragment() {
                 setNavigationIcon(R.drawable.back_icon)
                 // 클릭 시 동작
                 setNavigationOnClickListener {
-                    val cartIntent = Intent(orderActivity, CartActivity::class.java)
-                    startActivity(cartIntent)
-                    orderActivity.finish()
+                    requireActivity().finish()
                 }
             }
         }
@@ -64,7 +64,7 @@ class OrderMainFragment : Fragment() {
         fragmentOrderMainBinding.apply {
             buttonOrderDeliveryChange.setOnClickListener {
                 // DeliveryActivity를 실행한다.
-                val deliveryIntent = Intent(orderActivity, DeliveryActivity::class.java)
+                val deliveryIntent = Intent(requireActivity(), DeliveryActivity::class.java)
                 startActivity(deliveryIntent)
             }
         }
@@ -75,7 +75,9 @@ class OrderMainFragment : Fragment() {
         fragmentOrderMainBinding.apply {
             buttonOrderPaymentSubmit.apply {
                 setOnClickListener {
-                    orderActivity.replaceFragment(OrderFragmentName.ORDER_SUCCESS_FRAGMENT,true,true,null)
+                    orderActivity.replaceFragment(OrderFragmentName.ORDER_SUCCESS_FRAGMENT,false)
+                    orderActivity.finish()
+                    // 추후 수정
                 }
             }
         }
@@ -89,7 +91,7 @@ class OrderMainFragment : Fragment() {
                 // 어뎁터
                 adapter = OrderRecyclerViewAdapter()
                 // 레이아웃 매니저
-                layoutManager = LinearLayoutManager(orderActivity)
+                layoutManager = LinearLayoutManager(requireActivity())
 
             }
         }

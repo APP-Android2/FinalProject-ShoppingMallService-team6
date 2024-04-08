@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentMyPageBinding
 import kr.co.lion.unipiece.ui.MainActivity
@@ -33,7 +34,27 @@ class MyPageFragment : Fragment() {
 
         return fragmentMyPageBinding.root
     }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
+        fragmentMyPageBinding.root.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            override fun onGlobalLayout() {
+                val fragmentLayout = fragmentMyPageBinding.root
+                val screenHeight = resources.displayMetrics.heightPixels
+
+                // 프래그먼트의 높이 계산
+                val layoutParams = fragmentLayout.layoutParams
+                val density = resources.displayMetrics.density
+                val additionalHeightInPixel = (80 * density).toInt()
+                // 나머지 화면 높이 계산
+                layoutParams.height = screenHeight - additionalHeightInPixel
+                fragmentLayout.layoutParams = layoutParams
+
+                // OnGlobalLayoutListener 제거
+                fragmentMyPageBinding.root.viewTreeObserver.removeOnGlobalLayoutListener(this)
+            }
+        })
+    }
     // 툴바 셋팅
     fun setToolbar(){
         fragmentMyPageBinding.apply {

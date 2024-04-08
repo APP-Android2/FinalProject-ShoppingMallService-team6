@@ -6,7 +6,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.OnBackPressedDispatcher
+import androidx.activity.addCallback
+import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentOrderSuccessBinding
+import kr.co.lion.unipiece.util.OrderFragmentName
 
 class OrderSuccessFragment : Fragment() {
 

@@ -15,99 +15,125 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="30dp">
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/textViewMyPageNicName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_extrabold"
-            android:text="닉네임"
-            android:textColor="@color/black"
-            android:textSize="30sp" />
-
-        <TextView
-            android:id="@+id/textViewMyPageAuth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:textColor="@color/black"
-            android:text="작가" />
-
-        <TextView
-            android:id="@+id/textButtonMyPageInfo"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right|center_vertical"
-            android:textColor="@color/black"
-            android:clickable="true"
-            android:text="회원 정보 보기"
-            android:textAlignment="textEnd" />
-    </LinearLayout>
+            android:orientation="horizontal"
+            android:padding="30dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+            <TextView
+                android:id="@+id/textViewMyPageNicName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_extrabold"
+                android:text="닉네임"
+                android:textColor="@color/black"
+                android:textSize="30sp" />
 
-        <TextView
-            android:id="@+id/textButtonMyPageVisitList"
+            <TextView
+                android:id="@+id/textViewMyPageAuth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="작가"
+                android:textColor="@color/black" />
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textButtonMyPageInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:text="회원 정보 보기"
+                    android:textAlignment="textEnd"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_semibold"
-            android:text="전시실 방문 신청 목록"
-            android:textColor="@color/black" />
-    </LinearLayout>
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:theme="@style/Theme.Material3"/>
+            android:orientation="vertical"
+            android:padding="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
+            <TextView
+                android:id="@+id/textButtonMyPageVisitList"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="전시실 방문 신청 목록"
+                android:textColor="@color/black" />
+        </LinearLayout>
 
-        <TextView
-            android:id="@+id/textButtonMyPageFollowAuth"
+        <com.google.android.material.divider.MaterialDivider
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_semibold"
-            android:textColor="@color/black"
-            android:text="팔로잉한 작가" />
-    </LinearLayout>
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:theme="@style/Theme.Material3"/>
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:theme="@style/Theme.Material3" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
-
-        <TextView
-            android:id="@+id/textButtonMyPageAuthInfo"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_semibold"
-            android:textColor="@color/black"
-            android:text="작가 정보 보기" />
+            android:orientation="vertical"
+            android:padding="20dp">
+
+            <TextView
+                android:id="@+id/textButtonMyPageFollowAuth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:text="팔로잉한 작가"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:theme="@style/Theme.Material3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textButtonMyPageAuthInfo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_semibold"
+                android:padding="20dp"
+                android:text="작가 정보 보기"
+                android:textColor="@color/black" />
+
+        </LinearLayout>
+
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:theme="@style/Theme.Material3" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+        </LinearLayout>
+
     </LinearLayout>
-    <com.google.android.material.divider.MaterialDivider
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:theme="@style/Theme.Material3"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
