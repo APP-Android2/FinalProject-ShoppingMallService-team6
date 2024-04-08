@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentMyPageBinding
-import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity

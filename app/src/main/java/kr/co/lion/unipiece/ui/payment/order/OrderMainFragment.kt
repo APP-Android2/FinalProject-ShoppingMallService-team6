@@ -25,13 +25,11 @@ class OrderMainFragment : Fragment() {
 
     lateinit var fragmentOrderMainBinding: FragmentOrderMainBinding
     lateinit var orderActivity: OrderActivity
-    lateinit var cartActivity:CartActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentOrderMainBinding = FragmentOrderMainBinding.inflate(layoutInflater)
         orderActivity = activity as OrderActivity
-        cartActivity = activity as CartActivity
         setToolbar()
         clickButtonDeliveryChange()
         setRecyclerViewCart()
