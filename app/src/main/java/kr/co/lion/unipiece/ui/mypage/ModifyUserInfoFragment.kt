@@ -74,8 +74,8 @@ class ModifyUserInfoFragment : Fragment() {
                 // 회원 탈퇴 처리
 
                 // 로그인 화면으로 이동
-                requireActivity().finish()
                 val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
+                loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
                 startActivity(loginIntent)
             }
 
