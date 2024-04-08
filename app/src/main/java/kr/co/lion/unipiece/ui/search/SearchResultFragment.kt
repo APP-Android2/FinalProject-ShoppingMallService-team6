@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchResultBinding
+import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.search.adapter.SearchAuthorData
 import kr.co.lion.unipiece.ui.search.adapter.SearchPieceData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultAdapter
@@ -80,7 +82,8 @@ class SearchResultFragment : Fragment() {
             setOnMenuItemClickListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.menu_cart -> {
-
+                        val intent = Intent(requireActivity(), CartActivity::class.java)
+                        startActivity(intent)
                         true
                     }
                     else -> false
