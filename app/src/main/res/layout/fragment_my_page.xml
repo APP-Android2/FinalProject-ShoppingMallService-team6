@@ -24,13 +24,15 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_extrabold"
             android:text="닉네임"
-            android:textSize="40sp" />
+            android:textColor="@color/black"
+            android:textSize="30sp" />
 
         <TextView
             android:id="@+id/textViewMyPageAuth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
+            android:textColor="@color/black"
             android:text="작가" />
 
         <TextView
@@ -38,6 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="right|center_vertical"
+            android:textColor="@color/black"
             android:clickable="true"
             android:text="회원 정보 보기"
             android:textAlignment="textEnd" />
@@ -55,6 +58,7 @@
             android:layout_height="wrap_content"
             android:clickable="true"
             android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/black"
             android:text="전시실 방문 신청 목록" />
     </LinearLayout>
     <com.google.android.material.divider.MaterialDivider
@@ -75,6 +79,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/black"
             android:text="팔로잉한 작가" />
     </LinearLayout>
     <com.google.android.material.divider.MaterialDivider
@@ -95,6 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/black"
             android:text="작가 정보 보기" />
     </LinearLayout>
     <com.google.android.material.divider.MaterialDivider
@@ -117,6 +123,7 @@
             android:drawableLeft="@drawable/logout_icon"
             android:fontFamily="@font/pretendard_semibold"
             android:text=" 로그아웃"
+            android:textColor="@color/black"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
