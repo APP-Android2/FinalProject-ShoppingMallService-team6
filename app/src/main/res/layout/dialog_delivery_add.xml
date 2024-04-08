@@ -23,59 +23,56 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:hint="받는 이"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
             app:endIconMode="clear_text"
-            app:hintTextColor="@color/second"
-            android:theme="@style/Theme.Material3">
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textFieldDeliveryAddReceiver"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
-                android:theme="@style/Theme.Material3"/>
+                android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="연락처"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
             app:endIconMode="clear_text"
-            app:hintTextColor="@color/second"
-            android:theme="@style/Theme.Material3">
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textFieldDeliveryAddPhone"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:layout_marginTop="8dp"
                 android:background="@drawable/textfield_radius"
-                android:theme="@style/Theme.Material3"/>
+                android:paddingLeft="15dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="배송지명(선택)"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
             app:endIconMode="clear_text"
-            app:hintTextColor="@color/second"
-            android:theme="@style/Theme.Material3">
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/textFieldDeliveryAddTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
-                android:theme="@style/Theme.Material3"/>
+                android:paddingLeft="15dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <LinearLayout
@@ -212,38 +209,36 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:hint="주소"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
             app:endIconMode="clear_text"
-            app:hintTextColor="@color/second"
-            android:theme="@style/Theme.Material3">
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/buttonDeliveryAddAdress"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
-                android:theme="@style/Theme.Material3"/>
+                android:paddingLeft="15dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="56dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="상세주소"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
             app:endIconMode="clear_text"
-            app:hintTextColor="@color/second"
-            android:theme="@style/Theme.Material3">
+            app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
-                android:theme="@style/Theme.Material3"/>
+                android:paddingLeft="15dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>
