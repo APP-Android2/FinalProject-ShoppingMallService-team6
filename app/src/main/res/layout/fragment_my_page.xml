@@ -56,10 +56,9 @@
             android:id="@+id/textButtonMyPageVisitList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:fontFamily="@font/pretendard_semibold"
-            android:textColor="@color/black"
-            android:text="전시실 방문 신청 목록" />
+            android:text="전시실 방문 신청 목록"
+            android:textColor="@color/black" />
     </LinearLayout>
     <com.google.android.material.divider.MaterialDivider
         android:layout_width="match_parent"
@@ -119,7 +118,6 @@
             android:id="@+id/textButtonMyPageLogout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:clickable="true"
             android:drawableLeft="@drawable/logout_icon"
             android:fontFamily="@font/pretendard_semibold"
             android:text=" 로그아웃"

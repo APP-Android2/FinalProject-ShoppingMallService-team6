@@ -10,8 +10,11 @@ import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentMyPageBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.login.LoginActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.util.MainFragmentName
+import kr.co.lion.unipiece.util.setMenuIconColor
 
 
 class MyPageFragment : Fragment() {
@@ -25,7 +28,11 @@ class MyPageFragment : Fragment() {
         mainActivity = activity as MainActivity
 
         setToolbar()
+        clickButtonUserInfo()
+        clickButtonVisitGallery()
         clickButtonFollowAuthor()
+        clickButtonAuthorInfo()
+        clickButtonLogout()
 
         return fragmentMyPageBinding.root
     }
@@ -37,23 +44,17 @@ class MyPageFragment : Fragment() {
 
                 // 장바구니가 있는 메뉴 셋팅
                 inflateMenu(R.menu.menu_cart)
+                requireContext().setMenuIconColor(menu, R.id.menu_cart, R.color.second)
                 // 장바구니 메뉴 클릭 시
                 setOnMenuItemClickListener {
                     when(it.itemId) {
-                        R.menu.menu_cart -> {
+                        R.id.menu_cart -> {
                             val cartIntent = Intent(requireActivity(), CartActivity::class.java)
                             startActivity(cartIntent)
-                            requireActivity().finish()
                         }
 
                     }
                     true
-                }
-                // 뒤로가기 메뉴 셋팅
-                setNavigationIcon(R.drawable.back_icon)
-                // 뒤로가기 내비 아이콘 클릭 시
-                setNavigationOnClickListener {
-                    mainActivity.replaceFragment(MainFragmentName.HOME_FRAGMENT,false)
                 }
             }
         }
@@ -64,7 +65,8 @@ class MyPageFragment : Fragment() {
         with(fragmentMyPageBinding){
             // 회원 정보 보기 버튼 클릭 시
             textButtonMyPageInfo.setOnClickListener{
-
+                val userInfoIntent = Intent(requireActivity(), UserInfoActivity::class.java)
+                startActivity(userInfoIntent)
             }
         }
     }
@@ -74,7 +76,8 @@ class MyPageFragment : Fragment() {
         with(fragmentMyPageBinding){
             // 전시실 방문 신청 목록 버튼 클릭 시
             textButtonMyPageVisitList.setOnClickListener{
-
+                val visitGalleryIntent = Intent(requireActivity(), VisitGalleryActivity::class.java)
+                startActivity(visitGalleryIntent)
             }
         }
     }
@@ -95,7 +98,8 @@ class MyPageFragment : Fragment() {
         with(fragmentMyPageBinding){
             // 작가 정보 보기 버튼 클릭 시
             textButtonMyPageAuthInfo.setOnClickListener {
-
+                val authorInfoIntent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                startActivity(authorInfoIntent)
             }
         }
     }
@@ -105,7 +109,9 @@ class MyPageFragment : Fragment() {
         with(fragmentMyPageBinding){
             // 로그아웃 버튼 클릭 시
             textButtonMyPageLogout.setOnClickListener {
-
+                val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
+                startActivity(loginIntent)
+                requireActivity().finish()
             }
         }
     }
