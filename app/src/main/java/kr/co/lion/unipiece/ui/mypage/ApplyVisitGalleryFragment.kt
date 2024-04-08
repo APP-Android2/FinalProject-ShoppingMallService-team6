@@ -15,7 +15,10 @@ class ApplyVisitGalleryFragment : Fragment() {
     lateinit var fragmentApplyVisitGalleryBinding: FragmentApplyVisitGalleryBinding
     lateinit var visitGalleryActivity: VisitGalleryActivity
 
-    override fun onCreateView(
+    // 신청 수정 여부
+    private var isModify = false
+
+        override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
@@ -33,9 +36,16 @@ class ApplyVisitGalleryFragment : Fragment() {
 
     // 툴바 셋팅
     private fun settingToolbar(){
+        isModify = requireArguments().getBoolean("isModify", false)
+
         fragmentApplyVisitGalleryBinding.apply {
             toolbarApplyVisitGallery.apply {
-                title = "전시실 방문 신청"
+
+                title = if(isModify){
+                    "전시실 방문 신청 수정"
+                }else{
+                    "전시실 방문 신청"
+                }
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
