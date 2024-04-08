@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentUserInfoBinding
 import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
+import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -44,6 +45,16 @@ class UserInfoFragment : Fragment() {
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
                     userInfoActivity.finish()
+                }
+
+                // 툴바 메뉴 클릭 이벤트
+                setOnMenuItemClickListener {
+                    when(it.itemId){
+                        R.id.menu_home -> {
+                            userInfoActivity.finish()
+                        }
+                    }
+                    true
                 }
             }
         }
