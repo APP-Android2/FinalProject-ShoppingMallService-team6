@@ -49,8 +49,8 @@ class PurchasedPieceDetailFragment : Fragment() {
                     when(it.itemId) {
                         R.id.menu_home -> {
                             val intent = Intent(requireActivity(), MainActivity::class.java)
-                            purchasedPieceDetailActivity.finish()
                             startActivity(intent)
+                            requireActivity().finish()
                         }
                     }
 
