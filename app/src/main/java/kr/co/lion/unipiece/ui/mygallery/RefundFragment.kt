@@ -1,11 +1,13 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRefundBinding
@@ -15,7 +17,6 @@ import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 class RefundFragment : Fragment() {
 
     lateinit var binding: FragmentRefundBinding
-    lateinit var purchasedPieceDetailActivity: PurchasedPieceDetailActivity
 
     var refundReasonDialogData = arrayOf(
         "작품에 문제가 있어요", "주문하지 않은 작품이 왔어요", "작품을 받지 못했어요"
@@ -24,7 +25,6 @@ class RefundFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentRefundBinding.inflate(inflater, container, false)
-        purchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
 
         settingToolbar()
         settingTextFieldRefundReason()
@@ -40,7 +40,7 @@ class RefundFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    purchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT)
+                    parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
             }
         }
@@ -55,7 +55,7 @@ class RefundFragment : Fragment() {
     }
 
     fun showRefundReasonDialog() {
-        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(purchasedPieceDetailActivity, R.style.Theme_Category_App_MaterialAlertDialog)
+        val materialAlertDialogBuilder = MaterialAlertDialogBuilder(requireActivity(), R.style.Theme_Category_App_MaterialAlertDialog)
         materialAlertDialogBuilder.setTitle("반품 사유")
         materialAlertDialogBuilder.setNegativeButton("취소", null)
         materialAlertDialogBuilder.setItems(refundReasonDialogData) { dialogInterface: DialogInterface, i: Int ->
@@ -75,14 +75,14 @@ class RefundFragment : Fragment() {
 
                 dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
                     override fun okButtonClick() {
-                        purchasedPieceDetailActivity.removeFragment(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT)
+                        parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     }
 
                     override fun noButtonClick() {
                     }
                 })
 
-                dialog.show(purchasedPieceDetailActivity.supportFragmentManager, "CustomDialog")
+                dialog.show(requireActivity().supportFragmentManager, "CustomDialog")
             }
         }
     }
