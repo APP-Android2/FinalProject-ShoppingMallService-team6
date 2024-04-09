@@ -6,14 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentModifyAuthorInfoBinding
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.UserInfoFragmentName
 
 class ModifyAuthorInfoFragment : Fragment() {
 
     lateinit var fragmentModifyAuthorInfoBinding: FragmentModifyAuthorInfoBinding
-    lateinit var authorInfoActivity: AuthorInfoActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -21,7 +22,6 @@ class ModifyAuthorInfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentModifyAuthorInfoBinding = FragmentModifyAuthorInfoBinding.inflate(inflater)
-        authorInfoActivity = activity as AuthorInfoActivity
 
         settingToolbar()
         settingImageViewEvent()
@@ -38,7 +38,7 @@ class ModifyAuthorInfoFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    authorInfoActivity.removeFragment(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT)
+                    removeFragment()
                 }
             }
         }
@@ -48,7 +48,7 @@ class ModifyAuthorInfoFragment : Fragment() {
     private fun settingImageViewEvent(){
         fragmentModifyAuthorInfoBinding.imageViewModifyAuthor.setOnClickListener {
             // 추후 수정
-            authorInfoActivity.removeFragment(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT)
+            removeFragment()
         }
     }
 
@@ -65,8 +65,11 @@ class ModifyAuthorInfoFragment : Fragment() {
     private fun settingButtonModifyAuthorInfo(){
         fragmentModifyAuthorInfoBinding.buttonModifyAuthorInfoConfirm.setOnClickListener {
             // 추후 수정
-            authorInfoActivity.removeFragment(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT)
+            removeFragment()
         }
     }
 
+    private fun removeFragment(){
+        parentFragmentManager.popBackStack(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+    }
 }

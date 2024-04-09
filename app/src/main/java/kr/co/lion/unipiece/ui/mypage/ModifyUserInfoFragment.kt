@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentModifyUserInfoBinding
 import kr.co.lion.unipiece.ui.login.LoginActivity
@@ -15,7 +16,6 @@ import kr.co.lion.unipiece.util.UserInfoFragmentName
 class ModifyUserInfoFragment : Fragment() {
 
     lateinit var fragmentModifyUserInfoBinding: FragmentModifyUserInfoBinding
-    lateinit var userInfoActivity: UserInfoActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +24,6 @@ class ModifyUserInfoFragment : Fragment() {
         // Inflate the layout for this fragment
 
         fragmentModifyUserInfoBinding = FragmentModifyUserInfoBinding.inflate(inflater)
-        userInfoActivity = activity as UserInfoActivity
 
         settingToolbar()
         settingButtonModifyUserInfoConfirm()
@@ -41,7 +40,7 @@ class ModifyUserInfoFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    userInfoActivity.removeFragment(UserInfoFragmentName.MODIFY_USER_INFO_FRAGMENT)
+                    removeFragment()
                 }
             }
         }
@@ -53,7 +52,7 @@ class ModifyUserInfoFragment : Fragment() {
             
             // 추후 제거
             setOnClickListener {
-                userInfoActivity.removeFragment(UserInfoFragmentName.MODIFY_USER_INFO_FRAGMENT)
+                removeFragment()
             }
             
             // 입력 확인
@@ -88,12 +87,16 @@ class ModifyUserInfoFragment : Fragment() {
 
                 })
 
-                dialog.show(requireActivity().supportFragmentManager, "DeleteUser")
+                dialog.show(parentFragmentManager, "DeleteUser")
 
             }
 
         }
 
+    }
+
+    private fun removeFragment(){
+        parentFragmentManager.popBackStack(UserInfoFragmentName.MODIFY_USER_INFO_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
 }

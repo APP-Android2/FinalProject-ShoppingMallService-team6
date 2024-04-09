@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
+import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
@@ -19,7 +21,6 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class VisitGalleryHistoryFragment : Fragment() {
 
     lateinit var fragmentVisitGalleryHistoryBinding: FragmentVisitGalleryHistoryBinding
-    lateinit var visitGalleryActivity: VisitGalleryActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +28,6 @@ class VisitGalleryHistoryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentVisitGalleryHistoryBinding = FragmentVisitGalleryHistoryBinding.inflate(inflater)
-        visitGalleryActivity = activity as VisitGalleryActivity
 
         settingToolbar()
         settingFabApplyVisitGallery()
@@ -48,7 +48,14 @@ class VisitGalleryHistoryFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
+                            val intent = Intent(requireActivity(), MainActivity::class.java)
+                                .apply{ // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+                                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                }
+
+                            intent.putExtra("HomeFragment", true)
                             requireActivity().finish()
+                            startActivity(intent)
                         }
                     }
                     true
@@ -69,7 +76,7 @@ class VisitGalleryHistoryFragment : Fragment() {
                 // 추후 전달할 데이터는 여기에 담기
                 val applyBundle = Bundle()
                 // 전시실 방문 신청 이동
-                visitGalleryActivity.replaceFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT,true, applyBundle)
+                replaceFragment(applyBundle)
             }
         }
     }
@@ -80,9 +87,9 @@ class VisitGalleryHistoryFragment : Fragment() {
             // 어댑터
             adapter = RecyclerViewAdapter()
             // 레이아웃 매니저
-            layoutManager = LinearLayoutManager(visitGalleryActivity)
+            layoutManager = LinearLayoutManager(requireActivity())
             // 데코레이션
-            val deco = MaterialDividerItemDecoration(visitGalleryActivity, MaterialDividerItemDecoration.VERTICAL)
+            val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
             addItemDecoration(deco)
         }
     }
@@ -132,9 +139,19 @@ class VisitGalleryHistoryFragment : Fragment() {
                 val modifyBundle = Bundle()
                 modifyBundle.putBoolean("isModify", true)
                 // 회원 정보 수정 프래그먼트 교체
-                visitGalleryActivity.replaceFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT,true, modifyBundle)
+                replaceFragment(modifyBundle)
             }
         }
+    }
+
+    // 프래그먼트 교체 메서드
+    private fun replaceFragment(bundle: Bundle){
+        val supportFragmentManager = parentFragmentManager.beginTransaction()
+        val newFragment = ApplyVisitGalleryFragment()
+        newFragment.arguments = bundle
+        supportFragmentManager.replace(R.id.fragmentContainerViewVisitGallery, newFragment)
+            .addToBackStack(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT.str)
+            .commit()
     }
 
 }

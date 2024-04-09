@@ -18,7 +18,6 @@ import kr.co.lion.unipiece.databinding.RowAuthorReviewBottomSheetBinding
 class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     lateinit var fragmentAuthorReviewBottomSheetBinding: FragmentAuthorReviewBottomSheetBinding
-    lateinit var authorInfoActivity: AuthorInfoActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +25,6 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentAuthorReviewBottomSheetBinding = FragmentAuthorReviewBottomSheetBinding.inflate(inflater)
-        authorInfoActivity = activity as AuthorInfoActivity
 
         settingRecyclerView()
         settingButtonAuthorReviewAdd()
@@ -41,9 +39,9 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
             // 어댑터
             adapter = RecyclerViewAdapter()
             // 레이아웃 매니저, 가로 방향 셋팅
-            layoutManager = LinearLayoutManager(authorInfoActivity)
+            layoutManager = LinearLayoutManager(requireActivity())
             // 데코레이션
-            val deco = MaterialDividerItemDecoration(authorInfoActivity, MaterialDividerItemDecoration.VERTICAL)
+            val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
             addItemDecoration(deco)
         }
     }
