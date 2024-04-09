@@ -18,16 +18,10 @@ import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 class PurchaseCancelFragment : Fragment() {
 
     lateinit var binding: FragmentPurchaseCancelBinding
-    lateinit var supportFragmentManager: FragmentManager
 
     var cancelReasonDialogData = arrayOf(
         "작품이 마음에 들지 않아요", "다른 작품으로 변경하고 싶어요", "배송지를 변경하고 싶어요", "주문을 잘못했어요"
     )
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        supportFragmentManager = parentFragmentManager
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -47,7 +41,7 @@ class PurchaseCancelFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    supportFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
             }
         }
@@ -82,7 +76,7 @@ class PurchaseCancelFragment : Fragment() {
 
                 dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
                     override fun okButtonClick() {
-                        supportFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                        parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     }
 
                     override fun noButtonClick() {

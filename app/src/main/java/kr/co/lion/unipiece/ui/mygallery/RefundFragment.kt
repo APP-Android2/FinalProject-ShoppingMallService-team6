@@ -17,16 +17,10 @@ import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 class RefundFragment : Fragment() {
 
     lateinit var binding: FragmentRefundBinding
-    lateinit var supportFragmentManager: FragmentManager
 
     var refundReasonDialogData = arrayOf(
         "작품에 문제가 있어요", "주문하지 않은 작품이 왔어요", "작품을 받지 못했어요"
     )
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        supportFragmentManager = parentFragmentManager
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -46,7 +40,7 @@ class RefundFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    supportFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                 }
             }
         }
@@ -81,7 +75,7 @@ class RefundFragment : Fragment() {
 
                 dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
                     override fun okButtonClick() {
-                        supportFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                        parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     }
 
                     override fun noButtonClick() {
