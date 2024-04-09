@@ -8,15 +8,16 @@ import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentUserInfoBinding
+import kr.co.lion.unipiece.ui.mygallery.PurchaseCancelFragment
 import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class UserInfoFragment : Fragment() {
 
     lateinit var fragmentUserInfoBinding: FragmentUserInfoBinding
-    lateinit var userInfoActivity: UserInfoActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,7 +25,6 @@ class UserInfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentUserInfoBinding = FragmentUserInfoBinding.inflate(inflater)
-        userInfoActivity = activity as UserInfoActivity
 
         settingToolbar()
         settingButtonModifyUserInfo()
@@ -68,7 +68,7 @@ class UserInfoFragment : Fragment() {
                 // 추후 전달할 데이터는 여기에 담기
                 val modifyUserInfoBundle = Bundle()
                 // 회원 정보 수정 프래그먼트 교체
-                userInfoActivity.replaceFragment(UserInfoFragmentName.MODIFY_USER_INFO_FRAGMENT,true, modifyUserInfoBundle)
+                replaceFragment(modifyUserInfoBundle)
             }
         }
 
@@ -87,4 +87,13 @@ class UserInfoFragment : Fragment() {
         }
     }
 
+    // 프래그먼트 교체 메서드
+    private fun replaceFragment(bundle: Bundle){
+        val supportFragmentManager = parentFragmentManager.beginTransaction()
+        val newFragment = ModifyUserInfoFragment()
+        newFragment.arguments = bundle
+        supportFragmentManager.replace(R.id.fragmentContainerViewUserInfo, newFragment)
+            .addToBackStack(UserInfoFragmentName.MODIFY_USER_INFO_FRAGMENT.str)
+            .commit()
+    }
 }
