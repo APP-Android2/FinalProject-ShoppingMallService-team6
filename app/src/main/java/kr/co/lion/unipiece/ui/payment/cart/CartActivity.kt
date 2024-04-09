@@ -24,7 +24,6 @@ class CartActivity : AppCompatActivity() {
         setRecyclerViewCart()
         clickButtonOrder()
         setCheckBoxAll()
-
     }
 
     fun setCheckBoxAll(){

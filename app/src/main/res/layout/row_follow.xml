@@ -5,18 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.card.MaterialCardView
-        style="@style/Widget.Material3.CardView.Outlined"
+    <androidx.cardview.widget.CardView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="10dp"
-        android:theme="@style/Theme.Material3"
-        app:cardBackgroundColor="@color/white"
-        app:strokeColor="@color/first"
-        app:strokeWidth="2dp">
+        app:cardCornerRadius="10dp"
+        app:cardElevation="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -31,7 +28,7 @@
                 android:layout_marginStart="38dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="41dp"
-                android:layout_marginBottom="20dp"
+                android:layout_marginBottom="5dp"
                 app:cardCornerRadius="50dp">
 
                 <ImageView
@@ -39,29 +36,38 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon" />
             </androidx.cardview.widget.CardView>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="팔로워 123"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:textSize="15sp"/>
 
             <TextView
                 android:id="@+id/textViewFollowListAuthorName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="2dp"
                 android:fontFamily="@font/pretendard_extrabold"
                 android:text="홍길동"
+                android:textColor="@color/black"
                 android:textAlignment="center"
-                android:textSize="20sp" />
+                android:textSize="25sp" />
 
-            <Button
-                android:id="@+id/buttonFollowListFollowing"
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
+
+            <TextView
+                android:id="@+id/textButtonFollowCancel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/button_radius"
-                android:padding="0dp"
-                android:text="팔로잉"
-                android:textColor="@color/white" />
+                android:textSize="10dp"
+                android:textAlignment="center"
+                android:text="팔로우 취소"/>
+
         </LinearLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 </LinearLayout>
