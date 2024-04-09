@@ -24,12 +24,10 @@ import kr.co.lion.unipiece.ui.payment.order.OrderActivity
 class OrderMainFragment : Fragment() {
 
     lateinit var fragmentOrderMainBinding: FragmentOrderMainBinding
-    lateinit var orderActivity: OrderActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentOrderMainBinding = FragmentOrderMainBinding.inflate(layoutInflater)
-        orderActivity = activity as OrderActivity
         setToolbar()
         clickButtonDeliveryChange()
         setRecyclerViewCart()
@@ -73,7 +71,9 @@ class OrderMainFragment : Fragment() {
         fragmentOrderMainBinding.apply {
             buttonOrderPaymentSubmit.apply {
                 setOnClickListener {
-                    orderActivity.replaceFragment(OrderFragmentName.ORDER_SUCCESS_FRAGMENT,false)
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.containerOrder, OrderSuccessFragment())
+                        .commit()
                     // 추후 수정
                 }
             }
