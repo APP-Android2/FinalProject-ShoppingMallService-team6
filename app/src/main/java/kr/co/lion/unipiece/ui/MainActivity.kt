@@ -30,7 +30,6 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
         setBuyNaviDrawer()
-        // openSearchFragment()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -39,6 +38,7 @@ class MainActivity : AppCompatActivity() {
         setIntent(intent)
         // 필요한 경우 여기서 openSearchFragment()를 호출할 수도 있습니다.
         openSearchFragment()
+        openHomeFragment()
     }
 
 
@@ -292,6 +292,17 @@ class MainActivity : AppCompatActivity() {
         if (isSearchFragment) {
             replaceFragment(SEARCH_FRAGMENT, true)
         }
+    }
 
+    fun openHomeFragment() {
+        val isHomeFragment = intent.getBooleanExtra(HOME_FRAGMENT.str, false)
+        // HomeFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
+        if (isHomeFragment) {
+            // backStack을 비워준다.
+            supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+
+            // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+            binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+        }
     }
 }

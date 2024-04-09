@@ -47,8 +47,14 @@ class PurchasedPieceDetailFragment : Fragment() {
                     when(it.itemId) {
                         R.id.menu_home -> {
                             val intent = Intent(requireActivity(), MainActivity::class.java)
-                            startActivity(intent)
+                                .apply{
+                                 //
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            }
+
+                            intent.putExtra("HomeFragment", true)
                             requireActivity().finish()
+                            startActivity(intent)
                         }
                     }
 
