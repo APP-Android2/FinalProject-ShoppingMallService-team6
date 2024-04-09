@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
+import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mypage.ModifyUserInfoFragment
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
@@ -74,6 +75,8 @@ class AuthorInfoFragment : Fragment() {
                             replaceFragment(modifyBundle)
                         }
                         R.id.menu_home -> {
+                            val intent = Intent(requireActivity(), MainActivity::class.java)
+                            startActivity(intent)
                             requireActivity().finish()
                         }
                     }
