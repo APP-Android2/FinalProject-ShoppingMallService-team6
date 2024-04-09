@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentGuideLineBinding
 import kr.co.lion.unipiece.util.AddAuthorFragmentName
@@ -12,13 +13,12 @@ import kr.co.lion.unipiece.util.AddAuthorFragmentName
 class GuideLineFragment : Fragment() {
 
     lateinit var fragmentGuideLineBinding: FragmentGuideLineBinding
-    lateinit var addAuthorActivity: AddAuthorActivity
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentGuideLineBinding = FragmentGuideLineBinding.inflate(layoutInflater)
-        addAuthorActivity = activity as AddAuthorActivity
         initView()
         settingEvent()
         return fragmentGuideLineBinding.root
@@ -31,8 +31,8 @@ class GuideLineFragment : Fragment() {
                 title = "작가 등록 안내사항"
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    addAuthorActivity.removeFragment(AddAuthorFragmentName.GUIDE_LINE_FRAGMENT)
-                    addAuthorActivity.finish()
+                    parentFragmentManager.popBackStack(AddAuthorFragmentName.GUIDE_LINE_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                    requireActivity().finish()
                 }
             }
 
@@ -45,7 +45,10 @@ class GuideLineFragment : Fragment() {
     private fun settingEvent(){
         fragmentGuideLineBinding.apply {
             buttonGuideOK.setOnClickListener {
-                addAuthorActivity.replaceFragment(AddAuthorFragmentName.REGISTER_AUTHOR_FRAGMENT, true)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.containerAuthor, RegisterAuthorFragment())
+                    .addToBackStack(AddAuthorFragmentName.REGISTER_AUTHOR_FRAGMENT.str)
+                    .commit()
             }
         }
     }

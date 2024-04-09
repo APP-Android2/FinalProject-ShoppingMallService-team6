@@ -17,12 +17,11 @@ class LoginFragment : Fragment() {
 
     lateinit var fragmentLoginBinding: FragmentLoginBinding
 
-    lateinit var loginActivity:LoginActivity
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
-        loginActivity = activity as LoginActivity
         settingEvent()
         return fragmentLoginBinding.root
     }
@@ -31,16 +30,19 @@ class LoginFragment : Fragment() {
     private fun settingEvent(){
         fragmentLoginBinding.apply {
             buttonLoginGoJoin.setOnClickListener {
-                loginActivity.replaceFragment(LoginFragmentName.JOIN_FRAGMENT, true)
+                parentFragmentManager.beginTransaction()
+                    .replace(R.id.loginContainer, JoinFragment())
+                    .addToBackStack(LoginFragmentName.JOIN_FRAGMENT.str)
+                    .commit()
             }
             buttonLogin.setOnClickListener {
-                val newIntent = Intent(loginActivity, MainActivity::class.java)
+                val newIntent = Intent(requireActivity(), MainActivity::class.java)
                 startActivity(newIntent)
-                loginActivity.finish()
+                requireActivity().finish()
             }
             imageKaKao.setOnClickListener {
                 val dialog = CustomDialog("안녕", "반가워")
-                dialog.show(loginActivity.supportFragmentManager, "CustomDialog")
+                dialog.show(parentFragmentManager, "CustomDialog")
             }
         }
     }
