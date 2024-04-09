@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +13,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
+import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
@@ -46,6 +48,8 @@ class VisitGalleryHistoryFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
+                            val intent = Intent(requireActivity(), MainActivity::class.java)
+                            startActivity(intent)
                             requireActivity().finish()
                         }
                     }
