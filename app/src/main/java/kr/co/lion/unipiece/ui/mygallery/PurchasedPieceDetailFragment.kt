@@ -20,12 +20,10 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class PurchasedPieceDetailFragment : Fragment() {
 
     lateinit var binding: FragmentPurchasedPieceDetailBinding
-    lateinit var purchasedPieceDetailActivity: PurchasedPieceDetailActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         binding = FragmentPurchasedPieceDetailBinding.inflate(inflater, container, false)
-        purchasedPieceDetailActivity = activity as PurchasedPieceDetailActivity
 
         settingToolbar()
         settingRefundApprovalView()
@@ -41,7 +39,7 @@ class PurchasedPieceDetailFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    purchasedPieceDetailActivity.finish()
+                    requireActivity().finish()
                 }
 
                 inflateMenu(R.menu.menu_home)
@@ -49,8 +47,13 @@ class PurchasedPieceDetailFragment : Fragment() {
                     when(it.itemId) {
                         R.id.menu_home -> {
                             val intent = Intent(requireActivity(), MainActivity::class.java)
-                            startActivity(intent)
+                                .apply{ // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                            }
+
+                            intent.putExtra("HomeFragment", true)
                             requireActivity().finish()
+                            startActivity(intent)
                         }
                     }
 
@@ -70,13 +73,18 @@ class PurchasedPieceDetailFragment : Fragment() {
     }
 
     fun settingButtons() {
+        val supportFragmentManager = parentFragmentManager.beginTransaction()
         binding.apply {
             buttonPurchasedPieceDetailOrderCancel.setOnClickListener {
-                purchasedPieceDetailActivity.replaceFragment(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT, true)
+            supportFragmentManager.replace(R.id.containerPurchasedPieceDetail, PurchaseCancelFragment())
+                .addToBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str)
+                .commit()
             }
 
             buttonPurchasedPieceDetailRefund.setOnClickListener {
-                purchasedPieceDetailActivity.replaceFragment(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT, true)
+                supportFragmentManager.replace(R.id.containerPurchasedPieceDetail, RefundFragment())
+                    .addToBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str)
+                    .commit()
             }
         }
     }

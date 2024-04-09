@@ -24,7 +24,6 @@ class RankPieceFragment : Fragment() {
         RankPieceAdapter(testPieceList,
             itemClickListener = { testId ->
                 val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                intent.putExtra("RankFragment", true)
                 startActivity(intent)
             })
     }

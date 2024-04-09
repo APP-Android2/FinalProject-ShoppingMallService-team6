@@ -36,8 +36,7 @@ class SearchFragment : Fragment() {
         with(binding.toolbarSearch) {
 
             setNavigationOnClickListener {
-                activity?.onBackPressed()
-                activity?.onBackPressed()
+               requireActivity().onBackPressed()
             }
 
             inflateMenu(R.menu.menu_cart)
@@ -61,8 +60,8 @@ class SearchFragment : Fragment() {
 
             searchBar.setOnEditorActionListener { textView, action, Event ->
                 if(action == EditorInfo.IME_ACTION_SEARCH){
-                    val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                    fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.addToBackStack("SearchFragment")?.commit()
+                    val fragmentManager = parentFragmentManager.beginTransaction()
+                    fragmentManager.replace(R.id.fl_container, SearchResultFragment()).addToBackStack("SearchResultFragment").commit()
                     handled = true
                     requireActivity().hideSoftInput()
                 }
@@ -73,8 +72,8 @@ class SearchFragment : Fragment() {
                 if(event.action == MotionEvent.ACTION_UP) {
                     val touchArea = searchBar.right - searchBar.compoundDrawables[2].bounds.width() - 50
                     if(event.rawX >= touchArea) {
-                        val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                        fragmentManager?.replace(R.id.fl_container, SearchResultFragment())?.addToBackStack("SearchFragment")?.commit()
+                        val fragmentManager = parentFragmentManager.beginTransaction()
+                        fragmentManager.replace(R.id.fl_container, SearchResultFragment()).addToBackStack("SearchResultFragment").commit()
                         requireActivity().hideSoftInput()
                         handled = true
                     }
