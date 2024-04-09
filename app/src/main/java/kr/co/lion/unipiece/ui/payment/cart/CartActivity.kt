@@ -24,7 +24,6 @@ class CartActivity : AppCompatActivity() {
         setRecyclerViewCart()
         clickButtonOrder()
         setCheckBoxAll()
-        supportFragmentManager.backStackEntryCount
     }
 
     fun setCheckBoxAll(){
