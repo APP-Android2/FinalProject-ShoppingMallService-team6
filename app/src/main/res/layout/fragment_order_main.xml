@@ -38,7 +38,9 @@
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent" >
+                    android:layout_height="match_parent"
+                    app:cardElevation="2dp"
+                    app:cardCornerRadius="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -105,6 +107,15 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginLeft="5dp"
                                 android:text="주소" />
+                            <com.google.android.material.divider.MaterialDivider
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:layout_marginBottom="10dp"
+                                android:layout_marginStart="10dp"
+                                android:layout_marginEnd="10dp"
+                                app:dividerColor="@color/lightgray"
+                                android:theme="@style/Theme.Material3"/>
 
                             <LinearLayout
                                 android:layout_width="match_parent"
@@ -123,10 +134,29 @@
                                     android:layout_height="match_parent"
                                     android:orientation="vertical">
 
-                                    <Spinner
-                                        android:id="@+id/view"
+                                    <androidx.cardview.widget.CardView
                                         android:layout_width="match_parent"
-                                        android:layout_height="48dp" />
+                                        android:layout_height="match_parent">
+
+                                        <com.google.android.material.textfield.TextInputLayout
+                                            android:id="@+id/textFieldDeliveryMemoLayout"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content">
+
+                                            <com.google.android.material.textfield.TextInputEditText
+                                                android:id="@+id/textFieldDeliveryMemoText"
+                                                android:layout_width="match_parent"
+                                                android:layout_height="40dp"
+                                                android:background="@color/white"
+                                                android:drawableEnd="@drawable/arrowdropdown_icon"
+                                                android:paddingLeft="15dp"
+                                                android:text="선택 안함"
+                                                android:textSize="12sp"
+                                                android:enabled="false"/>
+                                        </com.google.android.material.textfield.TextInputLayout>
+                                    </androidx.cardview.widget.CardView>
+
+
                                 </LinearLayout>
 
                             </LinearLayout>
@@ -151,7 +181,9 @@
 
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent" >
+                        android:layout_height="match_parent"
+                        app:cardElevation="2dp"
+                        app:cardCornerRadius="10dp">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewOrderList"

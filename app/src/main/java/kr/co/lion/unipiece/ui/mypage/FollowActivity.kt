@@ -10,6 +10,8 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityFollowBinding
 import kr.co.lion.unipiece.databinding.RowFollowBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.util.CustomDialog
 
 class FollowActivity : AppCompatActivity() {
 
@@ -31,6 +33,9 @@ class FollowActivity : AppCompatActivity() {
     fun setToolbar(){
         activityFollowBinding.apply {
             toolbarFollowAuthor.apply {
+                title = "팔로우한 작가"
+                isTitleCentered = true
+
                 // 뒤로가기 아이콘
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
@@ -62,9 +67,26 @@ class FollowActivity : AppCompatActivity() {
             init {
                 this.rowFollowBinding = rowFollowBinding
 
-                // 항목별 팔로잉 버튼 클릭 시
-                this.rowFollowBinding.buttonFollowListFollowing.setOnClickListener {
-                    // 속이 빈 버튼모양으로 변경
+                // 프로필 사진을 클릭 시
+                this.rowFollowBinding.ivProfileImage.setOnClickListener{
+                    val authorInfoIntent = Intent(this@FollowActivity,AuthorInfoActivity::class.java)
+                    startActivity(authorInfoIntent)
+                }
+
+                // 항목별 팔로우 취소 텍스트 버튼 클릭 시
+                this.rowFollowBinding.textButtonFollowCancel.setOnClickListener {
+                    val followCancelDialog = CustomDialog("팔로우 취소", "홍길동 작가 팔로우를 취소하시겠습니까?")
+                    followCancelDialog.show(this@FollowActivity.supportFragmentManager,"FollowCancelCustomDialog")
+                    followCancelDialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+                        override fun okButtonClick() {
+
+                        }
+
+                        override fun noButtonClick() {
+
+                        }
+
+                    })
                 }
 
                 this.rowFollowBinding.root.layoutParams = ViewGroup.LayoutParams(

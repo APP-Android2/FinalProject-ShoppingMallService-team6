@@ -33,6 +33,8 @@ class MyPageFragment : Fragment() {
 
         return fragmentMyPageBinding.root
     }
+
+    // 로그아웃버튼 이슈 관련 화면구성 코드
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -81,7 +83,7 @@ class MyPageFragment : Fragment() {
     fun clickButtonUserInfo(){
         with(fragmentMyPageBinding){
             // 회원 정보 보기 버튼 클릭 시
-            textButtonMyPageInfo.setOnClickListener{
+            textButtonUserInfo.setOnClickListener{
                 val userInfoIntent = Intent(requireActivity(), UserInfoActivity::class.java)
                 startActivity(userInfoIntent)
             }
