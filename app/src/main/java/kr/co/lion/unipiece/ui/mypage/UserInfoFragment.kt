@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentUserInfoBinding
+import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.mygallery.PurchaseCancelFragment
 import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
@@ -51,6 +52,8 @@ class UserInfoFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_home -> {
+                            val intent = Intent(requireActivity(), MainActivity::class.java)
+                            startActivity(intent)
                             requireActivity().finish()
                         }
                     }
