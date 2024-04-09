@@ -14,13 +14,14 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
+import kr.co.lion.unipiece.ui.mypage.ModifyUserInfoFragment
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
-    lateinit var authorInfoActivity: AuthorInfoActivity
 
     var authorFollow = false
 
@@ -30,7 +31,6 @@ class AuthorInfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentAuthorInfoBinding = FragmentAuthorInfoBinding.inflate(inflater)
-        authorInfoActivity = activity as AuthorInfoActivity
 
         settingToolbar()
         initView()
@@ -68,8 +68,10 @@ class AuthorInfoFragment : Fragment() {
                 setOnMenuItemClickListener {
                     when(it.itemId){
                         R.id.menu_edit -> {
+                            // 추후 전달할 데이터는 여기에 담기
                             val modifyBundle = Bundle()
-                            authorInfoActivity.replaceFragment(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT, true, modifyBundle)
+                            // 작가 정보 수정 프래그먼트 교체
+                            replaceFragment(modifyBundle)
                         }
                         R.id.menu_home -> {
                             requireActivity().finish()
@@ -117,13 +119,13 @@ class AuthorInfoFragment : Fragment() {
         if(authorFollow){
             followButton.apply {
                 setBackgroundResource(R.drawable.button_radius)
-                setTextColor(ContextCompat.getColor(authorInfoActivity, R.color.white))
+                setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
                 text = "팔로잉"
             }
         }else{
             followButton.apply {
                 setBackgroundResource(R.drawable.button_radius2)
-                setTextColor(ContextCompat.getColor(authorInfoActivity, R.color.first))
+                setTextColor(ContextCompat.getColor(requireActivity(), R.color.first))
                 text = "팔로우"
             }
         }
@@ -134,7 +136,7 @@ class AuthorInfoFragment : Fragment() {
         // 리뷰 버튼 클릭 시 리뷰 프래그먼트 보이기
         fragmentAuthorInfoBinding.buttonAuthorReview.setOnClickListener {
             val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
-            authorReviewBottomSheetFragment.show(authorInfoActivity.supportFragmentManager, "BottomSheet")
+            authorReviewBottomSheetFragment.show(parentFragmentManager, "BottomSheet")
         }
     }
 
@@ -144,7 +146,7 @@ class AuthorInfoFragment : Fragment() {
             // 어댑터
             adapter = RecyclerViewAdapter()
             // 레이아웃 매니저, 가로 방향 셋팅
-            layoutManager = LinearLayoutManager(authorInfoActivity,RecyclerView.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
             // 데코레이션
             // val deco = MaterialDividerItemDecoration(authorInfoActivity, MaterialDividerItemDecoration.HORIZONTAL)
             // addItemDecoration(deco)
@@ -188,4 +190,13 @@ class AuthorInfoFragment : Fragment() {
         }
     }
 
+    // 프래그먼트 교체 메서드
+    private fun replaceFragment(bundle: Bundle){
+        val supportFragmentManager = parentFragmentManager.beginTransaction()
+        val newFragment = ModifyAuthorInfoFragment()
+        newFragment.arguments = bundle
+        supportFragmentManager.replace(R.id.fragmentContainerViewAuthorInfo, newFragment)
+            .addToBackStack(AuthorInfoFragmentName.MODIFY_AUTHOR_INFO_FRAGMENT.str)
+            .commit()
+    }
 }
