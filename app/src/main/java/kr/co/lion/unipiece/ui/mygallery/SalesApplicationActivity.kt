@@ -22,7 +22,6 @@ import kr.co.lion.unipiece.util.showSoftInput
 class SalesApplicationActivity : AppCompatActivity() {
 
     lateinit var binding: ActivitySalesApplicationBinding
-    lateinit var dialogCustomBinding: DialogCustomBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -103,10 +102,6 @@ class SalesApplicationActivity : AppCompatActivity() {
 
         datePicker.addOnPositiveButtonClickListener { selection ->
             binding.textFieldSalesApplicationDate.setText(datePicker.headerText)
-
-            if(binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled) {
-                binding.textInputLayoutSalesApplicationDate.isHelperTextEnabled = false
-            }
 
             this@SalesApplicationActivity.showSoftInput(binding.textFieldSalesApplicationDescription)
         }
