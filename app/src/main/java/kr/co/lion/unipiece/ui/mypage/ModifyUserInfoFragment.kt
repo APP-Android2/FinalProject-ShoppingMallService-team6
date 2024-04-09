@@ -87,7 +87,7 @@ class ModifyUserInfoFragment : Fragment() {
 
                 })
 
-                dialog.show(requireActivity().supportFragmentManager, "DeleteUser")
+                dialog.show(parentFragmentManager, "DeleteUser")
 
             }
 
