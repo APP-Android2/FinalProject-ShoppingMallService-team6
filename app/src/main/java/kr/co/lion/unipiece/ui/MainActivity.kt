@@ -36,7 +36,8 @@ class MainActivity : AppCompatActivity() {
         super.onNewIntent(intent)
         // 새로운 Intent를 현재 Intent로 설정
         setIntent(intent)
-        // 필요한 경우 여기서 openSearchFragment()를 호출할 수도 있습니다.
+
+        // 새로운 intent로 새로운 fragment들로 화면 설정
         openSearchFragment()
         openHomeFragment()
     }
