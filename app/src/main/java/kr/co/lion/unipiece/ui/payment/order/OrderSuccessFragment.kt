@@ -18,7 +18,6 @@ import kr.co.lion.unipiece.util.OrderFragmentName
 class OrderSuccessFragment : Fragment() {
 
     lateinit var fragmentOrderSuccessBinding: FragmentOrderSuccessBinding
-    lateinit var purchasedPieceDetailActivity : PurchasedPieceDetailActivity
 
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
