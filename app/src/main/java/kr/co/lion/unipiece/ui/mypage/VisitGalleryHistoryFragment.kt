@@ -19,7 +19,6 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class VisitGalleryHistoryFragment : Fragment() {
 
     lateinit var fragmentVisitGalleryHistoryBinding: FragmentVisitGalleryHistoryBinding
-    lateinit var visitGalleryActivity: VisitGalleryActivity
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,7 +26,6 @@ class VisitGalleryHistoryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentVisitGalleryHistoryBinding = FragmentVisitGalleryHistoryBinding.inflate(inflater)
-        visitGalleryActivity = activity as VisitGalleryActivity
 
         settingToolbar()
         settingFabApplyVisitGallery()
@@ -69,7 +67,7 @@ class VisitGalleryHistoryFragment : Fragment() {
                 // 추후 전달할 데이터는 여기에 담기
                 val applyBundle = Bundle()
                 // 전시실 방문 신청 이동
-                visitGalleryActivity.replaceFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT,true, applyBundle)
+                replaceFragment(applyBundle)
             }
         }
     }
@@ -80,9 +78,9 @@ class VisitGalleryHistoryFragment : Fragment() {
             // 어댑터
             adapter = RecyclerViewAdapter()
             // 레이아웃 매니저
-            layoutManager = LinearLayoutManager(visitGalleryActivity)
+            layoutManager = LinearLayoutManager(requireActivity())
             // 데코레이션
-            val deco = MaterialDividerItemDecoration(visitGalleryActivity, MaterialDividerItemDecoration.VERTICAL)
+            val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
             addItemDecoration(deco)
         }
     }
@@ -132,9 +130,19 @@ class VisitGalleryHistoryFragment : Fragment() {
                 val modifyBundle = Bundle()
                 modifyBundle.putBoolean("isModify", true)
                 // 회원 정보 수정 프래그먼트 교체
-                visitGalleryActivity.replaceFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT,true, modifyBundle)
+                replaceFragment(modifyBundle)
             }
         }
+    }
+
+    // 프래그먼트 교체 메서드
+    private fun replaceFragment(bundle: Bundle){
+        val supportFragmentManager = parentFragmentManager.beginTransaction()
+        val newFragment = ApplyVisitGalleryFragment()
+        newFragment.arguments = bundle
+        supportFragmentManager.replace(R.id.fragmentContainerViewVisitGallery, newFragment)
+            .addToBackStack(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT.str)
+            .commit()
     }
 
 }

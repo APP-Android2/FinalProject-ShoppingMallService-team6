@@ -6,14 +6,15 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentApplyVisitGalleryBinding
+import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 
 class ApplyVisitGalleryFragment : Fragment() {
 
     lateinit var fragmentApplyVisitGalleryBinding: FragmentApplyVisitGalleryBinding
-    lateinit var visitGalleryActivity: VisitGalleryActivity
 
     // 신청 수정 여부
     private var isModify = false
@@ -24,7 +25,6 @@ class ApplyVisitGalleryFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentApplyVisitGalleryBinding = FragmentApplyVisitGalleryBinding.inflate(inflater)
-        visitGalleryActivity = activity as VisitGalleryActivity
 
         settingToolbar()
         settingButtonMember()
@@ -49,7 +49,7 @@ class ApplyVisitGalleryFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    visitGalleryActivity.removeFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT)
+                    removeFragment()
                 }
             }
         }
@@ -84,7 +84,7 @@ class ApplyVisitGalleryFragment : Fragment() {
         fragmentApplyVisitGalleryBinding.buttonApplyVisitGalleryConfirm.apply {
             setOnClickListener {
                 // 추후 수정 필요
-                visitGalleryActivity.removeFragment(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT)
+                removeFragment()
             }
         }
     }
@@ -99,6 +99,11 @@ class ApplyVisitGalleryFragment : Fragment() {
         val result = "${year}년 ${month + 1}월 ${day}일"
         Log.d("test1234", result)
         return result
+    }
+
+    // 프래그먼트 제거 메서드
+    private fun removeFragment(){
+        parentFragmentManager.popBackStack(VisitGalleryFragmentName.APPLY_VISIT_GALLERY_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
 }
