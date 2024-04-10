@@ -54,6 +54,16 @@ dependencies {
 
     implementation(platform("com.google.firebase:firebase-bom:32.8.0"))
     implementation("com.google.firebase:firebase-analytics")
-    
+
     implementation("com.google.firebase:firebase-firestore")
+
+
+    implementation("androidx.activity:activity:1.8.2")
+    implementation("androidx.activity:activity-ktx:1.8.2")
+    implementation("androidx.fragment:fragment:1.6.2")
+    implementation("androidx.fragment:fragment-ktx:1.6.2")
+    debugImplementation("androidx.fragment:fragment-testing:1.6.2")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+
 }
