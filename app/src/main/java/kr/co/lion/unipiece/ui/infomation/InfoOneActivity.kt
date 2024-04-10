@@ -30,13 +30,21 @@ class InfoOneActivity : AppCompatActivity() {
                 inflateMenu(R.menu.menu_home)
                 setMenuIconColor(menu, R.id.menu_home, R.color.second)
                 setOnMenuItemClickListener {
-                    when(it.itemId){
+                    when(it.itemId) {
                         R.id.menu_home -> {
-                            startActivity(Intent(this@InfoOneActivity, MainActivity::class.java))
+                            val intent = Intent(this@InfoOneActivity, MainActivity::class.java)
+                                .apply{ // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+                                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+                                }
+
+                            intent.putExtra("HomeFragment", true)
+                            finish()
+                            startActivity(intent)
                         }
                     }
 
                     true
+
                 }
             }
 
