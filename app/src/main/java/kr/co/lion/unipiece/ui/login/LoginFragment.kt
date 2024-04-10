@@ -40,10 +40,6 @@ class LoginFragment : Fragment() {
                 startActivity(newIntent)
                 requireActivity().finish()
             }
-            imageKaKao.setOnClickListener {
-                val dialog = CustomDialog("안녕", "반가워")
-                dialog.show(parentFragmentManager, "CustomDialog")
-            }
         }
     }
 }
