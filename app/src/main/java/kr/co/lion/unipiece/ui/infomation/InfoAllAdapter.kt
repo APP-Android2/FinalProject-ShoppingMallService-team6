@@ -35,7 +35,6 @@ class InfoAllAdapter() : RecyclerView.Adapter<ViewHolderClass>() {
         holder.infoAllBinding.textInfoAllAuthorName.text = "멋쟁이 사람들"
         holder.infoAllBinding.root.setOnClickListener {
             itemOnClickListener.recyclerviewClickListener()
-
         }
     }
 
