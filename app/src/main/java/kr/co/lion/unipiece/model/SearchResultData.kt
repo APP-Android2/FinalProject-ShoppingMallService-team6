@@ -1,4 +1,6 @@
-package kr.co.lion.unipiece.ui.search.adapter
+package kr.co.lion.unipiece.model
+
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType
 
 data class SearchResultData(
     var searchAuthorData: SearchAuthorData = SearchAuthorData(),

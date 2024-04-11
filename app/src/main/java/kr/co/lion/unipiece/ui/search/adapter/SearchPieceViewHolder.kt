@@ -2,6 +2,9 @@ package kr.co.lion.unipiece.ui.search.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.ItemSearchPieceBinding
+import kr.co.lion.unipiece.model.SearchAuthorData
+import kr.co.lion.unipiece.model.SearchPieceData
+import kr.co.lion.unipiece.model.SearchResultData
 
 class SearchPieceViewHolder(
     private val binding: ItemSearchPieceBinding,

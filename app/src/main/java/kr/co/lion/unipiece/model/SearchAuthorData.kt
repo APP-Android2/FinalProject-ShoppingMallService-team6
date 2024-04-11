@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.search.adapter
+package kr.co.lion.unipiece.model
 
 import kr.co.lion.unipiece.R
 
