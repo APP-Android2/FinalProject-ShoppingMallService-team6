@@ -9,6 +9,7 @@ import kr.co.lion.unipiece.databinding.ItemSearchAuthorBinding
 import kr.co.lion.unipiece.databinding.ItemSearchPieceBinding
 import kr.co.lion.unipiece.databinding.TitleSearchAuthorBinding
 import kr.co.lion.unipiece.databinding.TitleSearchPieceBinding
+import kr.co.lion.unipiece.model.SearchResultData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType.*
 
 class SearchResultAdapter(

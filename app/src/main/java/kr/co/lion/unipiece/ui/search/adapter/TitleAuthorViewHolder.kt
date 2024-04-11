@@ -1,9 +1,9 @@
 package kr.co.lion.unipiece.ui.search.adapter
 
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.TitleSearchAuthorBinding
+import kr.co.lion.unipiece.model.SearchResultData
 
 class TitleAuthorViewHolder (
     private val binding: TitleSearchAuthorBinding,

@@ -2,22 +2,20 @@ package kr.co.lion.unipiece.ui.search
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchResultBinding
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
-import kr.co.lion.unipiece.ui.search.adapter.SearchAuthorData
-import kr.co.lion.unipiece.ui.search.adapter.SearchPieceData
+import kr.co.lion.unipiece.model.SearchAuthorData
+import kr.co.lion.unipiece.model.SearchPieceData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultAdapter
-import kr.co.lion.unipiece.ui.search.adapter.SearchResultData
+import kr.co.lion.unipiece.model.SearchResultData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType.*
 import kr.co.lion.unipiece.util.setMenuIconColor
