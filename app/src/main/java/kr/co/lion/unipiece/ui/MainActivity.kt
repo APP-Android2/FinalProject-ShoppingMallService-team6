@@ -5,7 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import android.util.Log
+import android.view.Gravity
 import androidx.core.view.GravityCompat
+import androidx.core.view.get
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
@@ -71,66 +74,69 @@ class MainActivity : AppCompatActivity() {
 
                 setNavigationItemSelectedListener {
 
+                    drawerBuyLayout.close()
+                    it.isChecked = true
+
                     when(it.itemId){
                         R.id.menuAll -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtAll -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtWest -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtOri -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtCalli -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtSculp -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtPrint -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtWood -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtGlass -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtFabric -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtMetal -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtComic -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuArtAni -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuHumAll -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuHumFiction -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuHumPoem -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuHumScript -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuEngAll -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuEngSoft -> {
-                            drawerBuyLayout.close()
+
                         }
                         R.id.menuEngHard -> {
-                            drawerBuyLayout.close()
+
                         }
                     }
 
