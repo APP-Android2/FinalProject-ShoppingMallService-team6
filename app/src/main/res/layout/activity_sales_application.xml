@@ -135,6 +135,48 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSalesApplicationMaterial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="작품 재료"
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/second">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textFieldSalesApplicationMaterial"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/textfield_radius"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:inputType="text"
+                    android:paddingStart="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayoutSalesApplicationSize"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="작품 크기"
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/second">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textFieldSalesApplicationSize"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/textfield_radius"
+                    android:fontFamily="@font/pretendard_regular"
+                    android:inputType="text"
+                    android:paddingStart="15dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutSalesApplicationDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -148,11 +190,13 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/textFieldSalesApplicationDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="56dp"
+                    android:layout_height="150dp"
                     android:background="@drawable/textfield_radius"
                     android:fontFamily="@font/pretendard_regular"
+                    android:gravity="top"
                     android:inputType="text|textMultiLine"
-                    android:paddingStart="15dp" />
+                    android:paddingStart="15dp"
+                    android:paddingTop="18dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <androidx.appcompat.widget.AppCompatButton
