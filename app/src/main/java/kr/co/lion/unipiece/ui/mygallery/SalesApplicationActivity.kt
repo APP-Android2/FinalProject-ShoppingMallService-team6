@@ -103,7 +103,7 @@ class SalesApplicationActivity : AppCompatActivity() {
         datePicker.addOnPositiveButtonClickListener { selection ->
             binding.textFieldSalesApplicationDate.setText(datePicker.headerText)
 
-            this@SalesApplicationActivity.showSoftInput(binding.textFieldSalesApplicationDescription)
+            this@SalesApplicationActivity.showSoftInput(binding.textFieldSalesApplicationMaterial)
         }
 
         datePicker.show(supportFragmentManager, datePicker.toString())
