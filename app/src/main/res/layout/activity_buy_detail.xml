@@ -26,7 +26,7 @@
             android:orientation="vertical">
 
 
-            <kr.co.lion.unipiece.unipiece.util.SquareImageView
+            <kr.co.lion.unipiece.util.SquareImageView
                 android:id="@+id/pieceImg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
