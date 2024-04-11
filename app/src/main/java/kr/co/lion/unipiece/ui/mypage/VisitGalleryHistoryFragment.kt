@@ -6,21 +6,19 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentVisitGalleryHistoryBinding
-import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.util.UserInfoFragmentName
+import kr.co.lion.unipiece.ui.mypage.adapter.VisitGalleryAdapter
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class VisitGalleryHistoryFragment : Fragment() {
 
     lateinit var fragmentVisitGalleryHistoryBinding: FragmentVisitGalleryHistoryBinding
+    lateinit var visitAdapter: VisitGalleryAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,9 +29,14 @@ class VisitGalleryHistoryFragment : Fragment() {
 
         settingToolbar()
         settingFabApplyVisitGallery()
-        settingRecyclerView()
+
 
         return fragmentVisitGalleryHistoryBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        settingRecyclerView()
     }
 
     // 툴바 셋팅
@@ -83,64 +86,28 @@ class VisitGalleryHistoryFragment : Fragment() {
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
+        // 테스트 데이터
+        val visitList = arrayListOf<Any>(
+            "test1","test2","test3","test4","test5","test6",
+            "test7","test8","test9","test10","test11","test12"
+        )
+
+        // 리사이클러뷰 어댑터
+        visitAdapter = VisitGalleryAdapter(visitList) { position ->
+            val modifyBundle = Bundle()
+            modifyBundle.putBoolean("isModify", true)
+            replaceFragment(modifyBundle)
+        }
+
+        // 리사이클러뷰 셋팅
         fragmentVisitGalleryHistoryBinding.recyclerViewVisitGalleryHistory.apply {
             // 어댑터
-            adapter = RecyclerViewAdapter()
+            adapter = visitAdapter
             // 레이아웃 매니저
             layoutManager = LinearLayoutManager(requireActivity())
             // 데코레이션
             val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
             addItemDecoration(deco)
-        }
-    }
-
-    // 리사이클러 뷰 어댑터 셋팅
-    inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
-        inner class ViewHolder(rowVisitGalleryHistoryBinding: RowVisitGalleryHistoryBinding):RecyclerView.ViewHolder(rowVisitGalleryHistoryBinding.root){
-            val rowVisitGalleryHistoryBinding:RowVisitGalleryHistoryBinding
-
-            init {
-                this.rowVisitGalleryHistoryBinding = rowVisitGalleryHistoryBinding
-
-                this.rowVisitGalleryHistoryBinding.root.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val rowVisitGalleryHistoryBinding = RowVisitGalleryHistoryBinding.inflate(layoutInflater)
-            val viewHolder = ViewHolder(rowVisitGalleryHistoryBinding)
-            return viewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return 20
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            // 날짜
-            holder.rowVisitGalleryHistoryBinding.textViewRowVisitListDate.text="2024.04.01"
-            // 이름
-            holder.rowVisitGalleryHistoryBinding.textViewRowVisitListName.text="김길동 $position"
-            // 연락처
-            holder.rowVisitGalleryHistoryBinding.textViewRowVisitListPhoneNumber.text="010-1234-5678"
-            // 방문인원
-            holder.rowVisitGalleryHistoryBinding.textViewRowVisitListMemberCount.text="1명"
-            // 승인상태
-            holder.rowVisitGalleryHistoryBinding.textViewRowVisitListStatus.text="승인 대기중"
-            // 신청 수정 버튼 여부
-            holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.isVisible = true
-
-            // 신청 수정 버튼 클릭 이벤트
-            holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.setOnClickListener {
-                // 추후 전달할 데이터는 여기에 담기
-                val modifyBundle = Bundle()
-                modifyBundle.putBoolean("isModify", true)
-                // 회원 정보 수정 프래그먼트 교체
-                replaceFragment(modifyBundle)
-            }
         }
     }
 
