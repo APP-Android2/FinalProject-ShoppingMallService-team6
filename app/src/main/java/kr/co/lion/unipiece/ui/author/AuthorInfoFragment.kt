@@ -10,9 +10,11 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
+import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.adapter.AuthorPiecesAdapter
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
@@ -26,6 +28,7 @@ class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
     lateinit var authorPiecesAdapter: AuthorPiecesAdapter
+    lateinit var authorInfoViewModel: AuthorInfoViewModel
 
     // 작가 팔로우 여부
     var authorFollow = false
@@ -36,6 +39,9 @@ class AuthorInfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentAuthorInfoBinding = FragmentAuthorInfoBinding.inflate(inflater)
+        authorInfoViewModel = AuthorInfoViewModel()
+        fragmentAuthorInfoBinding.authorInfoViewModel = authorInfoViewModel
+        fragmentAuthorInfoBinding.lifecycleOwner = this
 
         settingToolbar()
         initView()
@@ -102,17 +108,37 @@ class AuthorInfoFragment : Fragment() {
     }
 
     private fun initView(){
+        // 작가 데이터 받아오기
+        val authorInfoData = AuthorInfoData()
+        // 받아온 데이터로 작가 객체 초기화
+        
+        // 뷰모델과 연결
+        authorInfoViewModel.authorName.value = authorInfoData.authorName
+        authorInfoViewModel.authorFollower.value = authorInfoData.authorFollower + " 명 팔로우"
+        authorInfoViewModel.authorBasic.value = authorInfoData.authorBasic
+        authorInfoViewModel.authorInfo.value = authorInfoData.authorInfo
+
+        // 회원 정보 데이터 받아오기
+
+        // 받아온 데이터로 회원 정보 객체 초기화
+
         // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
         fragmentAuthorInfoBinding.apply {
-            // 작가가 아니면
+            
             // 추후 수정
-            if(true){
+            if(1==authorInfoData.userIdx){
                 buttonAuthorFollow.isVisible = true
                 buttonAuthorReview.isVisible = true
             }else{
+                // 사용자가 해당 작가인 경우
                 buttonAuthorFollow.isVisible = false
                 buttonAuthorReview.isVisible = false
             }
+            
+            // 작가 이미지 넣기
+            Glide.with(requireActivity())
+                .load(authorInfoData.authorImg)
+                .into(imageViewAuthor)
         }
     }
 
@@ -128,19 +154,10 @@ class AuthorInfoFragment : Fragment() {
 
     // 팔로우 버튼 변경
     private fun changeFollowButton(){
-        val followButton = fragmentAuthorInfoBinding.buttonAuthorFollow
-        if(authorFollow){
-            followButton.apply {
-                setBackgroundResource(R.drawable.button_radius)
-                setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-                text = "팔로잉"
-            }
-        }else{
-            followButton.apply {
-                setBackgroundResource(R.drawable.button_radius2)
-                setTextColor(ContextCompat.getColor(requireActivity(), R.color.first))
-                text = "팔로우"
-            }
+        with(fragmentAuthorInfoBinding.buttonAuthorFollow){
+            authorInfoViewModel.changeFollowState(authorFollow)
+            setTextColor(authorInfoViewModel.buttonAuthorFollowTextColor.value!!)
+            setBackgroundResource(authorInfoViewModel.buttonAuthorFollowBackground.value!!)
         }
     }
 
