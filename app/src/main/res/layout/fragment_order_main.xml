@@ -17,7 +17,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:padding="20dp">
+        android:paddingVertical="17dp"
+        android:paddingHorizontal="17dp">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -27,25 +28,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textView1"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="배송지"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-                <androidx.cardview.widget.CardView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:cardElevation="2dp"
-                    app:cardCornerRadius="10dp">
-
-                    <LinearLayout
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="3dp">
+                    <TextView
+                        android:id="@+id/textView1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical">
+                        android:padding="10dp"
+                        android:text="배송지"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:cardElevation="2dp"
+                        app:cardCornerRadius="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -54,122 +55,134 @@
 
                             <LinearLayout
                                 android:layout_width="match_parent"
-                                android:layout_height="50dp"
-                                android:orientation="horizontal"
-                                android:padding="5dp">
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical"
+                                android:clipToPadding="false"
+                                android:paddingHorizontal="3dp"
+                                android:paddingVertical="3dp">
 
-                                <androidx.constraintlayout.widget.ConstraintLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:layout_weight="1">
-
-                                    <TextView
-                                        android:id="@+id/textViewOrderPersonName"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:gravity="left"
-                                        android:text="수령인"
-                                        app:layout_constraintBottom_toBottomOf="parent"
-                                        app:layout_constraintStart_toStartOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-                                </androidx.constraintlayout.widget.ConstraintLayout>
-
-                                <androidx.constraintlayout.widget.ConstraintLayout
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="50dp"
-                                    android:layout_weight="1"
+                                    android:orientation="horizontal"
                                     android:padding="5dp">
 
-                                    <Button
-                                        android:id="@+id/buttonOrderDeliveryChange"
-                                        android:layout_width="40dp"
-                                        android:layout_height="30dp"
-                                        android:background="@drawable/button_radius"
-                                        android:padding="0dp"
-                                        android:text="변경"
-                                        android:textColor="@color/white"
-                                        app:layout_constraintEnd_toEndOf="parent"
-                                        app:layout_constraintTop_toTopOf="parent" />
-                                </androidx.constraintlayout.widget.ConstraintLayout>
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:layout_weight="1">
 
-                            </LinearLayout>
+                                        <TextView
+                                            android:id="@+id/textViewOrderPersonName"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:gravity="left"
+                                            android:text="수령인"
+                                            app:layout_constraintBottom_toBottomOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <TextView
-                                android:id="@+id/textViewOrderPhone"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="전화번호" />
+                                    <androidx.constraintlayout.widget.ConstraintLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="50dp"
+                                        android:layout_weight="1"
+                                        android:padding="5dp">
 
-                            <TextView
-                                android:id="@+id/textViewOrderAddress"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:text="주소" />
-                            <com.google.android.material.divider.MaterialDivider
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:layout_marginBottom="10dp"
-                                android:layout_marginStart="10dp"
-                                android:layout_marginEnd="10dp"
-                                app:dividerColor="@color/lightgray"
-                                android:theme="@style/Theme.Material3"/>
+                                        <Button
+                                            android:id="@+id/buttonOrderDeliveryChange"
+                                            android:layout_width="40dp"
+                                            android:layout_height="30dp"
+                                            android:background="@drawable/button_radius"
+                                            android:padding="0dp"
+                                            android:text="변경"
+                                            android:textColor="@color/white"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintTop_toTopOf="parent" />
+                                    </androidx.constraintlayout.widget.ConstraintLayout>
 
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
+                                </LinearLayout>
 
                                 <TextView
-                                    android:id="@+id/textView2"
+                                    android:id="@+id/textViewOrderPhone"
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
-                                    android:text="배송메모" />
+                                    android:text="전화번호" />
+
+                                <TextView
+                                    android:id="@+id/textViewOrderAddress"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginLeft="5dp"
+                                    android:text="주소" />
+                                <com.google.android.material.divider.MaterialDivider
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="10dp"
+                                    android:layout_marginBottom="10dp"
+                                    android:layout_marginStart="10dp"
+                                    android:layout_marginEnd="10dp"
+                                    app:dividerColor="@color/lightgray"
+                                    android:theme="@style/Theme.Material3"/>
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
                                     android:orientation="vertical">
 
-                                    <androidx.cardview.widget.CardView
+                                    <TextView
+                                        android:id="@+id/textView2"
                                         android:layout_width="match_parent"
-                                        android:layout_height="match_parent">
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginLeft="5dp"
+                                        android:text="배송메모" />
 
-                                        <com.google.android.material.textfield.TextInputLayout
-                                            android:id="@+id/textFieldDeliveryMemoLayout"
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="match_parent"
+                                        android:orientation="vertical">
+
+                                        <androidx.cardview.widget.CardView
                                             android:layout_width="match_parent"
-                                            android:layout_height="wrap_content">
+                                            android:layout_height="match_parent">
 
-                                            <com.google.android.material.textfield.TextInputEditText
-                                                android:id="@+id/textFieldDeliveryMemoText"
+                                            <com.google.android.material.textfield.TextInputLayout
+                                                android:id="@+id/textFieldDeliveryMemoLayout"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="40dp"
-                                                android:background="@color/white"
-                                                android:drawableEnd="@drawable/arrowdropdown_icon"
-                                                android:paddingLeft="15dp"
-                                                android:text="선택 안함"
-                                                android:textSize="12sp"
-                                                android:enabled="false"/>
-                                        </com.google.android.material.textfield.TextInputLayout>
-                                    </androidx.cardview.widget.CardView>
+                                                android:layout_height="wrap_content">
 
+                                                <com.google.android.material.textfield.TextInputEditText
+                                                    android:id="@+id/textFieldDeliveryMemoText"
+                                                    android:layout_width="match_parent"
+                                                    android:layout_height="40dp"
+                                                    android:background="@color/white"
+                                                    android:drawableEnd="@drawable/arrowdropdown_icon"
+                                                    android:paddingLeft="15dp"
+                                                    android:text="선택 안함"
+                                                    android:textSize="12sp"
+                                                    android:enabled="false"/>
+                                            </com.google.android.material.textfield.TextInputLayout>
+                                        </androidx.cardview.widget.CardView>
+
+
+                                    </LinearLayout>
 
                                 </LinearLayout>
 
                             </LinearLayout>
 
                         </LinearLayout>
-
-                    </LinearLayout>
-                </androidx.cardview.widget.CardView>
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="3dp">
 
                     <TextView
                         android:id="@+id/textView3"
@@ -192,25 +205,152 @@
                     </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:clipToPadding="false"
+                    android:paddingHorizontal="3dp"
+                    android:paddingVertical="3dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="주문 상세"
+                        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardElevation="2dp"
+                        app:cardCornerRadius="10dp">
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:paddingVertical="10dp">
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingHorizontal="10dp">
+
+                                <TextView
+                                    android:id="@+id/textView4"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="기본배송비"
+                                    android:textSize="16dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/textViewOrderMainBasicDeliveryPrice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="3000원"
+                                    android:textSize="16dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:paddingHorizontal="10dp">
+
+                                <TextView
+                                    android:id="@+id/textView5"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="추가배송비"
+                                    android:textSize="16dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/textViewOrderMainAddDeliveryPrice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="4000원"
+                                    android:textSize="16dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                            <androidx.constraintlayout.widget.ConstraintLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:clipToPadding="false"
+                                android:paddingHorizontal="3dp"
+                                android:paddingVertical="3dp">
+
+                                <TextView
+                                    android:id="@+id/textView6"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="작품가격"
+                                    android:textSize="16dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintStart_toStartOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+
+                                <TextView
+                                    android:id="@+id/textViewOrderMainPiecePrice"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="15,440,979원"
+                                    android:textSize="16dp"
+                                    app:layout_constraintBottom_toBottomOf="parent"
+                                    app:layout_constraintEnd_toEndOf="parent"
+                                    app:layout_constraintTop_toTopOf="parent" />
+                            </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
+                    </androidx.cardview.widget.CardView>
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:cardElevation="2dp"
+                        app:cardCornerRadius="10dp"
+                        android:layout_marginTop="10dp"
+                        >
+                        <androidx.constraintlayout.widget.ConstraintLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:padding="10dp">
+
+                            <TextView
+                                android:id="@+id/textViewOrderMoney"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="주문금액"
+                                android:textSize="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintStart_toStartOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+
+                            <TextView
+                                android:id="@+id/textViewOrderMoneyMain"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="15,447,979원"
+                                android:textSize="20dp"
+                                app:layout_constraintBottom_toBottomOf="parent"
+                                app:layout_constraintEnd_toEndOf="parent"
+                                app:layout_constraintTop_toTopOf="parent" />
+                        </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    </androidx.cardview.widget.CardView>
+                </LinearLayout>
 
             </LinearLayout>
+
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="20dp">
 
-        <TextView
-            android:id="@+id/textViewOrderMoney"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="주문금액 : "
-            android:textAlignment="textEnd" />
-    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
