@@ -72,10 +72,7 @@ class JoinFragment : Fragment() {
                     if (succes){
                         // 작업이 완료된 후에 popBackStack() 호출
                         parentFragmentManager.popBackStack(LoginFragmentName.JOIN_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                    }else{
-
                     }
-
                 }
             }
         }
