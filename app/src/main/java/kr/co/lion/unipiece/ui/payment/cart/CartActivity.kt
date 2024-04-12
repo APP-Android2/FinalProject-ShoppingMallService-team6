@@ -6,7 +6,6 @@ import android.os.Bundle
 import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginStart
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -28,22 +27,6 @@ class CartActivity : AppCompatActivity() {
         setRecyclerViewCart()
         clickButtonOrder()
         setCheckBoxAll()
-    }
-
-    fun setCheckBoxAll(){
-        // 전체 선택 체크박스 클릭 리스너 설정
-        activityCartBinding.checkBoxCartAll.apply {
-            setOnClickListener {
-                // 체크박스의 체크 상태를 가져옵니다.
-                val isChecked = this.isChecked
-
-                // 어댑터를 가져와서 selectAll 함수를 호출합니다.
-                // 이때, 체크박스의 현재 상태(isChecked)를 인자로 전달합니다.
-                // 이는 모든 항목을 현재 체크박스의 상태와 동일하게 선택하거나 선택 해제하는 기능을 수행합니다.
-                val adapter = activityCartBinding.recyclerViewCartList.adapter as CartRecyclerViewAdapter
-                adapter.selectAll(isChecked)
-            }
-        }
     }
 
     /////////////////////////////// 기능 구현 ///////////////////////////////////////
@@ -113,6 +96,22 @@ class CartActivity : AppCompatActivity() {
 
                 )
 
+            }
+        }
+    }
+
+    fun setCheckBoxAll(){
+        // 전체 선택 체크박스 클릭 리스너 설정
+        activityCartBinding.checkBoxCartAll.apply {
+            setOnClickListener {
+                // 체크박스의 체크 상태를 가져옵니다.
+                val isChecked = this.isChecked
+
+                // 어댑터를 가져와서 selectAll 함수를 호출합니다.
+                // 이때, 체크박스의 현재 상태(isChecked)를 인자로 전달합니다.
+                // 이는 모든 항목을 현재 체크박스의 상태와 동일하게 선택하거나 선택 해제하는 기능을 수행합니다.
+                val adapter = activityCartBinding.recyclerViewCartList.adapter as CartRecyclerViewAdapter
+                adapter.selectAll(isChecked)
             }
         }
     }

@@ -247,7 +247,7 @@
                                     android:id="@+id/textViewOrderMainBasicDeliveryPrice"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="3000원"
+                                    android:text="3,000원"
                                     android:textSize="16dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -272,7 +272,7 @@
                                     android:id="@+id/textViewOrderMainAddDeliveryPrice"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
-                                    android:text="4000원"
+                                    android:text="4,000원"
                                     android:textSize="16dp"
                                     app:layout_constraintBottom_toBottomOf="parent"
                                     app:layout_constraintEnd_toEndOf="parent"
@@ -281,9 +281,7 @@
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:clipToPadding="false"
-                                android:paddingHorizontal="3dp"
-                                android:paddingVertical="3dp">
+                                android:paddingHorizontal="10dp">
 
                                 <TextView
                                     android:id="@+id/textView6"
