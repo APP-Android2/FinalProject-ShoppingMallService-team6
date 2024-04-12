@@ -14,10 +14,13 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorReviewBottomSheetBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
 import kr.co.lion.unipiece.databinding.RowAuthorReviewBottomSheetBinding
+import kr.co.lion.unipiece.ui.author.adapter.AuthorPiecesAdapter
+import kr.co.lion.unipiece.ui.author.adapter.AuthorReviewAdapter
 
 class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
     lateinit var fragmentAuthorReviewBottomSheetBinding: FragmentAuthorReviewBottomSheetBinding
+    lateinit var reviewAdapter: AuthorReviewAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,18 +29,31 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         // Inflate the layout for this fragment
         fragmentAuthorReviewBottomSheetBinding = FragmentAuthorReviewBottomSheetBinding.inflate(inflater)
 
-        settingRecyclerView()
         settingButtonAuthorReviewAdd()
         
         return fragmentAuthorReviewBottomSheetBinding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        settingRecyclerView()
+    }
+
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
+        // 테스트 데이터
+        val reviewList = arrayListOf<Any>(
+            "test","test","test","test","test","test","test","test","test","test"
+        )
+
+        // 리사이클러뷰 어댑터
+        reviewAdapter = AuthorReviewAdapter(reviewList)
+
+        // 리사이클러뷰 셋팅
         fragmentAuthorReviewBottomSheetBinding.recyclerViewAuthorReview.apply {
             // 어댑터
-            adapter = RecyclerViewAdapter()
+            adapter = reviewAdapter
             // 레이아웃 매니저, 가로 방향 셋팅
             layoutManager = LinearLayoutManager(requireActivity())
             // 데코레이션
@@ -46,45 +62,7 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         }
     }
 
-    // 작품 리사이클러 뷰 어댑터
-    inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
-        inner class ViewHolder(rowAuthorReviewBottomSheetBinding: RowAuthorReviewBottomSheetBinding):
-            RecyclerView.ViewHolder(rowAuthorReviewBottomSheetBinding.root){
-            val rowAuthorReviewBottomSheetBinding: RowAuthorReviewBottomSheetBinding
 
-            init {
-                this.rowAuthorReviewBottomSheetBinding = rowAuthorReviewBottomSheetBinding
-
-                this.rowAuthorReviewBottomSheetBinding.root.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val rowAuthorReviewBottomSheetBinding = RowAuthorReviewBottomSheetBinding.inflate(layoutInflater)
-            val viewHolder = ViewHolder(rowAuthorReviewBottomSheetBinding)
-            return viewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return 20
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            // 닉네임
-            holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewNickName.text = "김토끼 $position"
-            // 댓글 내용
-            holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewText.text = "홍작가님 작품 너무 대박이에요"
-            // 삭제 버튼은 본인 댓글만 보여지게
-            if(true){
-                holder.rowAuthorReviewBottomSheetBinding.buttonRowAuthorReviewDelete.isVisible = true
-            }else{
-                holder.rowAuthorReviewBottomSheetBinding.buttonRowAuthorReviewDelete.isVisible = false
-            }
-        }
-    }
 
     // 확인 버튼
     private fun settingButtonAuthorReviewAdd(){

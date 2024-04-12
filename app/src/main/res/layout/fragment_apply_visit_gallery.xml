@@ -67,9 +67,9 @@
                 android:id="@+id/textViewApplyVisitGalleryMemberCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:text="방문 인원"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -123,9 +123,9 @@
                 android:id="@+id/textViewApplyVisitGalleryDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="32dp"
                 android:text="방문 날짜"
-                android:textSize="16sp"
+                android:textSize="18sp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -138,6 +138,7 @@
                     android:id="@+id/datePickerApplyVisitGallery"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:headerBackground="@color/first"
                     android:theme="@style/Theme.Material3" />
             </LinearLayout>
