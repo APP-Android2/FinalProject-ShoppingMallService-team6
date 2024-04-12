@@ -24,6 +24,8 @@ class BuyFragment : Fragment() {
 
     lateinit var binding: FragmentBuyBinding
 
+    private lateinit var callback: OnBackPressedCallback
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -40,6 +42,32 @@ class BuyFragment : Fragment() {
         initViewPager()
         setBuyNaviDrawer()
     }
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+
+        callback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                // 뒤로가기 클릭시 동작하는 로직
+                with(binding){
+                    if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
+                        drawerBuyLayout.close()
+                    } else {
+                        isEnabled = false
+                        requireActivity().onBackPressed()
+                    }
+                }
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(this, callback)
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        // OnBackPressedCallback 해제
+        callback.remove()
+    }
+
 
     fun settingToolbarBuy(){
 
