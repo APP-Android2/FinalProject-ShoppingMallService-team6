@@ -6,51 +6,32 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <androidx.drawerlayout.widget.DrawerLayout
-        android:id="@+id/drawerBuyLayout"
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/fl_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
-        <androidx.coordinatorlayout.widget.CoordinatorLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/lightgray" />
 
-            <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fl_container"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="80dp"/>
-
-            <com.google.android.material.bottomnavigation.BottomNavigationView
-                android:id="@+id/bottomNavigationView"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:layout_gravity="bottom"
-                android:background="@color/white"
-                android:paddingTop="12dp"
-                android:paddingBottom="12dp"
-                app:itemActiveIndicatorStyle="@null"
-                app:itemBackground="@android:color/transparent"
-                app:itemIconSize="24dp"
-                app:itemIconTint="@color/color_bottomnavi"
-                app:itemTextAppearanceActive="@style/BottomNaviTab.Active"
-                app:itemTextAppearanceInactive="@style/BottomNaviTab"
-                app:itemTextColor="@color/color_bottomnavi"
-                app:labelVisibilityMode="labeled"
-                app:menu="@menu/menu_bottomnavi" />
-
-        </androidx.coordinatorlayout.widget.CoordinatorLayout>
-
-        <com.google.android.material.navigation.NavigationView
-            android:id="@+id/navigationDrawer"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            app:itemBackground="@color/color_buydrawer"
-            app:itemTextAppearance="@font/pretendard_medium"
-            app:itemTextColor="@color/text_buydrawer"
-            app:menu="@menu/menu_buy_drawer" />
-
-    </androidx.drawerlayout.widget.DrawerLayout>
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        android:paddingTop="12dp"
+        android:paddingBottom="12dp"
+        app:itemActiveIndicatorStyle="@null"
+        app:itemBackground="@android:color/transparent"
+        app:itemIconSize="24dp"
+        app:itemIconTint="@color/color_bottomnavi"
+        app:itemTextAppearanceActive="@style/BottomNaviTab.Active"
+        app:itemTextAppearanceInactive="@style/BottomNaviTab"
+        app:itemTextColor="@color/color_bottomnavi"
+        app:labelVisibilityMode="labeled"
+        app:menu="@menu/menu_bottomnavi" />
 
 </LinearLayout>

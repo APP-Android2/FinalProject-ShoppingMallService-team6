@@ -7,56 +7,89 @@
     android:orientation="vertical"
     tools:context=".ui.buy.BuyFragment">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarBuy"
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerBuyLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="?attr/actionBarSize"
-        android:theme="?attr/actionBarTheme"
-        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+        android:layout_height="match_parent">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/titleTab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="20dp">
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/pieceTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_bold"
-            android:text="작품 모아보기"
-            android:textColor="@color/black"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="20dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tabGravity="start"
-            app:tabIndicatorColor="@color/black"
-            app:tabIndicatorHeight="1dp"
-            app:tabRippleColor="@color/colorTransparent"
-            app:tabSelectedTextAppearance="@style/BottomNaviTab.Active"
-            app:tabSelectedTextColor="@color/black"
-            app:tabTextAppearance="@style/BottomNaviTab"
-            app:tabTextColor="@color/lightgray">
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/titleTab"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
 
-        </com.google.android.material.tabs.TabLayout>
+                    <com.google.android.material.appbar.MaterialToolbar
+                        android:id="@+id/toolbarBuy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:minHeight="?attr/actionBarSize"
+                        android:theme="?attr/actionBarTheme"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/pieceTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginTop="20dp"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="작품 모아보기"
+                        android:textColor="@color/black"
+                        android:textSize="18sp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/toolbarBuy" />
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/buyVP"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginEnd="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/toolbarBuy"
+                        app:tabGravity="start"
+                        app:tabIndicatorColor="@color/black"
+                        app:tabIndicatorHeight="1dp"
+                        app:tabRippleColor="@color/colorTransparent"
+                        app:tabSelectedTextAppearance="@style/BottomNaviTab.Active"
+                        app:tabSelectedTextColor="@color/black"
+                        app:tabTextAppearance="@style/BottomNaviTab"
+                        app:tabTextColor="@color/lightgray">
+
+                    </com.google.android.material.tabs.TabLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.viewpager2.widget.ViewPager2
+                    android:id="@+id/buyVP"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
+
+            </LinearLayout>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navigationDrawer"
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:itemBackground="@color/color_buydrawer"
+            app:itemTextAppearance="@font/pretendard_medium"
+            app:itemTextColor="@color/text_buydrawer"
+            app:menu="@menu/menu_buy_drawer" />
+
+    </androidx.drawerlayout.widget.DrawerLayout>
 
 </LinearLayout>

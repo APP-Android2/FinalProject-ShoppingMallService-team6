@@ -25,6 +25,8 @@ import kr.co.lion.unipiece.util.MainFragmentName.*
 class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
+
+    lateinit var buyFragment: BuyFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -32,7 +34,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         bottomNaviClick()
         initView()
-        setBuyNaviDrawer()
+
+        buyFragment = BuyFragment()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -62,126 +65,36 @@ class MainActivity : AppCompatActivity() {
         replaceFragment(HOME_FRAGMENT, true)
     }
 
-    fun setBuyNaviDrawer(){
-        with(binding){
-            with(navigationDrawer){
-                val headerDrawerBinding = HeaderBuyDrawerBinding.inflate(layoutInflater)
-                addHeaderView(headerDrawerBinding.root)
-
-                headerDrawerBinding.backBtn.setOnClickListener {
-                    drawerBuyLayout.close()
-                }
-
-                setNavigationItemSelectedListener {
-
-                    drawerBuyLayout.close()
-                    it.isChecked = true
-
-                    when(it.itemId){
-                        R.id.menuAll -> {
-
-                        }
-                        R.id.menuArtAll -> {
-
-                        }
-                        R.id.menuArtWest -> {
-
-                        }
-                        R.id.menuArtOri -> {
-
-                        }
-                        R.id.menuArtCalli -> {
-
-                        }
-                        R.id.menuArtSculp -> {
-
-                        }
-                        R.id.menuArtPrint -> {
-
-                        }
-                        R.id.menuArtWood -> {
-
-                        }
-                        R.id.menuArtGlass -> {
-
-                        }
-                        R.id.menuArtFabric -> {
-
-                        }
-                        R.id.menuArtMetal -> {
-
-                        }
-                        R.id.menuArtComic -> {
-
-                        }
-                        R.id.menuArtAni -> {
-
-                        }
-                        R.id.menuHumAll -> {
-
-                        }
-                        R.id.menuHumFiction -> {
-
-                        }
-                        R.id.menuHumPoem -> {
-
-                        }
-                        R.id.menuHumScript -> {
-
-                        }
-                        R.id.menuEngAll -> {
-
-                        }
-                        R.id.menuEngSoft -> {
-
-                        }
-                        R.id.menuEngHard -> {
-
-                        }
-                    }
-
-                    true
-                }
-            }
-        }
-    }
-
     override fun onBackPressed() {
-        with(binding){
-            if(drawerBuyLayout.isDrawerOpen(GravityCompat.START)){
-                drawerBuyLayout.close()
+            super.onBackPressed()
+            updateBottomNavi()
+
+            var isSearchFragmentOnTop = false
+
+            if (supportFragmentManager.backStackEntryCount > 0) {
+                // 백 스택의 마지막 항목의 이름을 가져옵니다.
+                val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
+                // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
+                isSearchFragmentOnTop = SEARCH_FRAGMENT.str == lastFragmentName || "SearchResultFragment" == lastFragmentName
+
             } else {
-                super.onBackPressed()
-                updateBottomNavi()
-
-                var isSearchFragmentOnTop = false
-
-                if (supportFragmentManager.backStackEntryCount > 0) {
-                    // 백 스택의 마지막 항목의 이름을 가져옵니다.
-                    val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
-                    // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
-                    isSearchFragmentOnTop = SEARCH_FRAGMENT.str == lastFragmentName || "SearchResultFragment" == lastFragmentName
-
-                } else {
-                    // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
-                    isSearchFragmentOnTop = false
-                }
-
-                if (isSearchFragmentOnTop) {
-                    // SearchFragment가 백 스택의 최상단에 존재합니다.
-                    // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
-                    printFragmentBackStack("two back")
-                    super.onBackPressed()
-                }
-
-                // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
-                if(supportFragmentManager.backStackEntryCount == 0) {
-                    finish()
-                }
-
+                // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
+                isSearchFragmentOnTop = false
             }
+
+            if (isSearchFragmentOnTop) {
+                // SearchFragment가 백 스택의 최상단에 존재합니다.
+                // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
+                super.onBackPressed()
+            }
+
+            // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
+            if(supportFragmentManager.backStackEntryCount == 0) {
+                finish()
+            }
+
         }
-    }
+
 
     fun updateBottomNavi(){
         // printFragmentBackStack("update")
