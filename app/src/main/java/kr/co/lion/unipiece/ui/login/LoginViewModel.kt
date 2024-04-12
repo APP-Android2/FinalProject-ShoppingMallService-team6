@@ -62,10 +62,11 @@ class LoginViewModel : ViewModel() {
 
 
     //아이디가 중복되는지 검사한다
-    fun checkUserId(userId:String){
-        viewModelScope.launch{
-            userInfoRepository.checkUserId(userId)
-        }
-    }
+//    fun checkUserId(userId:String):Boolean{
+//        viewModelScope.launch{
+//            userInfoRepository.checkUserId(userId)
+//        }
+//
+//    }
 
 }

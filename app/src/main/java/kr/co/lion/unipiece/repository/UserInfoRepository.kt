@@ -13,7 +13,7 @@ class UserInfoRepository {
 
     suspend fun insertUserData(userInfoData: UserInfoData) = userInfoDataSource.insetUserData(userInfoData)
 
-    suspend fun checkUserId(userId:String) = userInfoDataSource.checkUserId(userId)
+    suspend fun checkUserId(userId:String):Boolean = userInfoDataSource.checkUserId(userId)
 
     suspend fun getUserDataByIdx(userIdx:Int) = userInfoDataSource.getUserDataByIdx(userIdx)
 

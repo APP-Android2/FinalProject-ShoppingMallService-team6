@@ -14,7 +14,9 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentJoinBinding
 import kr.co.lion.unipiece.db.remote.UserInfoDataSource
+import kr.co.lion.unipiece.model.UserInfoData
 import kr.co.lion.unipiece.repository.UserInfoRepository
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.LoginFragmentName
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.showSoftInput
@@ -25,6 +27,9 @@ class JoinFragment : Fragment() {
 
     val viewModel: LoginViewModel by viewModels()
 
+    //아이디 중복 검사 여부
+    var checkUserId = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
@@ -32,6 +37,7 @@ class JoinFragment : Fragment() {
         settingToolBar()
         click()
         initView()
+        checkId()
         return fragmentJoinBinding.root
     }
 
@@ -56,8 +62,8 @@ class JoinFragment : Fragment() {
             buttonJoinMember.setOnClickListener {
                 val chk = checkEmptyText()
                 if (chk == true){
-                    insertUserData()
-                    requireActivity().hideSoftInput()
+                    noCheckUserId()
+
                 }
             }
         }
@@ -87,6 +93,9 @@ class JoinFragment : Fragment() {
             }
             textJoinCheckPw.addTextChangedListener {
                 textJoinCheckPwLayout.error = null
+            }
+            textJoinUserId.addTextChangedListener {
+                checkUserId = false
             }
         }
     }
@@ -166,6 +175,33 @@ class JoinFragment : Fragment() {
         }
     }
 
+    //아이디 중복 검사를 하지 않은 경우
+    private fun noCheckUserId(){
+        fragmentJoinBinding.apply {
+            if (checkUserId == false){
+                val dialog = CustomDialog("아이디 중복 확인", "아이디 중복 확인을 해주세요")
+                dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
+                    override fun okButtonClick() {
+                        requireActivity().showSoftInput(textJoinUserId)
+
+                    }
+
+                    override fun noButtonClick() {
+
+                    }
+
+                })
+                dialog.show(parentFragmentManager, "CustomDialog")
+
+                return
+            }else{
+                insertUserData()
+                requireActivity().hideSoftInput()
+            }
+
+        }
+    }
+
     private fun insertUserData() {
         viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
             fragmentJoinBinding.apply {
@@ -186,4 +222,61 @@ class JoinFragment : Fragment() {
         }
     }
 
-}
+    //아이디 중복 검사
+    private fun checkId(){
+        fragmentJoinBinding.apply {
+            buttonJoinCheckUserId.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
+                    val userInfoDataSource = UserInfoDataSource()
+
+                    val userId = textJoinUserId.text.toString()
+
+                    checkUserId = userInfoDataSource.checkUserId(userId)
+
+                    if (checkUserId == false) {
+                        textJoinUserId.setText("")
+                        val dialog = CustomDialog("아이디 중복 오류", "이미 사용중인 아이디 입니다")
+                        dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
+                            override fun okButtonClick() {
+                                requireActivity().showSoftInput(textJoinUserId)
+                            }
+
+                            override fun noButtonClick() {
+
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "CustomDialog")
+                    }
+                    if (userId.isEmpty()){
+                        val dialog = CustomDialog("아이디 입력 오류", "아이디를 입력해주세요")
+                        dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+                            override fun okButtonClick() {
+                                requireActivity().showSoftInput(textJoinUserId)
+                            }
+
+                            override fun noButtonClick() {
+
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "CustomDialog")
+                    }else if (checkUserId == true){
+                        val dialog = CustomDialog("사용 가능한 아이디 입니다", "회원가입을 진행해주세요!")
+                        dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+                            override fun okButtonClick() {
+                                requireActivity().hideSoftInput()
+                            }
+
+                            override fun noButtonClick() {
+
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "CustomDialog")
+                    }
+                    }
+                }
+            }
+        }
+    }
