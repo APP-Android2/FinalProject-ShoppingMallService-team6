@@ -1,11 +1,15 @@
 package kr.co.lion.unipiece.ui.payment.cart
 
 import android.content.Intent
+import android.content.res.Resources
 import android.os.Bundle
+import android.util.TypedValue
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginStart
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityCartBinding
 import kr.co.lion.unipiece.databinding.RowCartBinding
@@ -94,6 +98,21 @@ class CartActivity : AppCompatActivity() {
                 })
 
                 layoutManager = LinearLayoutManager(this@CartActivity)
+
+
+                // 마지막 리사이클러뷰 항목의 디바이더 삭제
+                addItemDecoration(
+                    MaterialDividerItemDecoration(this@CartActivity,
+                        (layoutManager as LinearLayoutManager).orientation
+                    ).apply {
+                        isLastItemDecorated = false
+                        setDividerColorResource(this@CartActivity,R.color.lightgray)
+                        dividerInsetEnd = 16.dp
+                        dividerInsetStart = 16.dp
+                    }
+
+                )
+
             }
         }
     }
@@ -186,3 +205,14 @@ class CartActivity : AppCompatActivity() {
 interface OnItemCheckStateChangeListener {
     fun onItemCheckStateChanged(isAllSelected: Boolean)
 }
+
+// dp값으로 변환하는 확장함수
+inline val Int.dp: Int
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics
+    ).toInt()
+
+inline val Float.dp: Float
+    get() = TypedValue.applyDimension(
+        TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
+    )
