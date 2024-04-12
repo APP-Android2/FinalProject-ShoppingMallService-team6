@@ -68,8 +68,8 @@ class JoinFragment : Fragment() {
                 val userPwd = textJoinUserPw.text.toString()
 
                 // insertUserData()를 호출하고 완료될 때까지 기다림
-                viewModel.insertUserData(userName, nickName, phoneNumber, userId, userPwd, true){ succes ->
-                    if (succes){
+                viewModel.insertUserData(userName, nickName, phoneNumber, userId, userPwd, true){ success ->
+                    if (success){
                         // 작업이 완료된 후에 popBackStack() 호출
                         parentFragmentManager.popBackStack(LoginFragmentName.JOIN_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                     }
