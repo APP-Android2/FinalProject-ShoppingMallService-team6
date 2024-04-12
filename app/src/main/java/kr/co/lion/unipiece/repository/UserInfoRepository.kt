@@ -16,4 +16,5 @@ class UserInfoRepository {
     suspend fun checkUserId(userId:String) = userInfoDataSource.checkUserId(userId)
 
     suspend fun getUserDataByIdx(userIdx:Int) = userInfoDataSource.getUserDataByIdx(userIdx)
+
 }
