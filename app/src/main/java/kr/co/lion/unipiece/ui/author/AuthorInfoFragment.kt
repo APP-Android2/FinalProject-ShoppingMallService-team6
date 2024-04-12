@@ -14,8 +14,10 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.adapter.AuthorPiecesAdapter
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mypage.ModifyUserInfoFragment
+import kr.co.lion.unipiece.ui.mypage.adapter.VisitGalleryAdapter
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
@@ -23,7 +25,9 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
+    lateinit var authorPiecesAdapter: AuthorPiecesAdapter
 
+    // 작가 팔로우 여부
     var authorFollow = false
 
     override fun onCreateView(
@@ -37,9 +41,14 @@ class AuthorInfoFragment : Fragment() {
         initView()
         settingButtonFollow()
         settingButtonReview()
-        settingRecyclerView()
+
 
         return fragmentAuthorInfoBinding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        settingRecyclerView()
     }
 
     // 툴바 셋팅
@@ -112,11 +121,7 @@ class AuthorInfoFragment : Fragment() {
         changeFollowButton()
 
         fragmentAuthorInfoBinding.buttonAuthorFollow.setOnClickListener {
-            if(!authorFollow){
-                authorFollow = true
-            }else{
-                authorFollow = false
-            }
+            authorFollow = !authorFollow
             changeFollowButton()
         }
     }
@@ -150,53 +155,36 @@ class AuthorInfoFragment : Fragment() {
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
+        // 테스트 데이터
+        val piecesList = arrayListOf<Int>(
+            R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_foreground,
+            R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_foreground,
+            R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_foreground,
+            R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_foreground,
+            R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_foreground,
+        )
+
+        // 리사이클러뷰 어댑터
+        authorPiecesAdapter = AuthorPiecesAdapter(piecesList){
+            val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
+            startActivity(pieceIntent)
+        }
+
+        // 리사이클러뷰 셋팅
         fragmentAuthorInfoBinding.recyclerViewAuthorPieces.apply {
             // 어댑터
-            adapter = RecyclerViewAdapter()
+            adapter = authorPiecesAdapter
             // 레이아웃 매니저, 가로 방향 셋팅
             layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
-            // 데코레이션
-            // val deco = MaterialDividerItemDecoration(authorInfoActivity, MaterialDividerItemDecoration.HORIZONTAL)
-            // addItemDecoration(deco)
         }
     }
 
-    // 작품 리사이클러 뷰 어댑터
-    inner class RecyclerViewAdapter : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>(){
-        inner class ViewHolder(rowAuthorPiecesBinding: RowAuthorPiecesBinding):
-            RecyclerView.ViewHolder(rowAuthorPiecesBinding.root){
-            val rowAuthorPiecesBinding: RowAuthorPiecesBinding
 
-            init {
-                this.rowAuthorPiecesBinding = rowAuthorPiecesBinding
-
-                this.rowAuthorPiecesBinding.root.layoutParams = ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-                )
-            }
-        }
-
-        override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-            val rowAuthorPiecesBinding = RowAuthorPiecesBinding.inflate(layoutInflater)
-            val viewHolder = ViewHolder(rowAuthorPiecesBinding)
-            return viewHolder
-        }
-
-        override fun getItemCount(): Int {
-            return 20
-        }
-
-        override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-            // 이미지
-            holder.rowAuthorPiecesBinding.imageViewAuthorPiece.setImageResource(R.drawable.ic_launcher_background)
-            // 작품 클릭 시 설명 화면 이동
-            holder.rowAuthorPiecesBinding.root.setOnClickListener {
-                val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                startActivity(pieceIntent)
-            }
-        }
-    }
 
     // 프래그먼트 교체 메서드
     private fun replaceFragment(bundle: Bundle){
