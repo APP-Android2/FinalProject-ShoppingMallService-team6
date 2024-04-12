@@ -46,4 +46,11 @@ class JoinFragment : Fragment() {
             }
         }
     }
+
+    //정보 저장
+    private fun insertData(){
+        fragmentJoinBinding.apply {
+            val name
+        }
+    }
 }
