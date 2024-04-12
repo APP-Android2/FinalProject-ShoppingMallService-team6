@@ -26,6 +26,7 @@
             android:padding="20dp">
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textJoinNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="이름"
@@ -43,6 +44,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textJoinNicknameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -61,6 +63,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textJoinNumberLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -80,6 +83,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textJoinUserIdLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -108,6 +112,7 @@
                 android:textColor="@color/first" />
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textJoinPwLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
@@ -127,6 +132,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textJoinCheckPwLayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
