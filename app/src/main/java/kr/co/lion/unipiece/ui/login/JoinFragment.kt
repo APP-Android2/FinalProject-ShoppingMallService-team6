@@ -226,11 +226,9 @@ class JoinFragment : Fragment() {
         fragmentJoinBinding.apply {
             buttonJoinCheckUserId.setOnClickListener {
                 viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main){
-                    val userInfoDataSource = UserInfoDataSource()
-
                     val userId = textJoinUserId.text.toString()
 
-                    checkUserId = userInfoDataSource.checkUserId(userId)
+                    checkUserId = viewModel.checkUserId(userId)
 
                     if (checkUserId == false) {
                         textJoinUserId.setText("")
