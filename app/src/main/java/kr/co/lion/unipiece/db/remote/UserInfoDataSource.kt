@@ -48,7 +48,7 @@ class UserInfoDataSource {
     //사용자 정보 저장
     suspend fun insetUserData(userInfoData: UserInfoData){
         val job1 = CoroutineScope(Dispatchers.IO).launch {
-            val collectionReference = db.collection("UserInfoData")
+            val collectionReference = db.collection("UserInfo")
             collectionReference.add(userInfoData)
         }
         job1.join()
@@ -59,7 +59,7 @@ class UserInfoDataSource {
         var chk = false
 
         val job1 = CoroutineScope(Dispatchers.IO).launch {
-            val collectionReference = db.collection("UserInfoData")
+            val collectionReference = db.collection("UserInfo")
             val querySnapshot = collectionReference.whereEqualTo("userId", userId).get().await()
             chk = querySnapshot.isEmpty
         }
@@ -72,7 +72,7 @@ class UserInfoDataSource {
         var userInfoData:UserInfoData? = null
 
         var job1 = CoroutineScope(Dispatchers.IO).launch {
-            val collectionReference = db.collection("UserInfoData")
+            val collectionReference = db.collection("UserInfo")
             val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
             if (querySnapshot.isEmpty == false){
                 userInfoData = querySnapshot.documents[0].toObject(UserInfoData::class.java)
