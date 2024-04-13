@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="@drawable/dialog_border"
+    android:elevation="5dp"
+    android:minWidth="300dp"
+    android:orientation="vertical"
+    android:padding="20dp"
+    tools:context=".ui.login.NicknameDialog">
+
+    <TextView
+        android:id="@+id/dialogNickname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pretendard_bold"
+        android:text="TextView"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="13dp"
+        android:hint="닉네임"
+        app:boxStrokeColor="@color/second"
+        app:cursorColor="@color/second"
+        app:endIconMode="clear_text"
+        app:hintTextColor="@color/second">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nickNameDialog"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:background="@drawable/textfield_radius"
+            android:paddingLeft="15dp" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal"
+        android:paddingLeft="180dp">
+
+        <Button
+            android:id="@+id/buttonNicknameNo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_radius"
+            android:text="취소"
+            android:textColor="@color/white" />
+
+        <Button
+            android:id="@+id/buttonNicknameOk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/button_radius"
+            android:text="확인"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>
