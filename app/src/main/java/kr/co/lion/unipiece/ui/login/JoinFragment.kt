@@ -14,8 +14,6 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentJoinBinding
 import kr.co.lion.unipiece.db.remote.UserInfoDataSource
-import kr.co.lion.unipiece.model.UserInfoData
-import kr.co.lion.unipiece.repository.UserInfoRepository
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.LoginFragmentName
 import kr.co.lion.unipiece.util.hideSoftInput
@@ -183,6 +181,7 @@ class JoinFragment : Fragment() {
                 dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
                     override fun okButtonClick() {
                         requireActivity().showSoftInput(textJoinUserId)
+
 
                     }
 
