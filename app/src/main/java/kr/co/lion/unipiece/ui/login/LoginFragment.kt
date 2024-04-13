@@ -45,7 +45,7 @@ class LoginFragment : Fragment() {
                 dialog.setNicknameButtonClickListener(object : NicknameDialog.dialogButtonClickListener{
                     override fun nicknameOkButton() {
                         var str = dialog.binding.nickNameDialog.text.toString()
-                        Log.d("test1234", str)
+
                     }
 
                     override fun nicknameNoButton() {
