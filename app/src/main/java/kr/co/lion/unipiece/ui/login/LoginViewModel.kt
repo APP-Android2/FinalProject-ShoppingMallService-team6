@@ -12,9 +12,6 @@ import kr.co.lion.unipiece.model.UserInfoData
 import kr.co.lion.unipiece.repository.UserInfoRepository
 
 class LoginViewModel : ViewModel() {
-    private val _userInfo = MutableLiveData<List<UserInfoData>>()
-    val userInfo: LiveData<List<UserInfoData>> = _userInfo
-
     private val userInfoRepository = UserInfoRepository()
 
 
@@ -60,11 +57,8 @@ class LoginViewModel : ViewModel() {
 
 
     //아이디가 중복되는지 검사한다
-//    fun checkUserId(userId:String):Boolean{
-//        viewModelScope.launch{
-//            userInfoRepository.checkUserId(userId)
-//        }
-//
-//    }
+    suspend fun checkUserId(userId:String):Boolean{
+        return userInfoRepository.checkUserId(userId)
+    }
 
 }
