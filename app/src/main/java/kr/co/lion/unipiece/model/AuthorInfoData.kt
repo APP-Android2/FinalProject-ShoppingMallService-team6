@@ -1,5 +1,7 @@
 package kr.co.lion.unipiece.model
 
+import java.util.Date
+
 data class AuthorInfoData(
     var userIdx: Int,
     var authorIdx: Int,
@@ -9,7 +11,7 @@ data class AuthorInfoData(
     var authorInfo: String,
     var authorSale: String,
     var authorFollower: String,
-    var authorDate: String,
+    var authorDate: Date,
 ){
-    constructor() : this(0, 0, "", "무명작가", "OO대학 OO학과", "작가 소개하는 내용", "", "128", "")
+    constructor() : this(0, 0, "", "무명", "OO대학 OO학과", "작가 소개하는 내용", "", "128", Date())
 }
