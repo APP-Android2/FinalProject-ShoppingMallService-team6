@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.KakaoSdk
@@ -27,6 +28,8 @@ import kr.co.lion.unipiece.util.LoginFragmentName
 class LoginFragment : Fragment() {
 
     lateinit var fragmentLoginBinding: FragmentLoginBinding
+
+    val viewModel: LoginViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -96,6 +99,36 @@ class LoginFragment : Fragment() {
                         if (error != null) {
                             Log.e(TAG, "사용자 정보를 가져오는데 실패하였습니다", error)
                         } else if (user != null) {
+
+                            val dialog = NicknameDialog("닉네임을 입력해주세요")
+                            dialog.setNicknameButtonClickListener(object : NicknameDialog.dialogButtonClickListener{
+                                override fun nicknameOkButton() {
+                                    val nickname = dialog.binding.nickNameDialog.text.toString()
+                                    val userId = user.kakaoAccount?.email?:""
+                                    val name = user.kakaoAccount?.name?:""
+                                    val phoneNumber = user.kakaoAccount?.phoneNumber?:""
+                                    val userPwd = user.id.toString()
+
+
+                                    viewModel.insertUserData(name, nickname, phoneNumber, userPwd, userId,true){success ->
+                                        if (success){
+                                            startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                        }
+                                    }
+                                }
+
+                                override fun nicknameNoButton() {
+
+                                }
+
+                            })
+                            dialog.show(parentFragmentManager, "NicknameDialog")
+
+                            Log.d("seonguk1234", user.kakaoAccount?.email!!) //아이디
+                            Log.d("seonguk1234", user.kakaoAccount?.name!!) //이름
+                            Log.d("seonguk1234", user.kakaoAccount?.phoneNumber!!) //전번
+                            Log.d("seonguk1234", user.id.toString()) //비번
+
 
                         }
                     }
