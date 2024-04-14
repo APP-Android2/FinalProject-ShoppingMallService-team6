@@ -124,12 +124,6 @@ class LoginFragment : Fragment() {
                             })
                             dialog.show(parentFragmentManager, "NicknameDialog")
 
-                            Log.d("seonguk1234", user.kakaoAccount?.email!!) //아이디
-                            Log.d("seonguk1234", user.kakaoAccount?.name!!) //이름
-                            Log.d("seonguk1234", user.kakaoAccount?.phoneNumber!!) //전번
-                            Log.d("seonguk1234", user.id.toString()) //비번
-
-
                         }
                     }
                 }
