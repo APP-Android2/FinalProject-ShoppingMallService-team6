@@ -31,6 +31,9 @@ class LoginFragment : Fragment() {
 
     val viewModel: LoginViewModel by viewModels()
 
+    //아이디 중복 검사
+    var checkUserId = false
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -100,30 +103,42 @@ class LoginFragment : Fragment() {
                             Log.e(TAG, "사용자 정보를 가져오는데 실패하였습니다", error)
                         } else if (user != null) {
 
-                            val dialog = NicknameDialog("닉네임을 입력해주세요")
-                            dialog.setNicknameButtonClickListener(object : NicknameDialog.dialogButtonClickListener{
-                                override fun nicknameOkButton() {
-                                    val nickname = dialog.binding.nickNameDialog.text.toString()
-                                    val userId = user.kakaoAccount?.email?:""
-                                    val name = user.kakaoAccount?.name?:""
-                                    val phoneNumber = user.kakaoAccount?.phoneNumber?:""
-                                    val userPwd = user.id.toString()
+                            viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                                checkUserId = viewModel.checkUserId(user.kakaoAccount?.email?:"")
+
+                                if (checkUserId != false){
+
+                                    val dialog = NicknameDialog("닉네임을 입력해주세요")
+                                    dialog.setNicknameButtonClickListener(object : NicknameDialog.dialogButtonClickListener{
+                                        override fun nicknameOkButton() {
+                                            val nickname = dialog.binding.nickNameDialog.text.toString()
+                                            val userId = user.kakaoAccount?.email?:""
+                                            val name = user.kakaoAccount?.name?:""
+                                            val phoneNumber = user.kakaoAccount?.phoneNumber?:""
+                                            val userPwd = user.id.toString()
 
 
-                                    viewModel.insertUserData(name, nickname, phoneNumber, userPwd, userId,true){success ->
-                                        if (success){
-                                            startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                            viewModel.insertUserData(name, nickname, phoneNumber, userId, userPwd,true){success ->
+                                                if (success){
+                                                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                                }
+                                            }
                                         }
-                                    }
+
+                                        override fun nicknameNoButton() {
+
+                                        }
+
+                                    })
+                                    dialog.show(parentFragmentManager, "NicknameDialog")
+
+                                }else{
+                                    val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                    newIntent.putExtra("userId", user.kakaoAccount?.email?:"")
+                                    startActivity(newIntent)
+                                    requireActivity().finish()
                                 }
-
-                                override fun nicknameNoButton() {
-
-                                }
-
-                            })
-                            dialog.show(parentFragmentManager, "NicknameDialog")
-
+                            }
                         }
                     }
                 }
