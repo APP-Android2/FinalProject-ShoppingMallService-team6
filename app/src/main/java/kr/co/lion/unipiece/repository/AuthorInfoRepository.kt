@@ -23,4 +23,16 @@ class AuthorInfoRepository {
 
     // 작가 정보를 수정하는 메서드
     suspend fun updateAuthorInfoData(authorInfoData: AuthorInfoData) = authorInfoDataSource.updateAuthorInfoData(authorInfoData)
+
+    // 작가 팔로우 수를 가져오는 메서드
+    suspend fun getAuthorFollow(authorIdx: Int) = authorInfoDataSource.getFollowCount(authorIdx)
+
+    // 해당 작가 팔로우 여부 체크
+    suspend fun checkFollow(userIdx:Int, authorIdx:Int) = authorInfoDataSource.checkFollow(userIdx, authorIdx)
+
+    // 작가 팔로우 추가
+    suspend fun addAuthorFollow(userIdx:Int, authorIdx:Int) = authorInfoDataSource.addAuthorFollow(userIdx, authorIdx)
+
+    // 작가 팔로우 취소
+    suspend fun cancelFollowing(userIdx:Int, authorIdx:Int) = authorInfoDataSource.cancelFollowing(userIdx, authorIdx)
 }

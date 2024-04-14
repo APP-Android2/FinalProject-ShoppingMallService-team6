@@ -76,7 +76,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{authorInfoViewModel.authorName}"
+                                android:text="@{authorInfoViewModel.authorInfoData.authorName+` 작가`}"
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
@@ -87,7 +87,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{authorInfoViewModel.authorFollower}"
+                                android:text="@{authorInfoViewModel.authorFollow}"
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -108,7 +108,7 @@
                                 android:background="@drawable/button_radius2"
                                 android:paddingTop="0dp"
                                 android:paddingBottom="0dp"
-                                android:text="@{authorInfoViewModel.buttonAuthorFollowText}"
+                                android:text="팔로우"
                                 android:textColor="@color/first"
                                 android:textSize="14sp"
                                 android:textStyle="bold" />
@@ -140,7 +140,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="16dp"
                     android:paddingBottom="5dp"
-                    android:text="@{authorInfoViewModel.authorBasic}"
+                    android:text="@{authorInfoViewModel.authorInfoData.authorBasic}"
                     android:textColor="@color/black" />
 
                 <TextView
@@ -159,7 +159,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/textfield_radius"
                     android:padding="16dp"
-                    android:text="@{authorInfoViewModel.authorInfo}"
+                    android:text="@{authorInfoViewModel.authorInfoData.authorInfo}"
                     android:textColor="@color/black" />
 
                 <TextView
