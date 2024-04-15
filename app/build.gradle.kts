@@ -86,4 +86,5 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("com.kakao.sdk:v2-user:2.20.1")
+    implementation("com.navercorp.nid:oauth:5.9.1") // jdk 11
 }
