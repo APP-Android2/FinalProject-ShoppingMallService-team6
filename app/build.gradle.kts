@@ -57,6 +57,7 @@ dependencies {
 
     implementation("com.google.firebase:firebase-firestore")
 
+    implementation("com.google.firebase:firebase-storage")
 
     implementation("androidx.activity:activity:1.8.2")
     implementation("androidx.activity:activity-ktx:1.8.2")
