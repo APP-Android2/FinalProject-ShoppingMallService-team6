@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -16,6 +17,11 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.BuildConfig
@@ -39,11 +45,18 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
+        naverInitialize()
         settingEvent()
         return fragmentLoginBinding.root
     }
 
-
+    //네이버 로그인 initialize
+    private fun naverInitialize(){
+        val naverClientId = BuildConfig.NAVER_CLIENT_ID
+        val naverClientSecret = BuildConfig.NAVER_CLIENT_SECRET
+        val naverClientName = BuildConfig.NAVER_CLIENT_NAME
+        NaverIdLoginSDK.initialize(requireActivity(), naverClientId, naverClientSecret, naverClientName)
+    }
 
     //버튼 클릭
     private fun settingEvent(){
@@ -61,6 +74,9 @@ class LoginFragment : Fragment() {
             }
             imageKaKao.setOnClickListener {
                 kakaoLogin()
+            }
+            imageNaver.setOnClickListener {
+                naverLogin()
             }
         }
     }
@@ -148,6 +164,56 @@ class LoginFragment : Fragment() {
         } else {
             UserApiClient.instance.loginWithKakaoAccount(requireActivity(), callback = callback)
         }
+    }
+
+
+    private fun naverLogin(){
+        var naverToken:String? = ""
+
+        val profileCallback = object : NidProfileCallback<NidProfileResponse>{
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(requireActivity(), "에러코드 : ${errorCode}" + "에러 이유 : ${errorDescription}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSuccess(result: NidProfileResponse) {
+
+                Toast.makeText(requireActivity(), "성공", Toast.LENGTH_SHORT).show()
+                Log.d("test1234", "토큰 : ${naverToken}")
+                Log.d("test1234", "아이디 : ${result.profile?.id}") //비번
+                Log.d("test1234", "이메일 : ${result.profile?.email}") //아이디
+                Log.d("test1234", "번호 : ${result.profile?.mobile}") //폰 번호
+                Log.d("test1234", "이름 : ${result.profile?.name}") //이름
+                Log.d("test1234", "닉네임 : ${result.profile?.nickname}")
+                Log.d("test1234", "몰라1 : ${result.profile?.ci}")
+                Log.d("test1234", "몰라2 : ${result.profile?.encId}")
+            }
+
+        }
+
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(requireActivity(), "에러코드 : ${errorCode}" + "에러 이유 : ${errorDescription}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSuccess() {
+                naverToken = NaverIdLoginSDK.getAccessToken()
+                NidOAuthLogin().callProfileApi(profileCallback)
+            }
+
+        }
+        NaverIdLoginSDK.authenticate(requireActivity(), oauthLoginCallback)
     }
 
 }
