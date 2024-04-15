@@ -7,17 +7,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyNewBinding
 import kr.co.lion.unipiece.ui.buy.adapter.BuyNewAdapter
 import kr.co.lion.unipiece.ui.buy.adapter.BuyPopAdapter
+import kr.co.lion.unipiece.ui.buy.viewmodel.BuyViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
 
 class BuyNewFragment : Fragment() {
 
     lateinit var binding: FragmentBuyNewBinding
     lateinit var adapter: BuyNewAdapter
+
+    private val viewModel: BuyViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,21 +45,22 @@ class BuyNewFragment : Fragment() {
 
     fun initView() {
 
-        val testImageList = arrayListOf(R.drawable.icon, R.drawable.icon, R.drawable.icon,
-            R.drawable.icon, R.drawable.icon, R.drawable.icon,
-            R.drawable.icon, R.drawable.icon, R.drawable.icon)
-
-        adapter = BuyNewAdapter(testImageList,
-            itemClickListener = { testReviewId ->
-                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                startActivity(intent)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.newPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
+                    val buyNewAdapter = BuyNewAdapter(value,
+                        itemClickListener = { pieceIdx ->
+                            Log.d("테스트 pieceIdx", pieceIdx.toString())
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            startActivity(intent)
+                        }
+                    )
+                    with(binding){
+                        buyNewRV.adapter = buyNewAdapter
+                        buyNewRV.layoutManager = GridLayoutManager(activity, 2)
+                    }
+                })
             }
-        )
-
-        with(binding){
-            buyNewRV.adapter = adapter
-            buyNewRV.layoutManager = GridLayoutManager(activity, 2)
-            adapter.notifyDataSetChanged()
         }
     }
 }

@@ -2,14 +2,10 @@ package kr.co.lion.unipiece.ui.buy.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ItemBuyBinding
 import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.util.setImage
 
 class BuyPopAdapter (val pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<BuyPopViewHolder>() {
 
@@ -33,10 +29,8 @@ class BuyPopViewHolder(val binding: ItemBuyBinding, private val itemClickListene
             pieceName.text = item.pieceName
             piecePrice.text = "${item.piecePrice}원"
 
-            Glide.with(root).load(item.pieceImg)
-                .placeholder(R.drawable.ic_launcher_foreground) // 로딩 중일 때
-                .error(R.drawable.icon) // 오류 발생 시
-                .into(pieceImg)
+            root.context.setImage(pieceImg, item.pieceImg)
+
         }
 
         // 클릭 리스너 설정, 클릭 시 pieceIdx 전달

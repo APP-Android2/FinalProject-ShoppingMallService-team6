@@ -14,12 +14,16 @@ class BuyViewModel(): ViewModel() {
 
     private val pieceInfoRepository = PieceInfoRepository()
 
-    private var _popPieceInfoList = MutableLiveData<List<PieceInfoData>>()
+    private val _popPieceInfoList = MutableLiveData<List<PieceInfoData>>()
     val popPieceInfoList : LiveData<List<PieceInfoData>> = _popPieceInfoList
+
+    private val _newPieceInfoList = MutableLiveData<List<PieceInfoData>>()
+    val newPieceInfoList : LiveData<List<PieceInfoData>> = _newPieceInfoList
 
     init {
         viewModelScope.launch {
             getPopPieceInfo()
+            getNewPieceInfo()
         }
     }
 
@@ -28,16 +32,28 @@ class BuyViewModel(): ViewModel() {
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPopPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            Log.d("Firebase response", pieceInfoData.toString())
             pieceInfoList.add(pieceInfoData)
         }
 
         _popPieceInfoList.value = pieceInfoList
     }
 
-    private suspend fun getPopPieceImg(pieceIdx: String, pieceImg: String): URI? {
-        return pieceInfoRepository.getPopPieceInfoImg(pieceIdx, pieceImg)
+    private suspend fun getNewPieceInfo(){
+        val response = pieceInfoRepository.getNewPieceInfo()
+        val pieceInfoList = mutableListOf<PieceInfoData>()
+
+        response.forEach { pieceInfoData ->
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
+            pieceInfoList.add(pieceInfoData)
+        }
+
+        _newPieceInfoList.value = pieceInfoList
+    }
+
+    private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): URI? {
+        return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)
     }
 }

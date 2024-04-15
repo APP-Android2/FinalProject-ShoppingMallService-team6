@@ -8,5 +8,7 @@ class PieceInfoRepository {
 
     suspend fun getPopPieceInfo() = pieceInfoDataSource.getPopPieceInfo()
 
-    suspend fun getPopPieceInfoImg(pieceIdx: String, pieceImg: String) = pieceInfoDataSource.getPieceInfoImg(pieceIdx, pieceImg)
+    suspend fun getNewPieceInfo() = pieceInfoDataSource.getNewPieceInfo()
+
+    suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String) = pieceInfoDataSource.getPieceInfoImg(pieceIdx, pieceImg)
 }
