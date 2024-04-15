@@ -10,7 +10,6 @@
             type="kr.co.lion.unipiece.ui.payment.cart.CartViewModel" />
     </data>
     <!-- 뷰모델 객체 정의 끝 -->
-
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
@@ -45,7 +44,8 @@
                     android:id="@+id/textViewRowCart"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@{cartViewModel.userIdx.toString()}"
+                    android:text=""
+
                     android:textSize="20dp"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

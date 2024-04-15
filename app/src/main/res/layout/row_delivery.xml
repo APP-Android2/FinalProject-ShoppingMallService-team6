@@ -1,122 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <androidx.cardview.widget.CardView
+    <data>
+        <variable
+            name="deliveryViewModel"
+            type="kr.co.lion.unipiece.ui.payment.delivery.DeliveryViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="10dp"
-        app:cardPreventCornerOverlap="true">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="10dp">
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            app:cardBackgroundColor="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardPreventCornerOverlap="true">
 
             <LinearLayout
-                android:layout_width="300dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:orientation="horizontal"
+                android:padding="10dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textViewDeliveryName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="홍길동" />
-
-                    <TextView
-                        android:id="@+id/textViewDeliveryAdressName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="(공중화장실)"
-                        android:textAlignment="textStart" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="300dp"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/textViewDeliveryPhone"
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:text="01015447979" />
+                        android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/textViewDeliveryAddress"
+                        <TextView
+                            android:id="@+id/textViewDeliveryName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="left"
+                            android:text="@{deliveryViewModel.deliveryData.deliveryName}" />
+
+                        <TextView
+                            android:id="@+id/textViewDeliveryNickName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@{deliveryViewModel.deliveryData.deliveryNickName}"
+                            android:textAlignment="textStart" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="서울" />
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:id="@+id/textViewDeliveryPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:text="@{deliveryViewModel.deliveryData.deliveryPhone}" />
+
+                        <TextView
+                            android:id="@+id/textViewDeliveryAddress"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="@{deliveryViewModel.deliveryData.deliveryAddress}" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/buttonDeliveryUpdate"
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:background="@drawable/button_radius"
+                            android:padding="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingRight="0dp"
+                            android:text="수정"
+                            android:textColor="@color/white" />
+
+                        <Button
+                            android:id="@+id/buttonDeliveryDelete"
+                            android:layout_width="40dp"
+                            android:layout_height="30dp"
+                            android:layout_marginLeft="10dp"
+                            android:background="@drawable/button_radius"
+                            android:padding="0dp"
+                            android:paddingLeft="0dp"
+                            android:paddingRight="0dp"
+                            android:text="삭제"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
 
                 </LinearLayout>
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:layout_height="match_parent">
 
                     <Button
-                        android:id="@+id/buttonDeliveryUpdate"
+                        android:id="@+id/buttonDeliverySelect"
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:background="@drawable/button_radius"
                         android:padding="0dp"
-                        android:paddingLeft="0dp"
-                        android:paddingRight="0dp"
-                        android:text="수정"
-                        android:textColor="@color/white" />
-
-                    <Button
-                        android:id="@+id/buttonDeliveryDelete"
-                        android:layout_width="40dp"
-                        android:layout_height="30dp"
-                        android:layout_marginLeft="10dp"
-                        android:background="@drawable/button_radius"
-                        android:padding="0dp"
-                        android:paddingLeft="0dp"
-                        android:paddingRight="0dp"
-                        android:text="삭제"
-                        android:textColor="@color/white" />
-                </LinearLayout>
-
+                        android:text="선택"
+                        android:textColor="@color/white"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
+        </androidx.cardview.widget.CardView>
 
-                <Button
-                    android:id="@+id/buttonDeliverySelect"
-                    android:layout_width="40dp"
-                    android:layout_height="30dp"
-                    android:background="@drawable/button_radius"
-                    android:padding="0dp"
-                    android:text="선택"
-                    android:textColor="@color/white"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-        </LinearLayout>
-
-    </androidx.cardview.widget.CardView>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

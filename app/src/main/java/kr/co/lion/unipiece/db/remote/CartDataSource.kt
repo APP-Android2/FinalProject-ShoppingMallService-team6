@@ -1,79 +1,38 @@
 package kr.co.lion.unipiece.db.remote
 
 import com.google.firebase.Firebase
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
-import kr.co.lion.unipiece.model.UserInfoData
+import kr.co.lion.unipiece.model.CartData
+import kr.co.lion.unipiece.model.PieceInfoData
 
 class CartDataSource {
 
     private val db = Firebase.firestore
 
 
-    // 유저 시퀀스
-    suspend fun getCartSequence():Int{
-        //값 초기화
-        var cartSequence = 0
-
-        var job1 = CoroutineScope(Dispatchers.IO).launch {
-            //컬렉션에 접근
-            val collectionReference = db.collection("Sequence")
-            //문서에 접근
-            val documentReference = collectionReference.document("UserSequence")
-            //문서 내에 있는 데이터를 가져올 객체를 가져온다
-            val documentSnapshot = documentReference.get().await()
-
-            cartSequence = documentSnapshot.getLong("value")?.toInt()?: -1
-
-        }
-        job1.join()
-        return cartSequence
-    }
-
-    //시퀀스 업데이트
-    suspend fun updateCartSequence(cartSequence:Int){
-        val job1 = CoroutineScope(Dispatchers.IO).launch {
-            val collectionReference = db.collection("Sequence")
-            val documentReference = collectionReference.document("CartSequence")
-            val map = mutableMapOf<String, Long>()
-            map["value"] = cartSequence.toLong()
-            documentReference.set(map)
-        }
-        job1.join()
-    }
 
     // 작품의 idx값을 가지고 작품의 정보 가져오기
-    suspend fun getPieceDataByIdx(userIdx:Int) : UserInfoData?{
-        var userInfoData: UserInfoData? = null
-
-        var job1 = CoroutineScope(Dispatchers.IO).launch {
-            val collectionReference = db.collection("UserInfo")
-            val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
-            if (querySnapshot.isEmpty == false){
-                userInfoData = querySnapshot.documents[0].toObject(UserInfoData::class.java)
+    suspend fun getPieceDataByIdx(pieceIdx:Int) : MutableList<PieceInfoData>{
+        val pieceInfoDataList = mutableListOf<PieceInfoData>()
+        val job1 = CoroutineScope(Dispatchers.IO).launch {
+            // 작품 정보 컬렉션에 접근
+            val collectionReference = db.collection("PieceInfo")
+            // pieceIdx 필드가 매개변수로 들어오는 pieceIdx와 같은 문서들을 가져온다.
+            val querySnapshot = collectionReference.whereEqualTo("pieceIdx", pieceIdx).get().await()
+            // 가져온 문서의 수만큼 반복한다.
+            querySnapshot.forEach {
+                val pieceInfoData = it.toObject(PieceInfoData::class.java)
+                pieceInfoDataList.add(pieceInfoData)
             }
         }
         job1.join()
 
-        return userInfoData
+        return pieceInfoDataList
     }
 
-    //유저의 idx값을 가지고 유저의 정보 가져오기
-    suspend fun getUserDataByIdx(userIdx:Int) : UserInfoData?{
-        var userInfoData:UserInfoData? = null
-
-        var job1 = CoroutineScope(Dispatchers.IO).launch {
-            val collectionReference = db.collection("UserInfo")
-            val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
-            if (querySnapshot.isEmpty == false){
-                userInfoData = querySnapshot.documents[0].toObject(UserInfoData::class.java)
-            }
-        }
-        job1.join()
-
-        return userInfoData
-    }
 }

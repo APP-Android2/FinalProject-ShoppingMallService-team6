@@ -1,11 +1,13 @@
 package kr.co.lion.unipiece.model
 
-import java.sql.Timestamp
+import com.google.firebase.Timestamp
 
 
 data class CartData(
-    var userIdx: Int = 0,
-    var pieceIdx: Int = 0,
-    var cartPieceDate: Timestamp
+    var userIdx: Int,
+    var pieceIdx: Int,
+    var cartPieceDate: Timestamp,
 
-)
+){
+    constructor() : this(0, 0, Timestamp.now())
+}
