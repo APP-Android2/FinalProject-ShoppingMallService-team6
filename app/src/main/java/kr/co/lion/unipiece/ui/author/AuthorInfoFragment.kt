@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -29,7 +30,7 @@ class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
     lateinit var authorPiecesAdapter: AuthorPiecesAdapter
-    lateinit var authorInfoViewModel: AuthorInfoViewModel
+    val authorInfoViewModel: AuthorInfoViewModel by viewModels()
 
     // 이전 액티비티에서 작가Idx, 회원Idx 받아오기 추후 수정 필요
     // val authorIdx = requireArguments().getInt("authorIdx",1)
@@ -42,7 +43,6 @@ class AuthorInfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentAuthorInfoBinding = FragmentAuthorInfoBinding.inflate(inflater)
-        authorInfoViewModel = AuthorInfoViewModel()
         fragmentAuthorInfoBinding.authorInfoViewModel = authorInfoViewModel
         fragmentAuthorInfoBinding.lifecycleOwner = this
 
