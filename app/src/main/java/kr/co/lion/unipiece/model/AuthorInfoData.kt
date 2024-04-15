@@ -1,6 +1,6 @@
 package kr.co.lion.unipiece.model
 
-import java.util.Date
+import com.google.firebase.Timestamp
 
 data class AuthorInfoData(
     var userIdx: Int,
@@ -10,8 +10,7 @@ data class AuthorInfoData(
     var authorBasic: String,
     var authorInfo: String,
     var authorSale: String,
-    var authorFollower: String,
-    var authorDate: Date,
+    var authorDate: Timestamp,
 ){
-    constructor() : this(0, 0, "", "무명", "OO대학 OO학과", "작가 소개하는 내용", "", "128", Date())
+    constructor() : this(0, 0, "", "무명", "OO대학 OO학과", "작가 소개하는 내용", "", Timestamp.now())
 }
