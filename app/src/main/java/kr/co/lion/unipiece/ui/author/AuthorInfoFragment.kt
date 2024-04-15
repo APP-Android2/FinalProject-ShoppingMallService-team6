@@ -8,27 +8,34 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
-import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.adapter.AuthorPiecesAdapter
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
-import kr.co.lion.unipiece.ui.mypage.ModifyUserInfoFragment
-import kr.co.lion.unipiece.ui.mypage.adapter.VisitGalleryAdapter
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
-import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
     lateinit var authorPiecesAdapter: AuthorPiecesAdapter
+    val authorInfoViewModel: AuthorInfoViewModel by viewModels()
 
-    // 작가 팔로우 여부
-    var authorFollow = false
+    val authorIdx by lazy {
+        requireArguments().getInt("authorIdx")
+    }
+    val userIdx by lazy {
+        requireArguments().getInt("userIdx")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,12 +43,16 @@ class AuthorInfoFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         fragmentAuthorInfoBinding = FragmentAuthorInfoBinding.inflate(inflater)
+        fragmentAuthorInfoBinding.authorInfoViewModel = authorInfoViewModel
+        fragmentAuthorInfoBinding.lifecycleOwner = this
 
-        settingToolbar()
-        initView()
-        settingButtonFollow()
-        settingButtonReview()
-
+        lifecycleScope.launch(Dispatchers.Main){
+            fetchData()
+            initView()
+            settingToolbar()
+            settingButtonFollow()
+            settingButtonReview()
+        }
 
         return fragmentAuthorInfoBinding.root
     }
@@ -49,6 +60,16 @@ class AuthorInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingRecyclerView()
+    }
+
+    private suspend fun fetchData(){
+        val job1 = lifecycleScope.launch {
+            // 작가 정보 불러오기
+            authorInfoViewModel.getAuthorInfoData(authorIdx)
+            // 팔로워 수 불러오기
+            authorInfoViewModel.getFollowCount(authorIdx)
+        }
+        job1.join()
     }
 
     // 툴바 셋팅
@@ -66,12 +87,14 @@ class AuthorInfoFragment : Fragment() {
                 }
 
                 // 회원 유형에 따라 메뉴 아이콘 다르게 표시
-                // 추후 수정 필요
-                if(true){
-                    // 작가인 경우 작가 정보 수정 아이콘 표시
-                    menu.findItem(R.id.menu_edit).isVisible = true
-                }else{
-                    menu.findItem(R.id.menu_edit).isVisible = false
+                menu.findItem(R.id.menu_edit).isVisible = false
+                lifecycleScope.launch {
+                    // 추후 수정 필요
+                    val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
+                    if(authorCheck){ // 나중에 ! 제거
+                        // 작가 본인인 경우 작가 정보 수정 아이콘 표시
+                        menu.findItem(R.id.menu_edit).isVisible = true
+                    }
                 }
 
                 // 툴바 메뉴 클릭 이벤트
@@ -80,6 +103,8 @@ class AuthorInfoFragment : Fragment() {
                         R.id.menu_edit -> {
                             // 추후 전달할 데이터는 여기에 담기
                             val modifyBundle = Bundle()
+                            // 작가idx 전달
+                            modifyBundle.putInt("authorIdx", authorIdx)
                             // 작가 정보 수정 프래그먼트 교체
                             replaceFragment(modifyBundle)
                         }
@@ -102,44 +127,57 @@ class AuthorInfoFragment : Fragment() {
     }
 
     private fun initView(){
-        // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
-        fragmentAuthorInfoBinding.apply {
-            // 작가가 아니면
-            // 추후 수정
-            if(true){
-                buttonAuthorFollow.isVisible = true
-                buttonAuthorReview.isVisible = true
-            }else{
-                buttonAuthorFollow.isVisible = false
-                buttonAuthorReview.isVisible = false
+        with(fragmentAuthorInfoBinding){
+            lifecycleScope.launch {
+                // 추후 수정 필요
+                val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
+                // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
+                // 추후 수정
+                if(authorCheck){
+                    // 사용자가 해당 작가인 경우
+                    buttonAuthorFollow.isVisible = false
+                    buttonAuthorReview.isVisible = false
+                }
             }
+            // 작가 이미지 셋팅
+            Glide.with(requireActivity())
+                .load(authorInfoViewModel!!.authorInfoData.value?.authorImg)
+                .into(imageViewAuthor)
         }
     }
 
-    // 팔로우 버튼 클릭
+    // 팔로우 버튼 셋팅
     private fun settingButtonFollow(){
-        changeFollowButton()
+        // 팔로우 여부 체크
+        authorInfoViewModel.checkFollow(userIdx, authorIdx)
 
-        fragmentAuthorInfoBinding.buttonAuthorFollow.setOnClickListener {
-            authorFollow = !authorFollow
-            changeFollowButton()
-        }
-    }
-
-    // 팔로우 버튼 변경
-    private fun changeFollowButton(){
-        val followButton = fragmentAuthorInfoBinding.buttonAuthorFollow
-        if(authorFollow){
-            followButton.apply {
-                setBackgroundResource(R.drawable.button_radius)
-                setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-                text = "팔로잉"
+        // 팔로우 상태에 따라 버튼 변경
+        authorInfoViewModel.checkFollow.observe(viewLifecycleOwner, Observer {
+            with(fragmentAuthorInfoBinding.buttonAuthorFollow){
+                if(it){
+                    setBackgroundResource(R.drawable.button_radius)
+                    setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+                    text = "팔로잉"
+                }else{
+                    setBackgroundResource(R.drawable.button_radius2)
+                    setTextColor(ContextCompat.getColor(requireActivity(), R.color.first))
+                    text = "팔로우"
+                }
             }
-        }else{
-            followButton.apply {
-                setBackgroundResource(R.drawable.button_radius2)
-                setTextColor(ContextCompat.getColor(requireActivity(), R.color.first))
-                text = "팔로우"
+        })
+
+        // 팔로우 버튼 클릭 시
+        fragmentAuthorInfoBinding.buttonAuthorFollow.setOnClickListener {
+            lifecycleScope.launch {
+                if(authorInfoViewModel.checkFollow.value == true){
+                    // 팔로우를 하고 있다면 팔로우 취소
+                    authorInfoViewModel.cancelFollowing(userIdx, authorIdx)
+                }else{
+                    // 팔로우를 안하고 있다면 팔로우
+                    authorInfoViewModel.followAuthor(userIdx, authorIdx)
+                }
+                authorInfoViewModel.checkFollow(userIdx, authorIdx)
+                authorInfoViewModel.getFollowCount(authorIdx)
             }
         }
     }
@@ -149,6 +187,10 @@ class AuthorInfoFragment : Fragment() {
         // 리뷰 버튼 클릭 시 리뷰 프래그먼트 보이기
         fragmentAuthorInfoBinding.buttonAuthorReview.setOnClickListener {
             val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
+            authorReviewBottomSheetFragment.arguments = Bundle().apply {
+                putInt("userIdx", userIdx)
+                putInt("authorIdx", authorIdx)
+            }
             authorReviewBottomSheetFragment.show(parentFragmentManager, "BottomSheet")
         }
     }
@@ -157,17 +199,13 @@ class AuthorInfoFragment : Fragment() {
     private fun settingRecyclerView(){
         // 테스트 데이터
         val piecesList = arrayListOf<Int>(
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_foreground,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_foreground,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_foreground,
-            R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_foreground,
-            R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background,
+            R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground,
+            R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background,
             R.drawable.ic_launcher_foreground,
         )
+        
+        // 해당 작가의 작품 리스트 받아오기
 
         // 리사이클러뷰 어댑터
         authorPiecesAdapter = AuthorPiecesAdapter(piecesList){
