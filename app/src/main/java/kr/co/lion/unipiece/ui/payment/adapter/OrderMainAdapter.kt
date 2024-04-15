@@ -13,7 +13,8 @@ class OrderMainAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OrderMainViewHolder {
 
-        val rowOrderMainBinding = RowOrderMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val rowOrderMainBinding =
+            RowOrderMainBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return OrderMainViewHolder(rowOrderMainBinding)
     }

@@ -25,11 +25,37 @@
             android:layout_height="100dp"
             app:srcCompat="@drawable/mygallery_icon" />
 
-        <TextView
-            android:id="@+id/textViewRowCart"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="테스트다 이자식아" />
+            android:padding="10dp">
+
+            <TextView
+                android:id="@+id/textViewRowCart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작품 제목"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewRowCartPiecePrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작품 가격"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewRowCartAuthorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="작가 이름"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewRowCart" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
 

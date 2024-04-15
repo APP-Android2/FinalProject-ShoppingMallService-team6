@@ -5,7 +5,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowCartBinding
 
-class CartAdapter(private val listener: OnItemCheckStateChangeListener) : RecyclerView.Adapter<CartViewHolder>() {
+class CartAdapter(private val listener: OnItemCheckStateChangeListener) :
+    RecyclerView.Adapter<CartViewHolder>() {
     // 장바구니 화면의 RecyclerView의 어댑터
 
     // 항목의 선택 상태를 저장하는 리스트
@@ -23,7 +24,7 @@ class CartAdapter(private val listener: OnItemCheckStateChangeListener) : Recycl
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val rowCartBinding = RowCartBinding.inflate(inflater,parent,false)
+        val rowCartBinding = RowCartBinding.inflate(inflater, parent, false)
         val cartViewHolder = CartViewHolder(rowCartBinding)
         return cartViewHolder
     }
@@ -74,6 +75,7 @@ class CartAdapter(private val listener: OnItemCheckStateChangeListener) : Recycl
         return isCheckedList.all { it }
     }
 }
+
 // 리사이클러뷰 뷰홀더
 class CartViewHolder(rowCartBinding: RowCartBinding) :
     RecyclerView.ViewHolder(rowCartBinding.root) {

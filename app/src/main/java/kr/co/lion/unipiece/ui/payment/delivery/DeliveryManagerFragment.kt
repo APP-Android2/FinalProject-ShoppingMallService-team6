@@ -1,18 +1,16 @@
 package kr.co.lion.unipiece.ui.payment.delivery
 
-import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
-import kr.co.lion.unipiece.ui.payment.order.OrderActivity
 import kr.co.lion.unipiece.util.CustomDialog
 
 class DeliveryManagerFragment : Fragment() {
@@ -37,11 +35,10 @@ class DeliveryManagerFragment : Fragment() {
     }
 
 
-
     ///////////////////////////////////////////기능 구현/////////////////////////////////////////////
 
     // 툴바 셋팅
-    fun setToolbar(){
+    fun setToolbar() {
         fragmentDeliveryManagerBinding.apply {
             toolbarDeliveryManager.apply {
 
@@ -125,9 +122,9 @@ class DeliveryManagerFragment : Fragment() {
                 this.rowDeliveryBinding = rowDeliveryBinding
 
                 // 항목별 삭제 버튼 클릭 시 다이얼로그
-                this.rowDeliveryBinding.buttonDeliveryDelete.setOnClickListener{
+                this.rowDeliveryBinding.buttonDeliveryDelete.setOnClickListener {
                     val dialog = CustomDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
-                    dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+                    dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
                         override fun okButtonClick() {
 
                         }
