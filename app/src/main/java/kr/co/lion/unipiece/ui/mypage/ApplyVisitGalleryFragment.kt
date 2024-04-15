@@ -1,15 +1,16 @@
 package kr.co.lion.unipiece.ui.mypage
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.datepicker.CalendarConstraints
+import com.google.android.material.datepicker.DateValidatorPointForward
+import com.google.android.material.datepicker.MaterialDatePicker
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentApplyVisitGalleryBinding
-import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 
 class ApplyVisitGalleryFragment : Fragment() {
@@ -57,10 +58,26 @@ class ApplyVisitGalleryFragment : Fragment() {
 
     // 방문 날짜
     private fun settingDatePicker(){
-        fragmentApplyVisitGalleryBinding.apply {
-            datePickerApplyVisitGallery.apply {
-                // 오늘 날짜 부터 선택 가능
-                minDate = System.currentTimeMillis()
+        fragmentApplyVisitGalleryBinding.buttonDatePicker.apply {
+            setOnClickListener {
+                requireActivity().setTheme(R.style.Theme_Material3)
+
+                val today = MaterialDatePicker.todayInUtcMilliseconds()
+
+                val constraintsBuilder = CalendarConstraints.Builder()
+                    .setValidator(DateValidatorPointForward.from(today))
+
+                val datePicker = MaterialDatePicker.Builder.datePicker()
+                    .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                    .setCalendarConstraints(constraintsBuilder.build())
+                    .setTheme(R.style.Theme_App_DatePicker)
+                    .build()
+
+                datePicker.addOnPositiveButtonClickListener { selection ->
+                    fragmentApplyVisitGalleryBinding.buttonDatePicker.setText(datePicker.headerText)
+                }
+
+                datePicker.show(parentFragmentManager, datePicker.toString())
             }
         }
     }
@@ -87,18 +104,6 @@ class ApplyVisitGalleryFragment : Fragment() {
                 removeFragment()
             }
         }
-    }
-
-    // 선택한 날짜 값을 반환하는 메서드
-    private fun gettingDateValue():String{
-        val datePicker = fragmentApplyVisitGalleryBinding.datePickerApplyVisitGallery
-        val year = datePicker.year
-        val month = datePicker.month
-        val day = datePicker.dayOfMonth
-        // 추후 수정 필요
-        val result = "${year}년 ${month + 1}월 ${day}일"
-        Log.d("test1234", result)
-        return result
     }
 
     // 프래그먼트 제거 메서드
