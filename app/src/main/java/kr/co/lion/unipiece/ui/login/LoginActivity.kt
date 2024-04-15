@@ -32,6 +32,7 @@ class LoginActivity : AppCompatActivity() {
         }else{
             //MainActivity를 실행한다
             startActivity(Intent(this, MainActivity::class.java))
+            this.finish()
         }
     }
 
