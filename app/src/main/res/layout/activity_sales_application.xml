@@ -46,6 +46,16 @@
                 android:textColor="@color/first"
                 android:textSize="18sp" />
 
+            <TextView
+                android:id="@+id/textViewImageError"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:paddingStart="15dp"
+                android:text="작품 사진을 첨부해주세요."
+                android:textColor="@color/design_default_color_error" />
+
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayoutSalesApplicationPieceName"
                 android:layout_width="match_parent"

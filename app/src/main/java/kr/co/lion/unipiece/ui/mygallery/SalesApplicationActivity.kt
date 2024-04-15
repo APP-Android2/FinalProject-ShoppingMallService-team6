@@ -9,6 +9,8 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.text.Editable
+import android.text.TextWatcher
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -52,6 +54,7 @@ class SalesApplicationActivity : AppCompatActivity() {
         settingToolbar()
         settingView()
         settingAlbumLauncher()
+        setupErrorHandling()
         observeAddPieceInfoResult()
     }
 
@@ -90,6 +93,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingView() {
         binding.apply {
             imageViewSalesApplication.isVisible = false
+            textViewImageError.isVisible = false
 
             textFieldSalesApplicationCategory.setOnClickListener {
                 showCategoryDialog()
@@ -118,12 +122,10 @@ class SalesApplicationActivity : AppCompatActivity() {
             buttonSalesApplicationSubmit.setOnClickListener {
                 this@SalesApplicationActivity.hideSoftInput()
 
-                if (isAddPicture) {
+                if(isFormValid()) {
                     selectedImageUri?.let { imageUri ->
                         viewModel.uploadImage(imageUri)
                     }
-                } else {
-                    showErrorDialog()
                 }
             }
 
@@ -285,6 +287,7 @@ class SalesApplicationActivity : AppCompatActivity() {
                     binding.imageViewSalesApplication.isVisible = true
                     binding.imageViewSalesApplication.setImageBitmap(bitmap3)
                     isAddPicture = true
+                    binding.textViewImageError.isVisible = false
                 }
             }
         }
@@ -337,4 +340,113 @@ class SalesApplicationActivity : AppCompatActivity() {
             show()
         }
     }
+
+    private fun isFormValid(): Boolean {
+        var isValid = true
+
+        binding.apply {
+            if (!isAddPicture) {
+                textViewImageError.isVisible = true
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationPieceName.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationPieceName.error = "작품 이름을 입력해주세요."
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationCategory.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationCategory.error = "카테고리를 선택해주세요."
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationPrice.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationPrice.error = "최소 희망 가격을 입력해주세요."
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationDate.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationDate.error = "제작 날짜를 선택해주세요."
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationMaterial.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationMaterial.error = "작품 재료를 입력해주세요."
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationSize.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationSize.error = "작품 크기를 입력해주세요."
+                isValid = false
+            }
+
+            if (textFieldSalesApplicationDescription.text.isNullOrBlank()) {
+                textInputLayoutSalesApplicationDescription.error = "작품 정보를 입력해주세요."
+                isValid = false
+            }
+        }
+
+        return isValid
+    }
+
+    private fun setupErrorHandling() {
+        binding.apply {
+            textFieldSalesApplicationPieceName.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationPieceName.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textFieldSalesApplicationCategory.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationCategory.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textFieldSalesApplicationPrice.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationPrice.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textFieldSalesApplicationDate.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationDate.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textFieldSalesApplicationMaterial.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationMaterial.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textFieldSalesApplicationSize.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationSize.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+
+            textFieldSalesApplicationDescription.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutSalesApplicationDescription.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
+        }
+    }
+
 }
