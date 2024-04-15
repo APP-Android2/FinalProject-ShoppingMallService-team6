@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -16,6 +17,11 @@ import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.common.util.Utility
 import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
+import com.navercorp.nid.profile.NidProfileCallback
+import com.navercorp.nid.profile.data.NidProfileResponse
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.BuildConfig
@@ -39,8 +45,17 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
+        naverInitialize()
         settingEvent()
         return fragmentLoginBinding.root
+    }
+
+    //네이버 로그인 initialize
+    private fun naverInitialize(){
+        val naverClientId = BuildConfig.NAVER_CLIENT_ID
+        val naverClientSecret = BuildConfig.NAVER_CLIENT_SECRET
+        val naverClientName = BuildConfig.NAVER_CLIENT_NAME
+        NaverIdLoginSDK.initialize(requireActivity(), naverClientId, naverClientSecret, naverClientName)
     }
 
     //버튼 클릭
@@ -59,6 +74,9 @@ class LoginFragment : Fragment() {
             }
             imageKaKao.setOnClickListener {
                 kakaoLogin()
+            }
+            imageNaver.setOnClickListener {
+                naverLogin()
             }
         }
     }
@@ -146,6 +164,83 @@ class LoginFragment : Fragment() {
         } else {
             UserApiClient.instance.loginWithKakaoAccount(requireActivity(), callback = callback)
         }
+    }
+
+
+    private fun naverLogin(){
+        var naverToken:String? = ""
+
+        val profileCallback = object : NidProfileCallback<NidProfileResponse>{
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(requireActivity(), "에러코드 : ${errorCode}" + "에러 이유 : ${errorDescription}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSuccess(result: NidProfileResponse) {
+
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    checkUserId = viewModel.checkUserId(result.profile?.email?:"")
+
+                    if (checkUserId != false){
+
+                        val dialog = NicknameDialog("닉네임을 입력해주세요")
+                        dialog.setNicknameButtonClickListener(object : NicknameDialog.dialogButtonClickListener{
+                            override fun nicknameOkButton() {
+                                val nickname = dialog.binding.nickNameDialog.text.toString()
+                                val userId = result.profile?.email?:""
+                                val name = result.profile?.name?:""
+                                val phoneNumber = result.profile?.mobile?:""
+                                val userPwd = result.profile?.id?:""
+
+
+                                viewModel.insertUserData(name, nickname, phoneNumber, userId, userPwd,true){success ->
+                                    if (success){
+                                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                    }
+                                }
+                            }
+
+                            override fun nicknameNoButton() {
+
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "NicknameDialog")
+
+                    }else{
+                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                        newIntent.putExtra("userId", result.profile?.email?:"")
+                        startActivity(newIntent)
+                        requireActivity().finish()
+                    }
+                }
+            }
+
+        }
+
+        val oauthLoginCallback = object : OAuthLoginCallback {
+            override fun onError(errorCode: Int, message: String) {
+                onFailure(errorCode, message)
+            }
+
+            override fun onFailure(httpStatus: Int, message: String) {
+                val errorCode = NaverIdLoginSDK.getLastErrorCode().code
+                val errorDescription = NaverIdLoginSDK.getLastErrorDescription()
+                Toast.makeText(requireActivity(), "에러코드 : ${errorCode}" + "에러 이유 : ${errorDescription}", Toast.LENGTH_SHORT).show()
+            }
+
+            override fun onSuccess() {
+                naverToken = NaverIdLoginSDK.getAccessToken()
+                NidOAuthLogin().callProfileApi(profileCallback)
+            }
+
+        }
+        NaverIdLoginSDK.authenticate(requireActivity(), oauthLoginCallback)
     }
 
 }

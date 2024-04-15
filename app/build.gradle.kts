@@ -10,6 +10,9 @@ val localProperties = Properties()
 localProperties.load(project.rootProject.file("local.properties").inputStream())
 val kakaoApiKey = localProperties.getProperty("KAKAO_API_KEY")?:""
 val nativeAppKey = localProperties.getProperty("NATIVE_APP_KEY")?:""
+val naverClientId = localProperties.getProperty("NAVER_CLIENT_ID")?:""
+val naverClientSecret = localProperties.getProperty("NAVER_CLIENT_SECRET")?:""
+val naverClientName = localProperties.getProperty("NAVER_CLIENT_NAME")?:""
 
 android {
     namespace = "kr.co.lion.unipiece"
@@ -24,6 +27,9 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         buildConfigField("String", "KAKAO_API_KEY", kakaoApiKey)
+        buildConfigField("String", "NAVER_CLIENT_ID", naverClientId)
+        buildConfigField("String", "NAVER_CLIENT_SECRET", naverClientSecret)
+        buildConfigField("String", "NAVER_CLIENT_NAME", naverClientName)
         //manifest에서 사용
         manifestPlaceholders["NATIVE_APP_KEY"] = nativeAppKey
 
@@ -80,4 +86,5 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.16.0")
 
     implementation("com.kakao.sdk:v2-user:2.20.1")
+    implementation("com.navercorp.nid:oauth:5.9.1") // jdk 11
 }
