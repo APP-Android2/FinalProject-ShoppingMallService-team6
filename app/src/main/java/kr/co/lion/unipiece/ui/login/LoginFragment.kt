@@ -183,15 +183,48 @@ class LoginFragment : Fragment() {
 
             override fun onSuccess(result: NidProfileResponse) {
 
-                Toast.makeText(requireActivity(), "성공", Toast.LENGTH_SHORT).show()
-                Log.d("test1234", "토큰 : ${naverToken}")
+                viewLifecycleOwner.lifecycleScope.launch(Dispatchers.Main) {
+                    checkUserId = viewModel.checkUserId(result.profile?.email?:"")
+
+                    if (checkUserId != false){
+
+                        val dialog = NicknameDialog("닉네임을 입력해주세요")
+                        dialog.setNicknameButtonClickListener(object : NicknameDialog.dialogButtonClickListener{
+                            override fun nicknameOkButton() {
+                                val nickname = dialog.binding.nickNameDialog.text.toString()
+                                val userId = result.profile?.email?:""
+                                val name = result.profile?.name?:""
+                                val phoneNumber = result.profile?.mobile?:""
+                                val userPwd = result.profile?.id?:""
+
+
+                                viewModel.insertUserData(name, nickname, phoneNumber, userId, userPwd,true){success ->
+                                    if (success){
+                                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                    }
+                                }
+                            }
+
+                            override fun nicknameNoButton() {
+
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "NicknameDialog")
+
+                    }else{
+                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                        newIntent.putExtra("userId", result.profile?.email?:"")
+                        startActivity(newIntent)
+                        requireActivity().finish()
+                    }
+                }
+
                 Log.d("test1234", "아이디 : ${result.profile?.id}") //비번
                 Log.d("test1234", "이메일 : ${result.profile?.email}") //아이디
                 Log.d("test1234", "번호 : ${result.profile?.mobile}") //폰 번호
                 Log.d("test1234", "이름 : ${result.profile?.name}") //이름
-                Log.d("test1234", "닉네임 : ${result.profile?.nickname}")
-                Log.d("test1234", "몰라1 : ${result.profile?.ci}")
-                Log.d("test1234", "몰라2 : ${result.profile?.encId}")
+
             }
 
         }
