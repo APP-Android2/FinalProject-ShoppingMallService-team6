@@ -7,15 +7,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.GridLayoutManager
-import kr.co.lion.unipiece.R
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.databinding.FragmentBuyPopBinding
 import kr.co.lion.unipiece.ui.buy.adapter.BuyPopAdapter
+import kr.co.lion.unipiece.ui.buy.viewmodel.BuyViewModel
 
 class BuyPopFragment : Fragment() {
 
     lateinit var binding: FragmentBuyPopBinding
-    lateinit var adapter: BuyPopAdapter
+
+    private val viewModel: BuyViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -32,21 +39,22 @@ class BuyPopFragment : Fragment() {
 
     fun initView() {
 
-        val testImageList = arrayListOf(R.drawable.icon, R.drawable.icon, R.drawable.icon,
-            R.drawable.icon, R.drawable.icon, R.drawable.icon,
-            R.drawable.icon, R.drawable.icon, R.drawable.icon)
-
-        adapter = BuyPopAdapter(testImageList,
-            itemClickListener = { testReviewId ->
-                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                startActivity(intent)
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.popPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
+                    val buyPopAdapter = BuyPopAdapter(value,
+                        itemClickListener = { pieceIdx ->
+                            Log.d("테스트 pieceIdx", pieceIdx.toString())
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            startActivity(intent)
+                        }
+                    )
+                with(binding){
+                    buyPopRV.adapter = buyPopAdapter
+                    buyPopRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+                })
             }
-        )
-
-        with(binding){
-            buyPopRV.adapter = adapter
-            buyPopRV.layoutManager = GridLayoutManager(activity, 2)
-            adapter.notifyDataSetChanged()
         }
     }
 

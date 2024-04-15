@@ -11,7 +11,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/icon" />
+        android:src="@drawable/ic_launcher_background" />
 
     <TextView
         android:id="@+id/authorName"
@@ -24,7 +24,7 @@
         android:textSize="14sp" />
 
     <TextView
-        android:id="@+id/followCount"
+        android:id="@+id/pieceName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pretendard_medium"
