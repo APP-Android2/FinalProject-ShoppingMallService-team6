@@ -155,11 +155,19 @@ class LoginFragment : Fragment() {
                         textLoginUserPwdLayout.error = "존재하지 않은 비밀번호입니다"
                         requireActivity().showSoftInput(textLoginUserPw)
                     }else{
-                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                        UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
-                        startActivity(newIntent)
-                        requireActivity().finish()
-
+                        //자동 로그인을 누를 경우 아이디를 저장해준다
+                        if (checkBoxAutoLogin.isChecked){
+                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
+                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                            startActivity(newIntent)
+                            requireActivity().finish()
+                        }else{
+                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
+                            startActivity(newIntent)
+                            requireActivity().finish()
+                        }
                     }
                 }
             }
@@ -228,6 +236,7 @@ class LoginFragment : Fragment() {
 
                                                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                                         UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                                        UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
                                                         startActivity(newIntent)
                                                     }
                                                 }
@@ -246,6 +255,7 @@ class LoginFragment : Fragment() {
                                         val userInfo = viewModel.getUserDataByUserId(user.kakaoAccount?.email?:"")
                                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                         UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                        UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
                                         startActivity(newIntent)
                                         requireActivity().finish()
                                     }
@@ -299,6 +309,7 @@ class LoginFragment : Fragment() {
 
                                             val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                             UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
                                             startActivity(newIntent)
                                         }
                                     }
@@ -317,6 +328,7 @@ class LoginFragment : Fragment() {
                             val userInfo = viewModel.getUserDataByUserId(result.profile?.email?:"")
                             val newIntent = Intent(requireActivity(), MainActivity::class.java)
                             UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
                             startActivity(newIntent)
                             requireActivity().finish()
                         }
