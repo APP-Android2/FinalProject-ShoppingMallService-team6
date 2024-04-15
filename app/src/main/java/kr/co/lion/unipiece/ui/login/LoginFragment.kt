@@ -43,6 +43,7 @@ class LoginFragment : Fragment() {
         return fragmentLoginBinding.root
     }
 
+
     //버튼 클릭
     private fun settingEvent(){
         fragmentLoginBinding.apply {
