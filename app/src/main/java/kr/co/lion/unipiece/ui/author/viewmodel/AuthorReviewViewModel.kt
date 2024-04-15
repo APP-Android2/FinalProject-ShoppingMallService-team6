@@ -14,6 +14,26 @@ class AuthorReviewViewModel : ViewModel() {
     private val _authorReviewList = MutableLiveData<List<AuthorReviewData>>()
     val authorReviewList: LiveData<List<AuthorReviewData>> = _authorReviewList
 
+    // 댓글 내용
+    val authorReviewContent = MutableLiveData<String>()
+
+    // 리뷰 시퀀스 값 가져오기
+    suspend fun getReviewSequence(): Int {
+        var sequence = 0
+        val job1 = viewModelScope.launch {
+            sequence = authorReviewRepository.getReviewSequence()
+        }
+        job1.join()
+        return sequence
+    }
+
+    // 리뷰 시퀀스 값 업데이트
+    suspend fun updateReviewSequence(reviewSequence: Int){
+        val job1 = viewModelScope.launch {
+            authorReviewRepository.updateReviewSequence(reviewSequence+1)
+        }
+        job1.join()
+    }
     // 리뷰 등록
     suspend fun insertReviewData(authorReviewData: AuthorReviewData){
         val job1 = viewModelScope.launch {
