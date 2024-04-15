@@ -18,6 +18,16 @@
         android:theme="?attr/actionBarTheme"
         app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/lightgray"
+        android:padding="10dp"
+        android:text="방문 가능 시간대는 09:00 ~ 12:00, 13:00 ~ 17:00 입니다."
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
