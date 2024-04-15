@@ -2,7 +2,6 @@ package kr.co.lion.unipiece.ui.author
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.google.firebase.Timestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
@@ -32,10 +30,12 @@ class AuthorInfoFragment : Fragment() {
     lateinit var authorPiecesAdapter: AuthorPiecesAdapter
     val authorInfoViewModel: AuthorInfoViewModel by viewModels()
 
-    // 이전 액티비티에서 작가Idx, 회원Idx 받아오기 추후 수정 필요
-    // val authorIdx = requireArguments().getInt("authorIdx",1)
-    val authorIdx = 1
-    val userIdx = 2
+    val authorIdx by lazy {
+        requireArguments().getInt("authorIdx")
+    }
+    val userIdx by lazy {
+        requireArguments().getInt("userIdx")
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
