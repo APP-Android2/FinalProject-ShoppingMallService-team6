@@ -24,6 +24,10 @@ class AuthorInfoActivity : AppCompatActivity() {
 
         // 추후 전달할 데이터는 여기에 담기
         val authorInfoBundle = Bundle()
+        // 이전 액티비티에서 authorIdx와 userIdx를 받아온다.
+        // 수정 필요
+        authorInfoBundle.putInt("authorIdx",1)
+        authorInfoBundle.putInt("userIdx",2)
 
         replaceFragment(AuthorInfoFragmentName.AUTHOR_INFO_FRAGMENT, false, authorInfoBundle)
     }
