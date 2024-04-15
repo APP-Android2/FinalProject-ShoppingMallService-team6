@@ -27,7 +27,9 @@ import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.PieceAddInfoViewModel
-import kr.co.lion.unipiece.util.CameraUtil
+import kr.co.lion.unipiece.util.CameraUtil.Companion.getDegree
+import kr.co.lion.unipiece.util.CameraUtil.Companion.resize
+import kr.co.lion.unipiece.util.CameraUtil.Companion.rotate
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.isKeyboardVisible
 import kr.co.lion.unipiece.util.showSoftInput
@@ -278,11 +280,12 @@ class SalesApplicationActivity : AppCompatActivity() {
                     }
 
                     // 회전 각도값 가져오기
-                    val degree = CameraUtil.getDegree(this, uri)
+                    val degree = getDegree(uri)
                     // 회전 이미지 가져오기
-                    val bitmap2 = CameraUtil.rotateBitmap(bitmap!!, degree.toFloat())
+                    val bitmap2 = bitmap?.rotate(degree.toFloat())
                     // 크기를 줄인 이미지 가져오기
-                    val bitmap3 = CameraUtil.resizeBitmap(bitmap2, 1024)
+                    val bitmap3 = bitmap2?.resize(1024)
+
 
                     binding.imageViewSalesApplication.isVisible = true
                     binding.imageViewSalesApplication.setImageBitmap(bitmap3)
