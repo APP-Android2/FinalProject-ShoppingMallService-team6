@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.ui.login
 
-import android.content.pm.verify.domain.DomainVerificationUserState
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -9,14 +8,10 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import kr.co.lion.unipiece.db.remote.UserInfoDataSource
 import kr.co.lion.unipiece.model.UserInfoData
 import kr.co.lion.unipiece.repository.UserInfoRepository
 
 class LoginViewModel : ViewModel() {
-    private val _userInfo = MutableLiveData<List<UserInfoData>>()
-    val userInfo: LiveData<List<UserInfoData>> = _userInfo
-
     private val userInfoRepository = UserInfoRepository()
 
 
@@ -24,7 +19,7 @@ class LoginViewModel : ViewModel() {
 
     //회원 정보를 저장한다
     fun insertUserData(
-        userName:String, nickName:String, phoneNumber:String, userId:String, userPwd:String,
+        userName:String, nickName:String, phoneNumber: String, userId:String, userPwd:String,
         userState: Boolean, callback:(Boolean) -> Unit
     ){
         viewModelScope.launch {
@@ -62,10 +57,8 @@ class LoginViewModel : ViewModel() {
 
 
     //아이디가 중복되는지 검사한다
-    fun checkUserId(userId:String){
-        viewModelScope.launch{
-            userInfoRepository.checkUserId(userId)
-        }
+    suspend fun checkUserId(userId:String):Boolean{
+        return userInfoRepository.checkUserId(userId)
     }
 
 }
