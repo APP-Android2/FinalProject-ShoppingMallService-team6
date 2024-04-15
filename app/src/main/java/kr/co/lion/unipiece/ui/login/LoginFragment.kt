@@ -236,6 +236,7 @@ class LoginFragment : Fragment() {
 
                                                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                                         UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                                        UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
                                                         startActivity(newIntent)
                                                     }
                                                 }
@@ -254,6 +255,7 @@ class LoginFragment : Fragment() {
                                         val userInfo = viewModel.getUserDataByUserId(user.kakaoAccount?.email?:"")
                                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                         UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                        UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
                                         startActivity(newIntent)
                                         requireActivity().finish()
                                     }
