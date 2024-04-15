@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowAuthorReviewBottomSheetBinding
+import kr.co.lion.unipiece.model.AuthorReviewData
 
-class AuthorReviewAdapter(val reviewList: ArrayList<Any>): RecyclerView.Adapter<AuthorReviewViewHolder>() {
+class AuthorReviewAdapter(val userIdx:Int, val reviewList: List<AuthorReviewData>, private val deleteListener: (reviewIdx: Int) -> Unit): RecyclerView.Adapter<AuthorReviewViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorReviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val rowAuthorReviewBottomSheetBinding = RowAuthorReviewBottomSheetBinding.inflate(inflater)
@@ -15,20 +16,25 @@ class AuthorReviewAdapter(val reviewList: ArrayList<Any>): RecyclerView.Adapter<
     }
 
     override fun getItemCount(): Int {
-        return 20
+        return reviewList.size
     }
 
     override fun onBindViewHolder(holder: AuthorReviewViewHolder, position: Int) {
         // 닉네임
-        holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewNickName.text = "김토끼 $position"
+        holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewNickName.text = reviewList[position].userIdx.toString()
         // 댓글 내용
-        holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewText.text = "홍작가님 작품 너무 대박이에요"
+        holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewText.text = reviewList[position].reviewContent
         // 삭제 버튼은 본인 댓글만 보여지게
-        if(true){
+        if(reviewList[position].userIdx == userIdx){
             holder.rowAuthorReviewBottomSheetBinding.buttonRowAuthorReviewDelete.isVisible = true
         }else{
             holder.rowAuthorReviewBottomSheetBinding.buttonRowAuthorReviewDelete.isVisible = false
         }
+
+        holder.rowAuthorReviewBottomSheetBinding.buttonRowAuthorReviewDelete.setOnClickListener {
+            deleteListener(reviewList[position].reviewIdx)
+        }
+
     }
 }
 
