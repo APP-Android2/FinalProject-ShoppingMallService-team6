@@ -50,7 +50,8 @@ class OrderSuccessFragment : Fragment() {
             buttonContinueShopping.apply {
                 setOnClickListener {
                     val buyIntent = Intent(requireActivity(),MainActivity::class.java)
-                    startActivity(buyIntent)
+                    val mainActivity = startActivity(buyIntent)
+
 
                 }
             }

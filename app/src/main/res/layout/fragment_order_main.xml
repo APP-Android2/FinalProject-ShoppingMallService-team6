@@ -224,6 +224,7 @@
                         app:cardElevation="2dp"
                         app:cardCornerRadius="10dp">
                         <LinearLayout
+                            android:id="@+id/containerOrderDetail"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
