@@ -227,7 +227,7 @@ class LoginFragment : Fragment() {
                                                         val userInfo = viewModel.getUserDataByUserId(userId)
 
                                                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                                                        newIntent.putExtra("userIdx", userInfo?.userIdx)
+                                                        UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
                                                         startActivity(newIntent)
                                                     }
                                                 }
@@ -245,7 +245,7 @@ class LoginFragment : Fragment() {
                                     viewLifecycleOwner.lifecycleScope.launch {
                                         val userInfo = viewModel.getUserDataByUserId(user.kakaoAccount?.email?:"")
                                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                                        newIntent.putExtra("userIdx", userInfo?.userIdx)
+                                        UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
                                         startActivity(newIntent)
                                         requireActivity().finish()
                                     }
@@ -298,7 +298,7 @@ class LoginFragment : Fragment() {
                                             val userInfo = viewModel.getUserDataByUserId(userId)
 
                                             val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                                            newIntent.putExtra("userIdx", userInfo?.userIdx)
+                                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
                                             startActivity(newIntent)
                                         }
                                     }
@@ -316,7 +316,7 @@ class LoginFragment : Fragment() {
                         viewLifecycleOwner.lifecycleScope.launch {
                             val userInfo = viewModel.getUserDataByUserId(result.profile?.email?:"")
                             val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                            newIntent.putExtra("userIdx", userInfo?.userIdx)
+                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
                             startActivity(newIntent)
                             requireActivity().finish()
                         }

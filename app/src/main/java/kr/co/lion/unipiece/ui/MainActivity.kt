@@ -36,10 +36,6 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
 
-        //연습
-        val practice = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
-        Log.d("test1234", "${practice}")
-
         buyFragment = BuyFragment()
     }
 
