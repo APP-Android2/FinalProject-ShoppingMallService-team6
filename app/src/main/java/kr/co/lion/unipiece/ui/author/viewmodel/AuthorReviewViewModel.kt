@@ -30,7 +30,7 @@ class AuthorReviewViewModel : ViewModel() {
     // 리뷰 시퀀스 값 업데이트
     suspend fun updateReviewSequence(reviewSequence: Int){
         val job1 = viewModelScope.launch {
-            authorReviewRepository.updateReviewSequence(reviewSequence+1)
+            authorReviewRepository.updateReviewSequence(reviewSequence)
         }
         job1.join()
     }
