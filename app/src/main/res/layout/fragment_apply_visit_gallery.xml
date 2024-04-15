@@ -128,26 +128,21 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <LinearLayout
+            <TextView
+                android:id="@+id/buttonDatePicker"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center_horizontal"
-                android:orientation="horizontal">
-
-                <DatePicker
-                    android:id="@+id/datePickerApplyVisitGallery"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="12dp"
-                    android:headerBackground="@color/first"
-                    android:theme="@style/Theme.Material3" />
-            </LinearLayout>
+                android:layout_height="56dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/textfield_radius"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="방문 날짜 선택"
+                android:textSize="18sp" />
 
             <Button
                 android:id="@+id/buttonApplyVisitGalleryConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="64dp"
                 android:background="@drawable/button_radius"
                 android:text="신청 완료"
                 android:textColor="@color/white"
