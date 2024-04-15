@@ -73,9 +73,7 @@ class LoginFragment : Fragment() {
             buttonLogin.setOnClickListener {
                 val chk = checkInput()
                 if (chk == true){
-                    val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                    startActivity(newIntent)
-                    requireActivity().finish()
+                    checkAccount()
                 }
             }
             imageKaKao.setOnClickListener {
@@ -131,6 +129,40 @@ class LoginFragment : Fragment() {
             }else{
                 return true
             }
+        }
+    }
+
+    //유효한 계정인지 검사한다
+    private fun checkAccount(){
+        fragmentLoginBinding.apply {
+
+            val userId = textLoginUserId.text.toString()
+            val userPwd = textLoginUserPw.text.toString()
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                val userInfo = viewModel.getUserDataByUserId(userId)
+
+                //만약 아이디가 없다면
+                if (userInfo == null){
+                    textLoginUserIdLayout.error = "존재하지 않은 아이디입니다"
+                    requireActivity().showSoftInput(textLoginUserId)
+                }else{
+                    textLoginUserIdLayout.error = null
+
+                    //아이디는 유효한데 비밀번호가 틀릴경우
+                    if (userPwd != userInfo.userPwd){
+                        textLoginUserPwdLayout.error = "존재하지 않은 비밀번호입니다"
+                        requireActivity().showSoftInput(textLoginUserPw)
+                    }else{
+                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                        newIntent.putExtra("userIdx", userInfo.userIdx)
+                        startActivity(newIntent)
+                        requireActivity().finish()
+
+                    }
+                }
+            }
+
         }
     }
 
