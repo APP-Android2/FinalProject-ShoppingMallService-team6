@@ -32,6 +32,12 @@ class AuthorInfoViewModel: ViewModel() {
         job1.join()
     }
 
+    // 본인이 해당 작가인지 여부 확인
+    // 추후 수정
+    suspend fun checkAuthor(): Boolean{
+        return true
+    }
+
     // 팔로우 수 불러오기
     fun getFollowCount(authorIdx: Int){
         viewModelScope.launch {
@@ -63,6 +69,7 @@ class AuthorInfoViewModel: ViewModel() {
     }
 
     // 작가의 작품 리스트 불러오기
+    // 추후 수정
     fun getPiecesList(authorIdx:Int){
 
     }

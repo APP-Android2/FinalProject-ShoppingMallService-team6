@@ -71,12 +71,14 @@ class AuthorInfoFragment : Fragment() {
                 }
 
                 // 회원 유형에 따라 메뉴 아이콘 다르게 표시
-                // 추후 수정 필요
-                if(true){
-                    // 작가 본인인 경우 작가 정보 수정 아이콘 표시
-                    menu.findItem(R.id.menu_edit).isVisible = true
-                }else{
-                    menu.findItem(R.id.menu_edit).isVisible = false
+                menu.findItem(R.id.menu_edit).isVisible = false
+                lifecycleScope.launch {
+                    // 추후 수정 필요
+                    val authorCheck = authorInfoViewModel!!.checkAuthor()
+                    if(authorCheck){
+                        // 작가 본인인 경우 작가 정보 수정 아이콘 표시
+                        menu.findItem(R.id.menu_edit).isVisible = true
+                    }
                 }
 
                 // 툴바 메뉴 클릭 이벤트
@@ -114,6 +116,16 @@ class AuthorInfoFragment : Fragment() {
                 // 작가 정보 불러오기
                 authorInfoViewModel!!.getAuthorInfoData(authorIdx)
 
+                // 추후 수정 필요
+                val authorCheck = authorInfoViewModel!!.checkAuthor()
+                // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
+                // 추후 수정
+                if(authorCheck){
+                    // 사용자가 해당 작가인 경우
+                    buttonAuthorFollow.isVisible = false
+                    buttonAuthorReview.isVisible = false
+                }
+
                 // 팔로워 수 불러오기
                 authorInfoViewModel!!.getFollowCount(authorIdx)
 
@@ -121,17 +133,6 @@ class AuthorInfoFragment : Fragment() {
                 Glide.with(requireActivity())
                     .load(authorInfoViewModel!!.authorInfoData.value?.authorImg)
                     .into(imageViewAuthor)
-            }
-
-            // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
-            // 추후 수정
-            if(true){
-                buttonAuthorFollow.isVisible = true
-                buttonAuthorReview.isVisible = true
-            }else{
-                // 사용자가 해당 작가인 경우
-                buttonAuthorFollow.isVisible = false
-                buttonAuthorReview.isVisible = false
             }
         }
     }
