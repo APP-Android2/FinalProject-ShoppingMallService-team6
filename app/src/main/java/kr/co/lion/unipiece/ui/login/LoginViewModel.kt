@@ -48,11 +48,14 @@ class LoginViewModel : ViewModel() {
 
     }
 
-    //회원 정보를 가져온다
-    fun getUserDataByIdx(userIdx:Int){
-        viewModelScope.launch {
-            userInfoRepository.getUserDataByIdx(userIdx)
-        }
+    //회원 정보를 가져온다 (userIdx)
+    suspend fun getUserDataByIdx(userIdx:Int):UserInfoData?{
+        return userInfoRepository.getUserDataByIdx(userIdx)
+    }
+
+    //회원 정보를 가져온다 (userId)
+    suspend fun getUserDataByUserId(userId: String):UserInfoData?{
+        return userInfoRepository.getUserDataByUserId(userId)
     }
 
 

@@ -35,6 +35,10 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
 
+        //연습
+        val practice = intent?.getIntExtra("userIdx", 0)
+        Log.d("test1234", "${practice}")
+
         buyFragment = BuyFragment()
     }
 

@@ -83,4 +83,21 @@ class UserInfoDataSource {
         return userInfoData
     }
 
+    //유저의 아이디를 가지고 유저의 정보 가져오기
+    suspend fun getUserDataByUserId(userId:String) : UserInfoData? {
+        //사용자 정보를 담을 객체
+        var userInfoData:UserInfoData? = null
+
+        var job1 = CoroutineScope(Dispatchers.IO).launch {
+            val collectionReference = db.collection("UserInfo")
+            val querySnapshot = collectionReference.whereEqualTo("userId", userId).get().await()
+            if (querySnapshot.isEmpty == false){
+                userInfoData = querySnapshot.documents[0].toObject(UserInfoData::class.java)
+            }
+        }
+        job1.join()
+
+        return userInfoData
+    }
+
 }

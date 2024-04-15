@@ -135,10 +135,15 @@ class LoginFragment : Fragment() {
                                             val phoneNumber = user.kakaoAccount?.phoneNumber?:""
                                             val userPwd = user.id.toString()
 
-
                                             viewModel.insertUserData(name, nickname, phoneNumber, userId, userPwd,true){success ->
                                                 if (success){
-                                                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                                    viewLifecycleOwner.lifecycleScope.launch {
+                                                        val userInfo = viewModel.getUserDataByUserId(userId)
+
+                                                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                                        newIntent.putExtra("userIdx", userInfo?.userIdx)
+                                                        startActivity(newIntent)
+                                                    }
                                                 }
                                             }
                                         }
@@ -151,10 +156,13 @@ class LoginFragment : Fragment() {
                                     dialog.show(parentFragmentManager, "NicknameDialog")
 
                                 }else{
-                                    val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                                    newIntent.putExtra("userId", user.kakaoAccount?.email?:"")
-                                    startActivity(newIntent)
-                                    requireActivity().finish()
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        val userInfo = viewModel.getUserDataByUserId(user.kakaoAccount?.email?:"")
+                                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                        newIntent.putExtra("userIdx", userInfo?.userIdx)
+                                        startActivity(newIntent)
+                                        requireActivity().finish()
+                                    }
                                 }
                             }
                         }
