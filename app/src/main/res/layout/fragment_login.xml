@@ -47,6 +47,7 @@
             android:hint="비밀번호"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
+            app:endIconMode="password_toggle"
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -54,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
+                android:inputType="text|textPassword"
                 android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
