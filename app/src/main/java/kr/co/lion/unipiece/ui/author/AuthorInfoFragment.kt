@@ -75,7 +75,7 @@ class AuthorInfoFragment : Fragment() {
                 lifecycleScope.launch {
                     // 추후 수정 필요
                     val authorCheck = authorInfoViewModel!!.checkAuthor()
-                    if(authorCheck){
+                    if(!authorCheck){ // 나중에 ! 제거
                         // 작가 본인인 경우 작가 정보 수정 아이콘 표시
                         menu.findItem(R.id.menu_edit).isVisible = true
                     }
