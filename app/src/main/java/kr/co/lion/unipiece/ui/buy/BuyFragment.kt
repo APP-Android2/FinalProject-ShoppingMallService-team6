@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.buy
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -31,6 +32,8 @@ class BuyFragment : Fragment() {
 
     private val viewModel: BuyViewModel by activityViewModels()
 
+    var currentFragment : Int = -1
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,7 +53,16 @@ class BuyFragment : Fragment() {
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
+        callBack()
+    }
 
+    override fun onDetach() {
+        super.onDetach()
+        // OnBackPressedCallback 해제
+        callback.remove()
+    }
+
+    fun callBack(){
         callback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
                 // 뒤로가기 클릭시 동작하는 로직
@@ -65,12 +77,6 @@ class BuyFragment : Fragment() {
             }
         }
         requireActivity().onBackPressedDispatcher.addCallback(this, callback)
-    }
-
-    override fun onDetach() {
-        super.onDetach()
-        // OnBackPressedCallback 해제
-        callback.remove()
     }
 
 
@@ -132,112 +138,212 @@ class BuyFragment : Fragment() {
 
                     when(it.itemId){
                         R.id.menuAll -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceInfo()
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceInfo()
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceInfo()
+                                }
                             }
                         }
                         R.id.menuArtAll -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceSort("예술 대학")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceSort("예술 대학")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceSort("예술 대학")
+                                }
                             }
                         }
                         R.id.menuArtWest -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("서양화")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("서양화")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("서양화")
+                                }
                             }
                         }
                         R.id.menuArtOri -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("동양화")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("동양화")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("동양화")
+                                }
                             }
                         }
                         R.id.menuArtCalli -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("서예")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("서예")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("서예")
+                                }
                             }
                         }
                         R.id.menuArtSculp -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("조소")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("조소")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("조소")
+                                }
                             }
                         }
                         R.id.menuArtPrint -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("판화")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("판화")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("판화")
+                                }
                             }
                         }
                         R.id.menuArtWood -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("가구/목재")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("가구/목재")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("가구/목재")
+                                }
                             }
                         }
                         R.id.menuArtGlass -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("도자기/유리")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("도자기/유리")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("도자기/유리")
+                                }
                             }
                         }
                         R.id.menuArtFabric -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("섬유/염색")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("섬유/염색")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("섬유/염색")
+                                }
                             }
                         }
                         R.id.menuArtMetal -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("금속")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("금속")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("금속")
+                                }
                             }
                         }
                         R.id.menuArtComic -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("만화")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("만화")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("만화")
+                                }
                             }
                         }
                         R.id.menuArtAni -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("애니메이션")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("애니메이션")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("애니메이션")
+                                }
                             }
                         }
                         R.id.menuHumAll -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceSort("인문 대학")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceSort("인문 대학")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceSort("인문 대학")
+                                }
                             }
                         }
                         R.id.menuHumFiction -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("소설")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("소설")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("소설")
+                                }
                             }
                         }
                         R.id.menuHumPoem -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("시")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("시")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("시")
+                                }
                             }
                         }
                         R.id.menuHumScript -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("극본")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("극본")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("극본")
+                                }
                             }
                         }
                         R.id.menuEngAll -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceSort("공과 대학")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceSort("공과 대학")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceSort("공과 대학")
+                                }
                             }
                         }
                         R.id.menuEngSoft -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("소프트웨어")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("소프트웨어")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("소프트웨어")
+                                }
                             }
                         }
                         R.id.menuEngHard -> {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                viewModel.getPopPieceDetailSort("하드웨어")
+                            when(currentFragment){
+                                0 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getPopPieceDetailSort("하드웨어")
+                                }
+                                1 -> viewLifecycleOwner.lifecycleScope.launch {
+                                    viewModel.getNewPieceDetailSort("하드웨어")
+                                }
                             }
                         }
                     }
-
                     true
                 }
             }
         }
     }
+
     fun initViewPager() {
 
         val titles = listOf("인기 순", "신규 순")
@@ -250,7 +356,18 @@ class BuyFragment : Fragment() {
 
             buyVP.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    currentFragment = position
+
+                    when(currentFragment){
+                        0 -> viewLifecycleOwner.lifecycleScope.launch {
+                            viewModel.getPopPieceInfo()
+                        }
+                        1 -> viewLifecycleOwner.lifecycleScope.launch {
+                            viewModel.getNewPieceInfo()
+                        }
+                    }
                     navigationDrawer.menu.findItem(R.id.menuAll).isChecked = true
+
                     super.onPageSelected(position)
                 }
             })

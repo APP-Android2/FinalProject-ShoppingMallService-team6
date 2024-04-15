@@ -76,6 +76,38 @@ class PieceInfoDataSource {
 
     }
 
+    suspend fun getNewPieceSort(category: String): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("pieceSort", category)
+                .orderBy("pieceDate", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+
+    }
+
+    suspend fun getNewPieceDetailSort(detailCategory: String): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("pieceDetailSort", detailCategory)
+                .orderBy("pieceDate", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+
+    }
+
     suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): URI? {
         val path = "PieceInfo/$pieceIdx/$pieceImg"
         return try {

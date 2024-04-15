@@ -60,7 +60,6 @@ class BuyPopFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
                     buyPopAdapter.updateData(value)
-                    Log.d("update fragment", value.toString())
                 })
             }
         }

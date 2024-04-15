@@ -64,7 +64,6 @@ class BuyViewModel(): ViewModel() {
         }
 
         _popPieceInfoList.value = pieceInfoList
-        Log.d("update viewmodel", popPieceInfoList.value.toString())
     }
 
     suspend fun getPopPieceDetailSort(detailCategory: String){
@@ -78,7 +77,32 @@ class BuyViewModel(): ViewModel() {
         }
 
         _popPieceInfoList.value = pieceInfoList
-        Log.d("update viewmodel", popPieceInfoList.value.toString())
+    }
+
+    suspend fun getNewPieceSort(category: String){
+        val response = pieceInfoRepository.getPopPieceSort(category)
+        val pieceInfoList = mutableListOf<PieceInfoData>()
+
+        response.forEach { pieceInfoData ->
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
+            pieceInfoList.add(pieceInfoData)
+        }
+
+        _newPieceInfoList.value = pieceInfoList
+    }
+
+    suspend fun getNewPieceDetailSort(detailCategory: String){
+        val response = pieceInfoRepository.getPopPieceDetailSort(detailCategory)
+        val pieceInfoList = mutableListOf<PieceInfoData>()
+
+        response.forEach { pieceInfoData ->
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
+            pieceInfoList.add(pieceInfoData)
+        }
+
+        _newPieceInfoList.value = pieceInfoList
     }
 
     private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): URI? {
