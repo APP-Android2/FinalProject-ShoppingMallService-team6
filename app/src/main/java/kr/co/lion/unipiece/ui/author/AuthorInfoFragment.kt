@@ -2,6 +2,7 @@ package kr.co.lion.unipiece.ui.author
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.firebase.Timestamp
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
@@ -43,10 +46,13 @@ class AuthorInfoFragment : Fragment() {
         fragmentAuthorInfoBinding.authorInfoViewModel = authorInfoViewModel
         fragmentAuthorInfoBinding.lifecycleOwner = this
 
-        settingToolbar()
-        initView()
-        settingButtonFollow()
-        settingButtonReview()
+        lifecycleScope.launch(Dispatchers.Main){
+            fetchData()
+            initView()
+            settingToolbar()
+            settingButtonFollow()
+            settingButtonReview()
+        }
 
         return fragmentAuthorInfoBinding.root
     }
@@ -54,6 +60,16 @@ class AuthorInfoFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingRecyclerView()
+    }
+
+    private suspend fun fetchData(){
+        val job1 = lifecycleScope.launch {
+            // 작가 정보 불러오기
+            authorInfoViewModel.getAuthorInfoData(authorIdx)
+            // 팔로워 수 불러오기
+            authorInfoViewModel.getFollowCount(authorIdx)
+        }
+        job1.join()
     }
 
     // 툴바 셋팅
@@ -74,8 +90,8 @@ class AuthorInfoFragment : Fragment() {
                 menu.findItem(R.id.menu_edit).isVisible = false
                 lifecycleScope.launch {
                     // 추후 수정 필요
-                    val authorCheck = authorInfoViewModel!!.checkAuthor()
-                    if(!authorCheck){ // 나중에 ! 제거
+                    val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
+                    if(authorCheck){ // 나중에 ! 제거
                         // 작가 본인인 경우 작가 정보 수정 아이콘 표시
                         menu.findItem(R.id.menu_edit).isVisible = true
                     }
@@ -113,11 +129,8 @@ class AuthorInfoFragment : Fragment() {
     private fun initView(){
         with(fragmentAuthorInfoBinding){
             lifecycleScope.launch {
-                // 작가 정보 불러오기
-                authorInfoViewModel!!.getAuthorInfoData(authorIdx)
-
                 // 추후 수정 필요
-                val authorCheck = authorInfoViewModel!!.checkAuthor()
+                val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
                 // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
                 // 추후 수정
                 if(authorCheck){
@@ -125,15 +138,11 @@ class AuthorInfoFragment : Fragment() {
                     buttonAuthorFollow.isVisible = false
                     buttonAuthorReview.isVisible = false
                 }
-
-                // 팔로워 수 불러오기
-                authorInfoViewModel!!.getFollowCount(authorIdx)
-
-                // 작가 이미지 셋팅
-                Glide.with(requireActivity())
-                    .load(authorInfoViewModel!!.authorInfoData.value?.authorImg)
-                    .into(imageViewAuthor)
             }
+            // 작가 이미지 셋팅
+            Glide.with(requireActivity())
+                .load(authorInfoViewModel!!.authorInfoData.value?.authorImg)
+                .into(imageViewAuthor)
         }
     }
 
