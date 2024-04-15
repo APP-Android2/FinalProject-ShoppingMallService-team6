@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kr.co.lion.unipiece.BuildConfig
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentJoinBinding
-import kr.co.lion.unipiece.db.remote.UserInfoDataSource
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.LoginFragmentName
 import kr.co.lion.unipiece.util.hideSoftInput
@@ -101,6 +101,7 @@ class JoinFragment : Fragment() {
     //입력 검사
     private fun checkEmptyText():Boolean{
         fragmentJoinBinding.apply {
+
             var errorText:View? = null
 
             val userName = textJoinName.text?.toString()?:""

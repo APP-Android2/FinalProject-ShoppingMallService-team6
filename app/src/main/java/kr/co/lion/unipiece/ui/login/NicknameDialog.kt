@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.DialogFragment
 import com.google.android.material.textfield.TextInputEditText
 import kr.co.lion.unipiece.databinding.FragmentNicknameDialogBinding
@@ -32,8 +33,16 @@ class NicknameDialog(val title:String) : DialogFragment() {
         binding.dialogNickname.text = title
 
         binding.buttonNicknameOk.setOnClickListener {
-            buttonClickListener.nicknameOkButton()
-            dismiss()
+            val nickname = binding.nickNameDialog.text.toString()
+            if (nickname.trim().isEmpty()){
+                binding.nicknameDialogLayout.error = "닉네임을 입력해주세요"
+            }else{
+                binding.nicknameDialogLayout.error = null
+                buttonClickListener.nicknameOkButton()
+                dismiss()
+            }
+
+
 
         }
 
@@ -41,6 +50,7 @@ class NicknameDialog(val title:String) : DialogFragment() {
             buttonClickListener.nicknameNoButton()
             dismiss()
         }
+        initDialogView()
 
         return binding.root
     }
@@ -48,6 +58,14 @@ class NicknameDialog(val title:String) : DialogFragment() {
     interface dialogButtonClickListener{
         fun nicknameOkButton()
         fun nicknameNoButton()
+    }
+
+    fun initDialogView(){
+        binding.apply {
+            nickNameDialog.addTextChangedListener {
+                nicknameDialogLayout.error = null
+            }
+        }
     }
 
 }
