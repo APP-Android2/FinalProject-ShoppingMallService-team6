@@ -9,14 +9,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentBuyBinding
 import kr.co.lion.unipiece.databinding.HeaderBuyDrawerBinding
-import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.ui.buy.adapter.BuyAdapter
+import kr.co.lion.unipiece.ui.buy.viewmodel.BuyViewModel
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -25,6 +28,8 @@ class BuyFragment : Fragment() {
     lateinit var binding: FragmentBuyBinding
 
     private lateinit var callback: OnBackPressedCallback
+
+    private val viewModel: BuyViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -127,64 +132,104 @@ class BuyFragment : Fragment() {
 
                     when(it.itemId){
                         R.id.menuAll -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceInfo()
+                            }
                         }
                         R.id.menuArtAll -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceSort("예술 대학")
+                            }
                         }
                         R.id.menuArtWest -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("서양화")
+                            }
                         }
                         R.id.menuArtOri -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("동양화")
+                            }
                         }
                         R.id.menuArtCalli -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("서예")
+                            }
                         }
                         R.id.menuArtSculp -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("조소")
+                            }
                         }
                         R.id.menuArtPrint -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("판화")
+                            }
                         }
                         R.id.menuArtWood -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("가구/목재")
+                            }
                         }
                         R.id.menuArtGlass -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("도자기/유리")
+                            }
                         }
                         R.id.menuArtFabric -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("섬유/염색")
+                            }
                         }
                         R.id.menuArtMetal -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("금속")
+                            }
                         }
                         R.id.menuArtComic -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("만화")
+                            }
                         }
                         R.id.menuArtAni -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("애니메이션")
+                            }
                         }
                         R.id.menuHumAll -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceSort("인문 대학")
+                            }
                         }
                         R.id.menuHumFiction -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("소설")
+                            }
                         }
                         R.id.menuHumPoem -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("시")
+                            }
                         }
                         R.id.menuHumScript -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("극본")
+                            }
                         }
                         R.id.menuEngAll -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceSort("공과 대학")
+                            }
                         }
                         R.id.menuEngSoft -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("소프트웨어")
+                            }
                         }
                         R.id.menuEngHard -> {
-
+                            viewLifecycleOwner.lifecycleScope.launch {
+                                viewModel.getPopPieceDetailSort("하드웨어")
+                            }
                         }
                     }
 
@@ -205,6 +250,7 @@ class BuyFragment : Fragment() {
 
             buyVP.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
                 override fun onPageSelected(position: Int) {
+                    navigationDrawer.menu.findItem(R.id.menuAll).isChecked = true
                     super.onPageSelected(position)
                 }
             })

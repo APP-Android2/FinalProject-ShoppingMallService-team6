@@ -7,6 +7,8 @@ class PieceInfoRepository {
     private val pieceInfoDataSource = PieceInfoDataSource()
 
     suspend fun getPopPieceInfo() = pieceInfoDataSource.getPopPieceInfo()
+    suspend fun getPopPieceSort(category: String) = pieceInfoDataSource.getPopPieceSort(category)
+    suspend fun getPopPieceDetailSort(detailCategory: String) = pieceInfoDataSource.getPopPieceDetailSort(detailCategory)
 
     suspend fun getNewPieceInfo() = pieceInfoDataSource.getNewPieceInfo()
 
