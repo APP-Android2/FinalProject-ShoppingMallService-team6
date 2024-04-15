@@ -11,6 +11,7 @@ import androidx.core.view.get
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
 import kr.co.lion.unipiece.databinding.HeaderBuyDrawerBinding
 import kr.co.lion.unipiece.ui.buy.BuyFragment
@@ -36,7 +37,7 @@ class MainActivity : AppCompatActivity() {
         initView()
 
         //연습
-        val practice = intent?.getIntExtra("userIdx", 0)
+        val practice = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
         Log.d("test1234", "${practice}")
 
         buyFragment = BuyFragment()

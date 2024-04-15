@@ -27,6 +27,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.BuildConfig
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentLoginBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.LoginFragmentName
@@ -155,7 +156,7 @@ class LoginFragment : Fragment() {
                         requireActivity().showSoftInput(textLoginUserPw)
                     }else{
                         val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                        newIntent.putExtra("userIdx", userInfo.userIdx)
+                        UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
                         startActivity(newIntent)
                         requireActivity().finish()
 
