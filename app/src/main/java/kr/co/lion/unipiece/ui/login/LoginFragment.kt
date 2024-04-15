@@ -219,12 +219,6 @@ class LoginFragment : Fragment() {
                         requireActivity().finish()
                     }
                 }
-
-                Log.d("test1234", "아이디 : ${result.profile?.id}") //비번
-                Log.d("test1234", "이메일 : ${result.profile?.email}") //아이디
-                Log.d("test1234", "번호 : ${result.profile?.mobile}") //폰 번호
-                Log.d("test1234", "이름 : ${result.profile?.name}") //이름
-
             }
 
         }
