@@ -1,11 +1,14 @@
 package kr.co.lion.unipiece.ui.login
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityLoginBinding
+import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.LoginFragmentName
 
 class LoginActivity : AppCompatActivity() {
@@ -14,8 +17,23 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
+        autoLogin()
         setContentView(binding.root)
-        replaceFragment(LoginFragmentName.LOGIN_FRAGMENT, false)
+
+    }
+
+    //자동 로그인 구현
+    private fun autoLogin(){
+        val userId = UniPieceApplication.prefs.getAutoLogin("userId", "")
+
+        //자동 로그인을 누르지 않았다면
+        if (userId == ""){
+            replaceFragment(LoginFragmentName.LOGIN_FRAGMENT, false)
+        }else{
+            //MainActivity를 실행한다
+            startActivity(Intent(this, MainActivity::class.java))
+            this.finish()
+        }
     }
 
     fun replaceFragment(name: LoginFragmentName, addToBackStack:Boolean){
@@ -50,39 +68,3 @@ class LoginActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
