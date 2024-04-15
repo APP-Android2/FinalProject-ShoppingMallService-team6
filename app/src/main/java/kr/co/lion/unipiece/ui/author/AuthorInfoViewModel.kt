@@ -34,8 +34,8 @@ class AuthorInfoViewModel: ViewModel() {
 
     // 본인이 해당 작가인지 여부 확인
     // 추후 수정
-    suspend fun checkAuthor(): Boolean{
-        return false
+    fun checkAuthor(userIdx: Int): Boolean{
+        return authorInfoData.value?.userIdx == userIdx
     }
 
     // 팔로우 수 불러오기
