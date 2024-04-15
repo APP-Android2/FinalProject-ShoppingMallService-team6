@@ -27,11 +27,11 @@ import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.PieceAddInfoViewModel
-import kr.co.lion.unipiece.util.CameraUtil.Companion.getDegree
-import kr.co.lion.unipiece.util.CameraUtil.Companion.resize
-import kr.co.lion.unipiece.util.CameraUtil.Companion.rotate
+import kr.co.lion.unipiece.util.getDegree
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.isKeyboardVisible
+import kr.co.lion.unipiece.util.resize
+import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.showSoftInput
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -252,7 +252,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingAlbumLauncher() {
         val contract = ActivityResultContracts.StartActivityForResult()
         albumLauncher = registerForActivityResult(contract){ result ->
-            if(result.resultCode == AppCompatActivity.RESULT_OK){
+            if(result.resultCode == RESULT_OK){
                 // 선택한 이미지 경로 데이터 관리하는 Uri 객체 추출
                 val uri = result.data?.data
                 selectedImageUri = uri
