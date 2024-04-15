@@ -22,6 +22,7 @@
         android:paddingRight="30dp">
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textLoginUserIdLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="아이디"
@@ -39,12 +40,14 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textLoginUserPwdLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:hint="비밀번호"
             app:boxStrokeColor="@color/second"
             app:cursorColor="@color/second"
+            app:endIconMode="password_toggle"
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -52,6 +55,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
+                android:inputType="text|textPassword"
                 android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
