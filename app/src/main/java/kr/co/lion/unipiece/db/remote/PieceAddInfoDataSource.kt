@@ -1,11 +1,8 @@
 package kr.co.lion.unipiece.db.remote
 
 import android.net.Uri
-import android.util.Log
-import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.PieceAddInfoData
