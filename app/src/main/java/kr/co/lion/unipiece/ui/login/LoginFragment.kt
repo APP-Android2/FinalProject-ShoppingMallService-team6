@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -29,6 +30,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentLoginBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.LoginFragmentName
+import kr.co.lion.unipiece.util.showSoftInput
 
 
 class LoginFragment : Fragment() {
@@ -47,6 +49,7 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
         naverInitialize()
         settingEvent()
+        initView()
         return fragmentLoginBinding.root
     }
 
@@ -68,15 +71,65 @@ class LoginFragment : Fragment() {
                     .commit()
             }
             buttonLogin.setOnClickListener {
-                val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                startActivity(newIntent)
-                requireActivity().finish()
+                val chk = checkInput()
+                if (chk == true){
+                    val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                    startActivity(newIntent)
+                    requireActivity().finish()
+                }
             }
             imageKaKao.setOnClickListener {
                 kakaoLogin()
             }
             imageNaver.setOnClickListener {
                 naverLogin()
+            }
+        }
+    }
+
+    //화면 설정
+    private fun initView(){
+        fragmentLoginBinding.apply {
+            textLoginUserId.addTextChangedListener {
+                textLoginUserIdLayout.error = null
+            }
+            textLoginUserPw.addTextChangedListener {
+                textLoginUserPwdLayout.error = null
+            }
+        }
+    }
+
+    //입력 검사
+    private fun checkInput() : Boolean{
+        fragmentLoginBinding.apply {
+            var errorText:View? = null
+
+            val userId = textLoginUserId.text.toString()
+            val userPwd = textLoginUserPw.text.toString()
+
+            if (userId.trim().isEmpty()){
+                textLoginUserIdLayout.error = "아이디를 입력해주세요"
+                if (errorText == null){
+                    errorText = textLoginUserId
+                }else{
+                    textLoginUserIdLayout.error = null
+                }
+            }
+
+            if (userPwd.trim().isEmpty()){
+                textLoginUserPwdLayout.error = "비밀번호를 입력해주세요"
+                if (errorText == null){
+                    errorText = textLoginUserPw
+                }else{
+                    textLoginUserPwdLayout.error = null
+                }
+            }
+
+            if (errorText != null){
+                requireActivity().showSoftInput(errorText)
+                return false
+            }else{
+                return true
             }
         }
     }
