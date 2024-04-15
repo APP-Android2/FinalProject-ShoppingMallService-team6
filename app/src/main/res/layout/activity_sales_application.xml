@@ -94,7 +94,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:hint="가격"
+                android:hint="최소 희망 가격"
                 app:boxStrokeColor="@color/second"
                 app:cursorColor="@color/second"
                 app:endIconMode="clear_text"
