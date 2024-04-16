@@ -81,6 +81,24 @@ class AuthorInfoDataSource {
         return authorInfoData
     }
 
+    // userIdx로 작가 정보를 가져와 반환한다
+    suspend fun getAuthorInfoDataByUserIdx(userIdx:Int) : AuthorInfoData? {
+        var authorInfoData:AuthorInfoData? = null
+
+        val job1 = CoroutineScope(Dispatchers.IO).launch {
+            // AuthorInfo 컬렉션 접근 객체를 가져온다.
+            val collectionReference = db.collection("AuthorInfo")
+            // authorIdx 필드가 매개변수로 들어오는 authorIdx와 같은 문서들을 가져온다.
+            val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
+            // 가져온 문서객체들이 들어 있는 리스트에서 첫 번째 객체를 추출한다.
+            // 회원 번호가 동일한 사용는 없기 때문에 무조건 하나만 나오기 때문이다
+            authorInfoData = querySnapshot.documents[0].toObject(AuthorInfoData::class.java)
+        }
+        job1.join()
+
+        return authorInfoData
+    }
+
     // 모든 작가의 정보를 가져온다.
     suspend fun getAuthorInfoAll():MutableList<AuthorInfoData>{
         // 사용자 정보를 담을 리스트
