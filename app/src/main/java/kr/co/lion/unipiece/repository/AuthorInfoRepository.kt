@@ -18,8 +18,8 @@ class AuthorInfoRepository {
     // 작가 번호를 통해 작가 정보를 가져와 반환한다
     suspend fun getAuthorInfoDataByIdx(authorIdx:Int) = authorInfoDataSource.getAuthorInfoDataByIdx(authorIdx)
 
-    // userIdx로 작가 정보를 가져와 반환한다
-    suspend fun getAuthorInfoByUserIdx(userIdx:Int) = authorInfoDataSource.getAuthorInfoDataByUserIdx(userIdx)
+    // userIdx로 작가idx를 가져와 반환한다
+    suspend fun getAuthorIdxByUserIdx(userIdx:Int) = authorInfoDataSource.getAuthorIdxByUserIdx(userIdx)
 
     // 모든 작가의 정보를 가져온다.
     suspend fun getAuthorInfoAll():MutableList<AuthorInfoData> = authorInfoDataSource.getAuthorInfoAll()

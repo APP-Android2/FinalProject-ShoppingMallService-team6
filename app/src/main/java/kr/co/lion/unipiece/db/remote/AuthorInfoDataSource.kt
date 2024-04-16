@@ -81,8 +81,8 @@ class AuthorInfoDataSource {
         return authorInfoData
     }
 
-    // userIdx로 작가 정보를 가져와 반환한다
-    suspend fun getAuthorInfoDataByUserIdx(userIdx:Int) : AuthorInfoData? {
+    // userIdx로 작가Idx를 가져와 반환한다
+    suspend fun getAuthorIdxByUserIdx(userIdx:Int) : Int {
         var authorInfoData:AuthorInfoData? = null
 
         val job1 = CoroutineScope(Dispatchers.IO).launch {
@@ -96,7 +96,7 @@ class AuthorInfoDataSource {
         }
         job1.join()
 
-        return authorInfoData
+        return authorInfoData!!.authorIdx
     }
 
     // 모든 작가의 정보를 가져온다.
