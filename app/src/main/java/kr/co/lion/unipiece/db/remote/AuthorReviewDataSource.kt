@@ -73,7 +73,7 @@ class AuthorReviewDataSource {
             // AuthorInfo 컬렉션 접근 객체를 가져온다.
             val collectionReference = db.collection("AuthorReview")
             // authorIdx 필드가 매개변수로 들어오는 authorIdx와 같은 문서들을 가져온다.
-            val querySnapshot = collectionReference.whereEqualTo("authorIdx", authorIdx).orderBy("reviewIdx",Query.Direction.DESCENDING).get().await()
+            val querySnapshot = collectionReference.whereEqualTo("authorIdx", authorIdx).orderBy("reviewTime",Query.Direction.DESCENDING).get().await()
             // 가져온 문서의 수 만큼 반복한다.
             querySnapshot.forEach {
                 val reviewData = it.toObject(AuthorReviewData::class.java)
