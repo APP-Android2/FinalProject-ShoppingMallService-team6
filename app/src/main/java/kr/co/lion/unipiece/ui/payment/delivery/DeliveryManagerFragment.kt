@@ -1,33 +1,38 @@
 package kr.co.lion.unipiece.ui.payment.delivery
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
-import kr.co.lion.unipiece.databinding.RowDeliveryBinding
+import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
-import kr.co.lion.unipiece.util.CustomDialog
 
 class DeliveryManagerFragment : Fragment() {
 
     private lateinit var binding: FragmentDeliveryManagerBinding
-    private val deliveryViewModel: DeliveryViewModel by viewModels()
+    private val viewModel: DeliveryViewModel by viewModels()
 
-    val deliveryIdx by lazy {
-        requireArguments().getInt("deliveryIdx")
-    }
-    val userIdx by lazy {
-        requireArguments().getInt("userIdx")
+
+    val deliveryAdapter: DeliveryAdapter by lazy {
+        DeliveryAdapter(
+            emptyList(),
+            itemClickListener = { deliveryIdx ->
+                Log.d("테스트 deliveryIdx", deliveryIdx.toString())
+                requireActivity().finish()
+            }
+        )
     }
 
     override fun onCreateView(
@@ -35,7 +40,7 @@ class DeliveryManagerFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        // Inflate the layout for this fragment
+
         binding = FragmentDeliveryManagerBinding.inflate(inflater, container, false)
 
         return binding.root
@@ -43,35 +48,36 @@ class DeliveryManagerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setToolbar()
-        clickButtonDeliveryNewAdd()
-        setRecyclerViewDelivery()
 
-        lifecycleScope.launch(Dispatchers.Main) {
-            fetchData()
-            // 여기서 fetchData 후 UI 업데이트가 필요한 경우 추가 작업을 수행하세요.
-        }
+
+        initView()
+
     }
 
     ///////////////////////////////////////////기능 구현/////////////////////////////////////////////
-    private suspend fun fetchData() {
-        try {
-            // 배송지 정보 불러오기
-            deliveryViewModel.getDeliveryData(userIdx)
-            // 필요한 경우 데이터 로딩 상태를 관리하거나, 성공/실패에 따른 UI 업데이트를 수행하세요.
-        } catch (e: Exception) {
-            // 오류 처리 (예: Toast 메시지 표시, 로깅 등)
-            Toast.makeText(requireContext(), "데이터를 불러오는데 실패했습니다.", Toast.LENGTH_SHORT).show()
-        }
-    }
+    fun initView() {
 
+        // 바인딩
+        with(binding) {
+            // 리사이클러뷰
+            with(recyclerViewDeliveryList) {
+                // 리사이클러뷰 어답터
+                adapter = deliveryAdapter
 
+                // 리사이클러뷰 레이아웃
+                layoutManager = LinearLayoutManager(requireActivity())
+            }
+            // 리사이클러뷰 변경 시 업데이트
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.deliveryDataList.observe(viewLifecycleOwner, Observer { value ->
+                        deliveryAdapter.updateData(value)
+                    })
+                }
+            }
 
-    // 툴바 셋팅
-    fun setToolbar() {
-        binding.apply {
-            toolbarDeliveryManager.apply {
-
+            // 툴바
+            with(toolbarDeliveryManager) {
                 // 타이틀
                 setTitle("배송지 관리")
                 isTitleCentered = true
@@ -84,15 +90,10 @@ class DeliveryManagerFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
-        }
-    }
-
-    // 신규 배송지 등록 버튼 클릭 시
-    fun clickButtonDeliveryNewAdd() {
-        binding.apply {
-            buttonDeliveryMainNewAdd.apply {
+            // 신규 배송지 등록
+            with(buttonDeliveryMainNewAdd) {
+                // 버튼 클릭 시
                 setOnClickListener {
-
                     // 커스텀 다이얼로그 (풀스크린)
                     CustomFullDialogMaker.apply {
 
@@ -103,40 +104,31 @@ class DeliveryManagerFragment : Fragment() {
                             "저장하기",
                             object : CustomFullDialogListener {
 
-                                // 클릭한 이후 동작
-
                                 // 저장하기 버튼 클릭 후 동작
                                 override fun onClickSaveButton() {
-                                    Toast.makeText(requireActivity(), "저장했다!", Toast.LENGTH_SHORT)
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "저장했다!",
+                                        Toast.LENGTH_SHORT
+                                    )
                                         .show()
                                 }
 
                                 // 뒤로가기 버튼 클릭 후 동작
                                 override fun onClickCancelButton() {
-                                    Toast.makeText(requireActivity(), "뒤로갔다!", Toast.LENGTH_SHORT)
+                                    Toast.makeText(
+                                        requireActivity(),
+                                        "뒤로갔다!",
+                                        Toast.LENGTH_SHORT
+                                    )
                                         .show()
 
 
                                 }
-                            }
+                            },
                         )
                     }
                 }
-            }
-        }
-    }
-
-
-    /////////////////////////////////////////// 리사이클러뷰 ////////////////////////////////////////
-    // 배송지 화면의 RecyclerView 설정
-    fun setRecyclerViewDelivery() {
-        binding.apply {
-            recyclerViewDeliveryList.apply {
-                // 어뎁터
-                adapter = DeliveryAdapter()
-                // 레이아웃 매니저
-                layoutManager = LinearLayoutManager(requireActivity())
-
             }
         }
     }

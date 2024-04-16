@@ -10,6 +10,8 @@ class DeliveryAddFragment : DialogFragment() {
 
     lateinit var dialogDeliveryAddBinding: DialogDeliveryAddBinding
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dialogDeliveryAddBinding = DialogDeliveryAddBinding.inflate(layoutInflater)

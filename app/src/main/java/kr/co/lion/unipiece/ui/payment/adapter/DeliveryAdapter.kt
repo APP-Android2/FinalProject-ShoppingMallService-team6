@@ -1,6 +1,9 @@
 package kr.co.lion.unipiece.ui.payment.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
+import android.telephony.PhoneNumberUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
@@ -9,41 +12,64 @@ import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.delivery.CustomFullDialogListener
 import kr.co.lion.unipiece.ui.payment.delivery.CustomFullDialogMaker
-import kr.co.lion.unipiece.ui.payment.delivery.DeliveryViewModel
 import kr.co.lion.unipiece.util.CustomDialog
+import java.util.Locale
 
 // 배송지 화면의 RecyclerView의 어뎁터
-class DeliveryAdapter : RecyclerView.Adapter<DeliveryViewHolder>() {
+class DeliveryAdapter(
+    var deliveryList: List<DeliveryData>,
+    private val itemClickListener: (Int) -> Unit
+) : RecyclerView.Adapter<DeliveryViewHolder>() {
 
-    private var deliveryList = mutableListOf<DeliveryData>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DeliveryViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = RowDeliveryBinding.inflate(inflater, parent, false)
-        return DeliveryViewHolder(parent.context, binding)
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): DeliveryViewHolder {
+
+        val binding: RowDeliveryBinding =
+            RowDeliveryBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        return DeliveryViewHolder(viewGroup.context, binding, itemClickListener)
     }
 
     override fun getItemCount(): Int {
+
         return deliveryList.size
+
     }
 
     override fun onBindViewHolder(holder: DeliveryViewHolder, position: Int) {
-        val item = deliveryList[position] // deliveryList는 예시로, 실제 데이터 리스트 변수명에 맞춰주세요.
-        holder.bind(item)
+        holder.bind(deliveryList[position], itemClickListener)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: List<DeliveryData>) {
+        deliveryList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
+    }
 
 }
 
-class DeliveryViewHolder(private val context: Context,private val binding: RowDeliveryBinding) :
+class DeliveryViewHolder(
+    private val context: Context,
+    val binding: RowDeliveryBinding,
+    private val itemClickListener: (Int) -> Unit
+) :
     RecyclerView.ViewHolder(binding.root) {
-
-    fun bind(data: DeliveryData) { // 예시 타입, 실제 타입으로 대체 필요
-        binding.apply {
+    // 배송지 항목별로 세팅.
+    fun bind(data: DeliveryData, itemClickListener: (Int) -> Unit) {
+        with(binding) {
+            // 받는 이
             textViewDeliveryName.text = data.deliveryName
-            textViewDeliveryNickName.text = data.deliveryNickName
-            textViewDeliveryPhone.text = data.deliveryPhone
+            // 배송지명 (별명)
+            textViewDeliveryNickName.text = "(${data.deliveryNickName})"
+            // 연락처
+            val phoneNumberFormat = PhoneNumberUtils.formatNumber(data.deliveryPhone, Locale.getDefault().country)
+            textViewDeliveryPhone.text = phoneNumberFormat
+            // 주소
             textViewDeliveryAddress.text = data.deliveryAddress
+        }
+        // 클릭 리스너 설정. 클릭하면 deliveryIdx를 전달한다.
+        binding.root.setOnClickListener {
+            itemClickListener.invoke(data.deliveryIdx)
         }
     }
 
