@@ -5,8 +5,12 @@ import android.os.Bundle
 import android.os.SystemClock
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityAuthorInfoBinding
+import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 
 class AuthorInfoActivity : AppCompatActivity() {
@@ -23,14 +27,21 @@ class AuthorInfoActivity : AppCompatActivity() {
         setContentView(activityAuthorInfoBinding.root)
 
         // 다른 액티비티에서 받아온 작가idx
-        val authorIdx:Int = intent.getIntExtra("authorIdx",0)
+        var authorIdx = intent.getIntExtra("authorIdx",0)
+        lifecycleScope.launch {
+            if(authorIdx == 0){
+                authorIdx = AuthorInfoRepository().getAuthorIdxByUserIdx(
+                    UniPieceApplication.prefs.getUserIdx("userIdx",0)
+                )
+            }
 
-        // 추후 전달할 데이터는 여기에 담기
-        val authorInfoBundle = Bundle()
-        // 작가idx 전달
-        authorInfoBundle.putInt("authorIdx",authorIdx)
+            // 추후 전달할 데이터는 여기에 담기
+            val authorInfoBundle = Bundle()
+            // 작가idx 전달
+            authorInfoBundle.putInt("authorIdx",authorIdx)
 
-        replaceFragment(AuthorInfoFragmentName.AUTHOR_INFO_FRAGMENT, false, authorInfoBundle)
+            replaceFragment(AuthorInfoFragmentName.AUTHOR_INFO_FRAGMENT, false, authorInfoBundle)
+        }
     }
 
     // 프래그먼트 교체 코드
