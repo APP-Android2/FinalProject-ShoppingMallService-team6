@@ -15,6 +15,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSalePieceBinding
@@ -53,20 +54,29 @@ class SalePieceFragment : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         viewModel.pieceAddInfoList.observe(viewLifecycleOwner, Observer { value ->
-                            val salePieceAdapter = SalePieceAdapter(value,
-                                onItemClick = {
-                                    val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                                    startActivity(intent)
+                            if(viewModel.pieceAddInfoList.value.isNullOrEmpty()) {
+                                recyclerViewSalePiece.isVisible = false
+                            } else {
+                                binding.layoutNotExistPiece.isVisible = false
+                                val salePieceAdapter = SalePieceAdapter(value) { position ->
+                                    val pieceInfo = value[position]
+                                    if (pieceInfo.addPieceState == "판매 완료" || pieceInfo.addPieceState == "판매 중") {
+                                        val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                                        startActivity(intent)
+                                    } else {
+                                        Snackbar.make(requireView(), "판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_LONG).show()
+                                    }
                                 }
-                            )
-                            with(binding){
-                                recyclerViewSalePiece.adapter = salePieceAdapter
-                                recyclerViewSalePiece.layoutManager = LinearLayoutManager(requireActivity())
-                                val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
-                                deco.dividerInsetStart = 50
-                                deco.dividerInsetEnd = 50
-                                deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                                recyclerViewSalePiece.addItemDecoration(deco)
+
+                                with(binding){
+                                    recyclerViewSalePiece.adapter = salePieceAdapter
+                                    recyclerViewSalePiece.layoutManager = LinearLayoutManager(requireActivity())
+                                    val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
+                                    deco.dividerInsetStart = 50
+                                    deco.dividerInsetEnd = 50
+                                    deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
+                                    recyclerViewSalePiece.addItemDecoration(deco)
+                                }
                             }
                         })
                     }
