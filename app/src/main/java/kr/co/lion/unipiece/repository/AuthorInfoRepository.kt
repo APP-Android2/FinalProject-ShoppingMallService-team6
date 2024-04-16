@@ -24,6 +24,9 @@ class AuthorInfoRepository {
     // 모든 작가의 정보를 가져온다.
     suspend fun getAuthorInfoAll():MutableList<AuthorInfoData> = authorInfoDataSource.getAuthorInfoAll()
 
+    // 작가 이미지 url 받아오기
+    suspend fun getAuthorInfoImg(authorImg:String):String? = authorInfoDataSource.getAuthorInfoImg(authorImg)
+
     // 작가 정보를 수정하는 메서드
     suspend fun updateAuthorInfoData(authorInfoData: AuthorInfoData) = authorInfoDataSource.updateAuthorInfoData(authorInfoData)
 

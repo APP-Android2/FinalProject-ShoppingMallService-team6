@@ -89,4 +89,9 @@ class AuthorInfoViewModel: ViewModel() {
         _authorPieces.value = pieceInfoList
     }
 
+    // 작가의 이미지 URL 가져오기
+    suspend fun getAuthorInfoImg(authorImg:String):String?{
+        return authorInfoRepository.getAuthorInfoImg(authorImg)
+    }
+
 }

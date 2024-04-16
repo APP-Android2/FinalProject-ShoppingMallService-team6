@@ -13,19 +13,17 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
-import kr.co.lion.unipiece.model.PieceInfoData
-import kr.co.lion.unipiece.repository.PieceInfoRepository
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.adapter.AuthorPiecesAdapter
 import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class AuthorInfoFragment : Fragment() {
@@ -141,11 +139,11 @@ class AuthorInfoFragment : Fragment() {
                     buttonAuthorFollow.isVisible = false
                     buttonAuthorReview.isVisible = false
                 }
+                // 작가 이미지 셋팅
+                val authorImg = authorInfoViewModel!!.authorInfoData.value?.authorImg
+                val imageUrl = authorInfoViewModel!!.getAuthorInfoImg(authorImg!!)
+                requireActivity().setImage(imageViewAuthor, imageUrl)
             }
-            // 작가 이미지 셋팅
-            Glide.with(requireActivity())
-                .load(authorInfoViewModel!!.authorInfoData.value?.authorImg)
-                .into(imageViewAuthor)
         }
     }
 

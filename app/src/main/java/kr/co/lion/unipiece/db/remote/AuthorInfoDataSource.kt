@@ -1,7 +1,9 @@
 package kr.co.lion.unipiece.db.remote
 
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,6 +13,7 @@ import kr.co.lion.unipiece.model.AuthorInfoData
 class AuthorInfoDataSource {
 
     private val db = Firebase.firestore
+    private val storage = Firebase.storage.reference
 
     // 작가 번호 시퀀스값을 가져온다.
     suspend fun getAuthorSequence():Int{
@@ -118,6 +121,17 @@ class AuthorInfoDataSource {
         job1.join()
 
         return authorList
+    }
+
+    // 작가 이미지 url 받아오기
+    suspend fun getAuthorInfoImg(authorImg: String): String? {
+        val path = "AuthorInfo/$authorImg"
+        return try {
+            storage.child(path).downloadUrl.await().toString()
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPieceInfoImg: ${e.message} ${path}")
+            null
+        }
     }
 
 
