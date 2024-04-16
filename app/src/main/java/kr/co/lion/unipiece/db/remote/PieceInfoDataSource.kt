@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.PieceInfoData
@@ -126,7 +127,6 @@ class PieceInfoDataSource {
     }
 
     // 작가별 작품 불러오기
-
     suspend fun getAuthorPieceInfo(authorIdx: Int): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -141,4 +141,18 @@ class PieceInfoDataSource {
             emptyList()
         }
     }
+
+    // 작품 아이디로 작품 정보 불러오기
+    suspend fun getIdxPieceInfo(pieceIdx: Int): PieceInfoData? {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceIdx", pieceIdx)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.documents.first()?.toObject(PieceInfoData::class.java)
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            null
+        }
+    }
+
 }
