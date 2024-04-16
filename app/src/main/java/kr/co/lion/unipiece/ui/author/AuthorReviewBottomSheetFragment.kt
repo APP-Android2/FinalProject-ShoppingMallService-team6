@@ -20,6 +20,7 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentAuthorReviewBottomSheetBinding
 import kr.co.lion.unipiece.model.AuthorReviewData
 import kr.co.lion.unipiece.repository.UserInfoRepository
@@ -33,7 +34,7 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     private val authorReviewViewModel:AuthorReviewViewModel by viewModels()
 
     val userIdx by lazy {
-        requireArguments().getInt("userIdx")
+        UniPieceApplication.prefs.getUserIdx("userIdx",0)
     }
 
     val authorIdx by lazy {
