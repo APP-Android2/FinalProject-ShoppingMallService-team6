@@ -63,6 +63,8 @@ class SalePieceFragment : Fragment() {
                                     if (pieceInfo.addPieceState == "판매 완료" || pieceInfo.addPieceState == "판매 중") {
                                         val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
                                         startActivity(intent)
+                                    } else if(pieceInfo.addPieceState == "판매 승인 거절") {
+                                        Snackbar.make(requireView(), "판매 승인이 거절된 작품입니다.", Snackbar.LENGTH_LONG).show()
                                     } else {
                                         Snackbar.make(requireView(), "판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_LONG).show()
                                     }
