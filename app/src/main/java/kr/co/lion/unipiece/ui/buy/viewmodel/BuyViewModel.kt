@@ -78,7 +78,7 @@ class BuyViewModel(): ViewModel() {
     }
 
     suspend fun getNewPieceSort(category: String){
-        val response = pieceInfoRepository.getPopPieceSort(category)
+        val response = pieceInfoRepository.getNewPieceSort(category)
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
@@ -91,7 +91,7 @@ class BuyViewModel(): ViewModel() {
     }
 
     suspend fun getNewPieceDetailSort(detailCategory: String){
-        val response = pieceInfoRepository.getPopPieceDetailSort(detailCategory)
+        val response = pieceInfoRepository.getNewPieceDetailSort(detailCategory)
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
