@@ -23,9 +23,6 @@ class CartViewModel : ViewModel() {
     private val _cartPieceInfoList = MutableLiveData<PieceInfoData>()
     val cartPieceInfoList: LiveData<PieceInfoData> = _cartPieceInfoList
 
-    // 등록일자
-    val cartPieceDate = MutableLiveData<Timestamp>()
-
     // 작가 정보를 불러오기
     suspend fun getPieceInfoData(pieceIdx: Int) {
         val job1 = viewModelScope.launch {
