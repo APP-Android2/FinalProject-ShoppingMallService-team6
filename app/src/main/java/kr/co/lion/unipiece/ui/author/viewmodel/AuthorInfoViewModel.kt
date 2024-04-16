@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.author
+package kr.co.lion.unipiece.ui.author.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

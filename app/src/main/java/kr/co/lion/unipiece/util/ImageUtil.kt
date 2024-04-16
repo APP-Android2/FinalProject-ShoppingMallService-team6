@@ -10,7 +10,7 @@ import kr.co.lion.unipiece.R
 fun Context.setImage(imageView: ImageView, url: String?) {
 
     Glide.with(this).load(url)
-        .placeholder(R.drawable.ic_launcher_foreground) // 로딩 중일 때
+        .placeholder(R.drawable.icon) // 로딩 중일 때
         .error(R.drawable.icon) // 오류 발생 시
         .into(imageView)
 
