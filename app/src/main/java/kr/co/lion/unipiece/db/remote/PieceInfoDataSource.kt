@@ -108,11 +108,10 @@ class PieceInfoDataSource {
 
     }
 
-    suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): URI? {
+    suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): String? {
         val path = "PieceInfo/$pieceIdx/$pieceImg"
         return try {
-            val response = storage.child(path).downloadUrl.await().toString()
-            URI.create(response)
+            storage.child(path).downloadUrl.await().toString()
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error getPieceInfoImg: ${e.message} ${path}")
             null
