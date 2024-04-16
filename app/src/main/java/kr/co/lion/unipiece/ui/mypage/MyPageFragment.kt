@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentMyPageBinding
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
@@ -129,6 +130,8 @@ class MyPageFragment : Fragment() {
             // 로그아웃 버튼 클릭 시
             textButtonMyPageLogout.setOnClickListener {
                 val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
+                UniPieceApplication.prefs.deleteUserIdx("userIdx")
+                UniPieceApplication.prefs.deleteUserId("userId")
                 startActivity(loginIntent)
                 requireActivity().finish()
             }
