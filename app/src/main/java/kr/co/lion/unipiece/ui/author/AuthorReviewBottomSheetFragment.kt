@@ -22,6 +22,7 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentAuthorReviewBottomSheetBinding
 import kr.co.lion.unipiece.model.AuthorReviewData
+import kr.co.lion.unipiece.repository.UserInfoRepository
 import kr.co.lion.unipiece.ui.author.adapter.AuthorReviewAdapter
 import kr.co.lion.unipiece.ui.author.viewmodel.AuthorReviewViewModel
 
@@ -34,6 +35,7 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     val userIdx by lazy {
         requireArguments().getInt("userIdx")
     }
+
     val authorIdx by lazy {
         requireArguments().getInt("authorIdx")
     }
@@ -102,7 +104,6 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
             addReview()
             false
         }
-
     }
 
     private fun addReview(){
@@ -112,9 +113,10 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
                 val reviewSequence = authorReviewViewModel.getReviewSequence() + 1
 
                 val userIdx = userIdx
+                val userNickname = UserInfoRepository().getUserDataByIdx(userIdx)?.nickName.toString()
                 val authorIdx = authorIdx
                 val reviewTime = Timestamp.now()
-                val reviewData = AuthorReviewData(reviewSequence, userIdx, authorIdx, reviewContent, reviewTime)
+                val reviewData = AuthorReviewData(reviewSequence, userIdx, userNickname, authorIdx, reviewContent, reviewTime)
 
                 // 작성 내용 저장
                 authorReviewViewModel.insertReviewData(reviewData)

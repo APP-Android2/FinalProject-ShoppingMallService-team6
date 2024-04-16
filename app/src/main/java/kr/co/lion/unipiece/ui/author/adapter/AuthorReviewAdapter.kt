@@ -21,7 +21,7 @@ class AuthorReviewAdapter(val userIdx:Int, val reviewList: List<AuthorReviewData
 
     override fun onBindViewHolder(holder: AuthorReviewViewHolder, position: Int) {
         // 닉네임
-        holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewNickName.text = reviewList[position].userIdx.toString()
+        holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewNickName.text = reviewList[position].userNickname
         // 댓글 내용
         holder.rowAuthorReviewBottomSheetBinding.textViewRowAuthorReviewText.text = reviewList[position].reviewContent
         // 삭제 버튼은 본인 댓글만 보여지게
