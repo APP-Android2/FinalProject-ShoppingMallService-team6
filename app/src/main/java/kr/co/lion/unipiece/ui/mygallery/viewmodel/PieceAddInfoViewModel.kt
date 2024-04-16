@@ -16,8 +16,60 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _addPieceInfoResult = MutableLiveData<Boolean>()
     val addPieceInfoResult: LiveData<Boolean> = _addPieceInfoResult
 
+    private val _authorIdx = MutableLiveData<Int>()
+    val authorIdx : LiveData<Int> = _authorIdx
+
+    private val _pieceAddInfoList = MutableLiveData<List<PieceAddInfoData>>()
+    val pieceAddInfoList : LiveData<List<PieceAddInfoData>> = _pieceAddInfoList
+
     private val _uploadImageResult = MutableLiveData<String?>()
     val uploadImageResult: LiveData<String?> = _uploadImageResult
+
+    private val _isAuthor = MutableLiveData<Boolean>()
+    val isAuthor: LiveData<Boolean> = _isAuthor
+
+    init {
+        getAuthorIdx()
+    }
+
+    private fun getAuthorIdx() {
+        viewModelScope.launch {
+            try {
+                val userIdx = getUserIdxFromSharedPreferences()
+                val authorIdx = pieceAddInfoRepository.getAuthorIdx(userIdx)
+                _authorIdx.value = authorIdx
+                Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
+
+                getPieceAddInfo()
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to get authorIdx: $throwable")
+            }
+        }
+    }
+
+    private fun getPieceAddInfo() {
+        viewModelScope.launch {
+            try {
+                val authorIdx = _authorIdx.value!!
+                val pieceAddInfoList = pieceAddInfoRepository.getPieceAddInfo(authorIdx)
+
+                pieceAddInfoList.forEach { pieceAddInfo ->
+                    val imageName = pieceAddInfo.addPieceImg
+                    val imageUrl = getPieceAddInfoImage(imageName)
+
+                    imageUrl?.let {
+                        pieceAddInfo.addPieceImg = it.toString()
+                    }
+                }
+
+                _pieceAddInfoList.value = pieceAddInfoList
+
+                Log.e("PieceAddInfoViewModel", "pieceAddInfoList : $pieceAddInfoList")
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to get pieceAddInfo: $throwable")
+            }
+        }
+    }
 
     fun addPieceInfo(pieceAddInfoData: PieceAddInfoData) {
         viewModelScope.launch {
@@ -41,4 +93,28 @@ class PieceAddInfoViewModel : ViewModel() {
             }
         }
     }
+
+    private suspend fun getPieceAddInfoImage(addPieceImg: String): Uri? {
+        return pieceAddInfoRepository.getPieceAddInfoImage(addPieceImg)
+    }
+
+    private fun getUserIdxFromSharedPreferences(): Int {
+//        val sharedPrefs = UniPieceApplication.prefs
+//        return sharedPrefs.getUserIdx("userIdx", 0)
+        // 임시로 0을 반환하도록 설정
+        return 0
+    }
+
+    private fun checkAuthorStatus(userIdx: Int) {
+        viewModelScope.launch {
+            try {
+                val isAuthor = pieceAddInfoRepository.isAuthor(userIdx)
+                _isAuthor.value = isAuthor
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to check author status: $throwable")
+                _isAuthor.value = false
+            }
+        }
+    }
+
 }
