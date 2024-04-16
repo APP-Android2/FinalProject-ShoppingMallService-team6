@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.ItemBuyBinding
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
 class BuyNewAdapter (var pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<BuyNewViewHolder>() {
 
@@ -32,10 +33,13 @@ class BuyNewAdapter (var pieceInfoList: List<PieceInfoData>, private val itemCli
 
 class BuyNewViewHolder(val binding: ItemBuyBinding, private val itemClickListener: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
     fun bind(item: PieceInfoData, itemClickListener: (Int) -> Unit) {
+        val priceFormat = DecimalFormat("###,###")
+        val price = priceFormat.format(item.piecePrice)
+
         with(binding) {
             authorName.text = item.authorName
             pieceName.text = item.pieceName
-            piecePrice.text = "${item.piecePrice}원"
+            piecePrice.text = "${price}원"
 
             root.context.setImage(pieceImg, item.pieceImg)
         }
