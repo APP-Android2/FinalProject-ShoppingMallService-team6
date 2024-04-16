@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.ui.buy.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -8,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.PieceInfoRepository
-import java.net.URI
 
 class BuyViewModel(): ViewModel() {
 
@@ -32,7 +30,7 @@ class BuyViewModel(): ViewModel() {
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
             pieceInfoList.add(pieceInfoData)
         }
@@ -45,7 +43,7 @@ class BuyViewModel(): ViewModel() {
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
             pieceInfoList.add(pieceInfoData)
         }
@@ -58,7 +56,7 @@ class BuyViewModel(): ViewModel() {
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
             pieceInfoList.add(pieceInfoData)
         }
@@ -71,7 +69,7 @@ class BuyViewModel(): ViewModel() {
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
             pieceInfoList.add(pieceInfoData)
         }
@@ -80,11 +78,11 @@ class BuyViewModel(): ViewModel() {
     }
 
     suspend fun getNewPieceSort(category: String){
-        val response = pieceInfoRepository.getPopPieceSort(category)
+        val response = pieceInfoRepository.getNewPieceSort(category)
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
             pieceInfoList.add(pieceInfoData)
         }
@@ -93,11 +91,11 @@ class BuyViewModel(): ViewModel() {
     }
 
     suspend fun getNewPieceDetailSort(detailCategory: String){
-        val response = pieceInfoRepository.getPopPieceDetailSort(detailCategory)
+        val response = pieceInfoRepository.getNewPieceDetailSort(detailCategory)
         val pieceInfoList = mutableListOf<PieceInfoData>()
 
         response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)?.toString()
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
             pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
             pieceInfoList.add(pieceInfoData)
         }
@@ -105,7 +103,7 @@ class BuyViewModel(): ViewModel() {
         _newPieceInfoList.value = pieceInfoList
     }
 
-    private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): URI? {
+    private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): String? {
         return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)
     }
 }

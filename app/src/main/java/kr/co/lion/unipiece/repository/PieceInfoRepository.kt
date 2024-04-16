@@ -15,4 +15,6 @@ class PieceInfoRepository {
     suspend fun getNewPieceDetailSort(detailCategory: String) = pieceInfoDataSource.getNewPieceDetailSort(detailCategory)
 
     suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String) = pieceInfoDataSource.getPieceInfoImg(pieceIdx, pieceImg)
+
+    suspend fun getAuthorPieceInfo(authorIdx: Int) = pieceInfoDataSource.getAuthorPieceInfo(authorIdx)
 }

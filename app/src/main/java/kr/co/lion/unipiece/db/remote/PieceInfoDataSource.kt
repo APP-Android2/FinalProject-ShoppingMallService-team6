@@ -14,6 +14,7 @@ class PieceInfoDataSource {
     private val pieceInfoStore = Firebase.firestore.collection("PieceInfo")
     private val storage = Firebase.storage.reference
 
+    // 인기순으로 전체 작품 정보 불러오기
     suspend fun getPopPieceInfo(): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -29,6 +30,7 @@ class PieceInfoDataSource {
 
     }
 
+    // 인기순으로 대학별 작품 정보 불러오기
     suspend fun getPopPieceSort(category: String): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -45,6 +47,7 @@ class PieceInfoDataSource {
 
     }
 
+    // 인기순으로 상세 카테고리별 정보 불러오기
     suspend fun getPopPieceDetailSort(detailCategory: String): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -61,6 +64,7 @@ class PieceInfoDataSource {
 
     }
 
+    // 신규순으로 전체 작품 정보 불러오기
     suspend fun getNewPieceInfo(): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -76,6 +80,7 @@ class PieceInfoDataSource {
 
     }
 
+    // 신규순으로 대학별 작품 정보 불러오기
     suspend fun getNewPieceSort(category: String): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -92,6 +97,7 @@ class PieceInfoDataSource {
 
     }
 
+    // 신규순으로 상세 카테고리별 정보 불러오기
     suspend fun getNewPieceDetailSort(detailCategory: String): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -108,14 +114,31 @@ class PieceInfoDataSource {
 
     }
 
-    suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): URI? {
+    // 이미지 url 받아오기
+    suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): String? {
         val path = "PieceInfo/$pieceIdx/$pieceImg"
         return try {
-            val response = storage.child(path).downloadUrl.await().toString()
-            URI.create(response)
+            storage.child(path).downloadUrl.await().toString()
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error getPieceInfoImg: ${e.message} ${path}")
             null
+        }
+    }
+
+    // 작가별 작품 불러오기
+
+    suspend fun getAuthorPieceInfo(authorIdx: Int): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("authorIdx", authorIdx)
+                .orderBy("pieceDate", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
         }
     }
 }
