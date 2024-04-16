@@ -1,57 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:padding="20dp"
-    tools:context=".ui.author.AuthorReviewBottomSheetFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewAuthorReview"
-        android:layout_width="match_parent"
-        android:layout_height="300dp" />
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="authorReviewViewModel"
+            type="kr.co.lion.unipiece.ui.author.viewmodel.AuthorReviewViewModel" />
+    </data>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:orientation="vertical"
+        android:padding="20dp"
+        tools:context=".ui.author.AuthorReviewBottomSheetFragment">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="2"
-            android:hint="리뷰를 작성해주세요"
-            app:boxStrokeColor="@color/second"
-            app:cursorColor="@color/second"
-            app:hintTextColor="@color/second">
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputAuthorReview"
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="48dp"
-                android:layout_marginBottom="12dp"
-                android:background="@drawable/textfield_radius"
-                android:inputType="text"
-                android:paddingLeft="10dp"
-                android:textSize="14sp" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:hint="리뷰를 작성해주세요"
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:hintTextColor="@color/second">
 
-        <Button
-            android:id="@+id/buttonAuthorReviewAdd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/button_radius"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:text="확인"
-            android:textColor="@color/white"
-            android:textStyle="bold" />
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textInputAuthorReview"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:layout_marginBottom="12dp"
+                    android:background="@drawable/textfield_radius"
+                    android:inputType="text"
+                    android:paddingLeft="10dp"
+                    android:textSize="14sp"
+                    android:text="@={authorReviewViewModel.authorReviewContent}"/>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <Button
+                android:id="@+id/buttonAuthorReviewAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/button_radius"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:text="확인"
+                android:textColor="@color/white"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewAuthorReview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
     </LinearLayout>
-
-</LinearLayout>
+</layout>
