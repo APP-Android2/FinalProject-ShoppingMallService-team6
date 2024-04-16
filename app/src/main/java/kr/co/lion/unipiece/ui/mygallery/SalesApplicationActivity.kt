@@ -297,7 +297,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     }
 
     fun createPieceInfoData(imageFileName: String): PieceAddInfoData {
-        val authorName = "테스트"
+        val authorName = "한명운"
         val pieceName = binding.textFieldSalesApplicationPieceName.text.toString()
         val pieceSort = topCategory
         val pieceDetailSort = binding.textFieldSalesApplicationCategory.text.toString()
@@ -310,7 +310,7 @@ class SalesApplicationActivity : AppCompatActivity() {
         val piecePrice = binding.textFieldSalesApplicationPrice.text.toString().toInt()
         val pieceState = "판매 승인 대기"
         val pieceDate = Timestamp.now()
-        val authorIdx = 0
+        val authorIdx = 18
 
         return PieceAddInfoData(
             authorName, pieceName, pieceSort, pieceDetailSort,
