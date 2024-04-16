@@ -22,11 +22,13 @@ class AuthorInfoActivity : AppCompatActivity() {
         activityAuthorInfoBinding = ActivityAuthorInfoBinding.inflate(layoutInflater)
         setContentView(activityAuthorInfoBinding.root)
 
+        // 다른 액티비티에서 받아온 작가idx
+        val authorIdx:Int = intent.getIntExtra("authorIdx",0)
+
         // 추후 전달할 데이터는 여기에 담기
         val authorInfoBundle = Bundle()
-        // 이전 액티비티에서 authorIdx를 받아온다.
-        // 수정 필요
-        authorInfoBundle.putInt("authorIdx",1)
+        // 작가idx 전달
+        authorInfoBundle.putInt("authorIdx",authorIdx)
 
         replaceFragment(AuthorInfoFragmentName.AUTHOR_INFO_FRAGMENT, false, authorInfoBundle)
     }
