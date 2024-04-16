@@ -6,6 +6,7 @@ import android.os.SystemClock
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityAuthorInfoBinding
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 
@@ -24,10 +25,9 @@ class AuthorInfoActivity : AppCompatActivity() {
 
         // 추후 전달할 데이터는 여기에 담기
         val authorInfoBundle = Bundle()
-        // 이전 액티비티에서 authorIdx와 userIdx를 받아온다.
+        // 이전 액티비티에서 authorIdx와 받아와 전달한다.
         // 수정 필요
         authorInfoBundle.putInt("authorIdx",1)
-        authorInfoBundle.putInt("userIdx",9)
 
         replaceFragment(AuthorInfoFragmentName.AUTHOR_INFO_FRAGMENT, false, authorInfoBundle)
     }
