@@ -124,4 +124,21 @@ class PieceInfoDataSource {
             null
         }
     }
+
+    // 작가별 작품 불러오기
+
+    suspend fun getAuthorPieceInfo(authorIdx: Int): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("authorIdx", authorIdx)
+                .orderBy("pieceDate", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+    }
 }
