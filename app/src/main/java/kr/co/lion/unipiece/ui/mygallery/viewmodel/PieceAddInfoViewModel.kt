@@ -38,6 +38,7 @@ class PieceAddInfoViewModel : ViewModel() {
                 val userIdx = getUserIdxFromSharedPreferences()
                 val authorIdx = pieceAddInfoRepository.getAuthorIdx(userIdx)
                 _authorIdx.value = authorIdx
+                Log.e("PieceAddInfoViewModel", "userIdx : $userIdx")
                 Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
 
                 getPieceAddInfo()
@@ -102,7 +103,7 @@ class PieceAddInfoViewModel : ViewModel() {
 //        val sharedPrefs = UniPieceApplication.prefs
 //        return sharedPrefs.getUserIdx("userIdx", 0)
         // 임시로 0을 반환하도록 설정
-        return 0
+        return 19
     }
 
     private fun checkAuthorStatus(userIdx: Int) {

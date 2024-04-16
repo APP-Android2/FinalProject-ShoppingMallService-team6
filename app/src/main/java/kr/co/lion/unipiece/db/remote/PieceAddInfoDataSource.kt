@@ -53,10 +53,12 @@ class PieceAddInfoDataSource {
                 .get()
                 .await()
 
-            val authorIdx = querySnapshot.documents.first().get("authorIdx") as? Int ?: 0
+            val authorIdx = querySnapshot.documents.firstOrNull()?.get("authorIdx") as? Long ?: 0
 
-            authorIdx
+            authorIdx.toInt()
+
         } catch (e: Exception) {
+            Log.e("firebase", "Failed to get authorIdx: ${Log.getStackTraceString(e)}")
             0
         }
     }
