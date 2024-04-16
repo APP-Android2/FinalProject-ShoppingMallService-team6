@@ -191,7 +191,6 @@ class AuthorInfoFragment : Fragment() {
         fragmentAuthorInfoBinding.buttonAuthorReview.setOnClickListener {
             val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
             authorReviewBottomSheetFragment.arguments = Bundle().apply {
-                putInt("userIdx", userIdx)
                 putInt("authorIdx", authorIdx)
             }
             authorReviewBottomSheetFragment.show(parentFragmentManager, "BottomSheet")
