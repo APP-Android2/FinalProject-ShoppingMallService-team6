@@ -30,14 +30,13 @@
                 android:id="@+id/pieceImg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/test_piece_img"
+                android:src="@drawable/icon"
                 android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/authorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="홍길동"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="14sp"
@@ -48,7 +47,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 이름"
                 android:fontFamily="@font/pretendard_bold"
                 android:textSize="20sp"
                 android:textColor="@color/black"/>
@@ -58,7 +56,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="제작년도 2023"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
@@ -68,7 +65,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 크기 20 * 20 (cm)"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
@@ -78,7 +74,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 재료 컨버스에 아크릴, 자개"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
@@ -88,7 +83,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="20명이 좋아요를 눌렀어요"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="16sp"
                 android:textColor="@color/black"/>
@@ -116,7 +110,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="홍길동 작가의 전체 작품은 인간의 삶을 담아서 어쩌구 저쩌구 저쩌구 합니다. 그림에서 사용된 저쩌구 저쩌고는 단순히 아름다움 어쩌고를 표현하고 프랑스 예술 풍의 어쩌구를 합니다. 자개를 표현하고 그림의 색채를 무엇을 사용을 했습니다."
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="14sp"
                 android:background="@drawable/button_radius"
@@ -160,7 +153,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="홍길동 작가"
                 android:fontFamily="@font/pretendard_medium"
                 android:textSize="18sp"
                 android:textColor="@color/black"
@@ -327,7 +319,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/button_radius"
-            android:text="100,000원 구매"
             android:textColor="@color/white"/>
 
 
