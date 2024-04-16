@@ -6,7 +6,8 @@ import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,7 +24,7 @@ import kr.co.lion.unipiece.databinding.FragmentAuthorReviewBottomSheetBinding
 import kr.co.lion.unipiece.model.AuthorReviewData
 import kr.co.lion.unipiece.ui.author.adapter.AuthorReviewAdapter
 import kr.co.lion.unipiece.ui.author.viewmodel.AuthorReviewViewModel
-import kr.co.lion.unipiece.util.hideSoftInput
+
 
 class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
 
@@ -36,7 +37,6 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     val authorIdx by lazy {
         requireArguments().getInt("authorIdx")
     }
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -96,7 +96,6 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     private fun settingButtonAuthorReviewAdd(){
         fragmentAuthorReviewBottomSheetBinding.buttonAuthorReviewAdd.setOnClickListener {
             addReview()
-            requireActivity().hideSoftInput()
         }
 
         fragmentAuthorReviewBottomSheetBinding.textInputAuthorReview.setOnEditorActionListener { textView, i, keyEvent ->
@@ -125,7 +124,8 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
                 authorReviewViewModel.getReviewList(authorIdx)
                 // 입력칸 초기화
                 authorReviewViewModel.authorReviewContent.value = ""
-                Toast.makeText(requireActivity(), "작성 완료", Toast.LENGTH_SHORT).show()
+                // 키보드 내리기
+                rHideSoftInput()
             }
         }
     }
@@ -146,7 +146,7 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     // BottomSheet의 높이를 설정해준다.
-    fun setBottomSheetHeight(bottomSheetDialog: BottomSheetDialog){
+    private fun setBottomSheetHeight(bottomSheetDialog: BottomSheetDialog){
         // BottomSheet의 기본 뷰 객체를 가져온다
         val bottomSheet = bottomSheetDialog.findViewById<View>(com.google.android.material.R.id.design_bottom_sheet)!!
         // BottomSheet 높이를 설정할 수 있는 객체를 생성한다.
@@ -160,12 +160,12 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     // BottomSheet의 높이를 구한다(화면 액정의 85% 크기)
-    fun getBottomSheetDialogHeight() : Int{
+    private fun getBottomSheetDialogHeight() : Int{
         return (getWindowHeight() * 0.7).toInt()
     }
 
     // 사용자 단말기 액정의 길이를 구해 반환하는 메서드
-    fun getWindowHeight() : Int {
+    private fun getWindowHeight() : Int {
         // 화면 크기 정보를 담을 배열 객체
         val displayMetrics = DisplayMetrics()
         // 액정의 가로/세로 길이 정보를 담아준다.
@@ -173,4 +173,15 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         // 세로 길이를 반환해준다.
         return displayMetrics.heightPixels
     }
+
+    private fun rHideSoftInput(){
+        // KeyBoardUtil.kt의 hideSoftInput()는 BottomSheetDialog 에서 안되는 것 같음
+        // requireActivity().window.currentFocus 값이 null로 나옴
+        // https://stackoverflow.com/questions/66219617/how-to-hide-soft-key-in-bottom-sheet-dialog-in-android 참고함
+        view?.clearFocus()
+        val rInputMethodManager = requireActivity().getSystemService(AppCompatActivity.INPUT_METHOD_SERVICE) as InputMethodManager
+        rInputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
+
 }
+
