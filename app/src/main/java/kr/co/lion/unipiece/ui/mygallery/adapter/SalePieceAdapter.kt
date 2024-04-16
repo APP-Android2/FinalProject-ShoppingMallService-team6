@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.mygallery.adapter
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowSalePieceBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
@@ -11,7 +12,9 @@ import kr.co.lion.unipiece.util.setImage
 
 class SalePieceAdapter (val pieceAddInfoList: List<PieceAddInfoData>, private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<SalePieceViewHolderClass>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SalePieceViewHolderClass {
-        val binding: RowSalePieceBinding = RowSalePieceBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+        val inflater = LayoutInflater.from(viewGroup.context)
+        val binding = RowSalePieceBinding.inflate(inflater, viewGroup, false)
+
         return SalePieceViewHolderClass(binding)
     }
 
@@ -34,9 +37,13 @@ class SalePieceViewHolderClass(val binding: RowSalePieceBinding): RecyclerView.V
             textViewRowSalePieceArtistName.text = pieceAddInfoData.addAuthorName
             textViewRowSalePiecePrice.text = "${pieceAddInfoData.addPiecePrice}원"
 
-            binding.buttonRowSalePieceModify.setOnClickListener {
-                val intent = Intent(root.context, SalesApplicationActivity::class.java)
-                root.context.startActivity(intent)
+            if(pieceAddInfoData.addPieceState != "판매 승인 대기") {
+                binding.buttonRowSalePieceModify.isVisible = false
+            } else {
+                binding.buttonRowSalePieceModify.setOnClickListener {
+                    val intent = Intent(root.context, SalesApplicationActivity::class.java)
+                    root.context.startActivity(intent)
+                }
             }
         }
 
