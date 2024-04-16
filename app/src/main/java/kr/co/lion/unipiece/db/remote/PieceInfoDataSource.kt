@@ -29,9 +29,73 @@ class PieceInfoDataSource {
 
     }
 
+    suspend fun getPopPieceSort(category: String): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("pieceSort", category)
+                .orderBy("pieceLike", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+
+    }
+
+    suspend fun getPopPieceDetailSort(detailCategory: String): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("pieceDetailSort", detailCategory)
+                .orderBy("pieceLike", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+
+    }
+
     suspend fun getNewPieceInfo(): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .orderBy("pieceDate", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+
+    }
+
+    suspend fun getNewPieceSort(category: String): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("pieceSort", category)
+                .orderBy("pieceDate", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(PieceInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            emptyList()
+        }
+
+    }
+
+    suspend fun getNewPieceDetailSort(detailCategory: String): List<PieceInfoData> {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
+                .whereEqualTo("pieceDetailSort", detailCategory)
                 .orderBy("pieceDate", Query.Direction.DESCENDING)
 
             val querySnapShot = query.get().await()

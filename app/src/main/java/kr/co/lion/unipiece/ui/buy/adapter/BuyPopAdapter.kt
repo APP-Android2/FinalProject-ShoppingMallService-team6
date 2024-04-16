@@ -1,13 +1,16 @@
 package kr.co.lion.unipiece.ui.buy.adapter
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.ItemBuyBinding
 import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.model.SearchResultData
 import kr.co.lion.unipiece.util.setImage
 
-class BuyPopAdapter (val pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<BuyPopViewHolder>() {
+class BuyPopAdapter (var pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<BuyPopViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType:Int): BuyPopViewHolder {
         val binding: ItemBuyBinding = ItemBuyBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -19,6 +22,13 @@ class BuyPopAdapter (val pieceInfoList: List<PieceInfoData>, private val itemCli
     }
 
     override fun getItemCount(): Int = pieceInfoList.size
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: List<PieceInfoData>){
+        pieceInfoList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
+    }
 }
 
 class BuyPopViewHolder(val binding: ItemBuyBinding, private val itemClickListener: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
