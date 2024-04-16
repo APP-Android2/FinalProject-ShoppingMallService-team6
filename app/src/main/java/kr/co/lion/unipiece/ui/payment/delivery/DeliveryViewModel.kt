@@ -49,15 +49,5 @@ class DeliveryViewModel : ViewModel() {
         }
 
     }
-
-//    // 신규 배송지 등록하기
-//    suspend fun insertDeliveryData(deliveryData: DeliveryData){
-//        val job1 = viewModelScope.launch{
-//            deliveryRepository.insertDeliveryData(deliveryData)
-//            // 등록 후, 필요하다면 UI 업데이트를 위한 추가 작업 수행
-//            // 예: 새로운 배송지 정보를 _deliveryData에 설정
-//            _deliveryData.value = deliveryData
-//        }
-//        job1.join()
-//    }
+    
 }
