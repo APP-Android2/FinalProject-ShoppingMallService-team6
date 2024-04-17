@@ -8,24 +8,20 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.activity.addCallback
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.databinding.AuthorListBinding
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
-import kr.co.lion.unipiece.ui.author.GuideLineFragment
+import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
-import kr.co.lion.unipiece.ui.login.LoginActivity
 import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.search.SearchFragment
-import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.util.Timer
 import java.util.TimerTask
@@ -35,6 +31,8 @@ class HomeFragment : Fragment() {
     lateinit var fragmentHomeBinding: FragmentHomeBinding
 
     lateinit var mainActivity: MainActivity
+
+    private val viewModel: PromoteInfoViewModel by activityViewModels()
 
 
 
@@ -122,10 +120,19 @@ class HomeFragment : Fragment() {
     private fun connectAdapterPromote(){
         fragmentHomeBinding.apply {
             val bannerVPAdapter = BannerVPAdapter(this@HomeFragment)
-            bannerVPAdapter.addFragment(PromoteFragment(R.drawable.logo_toolbar))
-            bannerVPAdapter.addFragment(PromoteFragment(R.drawable.icon))
             viewPagerHomePromote.adapter = bannerVPAdapter
             viewPagerHomePromote.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+            val viewModel = ViewModelProvider(this@HomeFragment).get(PromoteInfoViewModel::class.java)
+            viewModel.promoteInfo.observe(viewLifecycleOwner, Observer { imageUrls ->
+                bannerVPAdapter.fragmentList.clear()
+                imageUrls.forEach { imageUrl ->
+                    val promoteFragment = PromoteFragment(imageUrl)
+                    bannerVPAdapter.addFragment(promoteFragment)
+                }
+                bannerVPAdapter.notifyDataSetChanged()
+            })
+            viewModel.getPromoteImages()
 
             autoSlidePromote(bannerVPAdapter)
 
@@ -136,8 +143,6 @@ class HomeFragment : Fragment() {
     private fun connectAdapterNews(){
         fragmentHomeBinding.apply {
             val newsVPAdapter = BannerVPAdapter(this@HomeFragment)
-            newsVPAdapter.addFragment(PromoteFragment(R.drawable.logo_toolbar))
-            newsVPAdapter.addFragment(PromoteFragment(R.drawable.icon))
             viewPagerHomeNews.adapter = newsVPAdapter
             viewPagerHomeNews.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
@@ -150,8 +155,6 @@ class HomeFragment : Fragment() {
     private fun connectAdapterGallery(){
         fragmentHomeBinding.apply {
             val galleryVPAdapter = BannerVPAdapter(this@HomeFragment)
-            galleryVPAdapter.addFragment(PromoteFragment(R.drawable.logo_toolbar))
-            galleryVPAdapter.addFragment(PromoteFragment(R.drawable.icon))
             viewPagerHomeGallery.adapter = galleryVPAdapter
             viewPagerHomeGallery.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
