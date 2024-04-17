@@ -258,12 +258,12 @@ class AuthorInfoDataSource {
     }
 
     // 작가 이미지 파일 업로드
-    fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean {
+    suspend fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean {
         val imageFileName = "${authorIdx}.jpg"
         val imageRef = storage.child("AuthorInfo/$imageFileName")
 
         return try {
-            imageRef.putFile(imageUri)
+            imageRef.putFile(imageUri).await()
             true
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error uploadImage: ${e.message}")

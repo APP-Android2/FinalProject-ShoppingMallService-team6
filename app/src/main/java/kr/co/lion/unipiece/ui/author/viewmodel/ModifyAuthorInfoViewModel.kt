@@ -32,7 +32,7 @@ class ModifyAuthorInfoViewModel: ViewModel() {
     }
 
     // 작가 이미지 업로드
-    fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean{
+    suspend fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean{
         return authorInfoRepository.uploadImage(authorIdx, imageUri)
     }
 

@@ -3,7 +3,6 @@ package kr.co.lion.unipiece.ui.author
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -22,8 +21,6 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
@@ -37,8 +34,6 @@ import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.setImage
 import java.io.File
-import java.io.FileOutputStream
-import kotlin.text.Typography.degree
 
 class ModifyAuthorInfoFragment : Fragment() {
 
@@ -259,6 +254,16 @@ class ModifyAuthorInfoFragment : Fragment() {
             lifecycleScope.launch {
                 // 이미지 변경이 있는 경우 스토리지에 이미지 업로드
                 if(checkImg){
+                    with(fragmentModifyAuthorInfoBinding){
+                        // 프로그래스 바 표시
+                        layoutProgressModifyAuthor.visibility = View.VISIBLE
+                        // 이미지 업로드 동안 버튼 클릭 방지
+                        imageViewModifyAuthor.isClickable = false
+                        buttonModifyAuthorImage.isClickable = false
+                        buttonModifyAuthorInfoConfirm.isClickable = false
+                        buttonModifyAuthorUpdateAuthor.isClickable = false
+                    }
+
                     val uploadResult: Boolean
                     if(albumImageUri != null){
                         // 앨범의 이미지를 선택해 변경한 경우
@@ -270,10 +275,19 @@ class ModifyAuthorInfoFragment : Fragment() {
                         val file = imageUri.path?.let { it1 -> File(it1) }
                         file?.delete()
                     }
+                    // 프로그래스 바 숨기기
+                    fragmentModifyAuthorInfoBinding.layoutProgressModifyAuthor.visibility = View.GONE
 
                     // 이미지 업로드 실패한 경우
                     if(!uploadResult){
                         Snackbar.make(requireActivity(), fragmentModifyAuthorInfoBinding.root, "통신 실패, 잠시후 다시 시도해주세요", Snackbar.LENGTH_SHORT).show()
+                        with(fragmentModifyAuthorInfoBinding){
+                            // 클릭 방지 해제
+                            imageViewModifyAuthor.isClickable = true
+                            buttonModifyAuthorImage.isClickable = true
+                            buttonModifyAuthorInfoConfirm.isClickable = true
+                            buttonModifyAuthorUpdateAuthor.isClickable = true
+                        }
                         return@launch
                     }
 

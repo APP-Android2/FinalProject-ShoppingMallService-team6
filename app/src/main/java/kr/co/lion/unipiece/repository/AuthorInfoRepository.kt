@@ -50,5 +50,5 @@ class AuthorInfoRepository {
     suspend fun getAuthorInfoImg(authorIdx: Int) = authorInfoDataSource.getAuthorIdxImg(authorIdx)
 
     // 작가 이미지 파일 업로드
-    fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean = authorInfoDataSource.uploadImage(authorIdx, imageUri)
+    suspend fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean = authorInfoDataSource.uploadImage(authorIdx, imageUri)
 }
