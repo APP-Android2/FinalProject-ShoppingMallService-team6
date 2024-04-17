@@ -8,7 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
+import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,6 +17,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
@@ -31,9 +32,6 @@ class HomeFragment : Fragment() {
     lateinit var fragmentHomeBinding: FragmentHomeBinding
 
     lateinit var mainActivity: MainActivity
-
-    private val viewModel: PromoteInfoViewModel by activityViewModels()
-
 
 
     val timer = Timer()
@@ -122,10 +120,12 @@ class HomeFragment : Fragment() {
             val bannerVPAdapter = BannerVPAdapter(this@HomeFragment)
             viewPagerHomePromote.adapter = bannerVPAdapter
             viewPagerHomePromote.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+            progressBar2.visibility = View.VISIBLE
 
             val viewModel = ViewModelProvider(this@HomeFragment).get(PromoteInfoViewModel::class.java)
             viewModel.promoteInfo.observe(viewLifecycleOwner, Observer { imageUrls ->
                 bannerVPAdapter.fragmentList.clear()
+                progressBar2.visibility = View.GONE
                 imageUrls.forEach { imageUrl ->
                     val promoteFragment = PromoteFragment(imageUrl)
                     bannerVPAdapter.addFragment(promoteFragment)
@@ -145,6 +145,18 @@ class HomeFragment : Fragment() {
             val newsVPAdapter = BannerVPAdapter(this@HomeFragment)
             viewPagerHomeNews.adapter = newsVPAdapter
             viewPagerHomeNews.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+            val viewModel = ViewModelProvider(this@HomeFragment).get(NewsInfoViewModel::class.java)
+            viewModel.newsInfo.observe(viewLifecycleOwner, Observer { imageUrls ->
+                newsVPAdapter.fragmentList.clear()
+                imageUrls.forEach {
+                    val newsFragment = NewsFragment(it)
+                    newsVPAdapter.addFragment(newsFragment)
+                }
+                newsVPAdapter.notifyDataSetChanged()
+            })
+            viewModel.getNewsImages()
+
 
             autoSlideNews(newsVPAdapter)
 
