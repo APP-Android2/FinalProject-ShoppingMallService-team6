@@ -25,6 +25,7 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int):
     init {
         viewModelScope.launch {
             getIdxPieceInfo(pieceIdx)
+            getIdxAuthorInfo(authorIdx)
         }
     }
 
