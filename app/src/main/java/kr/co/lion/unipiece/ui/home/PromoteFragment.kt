@@ -19,9 +19,13 @@ class PromoteFragment(val imgRes: String) : Fragment() {
         // Inflate the layout for this fragment
         fragmentPromoteBinding = FragmentPromoteBinding.inflate(layoutInflater)
 
-        Glide.with(this)
-            .load(imgRes)
-            .into(fragmentPromoteBinding.imagePromote)
+        try {
+            Glide.with(this)
+                .load(imgRes)
+                .into(fragmentPromoteBinding.imagePromote)
+        }catch (e:Exception){
+            "error : ${e}"
+        }
 
         settingEvent()
         return fragmentPromoteBinding.root
