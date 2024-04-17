@@ -62,6 +62,12 @@ class BuyDetailActivity : AppCompatActivity() {
             viewModel.getAuthorReviewDataByIdx(authorIdx)
         }
 
+        setPieceInfo()
+        setAuthorInfo()
+        setAuthorReview()
+    }
+
+    fun setPieceInfo(){
         viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
@@ -80,7 +86,9 @@ class BuyDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    fun setAuthorInfo(){
         viewModel.authorInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
@@ -98,11 +106,18 @@ class BuyDetailActivity : AppCompatActivity() {
                 }
             }
         })
+    }
 
+    fun setAuthorReview(){
         viewModel.authorReviewList.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
                     when(it.size){
+                        0 -> {
+                            review1.visibility = View.GONE
+                            review2.visibility = View.GONE
+                            review3.visibility = View.GONE
+                        }
                         1 -> {
                             review2.visibility = View.GONE
                             review3.visibility = View.GONE
@@ -128,10 +143,6 @@ class BuyDetailActivity : AppCompatActivity() {
                             reviewText3.text = it[2].reviewContent
                         }
                     }
-                } else {
-                    review1.visibility = View.GONE
-                    review2.visibility = View.GONE
-                    review3.visibility = View.GONE
                 }
             }
         })
