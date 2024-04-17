@@ -4,7 +4,9 @@ import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
@@ -30,6 +32,7 @@ import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.setImage
 import java.io.File
+import kotlin.text.Typography.degree
 
 class ModifyAuthorInfoFragment : Fragment() {
 
@@ -179,12 +182,66 @@ class ModifyAuthorInfoFragment : Fragment() {
 
     // 앨범 런처 설정
     fun settingAlbumLauncher(){
+        val contract2 = ActivityResultContracts.StartActivityForResult()
+        albumLauncher = registerForActivityResult(contract2){
+            // 사진 선택을 완료한 후 돌아왔다면
+            if(it.resultCode == AppCompatActivity.RESULT_OK){
+                // 선택한 이미지의 경로 데이터를 관리하는 Uri 객체를 추출한다.
+                val uri = it.data?.data
+                if(uri != null){
+                    // 회전 각도값을 가져온다.
+                    val degree = requireActivity().getDegree(uri)
+                    // 안드로이드 Q(10) 이상이라면
+                    val bitmap = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                        // 이미지를 생성할 수 있는 객체를 생성한다.
+                        val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
+                        // Bitmap을 생성한다.
+                        ImageDecoder.decodeBitmap(source)
+                    } else {
+                        // 컨텐츠 프로바이더를 통해 이미지 데이터에 접근한다.
+                        val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
+                        if(cursor != null){
+                            cursor.moveToNext()
 
+                            // 이미지의 경로를 가져온다.
+                            val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                            val source = cursor.getString(idx)
+
+                            // 이미지를 생성한다
+                            BitmapFactory.decodeFile(source)
+                                .rotate(degree.toFloat())
+                                .resize(150)
+                        } else {
+                            null
+                        }
+                    }
+
+                    // 파이어베이스 스토리지에 업로드
+
+                    // 업로드한 이미지 url 구하기
+
+                    // 파이어베이스 스토어에서 AuthorInfo의 authorImage값 업데이트
+
+                    // 이미지뷰에 변경된 이미지로 셋팅
+                    // requireActivity().setImage(fragmentModifyAuthorInfoBinding.imageViewModifyAuthor, imageUri)
+                    fragmentModifyAuthorInfoBinding.imageViewModifyAuthor.setImageBitmap(bitmap)
+                }
+            }
+        }
     }
 
     // 앨범 런처를 실행하는 메서드
     fun startAlbumLauncher(){
-
+        // 앨범에서 사진을 선택할 수 있도록 셋팅된 인텐트를 생성한다.
+        val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        // 실행할 액티비티의 타입을 설정(이미지를 선택할 수 있는 것이 뜨게 한다)
+        albumIntent.setType("image/*")
+        // 선택할 수 있는 파들의 MimeType을 설정한다.
+        // 여기서 선택한 종류의 파일만 선택이 가능하다. 모든 이미지로 설정한다.
+        val mimeType = arrayOf("image/*")
+        albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+        // 액티비티를 실행한다.
+        albumLauncher.launch(albumIntent)
     }
 
     // 작가 갱신 버튼
