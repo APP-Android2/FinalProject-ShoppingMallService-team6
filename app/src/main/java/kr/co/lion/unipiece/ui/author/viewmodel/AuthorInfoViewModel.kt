@@ -6,7 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.model.AuthorInfoData
+import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
+import kr.co.lion.unipiece.repository.PieceInfoRepository
 
 class AuthorInfoViewModel: ViewModel() {
     // 작가 정보
@@ -20,6 +22,10 @@ class AuthorInfoViewModel: ViewModel() {
     // 팔로우 여부
     private val _checkFollow = MutableLiveData<Boolean>()
     val checkFollow:LiveData<Boolean> = _checkFollow
+
+    // 작가 작품 리스트
+    private val _authorPieces = MutableLiveData<List<PieceInfoData>>()
+    val authorPieces = _authorPieces
 
     private val authorInfoRepository = AuthorInfoRepository()
 
@@ -69,8 +75,23 @@ class AuthorInfoViewModel: ViewModel() {
     }
 
     // 작가의 작품 리스트 불러오기
-    // 추후 수정
-    fun getPiecesList(authorIdx:Int){
+    suspend fun getAuthorPieces(authorIdx:Int){
+        val pieceInfoRepository = PieceInfoRepository()
+        val response = pieceInfoRepository.getAuthorPieceInfo(authorIdx)
+        val pieceInfoList = mutableListOf<PieceInfoData>()
 
+        response.forEach { pieceInfoData ->
+            val pieceImgUrl = pieceInfoRepository.getPieceInfoImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
+            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
+            pieceInfoList.add(pieceInfoData)
+        }
+
+        _authorPieces.value = pieceInfoList
     }
+
+    // 작가의 이미지 URL 가져오기
+    suspend fun getAuthorInfoImg(authorImg:String):String?{
+        return authorInfoRepository.getAuthorInfoImg(authorImg)
+    }
+
 }

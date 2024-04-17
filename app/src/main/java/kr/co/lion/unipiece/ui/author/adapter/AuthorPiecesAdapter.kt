@@ -4,8 +4,10 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowAuthorPiecesBinding
+import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.util.setImage
 
-class AuthorPiecesAdapter(val piecesList: ArrayList<Int>, private val itemClickListener: (position: Int) -> Unit): RecyclerView.Adapter<AuthorPiecesViewHolder>() {
+class AuthorPiecesAdapter(val pieceInfoList: List<PieceInfoData>, private val itemClickListener: (position: Int) -> Unit): RecyclerView.Adapter<AuthorPiecesViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorPiecesViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val rowAuthorPiecesBinding = RowAuthorPiecesBinding.inflate(inflater)
@@ -14,15 +16,18 @@ class AuthorPiecesAdapter(val piecesList: ArrayList<Int>, private val itemClickL
     }
 
     override fun getItemCount(): Int {
-        return piecesList.size
+        return pieceInfoList.size
     }
 
     override fun onBindViewHolder(holder: AuthorPiecesViewHolder, position: Int) {
         // 이미지
-        holder.rowAuthorPiecesBinding.imageViewAuthorPiece.setImageResource(piecesList[position])
+        holder.rowAuthorPiecesBinding.root.context.setImage(
+            holder.rowAuthorPiecesBinding.imageViewAuthorPiece,
+            pieceInfoList[position].pieceImg
+        )
         // 작품 클릭 시 설명 화면 이동
         holder.rowAuthorPiecesBinding.root.setOnClickListener {
-            itemClickListener(position)
+            itemClickListener(pieceInfoList[position].pieceIdx)
         }
     }
 }
