@@ -70,9 +70,13 @@ class BuyPopFragment : Fragment() {
     fun setLoading(){
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loadingData.observe(viewLifecycleOwner, Observer { value ->
-                    binding.buyPopRV.scrollToPosition(0)
-                    binding.progressBar.visibility = View.VISIBLE
+                viewModel.popLoading.observe(viewLifecycleOwner, Observer { value ->
+                    if(value){
+                        binding.buyPopRV.scrollToPosition(0)
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
                 })
             }
         }

@@ -71,9 +71,13 @@ class BuyNewFragment : Fragment() {
     fun setLoading(){
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.loadingData.observe(viewLifecycleOwner, Observer { value ->
-                    binding.buyNewRV.scrollToPosition(0)
-                    binding.progressBar.visibility = View.VISIBLE
+                viewModel.newLoading.observe(viewLifecycleOwner, Observer { value ->
+                    if(value){
+                        binding.buyNewRV.scrollToPosition(0)
+                        binding.progressBar.visibility = View.VISIBLE
+                    } else {
+                        binding.progressBar.visibility = View.GONE
+                    }
                 })
             }
         }
