@@ -42,5 +42,6 @@ class AuthorInfoRepository {
     // 작가 팔로우 취소
     suspend fun cancelFollowing(userIdx:Int, authorIdx:Int) = authorInfoDataSource.cancelFollowing(userIdx, authorIdx)
 
-
+    // 작가 확인
+    suspend fun isAuthor(userIdx: Int) = authorInfoDataSource.isAuthor(userIdx)
 }
