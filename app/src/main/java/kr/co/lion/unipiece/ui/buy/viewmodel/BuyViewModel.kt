@@ -18,11 +18,18 @@ class BuyViewModel(): ViewModel() {
     private val _newPieceInfoList = MutableLiveData<List<PieceInfoData>>()
     val newPieceInfoList : LiveData<List<PieceInfoData>> = _newPieceInfoList
 
+    private val _loadingData: MutableLiveData<Unit> = MutableLiveData()
+    val loadingData: LiveData<Unit> = _loadingData
+
     init {
         viewModelScope.launch {
             getPopPieceInfo()
             getNewPieceInfo()
         }
+    }
+
+    fun loading(){
+        _loadingData.value = Unit
     }
 
     suspend fun getPopPieceInfo(){

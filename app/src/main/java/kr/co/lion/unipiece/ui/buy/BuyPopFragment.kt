@@ -47,6 +47,7 @@ class BuyPopFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setLoading()
     }
 
     fun initView() {
@@ -59,7 +60,19 @@ class BuyPopFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
+                    binding.progressBar.visibility = View.GONE
                     buyPopAdapter.updateData(value)
+                })
+            }
+        }
+    }
+
+    fun setLoading(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loadingData.observe(viewLifecycleOwner, Observer { value ->
+                    binding.buyPopRV.scrollToPosition(0)
+                    binding.progressBar.visibility = View.VISIBLE
                 })
             }
         }

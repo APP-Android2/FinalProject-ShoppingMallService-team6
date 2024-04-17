@@ -136,6 +136,10 @@ class BuyFragment : Fragment() {
                     drawerBuyLayout.close()
                     it.isChecked = true
 
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.loading()
+                    }
+
                     when(it.itemId){
                         R.id.menuAll -> {
                             when(currentFragment){

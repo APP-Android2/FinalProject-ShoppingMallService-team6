@@ -48,6 +48,7 @@ class BuyNewFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initView()
+        setLoading()
     }
 
     fun initView() {
@@ -60,7 +61,19 @@ class BuyNewFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.newPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
+                    binding.progressBar.visibility = View.GONE
                     buyNewAdapter.updateData(value)
+                })
+            }
+        }
+    }
+
+    fun setLoading(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.loadingData.observe(viewLifecycleOwner, Observer { value ->
+                    binding.buyNewRV.scrollToPosition(0)
+                    binding.progressBar.visibility = View.VISIBLE
                 })
             }
         }
