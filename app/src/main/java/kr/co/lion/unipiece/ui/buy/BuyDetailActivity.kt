@@ -71,6 +71,7 @@ class BuyDetailActivity : AppCompatActivity() {
         viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
+                    progressBar.visibility = View.GONE
                     setImage(pieceImg, it.pieceImg)
                     authorName.text = it.authorName
                     pieceName.text = it.pieceName
@@ -92,6 +93,7 @@ class BuyDetailActivity : AppCompatActivity() {
         viewModel.authorInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
+                    progressBar.visibility = View.GONE
                     setImage(authorImg, it.authorImg)
                     authorInfoName.text = it.authorName
                     authorInfo.text = it.authorInfo
@@ -111,6 +113,7 @@ class BuyDetailActivity : AppCompatActivity() {
     fun setAuthorReview(){
         viewModel.authorReviewList.observe(this@BuyDetailActivity, Observer {
             with(binding){
+                progressBar.visibility = View.GONE
                 if (it != null) {
                     when(it.size){
                         0 -> {
