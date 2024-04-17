@@ -6,6 +6,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.PieceAddInfoData
 import java.util.UUID
@@ -36,7 +39,6 @@ class PieceAddInfoDataSource {
                 "addPieceIdx" to pieceAddInfoData.addPieceIdx
             )
 
-            // 작품 정보 저장
             db.collection("PieceAddInfo")
                 .document(pieceAddInfoId)
                 .set(pieceAddInfoDataMap)
@@ -61,6 +63,34 @@ class PieceAddInfoDataSource {
             emptyList()
         }
     }
+
+    suspend fun getPieceAddSequence(): Int {
+        return try {
+            val sequenceSnapshot = db.collection("Sequence")
+                .document("PieceAddSequence")
+                .get()
+                .await()
+
+            sequenceSnapshot.getLong("value")?.toInt() ?: -1
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
+    suspend fun updatePieceAddSequence(pieceAddSequence: Int) {
+        try {
+            val pieceAddSequenceDocument = db.collection("Sequence")
+                .document("PieceAddSequence")
+
+            val map = mutableMapOf<String, Long>()
+            map["value"] = pieceAddSequence.toLong()
+
+            pieceAddSequenceDocument.set(map).await()
+        } catch (e: Exception) {
+            Log.e("firebase", "Failed to update pieceAddSequence", e)
+        }
+    }
+
 
     fun uploadImage(imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"

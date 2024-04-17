@@ -62,7 +62,7 @@ class PieceAddInfoViewModel : ViewModel() {
                 val authorInfo = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
                 _authorName.value = authorInfo?.authorName
                 Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
-                Log.e("PieceAddInfoViewModel", "_authorName : $_authorName")
+                Log.e("PieceAddInfoViewModel", "_authorName : ${_authorName.value}")
 
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Failed to get authorName: $throwable")
@@ -97,11 +97,24 @@ class PieceAddInfoViewModel : ViewModel() {
     fun addPieceInfo(pieceAddInfoData: PieceAddInfoData) {
         viewModelScope.launch {
             try {
+                pieceAddInfoData.addPieceIdx = getAddPieceIdx()
+
                 pieceAddInfoRepository.addPieceInfo(pieceAddInfoData)
                 _addPieceInfoResult.value = true
             } catch (throwable: Throwable) {
                 _addPieceInfoResult.value = false
             }
+        }
+    }
+
+    private suspend fun getAddPieceIdx(): Int {
+        return try {
+            val addPieceSequence = pieceAddInfoRepository.getPieceAddSequence()
+            pieceAddInfoRepository.updatePieceAddSequence(addPieceSequence + 1)
+
+            addPieceSequence + 1
+        } catch (throwable: Throwable) {
+            0
         }
     }
 

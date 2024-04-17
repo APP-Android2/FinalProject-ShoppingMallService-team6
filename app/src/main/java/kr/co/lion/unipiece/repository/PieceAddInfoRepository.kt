@@ -13,6 +13,10 @@ class PieceAddInfoRepository {
 
     suspend fun getPieceAddInfo(authorIdx: Int) = pieceAddInfoDataSource.getPieceAddInfo(authorIdx)
 
+    suspend fun getPieceAddSequence(): Int =  pieceAddInfoDataSource.getPieceAddSequence()
+
+    suspend fun updatePieceAddSequence(pieceAddSequence: Int) = pieceAddInfoDataSource.updatePieceAddSequence(pieceAddSequence)
+
     suspend fun uploadImage(imageUri: Uri): String  {
         return pieceAddInfoDataSource.uploadImage(imageUri)
     }
