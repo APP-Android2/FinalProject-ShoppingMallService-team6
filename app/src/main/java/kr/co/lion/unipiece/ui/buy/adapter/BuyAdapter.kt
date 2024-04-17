@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 
-class BuyAdapter (fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class BuyAdapter (fragment: Fragment) : FragmentStateAdapter(fragment.childFragmentManager, fragment.lifecycle)  {
     var fragments: ArrayList<Fragment> = ArrayList()
 
     override fun getItemCount(): Int {

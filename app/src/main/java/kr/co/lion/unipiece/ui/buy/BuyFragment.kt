@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,7 +30,7 @@ class BuyFragment : Fragment() {
 
     private lateinit var callback: OnBackPressedCallback
 
-    private val viewModel: BuyViewModel by activityViewModels()
+    private val viewModel: BuyViewModel by viewModels()
 
     var currentFragment : Int = -1
 
@@ -347,7 +347,7 @@ class BuyFragment : Fragment() {
     fun initViewPager() {
 
         val titles = listOf("인기 순", "신규 순")
-        val vpAdapter = BuyAdapter(requireActivity())
+        val vpAdapter = BuyAdapter(this)
         vpAdapter.addFragment(BuyPopFragment())
         vpAdapter.addFragment(BuyNewFragment())
 
