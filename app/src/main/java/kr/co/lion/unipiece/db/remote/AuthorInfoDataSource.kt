@@ -241,4 +241,18 @@ class AuthorInfoDataSource {
             false
         }
     }
+
+    // 작가 이미지 url 작가 idx로 받아오기
+    suspend fun getAuthorIdxImg(authorIdx: Int): String? {
+
+        val authorImg = "${authorIdx}.jpg"
+
+        val path = "AuthorInfo/$authorImg"
+        return try {
+            storage.child(path).downloadUrl.await().toString()
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPieceInfoImg: ${e.message} ${path}")
+            null
+        }
+    }
 }

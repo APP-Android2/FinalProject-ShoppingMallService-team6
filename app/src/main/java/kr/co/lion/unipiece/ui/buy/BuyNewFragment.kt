@@ -27,9 +27,10 @@ class BuyNewFragment : Fragment() {
     val buyNewAdapter : BuyNewAdapter by lazy {
         BuyNewAdapter(
             emptyList(),
-            itemClickListener = { pieceIdx ->
-                Log.d("테스트 pieceIdx", pieceIdx.toString())
+            itemClickListener = { pieceIdx, authorIdx->
                 val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                intent.putExtra("pieceIdx", pieceIdx)
+                intent.putExtra("authorIdx", authorIdx)
                 startActivity(intent)
             }
         )
