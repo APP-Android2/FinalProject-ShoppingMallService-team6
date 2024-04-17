@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.author.viewmodel
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -30,7 +31,10 @@ class ModifyAuthorInfoViewModel: ViewModel() {
         return authorInfoRepository.getAuthorInfoImg(authorImg)
     }
 
-    // 작가 이미지 셋팅
+    // 작가 이미지 업로드
+    fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean{
+        return authorInfoRepository.uploadImage(authorIdx, imageUri)
+    }
 
 
     // 작가 정보 수정

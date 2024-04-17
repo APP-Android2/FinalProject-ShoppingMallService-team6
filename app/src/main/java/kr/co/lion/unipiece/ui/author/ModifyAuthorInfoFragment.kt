@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.author
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
@@ -20,6 +21,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
@@ -28,15 +32,17 @@ import kr.co.lion.unipiece.ui.author.viewmodel.ModifyAuthorInfoViewModel
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
 import kr.co.lion.unipiece.util.getDegree
 import kr.co.lion.unipiece.util.getPictureUri
+import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.setImage
 import java.io.File
+import java.io.FileOutputStream
 import kotlin.text.Typography.degree
 
 class ModifyAuthorInfoFragment : Fragment() {
 
-    lateinit var fragmentModifyAuthorInfoBinding: FragmentModifyAuthorInfoBinding
+    private lateinit var fragmentModifyAuthorInfoBinding: FragmentModifyAuthorInfoBinding
     private val modifyAuthorInfoViewModel: ModifyAuthorInfoViewModel by viewModels()
 
     val authorIdx by lazy {
@@ -48,13 +54,17 @@ class ModifyAuthorInfoFragment : Fragment() {
     }
 
     // 카메라, 앨범 실행을 위한 런처
-    lateinit var cameraLauncher: ActivityResultLauncher<Intent>
-    lateinit var albumLauncher: ActivityResultLauncher<Intent>
+    private lateinit var cameraLauncher: ActivityResultLauncher<Intent>
+    private lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
     // 촬영한 사진이 저장될 경로
-    val imageUri:Uri by lazy{
+    private val imageUri:Uri by lazy{
         requireActivity().getPictureUri("kr.co.lion.unipiece.file_provider")
     }
+
+    // 작가 이미지 변경 여부
+    private var checkImg = false
+    private var albumImageUri:Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -112,9 +122,11 @@ class ModifyAuthorInfoFragment : Fragment() {
     private fun settingImageViewEvent(){
         with(fragmentModifyAuthorInfoBinding){
             imageViewModifyAuthor.setOnClickListener {
+                requireActivity().hideSoftInput()
                 changeAuthorImage()
             }
             buttonModifyAuthorImage.setOnClickListener {
+                requireActivity().hideSoftInput()
                 changeAuthorImage()
             }
         }
@@ -151,19 +163,9 @@ class ModifyAuthorInfoFragment : Fragment() {
                     .rotate(degree.toFloat())
                     .resize(150)
 
-                // 파이어베이스 스토리지에 업로드
-                
-                // 업로드한 이미지 url 구하기
-                
-                // 파이어베이스 스토어에서 AuthorInfo의 authorImage값 업데이트
-                
                 // 이미지뷰에 변경된 이미지로 셋팅
-                // requireActivity().setImage(fragmentModifyAuthorInfoBinding.imageViewModifyAuthor, imageUri)
                 fragmentModifyAuthorInfoBinding.imageViewModifyAuthor.setImageBitmap(bitmap)
-
-                // 임시 파일을 삭제한다.
-                val file = imageUri.path?.let { it1 -> File(it1) }
-                file?.delete()
+                checkImg = true
             }
         }
     }
@@ -188,7 +190,9 @@ class ModifyAuthorInfoFragment : Fragment() {
             if(it.resultCode == AppCompatActivity.RESULT_OK){
                 // 선택한 이미지의 경로 데이터를 관리하는 Uri 객체를 추출한다.
                 val uri = it.data?.data
+
                 if(uri != null){
+                    albumImageUri = uri
                     // 회전 각도값을 가져온다.
                     val degree = requireActivity().getDegree(uri)
                     // 안드로이드 Q(10) 이상이라면
@@ -216,15 +220,9 @@ class ModifyAuthorInfoFragment : Fragment() {
                         }
                     }
 
-                    // 파이어베이스 스토리지에 업로드
-
-                    // 업로드한 이미지 url 구하기
-
-                    // 파이어베이스 스토어에서 AuthorInfo의 authorImage값 업데이트
-
                     // 이미지뷰에 변경된 이미지로 셋팅
-                    // requireActivity().setImage(fragmentModifyAuthorInfoBinding.imageViewModifyAuthor, imageUri)
                     fragmentModifyAuthorInfoBinding.imageViewModifyAuthor.setImageBitmap(bitmap)
+                    checkImg = true
                 }
             }
         }
@@ -257,8 +255,30 @@ class ModifyAuthorInfoFragment : Fragment() {
     // 수정 버튼
     private fun settingButtonModifyAuthorInfo(){
         fragmentModifyAuthorInfoBinding.buttonModifyAuthorInfoConfirm.setOnClickListener {
-            // 추후 수정
+            requireActivity().hideSoftInput()
             lifecycleScope.launch {
+                // 이미지 변경이 있는 경우 스토리지에 이미지 업로드
+                if(checkImg){
+                    val uploadResult: Boolean
+                    if(albumImageUri != null){
+                        // 앨범의 이미지를 선택해 변경한 경우
+                        uploadResult = modifyAuthorInfoViewModel.uploadImage(authorIdx, albumImageUri!!)
+                    }else{
+                        // 사진찍기로 변경한 경우
+                        uploadResult = modifyAuthorInfoViewModel.uploadImage(authorIdx, imageUri)
+                        // 임시 파일을 삭제한다.
+                        val file = imageUri.path?.let { it1 -> File(it1) }
+                        file?.delete()
+                    }
+
+                    // 이미지 업로드 실패한 경우
+                    if(!uploadResult){
+                        Snackbar.make(requireActivity(), fragmentModifyAuthorInfoBinding.root, "통신 실패, 잠시후 다시 시도해주세요", Snackbar.LENGTH_SHORT).show()
+                        return@launch
+                    }
+
+                }
+                // 작가 정보 업데이트
                 modifyAuthorInfoViewModel.updateAuthorInfo()
                 removeFragment()
             }
