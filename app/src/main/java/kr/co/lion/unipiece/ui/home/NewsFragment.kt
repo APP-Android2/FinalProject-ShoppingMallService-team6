@@ -23,9 +23,7 @@ class NewsFragment(val imgRes: String) : Fragment() {
         // Inflate the layout for this fragment
         fragmentNewsBinding = FragmentNewsBinding.inflate(layoutInflater)
 
-        Glide.with(this)
-            .load(imgRes)
-            .into(fragmentNewsBinding.imageNews)
+        requireActivity().setImage(fragmentNewsBinding.imageNews, imgRes)
 
         settingEvent()
         return fragmentNewsBinding.root
