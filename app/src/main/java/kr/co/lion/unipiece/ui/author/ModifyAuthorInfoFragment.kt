@@ -30,7 +30,6 @@ import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.setImage
 import java.io.File
-import kotlin.text.Typography.degree
 
 class ModifyAuthorInfoFragment : Fragment() {
 
@@ -168,16 +167,14 @@ class ModifyAuthorInfoFragment : Fragment() {
 
     // 카메라 런처를 실행하는 메서드
     fun startCameraLauncher(){
-        if(imageUri != null){
-            // 실행할 액티비티를 카메라 액티비티로 지정한다.
-            // 단말기에 설치되어 있는 모든 애플리케이션이 가진 액티비티 중에 사진촬영이
-            // 가능한 액티비가 실행된다.
-            val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            // 이미지가 저장될 경로를 가지고 있는 Uri 객체를 인텐트에 담아준다.
-            cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
-            // 카메라 액티비티 실행
-            cameraLauncher.launch(cameraIntent)
-        }
+        // 실행할 액티비티를 카메라 액티비티로 지정한다.
+        // 단말기에 설치되어 있는 모든 애플리케이션이 가진 액티비티 중에 사진촬영이
+        // 가능한 액티비가 실행된다.
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        // 이미지가 저장될 경로를 가지고 있는 Uri 객체를 인텐트에 담아준다.
+        cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri)
+        // 카메라 액티비티 실행
+        cameraLauncher.launch(cameraIntent)
     }
 
     // 앨범 런처 설정
@@ -185,7 +182,7 @@ class ModifyAuthorInfoFragment : Fragment() {
 
     }
 
-    // 카메라 런처를 실행하는 메서드
+    // 앨범 런처를 실행하는 메서드
     fun startAlbumLauncher(){
 
     }
