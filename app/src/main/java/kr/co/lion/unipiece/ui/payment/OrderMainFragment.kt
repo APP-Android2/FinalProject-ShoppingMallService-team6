@@ -27,8 +27,8 @@ class OrderMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentOrderMainBinding.inflate(inflater, container, false)
 
+        binding = FragmentOrderMainBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,7 +57,7 @@ class OrderMainFragment : Fragment() {
             }
 
             with(spinnerOrderMainDeliveryMemo) {
-                val items = mutableListOf("선택 안함", "문 앞", "경비실", "택배함")
+                val items = arrayOf("선택 안함", "문 앞", "경비실", "택배함")
                 val adapter =
                     ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
                 val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
@@ -100,6 +100,8 @@ class OrderMainFragment : Fragment() {
 
             // 주문하기 화면 RecyclerView ///////////////////////////////////////////////////////////
             with(recyclerViewOrderList) {
+
+
                 // 어뎁터
                 adapter = OrderMainAdapter()
                 // 레이아웃 매니저

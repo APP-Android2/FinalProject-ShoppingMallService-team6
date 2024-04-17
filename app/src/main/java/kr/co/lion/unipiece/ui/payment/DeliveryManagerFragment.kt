@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -16,17 +15,22 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
+import kr.co.lion.unipiece.databinding.DialogDeliveryAddBinding
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
+import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
 
 class DeliveryManagerFragment : Fragment() {
 
     private lateinit var binding: FragmentDeliveryManagerBinding
+    private lateinit var insertBinding: DialogDeliveryAddBinding
     private val viewModel: DeliveryViewModel by viewModels()
-
+    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     val deliveryAdapter: DeliveryAdapter by lazy {
+
         DeliveryAdapter(
             emptyList(),
             itemClickListener = { deliveryIdx ->
@@ -35,7 +39,6 @@ class DeliveryManagerFragment : Fragment() {
             }
         )
     }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -43,7 +46,7 @@ class DeliveryManagerFragment : Fragment() {
     ): View {
 
         binding = FragmentDeliveryManagerBinding.inflate(inflater, container, false)
-
+        insertBinding = DialogDeliveryAddBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -57,7 +60,6 @@ class DeliveryManagerFragment : Fragment() {
 
 
     fun initView() {
-
 
 
         // 바인딩
@@ -83,23 +85,30 @@ class DeliveryManagerFragment : Fragment() {
                 // 버튼 클릭 시
                 setOnClickListener {
                     // 커스텀 다이얼로그 (풀스크린)
-                    CustomFullDialogMaker.apply {
+                    with(CustomFullDialogMaker) {
 
                         // 다이얼로그 호출
                         getDialog(
-                            requireActivity(),
+                            requireContext(),
                             "신규 배송지 등록",
-                            "저장하기",
+                            "등록하기",
                             object : CustomFullDialogListener {
 
                                 // 저장하기 버튼 클릭 후 동작
-                                override fun onClickSaveButton() {
-                                    Toast.makeText(
-                                        requireActivity(),
-                                        "저장했다!",
-                                        Toast.LENGTH_SHORT
-                                    )
-                                        .show()
+                                override fun onClickSaveButton(deliveryData: DeliveryData) {
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        repeatOnLifecycle(Lifecycle.State.STARTED) {
+                                            with(viewModel) {
+                                                insertDeliveryData(deliveryData)
+                                                deliveryDataList.observe(
+                                                    viewLifecycleOwner,
+                                                    Observer { value ->
+                                                        deliveryAdapter.updateData(value)
+                                                    }
+                                                )
+                                            }
+                                        }
+                                    }
                                 }
 
                                 // 뒤로가기 버튼 클릭 후 동작
@@ -110,21 +119,21 @@ class DeliveryManagerFragment : Fragment() {
                                         Toast.LENGTH_SHORT
                                     )
                                         .show()
-
-
                                 }
                             },
                             "",
                             "",
-                            "",
+                            "()",
                             "",
                             "",
                             false,
+                            userIdx,
+                            // 신규 배송지 등록에서는 deliveryIdx 값을 0으로 세팅해서 반환한다.
+                            0,
                         )
                     }
                 }
             }
-
             // 리사이클러뷰 //////////////////////////////////////////////////////////////////////
             with(recyclerViewDeliveryList) {
                 // 리사이클러뷰 어답터
@@ -134,7 +143,7 @@ class DeliveryManagerFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireActivity())
             }
             // 리사이클러뷰 변경 시 업데이트
-            with(viewLifecycleOwner){
+            with(viewLifecycleOwner) {
                 lifecycleScope.launch {
                     repeatOnLifecycle(Lifecycle.State.STARTED) {
                         viewModel.deliveryDataList.observe(viewLifecycleOwner, Observer { value ->

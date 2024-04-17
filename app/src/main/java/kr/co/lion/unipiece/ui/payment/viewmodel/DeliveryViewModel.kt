@@ -20,8 +20,8 @@ class DeliveryViewModel : ViewModel() {
     val deliveryDataList: LiveData<List<DeliveryData>> = _deliveryDataList
 
     // 신규 배송지 등록하기
-    private val _insertDeliveryDataResult = MutableLiveData<Boolean>()
-    val insertDeliveryDataResult: LiveData<Boolean> = _insertDeliveryDataResult
+    private val _insertDeliveryDataResult = MutableLiveData<List<DeliveryData>>()
+    val insertDeliveryDataResult: LiveData<List<DeliveryData>> = _insertDeliveryDataResult
 
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx",0)
 
@@ -33,19 +33,24 @@ class DeliveryViewModel : ViewModel() {
 
     // 배송지 정보 불러오기
     suspend fun getDeliveryDataByIdx(userIdx: Int) {
+        try {
+            val response = deliveryRepository.getDeliveryDataByIdx(userIdx)
 
-        val response = deliveryRepository.getDeliveryDataByIdx(userIdx)
-        Log.d("test1234","${response}")
-        _deliveryDataList.value = response
+            _deliveryDataList.value = response
+        }catch (e:Exception){
+            Log.e("Firebase Error", "Error insertDeliveryData : ${e.message}")
+            return
+        }
+
     }
 
-    // 신규 배송지 등록하기
+    // 신규 배송지 등록 및 수정하기
     suspend fun insertDeliveryData(deliveryData: DeliveryData) {
         try {
             deliveryRepository.insertDeliveryData(deliveryData)
-            _insertDeliveryDataResult.value = true
         }catch (e:Exception){
-            _insertDeliveryDataResult.value = false
+            Log.e("Firebase Error", "Error insertDeliveryData : ${e.message}")
+            return
         }
 
     }

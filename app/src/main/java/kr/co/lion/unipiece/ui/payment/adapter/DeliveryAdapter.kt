@@ -6,13 +6,15 @@ import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
+import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.CustomFullDialogListener
 import kr.co.lion.unipiece.ui.payment.CustomFullDialogMaker
+import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
 import kr.co.lion.unipiece.util.CustomDialog
 import java.util.Locale
 
@@ -27,7 +29,12 @@ class DeliveryAdapter(
 
         val binding: RowDeliveryBinding =
             RowDeliveryBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
-        return DeliveryViewHolder(viewGroup.context, binding, itemClickListener)
+        return DeliveryViewHolder(
+            viewGroup.context,
+            binding,
+            DeliveryViewModel(),
+            itemClickListener
+        )
     }
 
     override fun getItemCount(): Int {
@@ -52,11 +59,13 @@ class DeliveryAdapter(
 class DeliveryViewHolder(
     private val context: Context,
     val binding: RowDeliveryBinding,
+    private val viewModel: DeliveryViewModel,
     private val itemClickListener: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
     // 배송지 항목별로 세팅.
     fun bind(data: DeliveryData, itemClickListener: (Int) -> Unit) {
+
         with(binding) {
             // 받는 이
             textViewDeliveryName.text = data.deliveryName
@@ -72,8 +81,8 @@ class DeliveryViewHolder(
             textViewDeliveryAddressDetail.text = data.deliveryAddressDetail
 
             // 기본 배송지
-            buttonBasicDelivery.isInvisible = !(data.basicDelivery)
-            imageViewBasicDeliveryCheck.isInvisible = !(data.basicDelivery)
+            buttonBasicDelivery.isVisible = data.basicDelivery
+            imageViewBasicDeliveryCheck.isVisible = data.basicDelivery
 
 
             // 클릭 리스너 설정. 클릭하면 deliveryIdx를 전달한다.
@@ -91,16 +100,18 @@ class DeliveryViewHolder(
             buttonDeliveryDelete.setOnClickListener {
                 val dialog = CustomDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
                 dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
+                    // 확인 버튼 클릭 시
                     override fun okButtonClick() {
-
+                        // DB에 있는 해당 배송지 삭제 구현
                     }
 
+                    // 취소 버튼 클릭 시
                     override fun noButtonClick() {
 
                     }
 
                 })
-                //dialog.show(context, "CustomDialog")
+                // dialog.show(dialog.childFragmentManager,"deleteDialog")
 
             }
 
@@ -108,34 +119,40 @@ class DeliveryViewHolder(
             buttonDeliveryUpdate.setOnClickListener {
 
                 // 커스텀 다이얼로그 (풀스크린)
-                CustomFullDialogMaker.apply {
+                with(CustomFullDialogMaker) {
                     // 다이얼로그 호출
                     getDialog(
                         context,
                         "배송지 수정",
-                        "저장하기",
+                        "수정하기",
                         object : CustomFullDialogListener {
 
                             // 클릭한 이후 동작
-                            // 저장하기 버튼 클릭 후 동작
-                            override fun onClickSaveButton() {
+                            // 수정하기 버튼 클릭 후 동작
+                            override fun onClickSaveButton(deliveryData: DeliveryData) {
+                                viewModel.viewModelScope.launch {
+                                    viewModel.insertDeliveryData(deliveryData)
+
+
+
+                                }
 
                             }
 
                             // 뒤로가기 버튼 클릭 후 동작
                             override fun onClickCancelButton() {
-                                Toast.makeText(context, "뒤로갔다!", Toast.LENGTH_SHORT)
-                                    .show()
-
 
                             }
                         },
+
                         textViewDeliveryName.text.toString(),
                         textViewDeliveryPhone.text.toString(),
                         textViewDeliveryNickName.text.toString(),
                         textViewDeliveryAddress.text.toString(),
                         textViewDeliveryAddressDetail.text.toString(),
-                        buttonBasicDelivery.isEnabled
+                        buttonBasicDelivery.isVisible,
+                        data.userIdx,
+                        data.deliveryIdx,
                     )
                 }
             }
