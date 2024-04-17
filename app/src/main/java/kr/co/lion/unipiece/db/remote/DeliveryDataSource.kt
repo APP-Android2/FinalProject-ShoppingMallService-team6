@@ -19,6 +19,7 @@ class DeliveryDataSource {
             val deliveryDataMap = hashMapOf(
                 "deliveryName" to deliveryData.deliveryName,
                 "deliveryAddress" to deliveryData.deliveryAddress,
+                "deliveryAddressDetail" to deliveryData.deliveryAddressDetail,
                 "deliveryPhone" to deliveryData.deliveryPhone,
                 "deliveryNickName" to deliveryData.deliveryNickName,
                 "deliveryMemo" to deliveryData.deliveryMemo,

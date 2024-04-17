@@ -5,6 +5,7 @@ data class DeliveryData (
     var deliveryPhone : String = "",
     var deliveryNickName : String = "",
     var deliveryAddress : String = "",
+    var deliveryAddressDetail : String = "",
     var deliveryMemo : String = "",
     var basicDelivery : Boolean = false,
     var userIdx : Int = -1,

@@ -10,15 +10,15 @@
         android:id="@+id/toolbarOrderMain"
         android:layout_width="match_parent"
         android:layout_height="64dp"
-        android:background="@color/white"/>
+        android:background="@color/white" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
-        android:paddingVertical="17dp"
-        android:paddingHorizontal="17dp">
+        android:paddingHorizontal="17dp"
+        android:paddingVertical="17dp">
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
@@ -28,13 +28,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:clipToPadding="false"
+                    android:orientation="vertical"
                     android:paddingHorizontal="3dp"
                     android:paddingVertical="3dp">
+
                     <TextView
                         android:id="@+id/textView1"
                         android:layout_width="match_parent"
@@ -42,11 +44,12 @@
                         android:padding="10dp"
                         android:text="배송지"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -56,8 +59,8 @@
                             <LinearLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:orientation="vertical"
                                 android:clipToPadding="false"
+                                android:orientation="vertical"
                                 android:paddingHorizontal="3dp"
                                 android:paddingVertical="3dp">
 
@@ -116,15 +119,16 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginLeft="5dp"
                                     android:text="주소" />
+
                                 <com.google.android.material.divider.MaterialDivider
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
                                     android:layout_marginStart="10dp"
+                                    android:layout_marginTop="10dp"
                                     android:layout_marginEnd="10dp"
-                                    app:dividerColor="@color/lightgray"
-                                    android:theme="@style/Theme.Material3"/>
+                                    android:layout_marginBottom="10dp"
+                                    android:theme="@style/Theme.Material3"
+                                    app:dividerColor="@color/lightgray" />
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -147,22 +151,11 @@
                                             android:layout_width="match_parent"
                                             android:layout_height="match_parent">
 
-                                            <com.google.android.material.textfield.TextInputLayout
-                                                android:id="@+id/textFieldDeliveryMemoLayout"
+                                            <Spinner
+                                                android:id="@+id/spinnerOrderMainDeliveryMemo"
                                                 android:layout_width="match_parent"
-                                                android:layout_height="wrap_content">
-
-                                                <com.google.android.material.textfield.TextInputEditText
-                                                    android:id="@+id/textFieldDeliveryMemoText"
-                                                    android:layout_width="match_parent"
-                                                    android:layout_height="40dp"
-                                                    android:background="@color/white"
-                                                    android:drawableEnd="@drawable/arrowdropdown_icon"
-                                                    android:paddingLeft="15dp"
-                                                    android:text="선택 안함"
-                                                    android:textSize="12sp"
-                                                    android:enabled="false"/>
-                                            </com.google.android.material.textfield.TextInputLayout>
+                                                android:layout_height="wrap_content"
+                                                />
                                         </androidx.cardview.widget.CardView>
 
 
@@ -179,8 +172,8 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:clipToPadding="false"
+                    android:orientation="vertical"
                     android:paddingHorizontal="3dp"
                     android:paddingVertical="3dp">
 
@@ -195,8 +188,8 @@
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp">
 
                         <androidx.recyclerview.widget.RecyclerView
                             android:id="@+id/recyclerViewOrderList"
@@ -205,30 +198,35 @@
                     </androidx.cardview.widget.CardView>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:clipToPadding="false"
+                    android:orientation="vertical"
                     android:paddingHorizontal="3dp"
                     android:paddingVertical="3dp">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:padding="10dp"
                         android:text="주문 상세"
                         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="10dp">
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp">
+
                         <LinearLayout
                             android:id="@+id/containerOrderDetail"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:orientation="vertical"
                             android:paddingVertical="10dp">
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -254,6 +252,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -279,6 +278,7 @@
                                     app:layout_constraintEnd_toEndOf="parent"
                                     app:layout_constraintTop_toTopOf="parent" />
                             </androidx.constraintlayout.widget.ConstraintLayout>
+
                             <androidx.constraintlayout.widget.ConstraintLayout
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -306,13 +306,14 @@
                             </androidx.constraintlayout.widget.ConstraintLayout>
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
+
                     <androidx.cardview.widget.CardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardElevation="2dp"
-                        app:cardCornerRadius="10dp"
                         android:layout_marginTop="10dp"
-                        >
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp">
+
                         <androidx.constraintlayout.widget.ConstraintLayout
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
@@ -348,7 +349,6 @@
         </androidx.core.widget.NestedScrollView>
 
     </LinearLayout>
-
 
 
     <LinearLayout

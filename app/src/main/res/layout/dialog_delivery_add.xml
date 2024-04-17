@@ -68,7 +68,7 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFieldDeliveryAddTitle"
+                android:id="@+id/textFieldDeliveryAddNickName"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"

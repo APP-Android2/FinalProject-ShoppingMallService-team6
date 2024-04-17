@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.view.isInvisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -56,6 +57,8 @@ class DeliveryManagerFragment : Fragment() {
 
 
     fun initView() {
+
+
 
         // 바인딩
         with(binding) {
@@ -111,6 +114,12 @@ class DeliveryManagerFragment : Fragment() {
 
                                 }
                             },
+                            "",
+                            "",
+                            "",
+                            "",
+                            "",
+                            false,
                         )
                     }
                 }
@@ -125,15 +134,15 @@ class DeliveryManagerFragment : Fragment() {
                 layoutManager = LinearLayoutManager(requireActivity())
             }
             // 리사이클러뷰 변경 시 업데이트
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.deliveryDataList.observe(viewLifecycleOwner, Observer { value ->
-                        deliveryAdapter.updateData(value)
-                    })
+            with(viewLifecycleOwner){
+                lifecycleScope.launch {
+                    repeatOnLifecycle(Lifecycle.State.STARTED) {
+                        viewModel.deliveryDataList.observe(viewLifecycleOwner, Observer { value ->
+                            deliveryAdapter.updateData(value)
+                        })
+                    }
                 }
             }
-
-
         }
     }
 }

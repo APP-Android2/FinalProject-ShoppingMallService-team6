@@ -7,6 +7,8 @@ import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -25,7 +27,7 @@ class OrderMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding = FragmentOrderMainBinding.inflate(inflater,container,false)
+        binding = FragmentOrderMainBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -54,6 +56,15 @@ class OrderMainFragment : Fragment() {
                 }
             }
 
+            with(spinnerOrderMainDeliveryMemo) {
+                val items = mutableListOf("선택 안함", "문 앞", "경비실", "택배함")
+                val adapter =
+                    ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
+                val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
+                spinner.adapter = adapter
+            }
+
+
             // 배송지 변경 버튼 클릭 /////////////////////////////////////////////////////////
             with(buttonOrderDeliveryChange) {
                 setOnClickListener {
@@ -62,6 +73,7 @@ class OrderMainFragment : Fragment() {
                     startActivity(deliveryIntent)
                 }
             }
+
 
             // 결제하기 버튼 클릭 //////////////////////////////////////////////
             with(buttonOrderPaymentSubmit) {
