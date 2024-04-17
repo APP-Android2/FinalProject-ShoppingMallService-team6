@@ -11,7 +11,11 @@ class PieceAddInfoRepository {
         return pieceAddInfoDataSource.addPieceInfo(pieceAddInfoData)
     }
 
+    suspend fun getPieceAddInfo(authorIdx: Int) = pieceAddInfoDataSource.getPieceAddInfo(authorIdx)
+
     suspend fun uploadImage(imageUri: Uri): String  {
         return pieceAddInfoDataSource.uploadImage(imageUri)
     }
+
+    suspend fun getPieceAddInfoImage(addPieceImg: String) = pieceAddInfoDataSource.getPieceAddInfoImage(addPieceImg)
 }
