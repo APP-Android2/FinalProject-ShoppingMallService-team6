@@ -59,11 +59,12 @@ class SalePieceFragment : Fragment() {
                             } else {
                                 binding.layoutNotExistPiece.isVisible = false
                                 val salePieceAdapter = SalePieceAdapter(value) { position ->
-                                    val pieceInfo = value[position]
-                                    if (pieceInfo.addPieceState == "판매 완료" || pieceInfo.addPieceState == "판매 중") {
+                                    val addPieceInfo = value[position]
+                                    if (addPieceInfo.addPieceState == "판매 완료" || addPieceInfo.addPieceState == "판매 중") {
                                         val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                                        intent.putExtra("pieceIdx", addPieceInfo.pieceIdx)
                                         startActivity(intent)
-                                    } else if(pieceInfo.addPieceState == "판매 승인 거절") {
+                                    } else if(addPieceInfo.addPieceState == "판매 승인 거절") {
                                         Snackbar.make(requireView(), "판매 승인이 거절된 작품입니다.", Snackbar.LENGTH_LONG).show()
                                     } else {
                                         Snackbar.make(requireView(), "판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_LONG).show()
