@@ -12,6 +12,7 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModelFactory
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
@@ -27,8 +28,10 @@ class BuyDetailActivity : AppCompatActivity() {
 
     private var pieceIdx: Int = -1
 
+    private var authorIdx: Int = -1
+
     private val viewModel: BuyDetailViewModel by lazy {
-        ViewModelProvider(this, BuyDetailViewModelFactory(pieceIdx)).get(BuyDetailViewModel::class.java)
+        ViewModelProvider(this, BuyDetailViewModelFactory(pieceIdx, authorIdx)).get(BuyDetailViewModel::class.java)
     }
 
     // 좋아요 버튼 테스트 데이터
@@ -50,12 +53,14 @@ class BuyDetailActivity : AppCompatActivity() {
     fun initView(){
 
         pieceIdx = intent.getIntExtra("pieceIdx", -1)
+        authorIdx = intent.getIntExtra("authorIdx", -1)
 
         lifecycleScope.launch {
             viewModel.getIdxPieceInfo(pieceIdx)
+            viewModel.getIdxAuthorInfo(authorIdx)
         }
 
-        viewModel.pieceInfoList.observe(this@BuyDetailActivity, Observer {
+        viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
                     setImage(pieceImg, it.pieceImg)
@@ -67,11 +72,19 @@ class BuyDetailActivity : AppCompatActivity() {
                     pieceLike.text = "${it.pieceLike}명이 좋아요를 눌렀어요"
                     pieceInfo.text = "${it.pieceInfo}"
 
-                    authorInfoName.text = it.authorName
-
                     val priceFormat = DecimalFormat("###,###")
                     val price = priceFormat.format(it.piecePrice)
                     buyBtn.text = "${price}원 구매"
+                }
+            }
+        })
+
+        viewModel.authorInfo.observe(this@BuyDetailActivity, Observer {
+            with(binding){
+                if (it != null) {
+                    setImage(authorImg, it.authorImg)
+                    authorInfoName.text = it.authorName
+                    authorInfo.text = it.authorInfo
                 }
             }
         })

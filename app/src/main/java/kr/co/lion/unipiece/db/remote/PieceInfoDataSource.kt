@@ -1,11 +1,9 @@
 package kr.co.lion.unipiece.db.remote
 
-import java.net.URI
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.PieceInfoData
@@ -115,7 +113,7 @@ class PieceInfoDataSource {
 
     }
 
-    // 이미지 url 받아오기
+    // 작품 이미지 url 받아오기
     suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): String? {
         val path = "PieceInfo/$pieceIdx/$pieceImg"
         return try {

@@ -135,13 +135,13 @@
                 android:textColor="@color/black"/>
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/authorImg"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 app:cardCornerRadius="50dp">
 
                 <ImageView
+                    android:id="@+id/authorImg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:src="@drawable/mypage_icon"/>
@@ -162,14 +162,13 @@
                 android:id="@+id/authorInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="홍길동 작가의 작업은 어쩌구저쩌구로 나뉜다. 분채 작업과 자개를 특징으로 하고 있고, 두가지 스타일로 작업한다. 작가는 절제된 욕망을 통해 어쩌구 저쩌구로 활동하고 탐색한다. "
-                android:fontFamily="@font/pretendard_medium"
-                android:textSize="14sp"
-                android:textColor="@color/white"
                 android:background="@drawable/button_radius"
+                android:fontFamily="@font/pretendard_medium"
                 android:padding="20dp"
-                android:layout_gravity="center"/>
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
             <LinearLayout
                 android:layout_width="match_parent"

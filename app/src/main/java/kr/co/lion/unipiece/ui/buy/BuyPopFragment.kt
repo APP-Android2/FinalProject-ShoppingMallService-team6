@@ -27,9 +27,10 @@ class BuyPopFragment : Fragment() {
     val buyPopAdapter: BuyPopAdapter by lazy {
         BuyPopAdapter(
             emptyList(),
-            itemClickListener = { pieceIdx ->
+            itemClickListener = { pieceIdx, authorIdx ->
                 val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
                 intent.putExtra("pieceIdx", pieceIdx)
+                intent.putExtra("authorIdx", authorIdx)
                 startActivity(intent)
             }
         )
