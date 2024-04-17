@@ -46,23 +46,6 @@ class PieceAddInfoDataSource {
         }
     }
 
-    suspend fun getAuthorIdx(userIdx: Int): Int {
-        return try {
-            val querySnapshot = db.collection("AuthorInfo")
-                .whereEqualTo("userIdx", userIdx)
-                .get()
-                .await()
-
-            val authorIdx = querySnapshot.documents.firstOrNull()?.get("authorIdx") as? Long ?: 0
-
-            authorIdx.toInt()
-
-        } catch (e: Exception) {
-            Log.e("firebase", "Failed to get authorIdx: ${Log.getStackTraceString(e)}")
-            0
-        }
-    }
-
     suspend fun getPieceAddInfo(authorIdx: Int) : List<PieceAddInfoData> {
         return try {
             val querySnapshot = db.collection("PieceAddInfo")
@@ -98,18 +81,4 @@ class PieceAddInfoDataSource {
             null
         }
     }
-
-    suspend fun isAuthor(userIdx: Int): Boolean {
-        return try {
-            val querySnapshot = db.collection("AuthorInfo")
-                .whereEqualTo("userIdx", userIdx)
-                .get()
-                .await()
-
-            !querySnapshot.isEmpty
-        } catch (e: Exception) {
-            false
-        }
-    }
-
 }

@@ -8,16 +8,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.model.PieceAddInfoData
+import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.PieceAddInfoRepository
 
 class PieceAddInfoViewModel : ViewModel() {
     private val pieceAddInfoRepository = PieceAddInfoRepository()
+    private val authorInfoRepository = AuthorInfoRepository()
 
     private val _addPieceInfoResult = MutableLiveData<Boolean>()
     val addPieceInfoResult: LiveData<Boolean> = _addPieceInfoResult
 
-    private val _authorIdx = MutableLiveData<Int>()
-    val authorIdx : LiveData<Int> = _authorIdx
+    private val _authorIdx = MutableLiveData<Int?>()
+    val authorIdx : LiveData<Int?> = _authorIdx
 
     private val _pieceAddInfoList = MutableLiveData<List<PieceAddInfoData>>()
     val pieceAddInfoList : LiveData<List<PieceAddInfoData>> = _pieceAddInfoList
@@ -36,7 +38,7 @@ class PieceAddInfoViewModel : ViewModel() {
         viewModelScope.launch {
             try {
                 val userIdx = getUserIdxFromSharedPreferences()
-                val authorIdx = pieceAddInfoRepository.getAuthorIdx(userIdx)
+                val authorIdx = authorInfoRepository.getAuthorIdxByUserIdx(userIdx)
                 _authorIdx.value = authorIdx
                 Log.e("PieceAddInfoViewModel", "userIdx : $userIdx")
                 Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
@@ -51,7 +53,7 @@ class PieceAddInfoViewModel : ViewModel() {
     private fun getPieceAddInfo() {
         viewModelScope.launch {
             try {
-                val authorIdx = _authorIdx.value!!
+                val authorIdx = _authorIdx.value ?: 0
                 val pieceAddInfoList = pieceAddInfoRepository.getPieceAddInfo(authorIdx)
 
                 pieceAddInfoList.forEach { pieceAddInfo ->
@@ -106,10 +108,10 @@ class PieceAddInfoViewModel : ViewModel() {
         return 19
     }
 
-    private fun checkAuthorStatus(userIdx: Int) {
+    private fun isAuthor(userIdx: Int) {
         viewModelScope.launch {
             try {
-                val isAuthor = pieceAddInfoRepository.isAuthor(userIdx)
+                val isAuthor = authorInfoRepository.isAuthor(userIdx)
                 _isAuthor.value = isAuthor
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Failed to check author status: $throwable")
