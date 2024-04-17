@@ -241,6 +241,13 @@
                 android:background="@drawable/textfield_radius"
                 android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
+        <CheckBox
+            android:id="@+id/checkBoxAddDeliveryBasicDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기본 배송지로 설정"
+            android:paddingVertical="10dp"/>
+
 
     </LinearLayout>
 
