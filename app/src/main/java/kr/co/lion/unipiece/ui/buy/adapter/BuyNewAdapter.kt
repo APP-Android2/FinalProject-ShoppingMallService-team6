@@ -5,6 +5,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.databinding.ItemBuyBinding
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.util.setImage
@@ -41,12 +44,13 @@ class BuyNewViewHolder(val binding: ItemBuyBinding, private val itemClickListene
             pieceName.text = item.pieceName
             piecePrice.text = "${price}원"
 
-            root.context.setImage(pieceImg, item.pieceImg)
-        }
+            // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
+            root.setOnClickListener {
+                itemClickListener.invoke(item.pieceIdx, item.authorIdx)
+            }
 
-        // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
-        binding.root.setOnClickListener {
-            itemClickListener.invoke(item.pieceIdx, item.authorIdx)
+           root.context.setImage(pieceImg, item.pieceImg)
+
         }
     }
 
