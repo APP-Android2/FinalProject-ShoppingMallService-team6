@@ -171,6 +171,7 @@
                 android:textSize="14sp" />
 
             <LinearLayout
+                android:id="@+id/review1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -180,26 +181,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/review1"
+                    android:id="@+id/reviewText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="작가님의 작품에서는 색채가 느껴지고 어쩌고 정말 최고입니다/ 인간의 삶에 대한 표현이 너무 잘되어있는 것 같습니다."
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
                     android:background="@drawable/buy_detail_radius"
-                    android:padding="20dp" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/review2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -209,26 +209,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/review2"
+                    android:id="@+id/reviewText2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="작가님의 작품에서는 색채가 느껴지고 어쩌고 정말 최고입니다/ 인간의 삶에 대한 표현이 너무 잘되어있는 것 같습니다."
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
                     android:background="@drawable/buy_detail_radius"
-                    android:padding="20dp" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/review3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -238,22 +237,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/review3"
+                    android:id="@+id/reviewText3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="작가님의 작품에서는 색채가 느껴지고 어쩌고 정말 최고입니다/ 인간의 삶에 대한 표현이 너무 잘되어있는 것 같습니다."
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
                     android:background="@drawable/buy_detail_radius"
-                    android:padding="20dp" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 

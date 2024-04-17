@@ -65,7 +65,7 @@ class AuthorReviewDataSource {
     }
 
     // 작가idx를 통해 리뷰를 가져와 반환한다
-    suspend fun getAuthorReviewDataByIdx(authorIdx:Int) : MutableList<AuthorReviewData> {
+    suspend fun getAuthorReviewDataByIdx(authorIdx:Int) : List<AuthorReviewData> {
 
         val reviewList = mutableListOf<AuthorReviewData>()
 

@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.buy
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -58,6 +59,7 @@ class BuyDetailActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.getIdxPieceInfo(pieceIdx)
             viewModel.getIdxAuthorInfo(authorIdx)
+            viewModel.getAuthorReviewDataByIdx(authorIdx)
         }
 
         viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
@@ -93,6 +95,43 @@ class BuyDetailActivity : AppCompatActivity() {
                         startActivity(intent)
                     }
 
+                }
+            }
+        })
+
+        viewModel.authorReviewList.observe(this@BuyDetailActivity, Observer {
+            with(binding){
+                if (it != null) {
+                    when(it.size){
+                        1 -> {
+                            review2.visibility = View.GONE
+                            review3.visibility = View.GONE
+
+                            nickname1.text = it[0].userNickname
+                            reviewText1.text = it[0].reviewContent
+                        }
+                        2 -> {
+                            review3.visibility = View.GONE
+
+                            nickname1.text = it[0].userNickname
+                            reviewText1.text = it[0].reviewContent
+                            nickname2.text = it[1].userNickname
+                            reviewText2.text = it[1].reviewContent
+
+                        }
+                        3 -> {
+                            nickname1.text = it[0].userNickname
+                            reviewText1.text = it[0].reviewContent
+                            nickname2.text = it[1].userNickname
+                            reviewText2.text = it[1].reviewContent
+                            nickname3.text = it[2].userNickname
+                            reviewText3.text = it[2].reviewContent
+                        }
+                    }
+                } else {
+                    review1.visibility = View.GONE
+                    review2.visibility = View.GONE
+                    review3.visibility = View.GONE
                 }
             }
         })
