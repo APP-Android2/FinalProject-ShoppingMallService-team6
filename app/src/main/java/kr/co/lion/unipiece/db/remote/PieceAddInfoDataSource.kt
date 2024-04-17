@@ -1,7 +1,9 @@
 package kr.co.lion.unipiece.db.remote
 
 import android.net.Uri
+import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
@@ -44,6 +46,20 @@ class PieceAddInfoDataSource {
         }
     }
 
+    suspend fun getPieceAddInfo(authorIdx: Int) : List<PieceAddInfoData> {
+        return try {
+            val querySnapshot = db.collection("PieceAddInfo")
+                .whereEqualTo("authorIdx", authorIdx)
+                .orderBy("addPieceDate", Query.Direction.DESCENDING)
+                .get()
+                .await()
+
+            querySnapshot.toObjects(PieceAddInfoData::class.java)
+        } catch (e: Exception) {
+            emptyList()
+        }
+    }
+
     fun uploadImage(imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"
         val imageRef = storageRef.child("addPieceInfo/$imageFileName")
@@ -51,5 +67,18 @@ class PieceAddInfoDataSource {
         imageRef.putFile(imageUri)
 
         return imageFileName
+    }
+
+    suspend fun getPieceAddInfoImage(addPieceImg: String): Uri? {
+        val path = "addPieceInfo/$addPieceImg"
+
+        return try {
+            val storageRef = Firebase.storage.reference.child(path)
+            val imageUri = storageRef.downloadUrl.await()
+
+            imageUri
+        } catch (e: Exception) {
+            null
+        }
     }
 }

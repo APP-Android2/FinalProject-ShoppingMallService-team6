@@ -19,7 +19,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewSalePieceState"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_semibold"
@@ -33,10 +33,12 @@
                 android:orientation="horizontal">
 
                 <ImageView
+                    android:id="@+id/imageViewSalePiece"
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:layout_marginEnd="15dp"
-                    app:srcCompat="@drawable/ic_launcher_foreground" />
+                    android:scaleType="centerCrop"
+                    app:srcCompat="@drawable/icon" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -55,6 +57,7 @@
                         android:textSize="16sp" />
 
                     <TextView
+                        android:id="@+id/textViewRowSalePieceArtistName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
@@ -62,6 +65,7 @@
                         android:text="작가 이름" />
 
                     <TextView
+                        android:id="@+id/textViewRowSalePiecePrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
