@@ -15,5 +15,7 @@ data class PieceAddInfoData(
     var addPiecePrice: Int = 0,
     var addPieceState: String = "",
     var addPieceDate: Timestamp = Timestamp.now(),
-    var authorIdx: Int = 0
+    var authorIdx: Int = 0,
+    var pieceIdx: Int = 0,
+    var addPieceIdx: Int = 0
 )

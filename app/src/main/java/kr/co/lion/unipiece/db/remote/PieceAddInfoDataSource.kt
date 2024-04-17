@@ -31,7 +31,9 @@ class PieceAddInfoDataSource {
                 "addPiecePrice" to pieceAddInfoData.addPiecePrice,
                 "addPieceState" to pieceAddInfoData.addPieceState,
                 "addPieceDate" to pieceAddInfoData.addPieceDate,
-                "authorIdx" to pieceAddInfoData.authorIdx
+                "authorIdx" to pieceAddInfoData.authorIdx,
+                "pieceIdx" to pieceAddInfoData.pieceIdx,
+                "addPieceIdx" to pieceAddInfoData.addPieceIdx
             )
 
             // 작품 정보 저장
