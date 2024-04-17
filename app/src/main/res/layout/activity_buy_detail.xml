@@ -38,8 +38,7 @@
                 android:id="@+id/pieceImg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:scaleType="fitXY"
-                android:src="@drawable/icon" />
+                android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/authorName"
