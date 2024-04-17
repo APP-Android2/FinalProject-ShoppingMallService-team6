@@ -55,7 +55,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerHomePromote"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="500dp" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -88,7 +88,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerHomeNews"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="500dp" />
 
             <TextView
                 android:id="@+id/textHomeAuthor"
@@ -143,7 +143,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerHomeGallery"
                 android:layout_width="match_parent"
-                android:layout_height="400dp" />
+                android:layout_height="500dp" />
 
             <Button
                 android:id="@+id/buttonHomeVisitGallery"

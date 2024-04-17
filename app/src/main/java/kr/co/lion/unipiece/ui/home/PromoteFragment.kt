@@ -6,12 +6,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kr.co.lion.unipiece.R
+import com.bumptech.glide.Glide
 import kr.co.lion.unipiece.databinding.FragmentPromoteBinding
-import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
+import kr.co.lion.unipiece.util.setImage
 
-class PromoteFragment(val imgRes : Int) : Fragment() {
+class PromoteFragment(val imgRes: String) : Fragment() {
 
     lateinit var fragmentPromoteBinding: FragmentPromoteBinding
 
@@ -19,7 +19,10 @@ class PromoteFragment(val imgRes : Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentPromoteBinding = FragmentPromoteBinding.inflate(layoutInflater)
-        fragmentPromoteBinding.imagePromote.setImageResource(imgRes)
+
+        requireActivity().setImage(fragmentPromoteBinding.imagePromote, imgRes)
+
+
         settingEvent()
         return fragmentPromoteBinding.root
     }
