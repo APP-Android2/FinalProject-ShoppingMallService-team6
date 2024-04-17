@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.view.indices
+import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -30,7 +32,7 @@ class SalePieceFragment : Fragment() {
 
     private val viewModel: PieceAddInfoViewModel by viewModels()
 
-    var isArtist = true
+    var isArtist = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)
@@ -46,47 +48,56 @@ class SalePieceFragment : Fragment() {
 
     fun initView() {
         binding.apply {
-            if(isArtist) {
-                layoutNotArtist.isVisible = false
+            layoutArtist.isVisible = false
+            layoutNotExistPiece.isVisible= false
+            layoutNotArtist.isVisible = false
 
-                settingButtonSalePieceAddPiece()
+            viewModel.isAuthor.observe(viewLifecycleOwner) { isAuthor ->
+                isArtist = isAuthor
 
-                viewLifecycleOwner.lifecycleScope.launch {
-                    repeatOnLifecycle(Lifecycle.State.STARTED) {
-                        viewModel.pieceAddInfoList.observe(viewLifecycleOwner, Observer { value ->
-                            if(viewModel.pieceAddInfoList.value.isNullOrEmpty()) {
-                                recyclerViewSalePiece.isVisible = false
-                            } else {
-                                binding.layoutNotExistPiece.isVisible = false
-                                val salePieceAdapter = SalePieceAdapter(value) { position ->
-                                    val addPieceInfo = value[position]
-                                    if (addPieceInfo.addPieceState == "판매 완료" || addPieceInfo.addPieceState == "판매 중") {
-                                        val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                                        intent.putExtra("pieceIdx", addPieceInfo.pieceIdx)
-                                        startActivity(intent)
-                                    } else if(addPieceInfo.addPieceState == "판매 승인 거절") {
-                                        Snackbar.make(requireView(), "판매 승인이 거절된 작품입니다.", Snackbar.LENGTH_LONG).show()
-                                    } else {
-                                        Snackbar.make(requireView(), "판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_LONG).show()
+                if(isArtist) {
+                    layoutArtist.isVisible = true
+
+                    settingButtonSalePieceAddPiece()
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        repeatOnLifecycle(Lifecycle.State.STARTED) {
+                            viewModel.pieceAddInfoList.observe(viewLifecycleOwner, Observer { value ->
+                                if(viewModel.pieceAddInfoList.value.isNullOrEmpty()) {
+                                    recyclerViewSalePiece.isVisible = false
+                                    layoutNotExistPiece.isVisible = true
+                                } else {
+                                    val salePieceAdapter = SalePieceAdapter(value) { position ->
+                                        val addPieceInfo = value[position]
+                                        if (addPieceInfo.addPieceState == "판매 완료" || addPieceInfo.addPieceState == "판매 중") {
+                                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                                            intent.putExtra("pieceIdx", addPieceInfo.pieceIdx)
+                                            startActivity(intent)
+                                        } else if(addPieceInfo.addPieceState == "판매 승인 거절") {
+                                            Snackbar.make(requireView(), "판매 승인이 거절된 작품입니다.", Snackbar.LENGTH_LONG).show()
+                                        } else {
+                                            Snackbar.make(requireView(), "판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_LONG).show()
+                                        }
+                                    }
+
+                                    with(binding){
+                                        recyclerViewSalePiece.adapter = salePieceAdapter
+                                        recyclerViewSalePiece.layoutManager = LinearLayoutManager(requireActivity())
+                                        val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
+                                        deco.dividerInsetStart = 50
+                                        deco.dividerInsetEnd = 50
+                                        deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
+                                        recyclerViewSalePiece.addItemDecoration(deco)
                                     }
                                 }
-
-                                with(binding){
-                                    recyclerViewSalePiece.adapter = salePieceAdapter
-                                    recyclerViewSalePiece.layoutManager = LinearLayoutManager(requireActivity())
-                                    val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
-                                    deco.dividerInsetStart = 50
-                                    deco.dividerInsetEnd = 50
-                                    deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                                    recyclerViewSalePiece.addItemDecoration(deco)
-                                }
-                            }
-                        })
+                            })
+                        }
                     }
+                } else {
+                    layoutNotArtist.isVisible = true
+                    settingButtonSalePieceAddArtist()
                 }
-            } else {
-                layoutArtist.isVisible = false
-                settingButtonSalePieceAddArtist()
+
             }
         }
     }

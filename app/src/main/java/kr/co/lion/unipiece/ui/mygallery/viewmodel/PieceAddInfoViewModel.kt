@@ -35,16 +35,22 @@ class PieceAddInfoViewModel : ViewModel() {
     val isAuthor: LiveData<Boolean> = _isAuthor
 
     init {
-        getAuthorIdx()
+        viewModelScope.launch {
+            val userIdx = getUserIdxFromSharedPreferences()
+            val isAuthor = authorInfoRepository.isAuthor(userIdx)
+            _isAuthor.value = isAuthor
+
+            if (isAuthor) {
+                getAuthorIdx(userIdx)
+            }
+        }
     }
 
-    private fun getAuthorIdx() {
+    private fun getAuthorIdx(userIdx: Int) {
         viewModelScope.launch {
             try {
-                val userIdx = getUserIdxFromSharedPreferences()
                 val authorIdx = authorInfoRepository.getAuthorIdxByUserIdx(userIdx)
                 _authorIdx.value = authorIdx
-                Log.e("PieceAddInfoViewModel", "userIdx : $userIdx")
                 Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
 
                 getPieceAddInfo()
@@ -61,7 +67,6 @@ class PieceAddInfoViewModel : ViewModel() {
                 val authorIdx = _authorIdx.value ?: 0
                 val authorInfo = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
                 _authorName.value = authorInfo?.authorName
-                Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
                 Log.e("PieceAddInfoViewModel", "_authorName : ${_authorName.value}")
 
             } catch (throwable: Throwable) {
@@ -139,11 +144,13 @@ class PieceAddInfoViewModel : ViewModel() {
         return sharedPrefs.getUserIdx("userIdx", 0)
     }
 
-    private fun isAuthor(userIdx: Int) {
+    private fun isAuthorCheck(userIdx: Int) {
         viewModelScope.launch {
             try {
                 val isAuthor = authorInfoRepository.isAuthor(userIdx)
                 _isAuthor.value = isAuthor
+
+                Log.e("PieceAddInfoViewModel", "author status: ${_isAuthor.value}")
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Failed to check author status: $throwable")
                 _isAuthor.value = false
