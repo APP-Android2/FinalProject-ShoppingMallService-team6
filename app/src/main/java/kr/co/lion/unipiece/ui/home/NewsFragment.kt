@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import kr.co.lion.unipiece.R
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.databinding.FragmentNewsBinding
-import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
+import kr.co.lion.unipiece.util.setImage
 
-class NewsFragment(val imgRes : Int) : Fragment() {
+class NewsFragment(val imgRes: String) : Fragment() {
 
     lateinit var fragmentNewsBinding: FragmentNewsBinding
 
@@ -20,7 +22,11 @@ class NewsFragment(val imgRes : Int) : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentNewsBinding = FragmentNewsBinding.inflate(layoutInflater)
-        fragmentNewsBinding.imageNews.setImageResource(imgRes)
+
+        Glide.with(this)
+            .load(imgRes)
+            .into(fragmentNewsBinding.imageNews)
+
         settingEvent()
         return fragmentNewsBinding.root
     }

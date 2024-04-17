@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.co.lion.unipiece.repository.NewsInfoRepository
 
 class NewsInfoViewModel : ViewModel(){
@@ -18,8 +20,10 @@ class NewsInfoViewModel : ViewModel(){
     fun getNewsImages(){
         viewModelScope.launch {
             try {
-                val imageUrl = newsInfoRepository.getNewsImage()
-                _newsInfo.value = imageUrl
+                val images = withContext(Dispatchers.IO){
+                    newsInfoRepository.getNewsImage()
+                }
+                _newsInfo.value = images
             }catch (e: Exception){
                 "에러 : ${e}"
             }
