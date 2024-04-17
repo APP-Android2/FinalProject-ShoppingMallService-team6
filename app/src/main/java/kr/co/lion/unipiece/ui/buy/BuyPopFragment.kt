@@ -7,7 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -22,7 +22,19 @@ class BuyPopFragment : Fragment() {
 
     lateinit var binding: FragmentBuyPopBinding
 
-    private val viewModel: BuyViewModel by viewModels()
+    private val viewModel: BuyViewModel by activityViewModels()
+
+    val buyPopAdapter: BuyPopAdapter by lazy {
+        BuyPopAdapter(
+            emptyList(),
+            itemClickListener = { pieceIdx ->
+                Log.d("테스트 pieceIdx", pieceIdx.toString())
+                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                startActivity(intent)
+            }
+        )
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -39,20 +51,15 @@ class BuyPopFragment : Fragment() {
 
     fun initView() {
 
+        with(binding){
+            buyPopRV.adapter = buyPopAdapter
+            buyPopRV.layoutManager = GridLayoutManager(activity, 2)
+        }
+
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
                 viewModel.popPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
-                    val buyPopAdapter = BuyPopAdapter(value,
-                        itemClickListener = { pieceIdx ->
-                            Log.d("테스트 pieceIdx", pieceIdx.toString())
-                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                            startActivity(intent)
-                        }
-                    )
-                with(binding){
-                    buyPopRV.adapter = buyPopAdapter
-                    buyPopRV.layoutManager = GridLayoutManager(activity, 2)
-                }
+                    buyPopAdapter.updateData(value)
                 })
             }
         }

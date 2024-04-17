@@ -7,7 +7,7 @@
     <data>
         <variable
             name="authorInfoViewModel"
-            type="kr.co.lion.unipiece.ui.author.AuthorInfoViewModel" />
+            type="kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel" />
     </data>
 
     <LinearLayout

@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.kakao.sdk.auth.model.OAuthToken
@@ -26,9 +27,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.BuildConfig
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentLoginBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.util.LoginFragmentName
+import kr.co.lion.unipiece.util.showSoftInput
 
 
 class LoginFragment : Fragment() {
@@ -47,6 +50,7 @@ class LoginFragment : Fragment() {
         fragmentLoginBinding = FragmentLoginBinding.inflate(layoutInflater)
         naverInitialize()
         settingEvent()
+        initView()
         return fragmentLoginBinding.root
     }
 
@@ -68,9 +72,10 @@ class LoginFragment : Fragment() {
                     .commit()
             }
             buttonLogin.setOnClickListener {
-                val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                startActivity(newIntent)
-                requireActivity().finish()
+                val chk = checkInput()
+                if (chk == true){
+                    checkAccount()
+                }
             }
             imageKaKao.setOnClickListener {
                 kakaoLogin()
@@ -78,6 +83,95 @@ class LoginFragment : Fragment() {
             imageNaver.setOnClickListener {
                 naverLogin()
             }
+        }
+    }
+
+    //화면 설정
+    private fun initView(){
+        fragmentLoginBinding.apply {
+            textLoginUserId.addTextChangedListener {
+                textLoginUserIdLayout.error = null
+            }
+            textLoginUserPw.addTextChangedListener {
+                textLoginUserPwdLayout.error = null
+            }
+        }
+    }
+
+    //입력 검사
+    private fun checkInput() : Boolean{
+        fragmentLoginBinding.apply {
+            var errorText:View? = null
+
+            val userId = textLoginUserId.text.toString()
+            val userPwd = textLoginUserPw.text.toString()
+
+            if (userId.trim().isEmpty()){
+                textLoginUserIdLayout.error = "아이디를 입력해주세요"
+                if (errorText == null){
+                    errorText = textLoginUserId
+                }else{
+                    textLoginUserIdLayout.error = null
+                }
+            }
+
+            if (userPwd.trim().isEmpty()){
+                textLoginUserPwdLayout.error = "비밀번호를 입력해주세요"
+                if (errorText == null){
+                    errorText = textLoginUserPw
+                }else{
+                    textLoginUserPwdLayout.error = null
+                }
+            }
+
+            if (errorText != null){
+                requireActivity().showSoftInput(errorText)
+                return false
+            }else{
+                return true
+            }
+        }
+    }
+
+    //유효한 계정인지 검사한다
+    private fun checkAccount(){
+        fragmentLoginBinding.apply {
+
+            val userId = textLoginUserId.text.toString()
+            val userPwd = textLoginUserPw.text.toString()
+
+            viewLifecycleOwner.lifecycleScope.launch {
+                val userInfo = viewModel.getUserDataByUserId(userId)
+
+                //만약 아이디가 없다면
+                if (userInfo == null){
+                    textLoginUserIdLayout.error = "존재하지 않은 아이디입니다"
+                    requireActivity().showSoftInput(textLoginUserId)
+                }else{
+                    textLoginUserIdLayout.error = null
+
+                    //아이디는 유효한데 비밀번호가 틀릴경우
+                    if (userPwd != userInfo.userPwd){
+                        textLoginUserPwdLayout.error = "존재하지 않은 비밀번호입니다"
+                        requireActivity().showSoftInput(textLoginUserPw)
+                    }else{
+                        //자동 로그인을 누를 경우 아이디를 저장해준다
+                        if (checkBoxAutoLogin.isChecked){
+                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
+                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                            startActivity(newIntent)
+                            requireActivity().finish()
+                        }else{
+                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
+                            startActivity(newIntent)
+                            requireActivity().finish()
+                        }
+                    }
+                }
+            }
+
         }
     }
 
@@ -135,10 +229,16 @@ class LoginFragment : Fragment() {
                                             val phoneNumber = user.kakaoAccount?.phoneNumber?:""
                                             val userPwd = user.id.toString()
 
-
                                             viewModel.insertUserData(name, nickname, phoneNumber, userId, userPwd,true){success ->
                                                 if (success){
-                                                    startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                                    viewLifecycleOwner.lifecycleScope.launch {
+                                                        val userInfo = viewModel.getUserDataByUserId(userId)
+
+                                                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                                        UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                                        UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                                                        startActivity(newIntent)
+                                                    }
                                                 }
                                             }
                                         }
@@ -151,10 +251,14 @@ class LoginFragment : Fragment() {
                                     dialog.show(parentFragmentManager, "NicknameDialog")
 
                                 }else{
-                                    val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                                    newIntent.putExtra("userId", user.kakaoAccount?.email?:"")
-                                    startActivity(newIntent)
-                                    requireActivity().finish()
+                                    viewLifecycleOwner.lifecycleScope.launch {
+                                        val userInfo = viewModel.getUserDataByUserId(user.kakaoAccount?.email?:"")
+                                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                        UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                        UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                                        startActivity(newIntent)
+                                        requireActivity().finish()
+                                    }
                                 }
                             }
                         }
@@ -200,7 +304,14 @@ class LoginFragment : Fragment() {
 
                                 viewModel.insertUserData(name, nickname, phoneNumber, userId, userPwd,true){success ->
                                     if (success){
-                                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                                        viewLifecycleOwner.lifecycleScope.launch {
+                                            val userInfo = viewModel.getUserDataByUserId(userId)
+
+                                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                                            startActivity(newIntent)
+                                        }
                                     }
                                 }
                             }
@@ -213,10 +324,14 @@ class LoginFragment : Fragment() {
                         dialog.show(parentFragmentManager, "NicknameDialog")
 
                     }else{
-                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                        newIntent.putExtra("userId", result.profile?.email?:"")
-                        startActivity(newIntent)
-                        requireActivity().finish()
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            val userInfo = viewModel.getUserDataByUserId(result.profile?.email?:"")
+                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo!!.userIdx)
+                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                            startActivity(newIntent)
+                            requireActivity().finish()
+                        }
                     }
                 }
             }

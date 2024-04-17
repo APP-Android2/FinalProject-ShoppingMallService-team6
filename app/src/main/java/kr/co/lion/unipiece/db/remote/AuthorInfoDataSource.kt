@@ -1,7 +1,9 @@
 package kr.co.lion.unipiece.db.remote
 
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -11,6 +13,7 @@ import kr.co.lion.unipiece.model.AuthorInfoData
 class AuthorInfoDataSource {
 
     private val db = Firebase.firestore
+    private val storage = Firebase.storage.reference
 
     // 작가 번호 시퀀스값을 가져온다.
     suspend fun getAuthorSequence():Int{
@@ -81,6 +84,24 @@ class AuthorInfoDataSource {
         return authorInfoData
     }
 
+    // userIdx로 작가Idx를 가져와 반환한다
+    suspend fun getAuthorIdxByUserIdx(userIdx:Int) : Int {
+        var authorInfoData:AuthorInfoData? = null
+
+        val job1 = CoroutineScope(Dispatchers.IO).launch {
+            // AuthorInfo 컬렉션 접근 객체를 가져온다.
+            val collectionReference = db.collection("AuthorInfo")
+            // authorIdx 필드가 매개변수로 들어오는 authorIdx와 같은 문서들을 가져온다.
+            val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
+            // 가져온 문서객체들이 들어 있는 리스트에서 첫 번째 객체를 추출한다.
+            // 회원 번호가 동일한 사용는 없기 때문에 무조건 하나만 나오기 때문이다
+            authorInfoData = querySnapshot.documents[0].toObject(AuthorInfoData::class.java)
+        }
+        job1.join()
+
+        return authorInfoData!!.authorIdx
+    }
+
     // 모든 작가의 정보를 가져온다.
     suspend fun getAuthorInfoAll():MutableList<AuthorInfoData>{
         // 사용자 정보를 담을 리스트
@@ -100,6 +121,17 @@ class AuthorInfoDataSource {
         job1.join()
 
         return authorList
+    }
+
+    // 작가 이미지 url 받아오기
+    suspend fun getAuthorInfoImg(authorImg: String): String? {
+        val path = "AuthorInfo/$authorImg"
+        return try {
+            storage.child(path).downloadUrl.await().toString()
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPieceInfoImg: ${e.message} ${path}")
+            null
+        }
     }
 
 

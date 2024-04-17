@@ -13,28 +13,29 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentAuthorInfoBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.adapter.AuthorPiecesAdapter
+import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class AuthorInfoFragment : Fragment() {
 
     lateinit var fragmentAuthorInfoBinding: FragmentAuthorInfoBinding
-    lateinit var authorPiecesAdapter: AuthorPiecesAdapter
     val authorInfoViewModel: AuthorInfoViewModel by viewModels()
 
     val authorIdx by lazy {
         requireArguments().getInt("authorIdx")
     }
     val userIdx by lazy {
-        requireArguments().getInt("userIdx")
+        UniPieceApplication.prefs.getUserIdx("userIdx",0)
     }
 
     override fun onCreateView(
@@ -138,11 +139,11 @@ class AuthorInfoFragment : Fragment() {
                     buttonAuthorFollow.isVisible = false
                     buttonAuthorReview.isVisible = false
                 }
+                // 작가 이미지 셋팅
+                val authorImg = authorInfoViewModel!!.authorInfoData.value?.authorImg
+                val imageUrl = authorInfoViewModel!!.getAuthorInfoImg(authorImg!!)
+                requireActivity().setImage(imageViewAuthor, imageUrl)
             }
-            // 작가 이미지 셋팅
-            Glide.with(requireActivity())
-                .load(authorInfoViewModel!!.authorInfoData.value?.authorImg)
-                .into(imageViewAuthor)
         }
     }
 
@@ -188,7 +189,6 @@ class AuthorInfoFragment : Fragment() {
         fragmentAuthorInfoBinding.buttonAuthorReview.setOnClickListener {
             val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
             authorReviewBottomSheetFragment.arguments = Bundle().apply {
-                putInt("userIdx", userIdx)
                 putInt("authorIdx", authorIdx)
             }
             authorReviewBottomSheetFragment.show(parentFragmentManager, "BottomSheet")
@@ -197,28 +197,27 @@ class AuthorInfoFragment : Fragment() {
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
-        // 테스트 데이터
-        val piecesList = arrayListOf<Int>(
-            R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground,
-            R.drawable.ic_launcher_background, R.drawable.ic_launcher_foreground, R.drawable.ic_launcher_background,
-            R.drawable.ic_launcher_foreground,
-        )
-        
-        // 해당 작가의 작품 리스트 받아오기
 
-        // 리사이클러뷰 어댑터
-        authorPiecesAdapter = AuthorPiecesAdapter(piecesList){
-            val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
-            startActivity(pieceIntent)
-        }
+        lifecycleScope.launch {
+            // 해당 작가의 작품 리스트 받아오기
+            authorInfoViewModel.getAuthorPieces(authorIdx)
 
-        // 리사이클러뷰 셋팅
-        fragmentAuthorInfoBinding.recyclerViewAuthorPieces.apply {
-            // 어댑터
-            adapter = authorPiecesAdapter
-            // 레이아웃 매니저, 가로 방향 셋팅
-            layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
+            authorInfoViewModel.authorPieces.observe(viewLifecycleOwner) { piecesList ->
+                // 리사이클러뷰 어댑터
+                val authorPiecesAdapter = AuthorPiecesAdapter(piecesList) { pieceIdx ->
+                    val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                    pieceIntent.putExtra("pieceIdx", pieceIdx)
+                    startActivity(pieceIntent)
+                }
+
+                // 리사이클러뷰 셋팅
+                fragmentAuthorInfoBinding.recyclerViewAuthorPieces.apply {
+                    // 어댑터
+                    adapter = authorPiecesAdapter
+                    // 레이아웃 매니저, 가로 방향 셋팅
+                    layoutManager = LinearLayoutManager(requireActivity(), RecyclerView.HORIZONTAL, false)
+                }
+            }
         }
     }
 
