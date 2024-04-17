@@ -53,7 +53,7 @@
                             android:id="@+id/imageViewAuthor"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:src="@drawable/ic_launcher_background" />
+                            android:src="@drawable/icon" />
                     </androidx.cardview.widget.CardView>
 
                     <LinearLayout
