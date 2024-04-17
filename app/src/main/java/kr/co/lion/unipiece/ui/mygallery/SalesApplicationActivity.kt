@@ -23,6 +23,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
@@ -297,7 +298,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     }
 
     fun createPieceInfoData(imageFileName: String): PieceAddInfoData {
-        val authorName = "한명운"
+        val authorName = viewModel.authorName.value ?: ""
         val pieceName = binding.textFieldSalesApplicationPieceName.text.toString()
         val pieceSort = topCategory
         val pieceDetailSort = binding.textFieldSalesApplicationCategory.text.toString()
@@ -310,12 +311,15 @@ class SalesApplicationActivity : AppCompatActivity() {
         val piecePrice = binding.textFieldSalesApplicationPrice.text.toString().toInt()
         val pieceState = "판매 승인 대기"
         val pieceDate = Timestamp.now()
-        val authorIdx = 18
+        val authorIdx = viewModel.authorIdx.value ?: 0
+        val pieceIdx = -1
+        val addPieceIdx = 0
 
         return PieceAddInfoData(
             authorName, pieceName, pieceSort, pieceDetailSort,
             makeYear, pieceSize, pieceMaterial, pieceInfo,
-            addPieceImg, piecePrice, pieceState, pieceDate, authorIdx)
+            addPieceImg, piecePrice, pieceState, pieceDate,
+            authorIdx, pieceIdx, addPieceIdx)
     }
 
     private fun showSuccessDialog() {
