@@ -217,7 +217,7 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/buttonDeliveryAddAdress"
+                android:id="@+id/textFieldDeliveryAddAdress"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
@@ -235,10 +235,11 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddAddressDetail"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
-                android:paddingLeft="15dp"/>
+                android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
 
     </LinearLayout>

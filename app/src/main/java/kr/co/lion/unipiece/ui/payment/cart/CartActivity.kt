@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.TypedValue
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -32,7 +33,7 @@ class CartActivity : AppCompatActivity() {
     /////////////////////////////// 기능 구현 ///////////////////////////////////////
 
     // 툴바 셋팅
-    fun setToolbar(){
+    fun setToolbar() {
         activityCartBinding.apply {
             toolbarCart.apply {
                 // 타이틀
@@ -50,7 +51,7 @@ class CartActivity : AppCompatActivity() {
     }
 
     // 주문하기 버튼 클릭 시
-    fun clickButtonOrder(){
+    fun clickButtonOrder() {
         activityCartBinding.apply {
             buttonCartOrder.apply {
                 setOnClickListener {
@@ -66,7 +67,7 @@ class CartActivity : AppCompatActivity() {
     ///////////////////////////////////// 리사이클러뷰 ////////////////////////////////////
 
     // 장바구니 화면의 RecyclerView 설정
-    fun setRecyclerViewCart(){
+    fun setRecyclerViewCart() {
         activityCartBinding.apply {
             recyclerViewCartList.apply {
                 // 어댑터 초기화 시 OnItemCheckStateChangeListener 구현을 전달
@@ -85,11 +86,12 @@ class CartActivity : AppCompatActivity() {
 
                 // 마지막 리사이클러뷰 항목의 디바이더 삭제
                 addItemDecoration(
-                    MaterialDividerItemDecoration(this@CartActivity,
+                    MaterialDividerItemDecoration(
+                        this@CartActivity,
                         (layoutManager as LinearLayoutManager).orientation
                     ).apply {
                         isLastItemDecorated = false
-                        setDividerColorResource(this@CartActivity,R.color.lightgray)
+                        setDividerColorResource(this@CartActivity, R.color.lightgray)
                         dividerInsetEnd = 16.dp
                         dividerInsetStart = 16.dp
                     }
@@ -100,7 +102,7 @@ class CartActivity : AppCompatActivity() {
         }
     }
 
-    fun setCheckBoxAll(){
+    fun setCheckBoxAll() {
         // 전체 선택 체크박스 클릭 리스너 설정
         activityCartBinding.checkBoxCartAll.apply {
             setOnClickListener {
@@ -118,7 +120,6 @@ class CartActivity : AppCompatActivity() {
 
 
 }
-
 
 
 // dp값으로 변환하는 확장함수

@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.DialogDeliveryAddBinding
+import kr.co.lion.unipiece.model.DeliveryData
 
 object CustomFullDialogMaker {
 
@@ -12,7 +13,7 @@ object CustomFullDialogMaker {
         context: Context,
         title: String,
         saveButtonText: String,
-        target: CustomFullDialogListener
+        target: CustomFullDialogListener,
     ) {
         val dialog = Dialog(context, R.style.Theme_UniPiece)
         val dialogBinding = DialogDeliveryAddBinding.inflate(dialog.layoutInflater)
@@ -34,7 +35,6 @@ object CustomFullDialogMaker {
                 // // 뒤로가기 내비게이션버튼 클릭 시 동작
                 this.setNavigationOnClickListener {
                     target.onClickCancelButton()
-
                     // 다이얼로그 종료
                     dialog.dismiss()
                 }
@@ -50,7 +50,13 @@ object CustomFullDialogMaker {
 
                 // 저장버튼 클릭 시 동작
                 this.setOnClickListener {
+
+
+
+
                     target.onClickSaveButton()
+
+
 
                     // 다이얼로그 종료
                     dialog.dismiss()

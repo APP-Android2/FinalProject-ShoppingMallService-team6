@@ -11,16 +11,70 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:orientation="horizontal">
-        <ImageView
-            android:id="@+id/imageViewPieceRowOrderMain"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            app:srcCompat="@drawable/mygallery_icon" />
-        <TextView
-            android:id="@+id/textViewRowOrderMain"
+        android:orientation="vertical"
+        android:paddingHorizontal="10dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/imageViewPieceRowOrderMain"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                app:srcCompat="@drawable/mygallery_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textViewRowOrderMainAddDeliveryPrice"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="추가배송비 4,000원"
+                    android:textAlignment="textEnd"
+                    android:textSize="14dp" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:padding="5dp">
+
+                    <TextView
+                        android:id="@+id/textViewRowOrderMainPieceName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="작품이름"
+                        android:textSize="20dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textViewRowOrderMainAuthorName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="작가이름"
+                        android:textSize="12dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/textViewRowOrderMainPieceName" />
+
+                    <TextView
+                        android:id="@+id/textViewRowOrderMainPiecePrice"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="작품가격"
+                        android:textSize="14dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

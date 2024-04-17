@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -35,14 +36,12 @@
                         android:id="@+id/textViewDeliveryName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:text="홍길동" />
+                        android:gravity="left" />
 
                     <TextView
-                        android:id="@+id/textViewDeliveryAdressName"
+                        android:id="@+id/textViewDeliveryNickName"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="(공중화장실)"
                         android:textAlignment="textStart" />
 
                 </LinearLayout>
@@ -56,21 +55,20 @@
                         android:id="@+id/textViewDeliveryPhone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="20dp"
-                        android:text="01015447979" />
+                        android:layout_marginBottom="20dp" />
 
                     <TextView
                         android:id="@+id/textViewDeliveryAddress"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="서울" />
+                        android:layout_height="wrap_content" />
 
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingTop="20dp">
 
                     <Button
                         android:id="@+id/buttonDeliveryUpdate"
@@ -120,3 +118,4 @@
     </androidx.cardview.widget.CardView>
 
 </LinearLayout>
+
