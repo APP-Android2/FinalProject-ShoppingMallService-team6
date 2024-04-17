@@ -44,4 +44,7 @@ class AuthorInfoRepository {
 
     // 작가 확인
     suspend fun isAuthor(userIdx: Int) = authorInfoDataSource.isAuthor(userIdx)
+
+    // 작가 이미지 url 작가 idx로 받아오기
+    suspend fun getAuthorInfoImg(authorIdx: Int) = authorInfoDataSource.getAuthorIdxImg(authorIdx)
 }
