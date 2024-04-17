@@ -17,9 +17,9 @@ class PieceAddInfoRepository {
 
     suspend fun updatePieceAddSequence(pieceAddSequence: Int) = pieceAddInfoDataSource.updatePieceAddSequence(pieceAddSequence)
 
-    suspend fun uploadImage(imageUri: Uri): String  {
-        return pieceAddInfoDataSource.uploadImage(imageUri)
+    suspend fun uploadImage(authorIdx: Int, imageUri: Uri): String  {
+        return pieceAddInfoDataSource.uploadImage(authorIdx, imageUri)
     }
 
-    suspend fun getPieceAddInfoImage(addPieceImg: String) = pieceAddInfoDataSource.getPieceAddInfoImage(addPieceImg)
+    suspend fun getPieceAddInfoImage(authorIdx: Int, addPieceImg: String) = pieceAddInfoDataSource.getPieceAddInfoImage(authorIdx, addPieceImg)
 }

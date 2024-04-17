@@ -127,7 +127,7 @@ class SalesApplicationActivity : AppCompatActivity() {
 
                 if(isFormValid()) {
                     selectedImageUri?.let { imageUri ->
-                        viewModel.uploadImage(imageUri)
+                        viewModel.uploadImage(viewModel.authorIdx.value ?:0, imageUri)
                     }
                 }
             }

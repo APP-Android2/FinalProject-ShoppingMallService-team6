@@ -78,7 +78,7 @@ class PieceAddInfoViewModel : ViewModel() {
 
                 pieceAddInfoList.forEach { pieceAddInfo ->
                     val imageName = pieceAddInfo.addPieceImg
-                    val imageUrl = getPieceAddInfoImage(imageName)
+                    val imageUrl = getPieceAddInfoImage(authorIdx, imageName)
 
                     imageUrl?.let {
                         pieceAddInfo.addPieceImg = it.toString()
@@ -118,10 +118,10 @@ class PieceAddInfoViewModel : ViewModel() {
         }
     }
 
-    fun uploadImage(imageUri: Uri) {
+    fun uploadImage(authorIdx: Int, imageUri: Uri) {
         viewModelScope.launch {
             try {
-                val fileName = pieceAddInfoRepository.uploadImage(imageUri)
+                val fileName = pieceAddInfoRepository.uploadImage(authorIdx, imageUri)
                 _uploadImageResult.value = fileName
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")
@@ -130,8 +130,8 @@ class PieceAddInfoViewModel : ViewModel() {
         }
     }
 
-    private suspend fun getPieceAddInfoImage(addPieceImg: String): Uri? {
-        return pieceAddInfoRepository.getPieceAddInfoImage(addPieceImg)
+    private suspend fun getPieceAddInfoImage(authorIdx: Int, addPieceImg: String): Uri? {
+        return pieceAddInfoRepository.getPieceAddInfoImage(authorIdx, addPieceImg)
     }
 
     private fun getUserIdxFromSharedPreferences(): Int {

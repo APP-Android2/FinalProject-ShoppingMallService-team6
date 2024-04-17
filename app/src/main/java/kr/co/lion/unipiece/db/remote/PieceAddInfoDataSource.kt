@@ -92,17 +92,17 @@ class PieceAddInfoDataSource {
     }
 
 
-    fun uploadImage(imageUri: Uri): String {
+    fun uploadImage(authorIdx: Int, imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"
-        val imageRef = storageRef.child("addPieceInfo/$imageFileName")
+        val imageRef = storageRef.child("addPieceInfo/${authorIdx}/${imageFileName}")
 
         imageRef.putFile(imageUri)
 
         return imageFileName
     }
 
-    suspend fun getPieceAddInfoImage(addPieceImg: String): Uri? {
-        val path = "addPieceInfo/$addPieceImg"
+    suspend fun getPieceAddInfoImage(authorIdx: Int, addPieceImg: String): Uri? {
+        val path = "addPieceInfo/${authorIdx}/${addPieceImg}"
 
         return try {
             val storageRef = Firebase.storage.reference.child(path)
