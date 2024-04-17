@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.PieceAddInfoRepository
@@ -18,8 +19,11 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _addPieceInfoResult = MutableLiveData<Boolean>()
     val addPieceInfoResult: LiveData<Boolean> = _addPieceInfoResult
 
-    private val _authorIdx = MutableLiveData<Int?>()
-    val authorIdx : LiveData<Int?> = _authorIdx
+    private val _authorIdx = MutableLiveData<Int>()
+    val authorIdx : LiveData<Int> = _authorIdx
+
+    private val _authorName = MutableLiveData<String>()
+    val authorName : LiveData<String> = _authorName
 
     private val _pieceAddInfoList = MutableLiveData<List<PieceAddInfoData>>()
     val pieceAddInfoList : LiveData<List<PieceAddInfoData>> = _pieceAddInfoList
@@ -44,8 +48,24 @@ class PieceAddInfoViewModel : ViewModel() {
                 Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
 
                 getPieceAddInfo()
+                getAuthorName()
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Failed to get authorIdx: $throwable")
+            }
+        }
+    }
+
+    suspend fun getAuthorName() {
+        viewModelScope.launch {
+            try {
+                val authorIdx = _authorIdx.value ?: 0
+                val authorInfo = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
+                _authorName.value = authorInfo?.authorName
+                Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
+                Log.e("PieceAddInfoViewModel", "_authorName : $_authorName")
+
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to get authorName: $throwable")
             }
         }
     }
@@ -102,10 +122,8 @@ class PieceAddInfoViewModel : ViewModel() {
     }
 
     private fun getUserIdxFromSharedPreferences(): Int {
-//        val sharedPrefs = UniPieceApplication.prefs
-//        return sharedPrefs.getUserIdx("userIdx", 0)
-        // 임시로 0을 반환하도록 설정
-        return 19
+        val sharedPrefs = UniPieceApplication.prefs
+        return sharedPrefs.getUserIdx("userIdx", 0)
     }
 
     private fun isAuthor(userIdx: Int) {
