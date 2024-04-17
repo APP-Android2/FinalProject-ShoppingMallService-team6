@@ -3,26 +3,46 @@ package kr.co.lion.unipiece.ui.infomation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoOneBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
+import kr.co.lion.unipiece.util.getImageUrlFromName
+import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class InfoOneActivity : AppCompatActivity() {
 
     lateinit var activityInfoOneBinding: ActivityInfoOneBinding
+
+    val promoteViewModel:PromoteInfoViewModel by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityInfoOneBinding = ActivityInfoOneBinding.inflate(layoutInflater)
         initView()
+        setEvent()
+
         setContentView(activityInfoOneBinding.root)
     }
 
     //툴바 설정
-    private fun initView(){
+    private fun setEvent(){
         activityInfoOneBinding.apply {
             toolBarInfoOne.apply {
-                title = "전시 홍보"
+
+                val promoteImg = intent?.getStringExtra("promoteImg")
+                lifecycleScope.launch {
+                    val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
+
+                    if (promoteInfo?.homeIdx == 1){
+                        title = "전시 홍보"
+                    }
+                }
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
                     finish()
@@ -47,13 +67,30 @@ class InfoOneActivity : AppCompatActivity() {
 
                 }
             }
+        }
+    }
 
-            textInfoOneName.text = "행사명 : UniPiece 이벤트~"
-            textInfoOneDate.text = "일정 : 2024 03/31 ~ 2024 04/26"
-            textInfoOnePlace.text = "장소 : 멋쟁이 사자처럼"
-            textInfoOneInfo.text = "행사소개:\n우리는 UniPiece이고\n대학생들의 작품을 판매하는 어플입니다\n다들 어떠신가요??"
-            textInfoOneCost.text = "참가비 : 무료입니다"
-            textInfoOneUrl.text = "참가 신청 주소 : https:UniPiece.com"
+    //화면 설정
+    private fun initView(){
+        activityInfoOneBinding.apply {
+            val promoteImg = intent?.getStringExtra("promoteImg")
+
+            lifecycleScope.launch {
+                val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
+
+                if (promoteInfo?.homeIdx == 1){
+                    textInfoOneName.text = "행사명 : ${promoteInfo?.promoteName}"
+                    textInfoOneDate.text = "일정 : ${promoteInfo?.promoteDate}"
+                    textInfoOnePlace.text = "장소 : ${promoteInfo?.promotePlace}"
+                    textInfoOneInfo.text = "행사소개: ${promoteInfo?.promoteContent}"
+                    textInfoOneCost.text = "참가비 : ${promoteInfo?.promoteMoney}"
+                    textInfoOneUrl.text = "참가 신청 주소 : ${promoteInfo?.promoteLink}"
+
+                    val imgUrl = getImageUrlFromName(promoteInfo?.promoteImg?:"")
+
+                    setImage(activityInfoOneBinding.imageViewEventLogo, imgUrl)
+                }
+            }
         }
     }
 }
