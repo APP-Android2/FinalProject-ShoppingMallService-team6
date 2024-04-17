@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.bumptech.glide.Glide
 import kr.co.lion.unipiece.databinding.FragmentPromoteBinding
 import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
+import kr.co.lion.unipiece.util.setImage
 
 class PromoteFragment(val imgRes: String) : Fragment() {
 
@@ -19,13 +20,8 @@ class PromoteFragment(val imgRes: String) : Fragment() {
         // Inflate the layout for this fragment
         fragmentPromoteBinding = FragmentPromoteBinding.inflate(layoutInflater)
 
-        try {
-            Glide.with(this)
-                .load(imgRes)
-                .into(fragmentPromoteBinding.imagePromote)
-        }catch (e:Exception){
-            "error : ${e}"
-        }
+        requireActivity().setImage(fragmentPromoteBinding.imagePromote, imgRes)
+
 
         settingEvent()
         return fragmentPromoteBinding.root
