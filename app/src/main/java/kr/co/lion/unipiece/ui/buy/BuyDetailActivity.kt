@@ -85,6 +85,14 @@ class BuyDetailActivity : AppCompatActivity() {
                     setImage(authorImg, it.authorImg)
                     authorInfoName.text = it.authorName
                     authorInfo.text = it.authorInfo
+
+                    val intent = Intent(this@BuyDetailActivity, AuthorInfoActivity::class.java)
+                    intent.putExtra("authorIdx", it.authorIdx)
+
+                    authorInfoMore.setOnClickListener {
+                        startActivity(intent)
+                    }
+
                 }
             }
         })
