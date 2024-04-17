@@ -9,6 +9,7 @@ import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 
 class ModifyAuthorInfoViewModel: ViewModel() {
+
     // 작가 정보
     private val _authorInfoData = MutableLiveData<AuthorInfoData>()
     val authorInfoData: LiveData<AuthorInfoData> = _authorInfoData
