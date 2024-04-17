@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.payment.order
+package kr.co.lion.unipiece.ui.payment
 
 import android.os.Bundle
 import android.os.SystemClock

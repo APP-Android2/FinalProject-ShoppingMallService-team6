@@ -6,9 +6,8 @@ import android.os.Bundle
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
-import kr.co.lion.unipiece.ui.payment.order.OrderActivity
-import kr.co.lion.unipiece.util.MainFragmentName.*
+import kr.co.lion.unipiece.ui.payment.CartActivity
+import kr.co.lion.unipiece.ui.payment.OrderActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class BuyDetailActivity : AppCompatActivity() {

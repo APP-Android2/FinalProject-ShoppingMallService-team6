@@ -9,10 +9,7 @@ import android.view.ViewGroup
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentUserInfoBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.mygallery.PurchaseCancelFragment
-import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
-import kr.co.lion.unipiece.util.AuthorInfoFragmentName
-import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
+import kr.co.lion.unipiece.ui.payment.DeliveryActivity
 import kr.co.lion.unipiece.util.UserInfoFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 

@@ -21,7 +21,7 @@ import kr.co.lion.unipiece.databinding.HeaderBuyDrawerBinding
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.ui.buy.adapter.BuyAdapter
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyViewModel
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.ui.payment.CartActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class BuyFragment : Fragment() {

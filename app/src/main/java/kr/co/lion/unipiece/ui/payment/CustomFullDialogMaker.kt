@@ -1,10 +1,9 @@
-package kr.co.lion.unipiece.ui.payment.delivery
+package kr.co.lion.unipiece.ui.payment
 
 import android.app.Dialog
 import android.content.Context
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.DialogDeliveryAddBinding
-import kr.co.lion.unipiece.model.DeliveryData
 
 object CustomFullDialogMaker {
 
@@ -52,10 +51,7 @@ object CustomFullDialogMaker {
                 this.setOnClickListener {
 
 
-
-
                     target.onClickSaveButton()
-
 
 
                     // 다이얼로그 종료

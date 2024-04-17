@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.payment.delivery
+package kr.co.lion.unipiece.ui.payment
 
 import android.os.Bundle
 import android.util.Log
@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
-import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
+import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
 
 class DeliveryManagerFragment : Fragment() {
 
@@ -54,29 +54,14 @@ class DeliveryManagerFragment : Fragment() {
 
     }
 
-    ///////////////////////////////////////////기능 구현/////////////////////////////////////////////
+
     fun initView() {
 
         // 바인딩
         with(binding) {
-            // 리사이클러뷰
-            with(recyclerViewDeliveryList) {
-                // 리사이클러뷰 어답터
-                adapter = deliveryAdapter
 
-                // 리사이클러뷰 레이아웃
-                layoutManager = LinearLayoutManager(requireActivity())
-            }
-            // 리사이클러뷰 변경 시 업데이트
-            viewLifecycleOwner.lifecycleScope.launch {
-                repeatOnLifecycle(Lifecycle.State.STARTED) {
-                    viewModel.deliveryDataList.observe(viewLifecycleOwner, Observer { value ->
-                        deliveryAdapter.updateData(value)
-                    })
-                }
-            }
 
-            // 툴바
+            // 툴바 //////////////////////////////////////////
             with(toolbarDeliveryManager) {
                 // 타이틀
                 setTitle("배송지 관리")
@@ -90,7 +75,7 @@ class DeliveryManagerFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
-            // 신규 배송지 등록
+            // 신규 배송지 등록 /////////////////////////////////////
             with(buttonDeliveryMainNewAdd) {
                 // 버튼 클릭 시
                 setOnClickListener {
@@ -130,6 +115,25 @@ class DeliveryManagerFragment : Fragment() {
                     }
                 }
             }
+
+            // 리사이클러뷰 //////////////////////////////////////////////////////////////////////
+            with(recyclerViewDeliveryList) {
+                // 리사이클러뷰 어답터
+                adapter = deliveryAdapter
+
+                // 리사이클러뷰 레이아웃
+                layoutManager = LinearLayoutManager(requireActivity())
+            }
+            // 리사이클러뷰 변경 시 업데이트
+            viewLifecycleOwner.lifecycleScope.launch {
+                repeatOnLifecycle(Lifecycle.State.STARTED) {
+                    viewModel.deliveryDataList.observe(viewLifecycleOwner, Observer { value ->
+                        deliveryAdapter.updateData(value)
+                    })
+                }
+            }
+
+
         }
     }
 }

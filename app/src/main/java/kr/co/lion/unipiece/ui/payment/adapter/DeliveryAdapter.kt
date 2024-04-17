@@ -10,8 +10,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
-import kr.co.lion.unipiece.ui.payment.delivery.CustomFullDialogListener
-import kr.co.lion.unipiece.ui.payment.delivery.CustomFullDialogMaker
+import kr.co.lion.unipiece.ui.payment.CustomFullDialogListener
+import kr.co.lion.unipiece.ui.payment.CustomFullDialogMaker
 import kr.co.lion.unipiece.util.CustomDialog
 import java.util.Locale
 

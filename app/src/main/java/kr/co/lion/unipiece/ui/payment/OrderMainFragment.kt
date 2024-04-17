@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.payment.order
+package kr.co.lion.unipiece.ui.payment
 
 import android.content.Intent
 import android.content.res.Resources
@@ -13,12 +13,11 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentOrderMainBinding
 import kr.co.lion.unipiece.ui.payment.adapter.OrderMainAdapter
-import kr.co.lion.unipiece.ui.payment.delivery.DeliveryActivity
 
 
 class OrderMainFragment : Fragment() {
 
-    lateinit var fragmentOrderMainBinding: FragmentOrderMainBinding
+    lateinit var binding: FragmentOrderMainBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,20 +25,22 @@ class OrderMainFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        fragmentOrderMainBinding = FragmentOrderMainBinding.inflate(layoutInflater)
-        setToolbar()
-        clickButtonDeliveryChange()
-        setRecyclerViewOrderMain()
+        binding = FragmentOrderMainBinding.inflate(inflater,container,false)
 
-        clickButtonPayment()
-        setOrderDetail()
-
-        return fragmentOrderMainBinding.root
+        return binding.root
     }
 
-    // 툴바 설정
-    fun setToolbar() {
-        fragmentOrderMainBinding.apply {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        initView()
+    }
+
+    fun initView() {
+        // 바인딩
+        with(binding) {
+
+            // 툴바 ////////////////////////////////////
             toolbarOrderMain.apply {
                 // 타이틀
                 title = "주문하기"
@@ -52,24 +53,18 @@ class OrderMainFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
-        }
-    }
 
-    // 배송지 변경 버튼 클릭
-    fun clickButtonDeliveryChange() {
-        fragmentOrderMainBinding.apply {
-            buttonOrderDeliveryChange.setOnClickListener {
-                // DeliveryActivity를 실행한다.
-                val deliveryIntent = Intent(requireActivity(), DeliveryActivity::class.java)
-                startActivity(deliveryIntent)
+            // 배송지 변경 버튼 클릭 /////////////////////////////////////////////////////////
+            with(buttonOrderDeliveryChange) {
+                setOnClickListener {
+                    // DeliveryActivity를 실행한다.
+                    val deliveryIntent = Intent(requireActivity(), DeliveryActivity::class.java)
+                    startActivity(deliveryIntent)
+                }
             }
-        }
-    }
 
-    // 결제하기 버튼 클릭
-    fun clickButtonPayment() {
-        fragmentOrderMainBinding.apply {
-            buttonOrderPaymentSubmit.apply {
+            // 결제하기 버튼 클릭 //////////////////////////////////////////////
+            with(buttonOrderPaymentSubmit) {
                 setOnClickListener {
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.containerOrder, OrderSuccessFragment())
@@ -77,28 +72,22 @@ class OrderMainFragment : Fragment() {
                     // 추후 수정
                 }
             }
-        }
-    }
 
-    // 주문상세 설정
-    fun setOrderDetail() {
-        with(fragmentOrderMainBinding) {
-            with(containerOrderDetail) {
-                // 추가 배송비 합계
-                textViewOrderMainAddDeliveryPrice.text = "${"추가 배송비 합계"} 원"
-                // 작품 가격 합계
-                textViewOrderMainPiecePrice.text = "${"작품 가격 합계"} 원"
+            // 주문 상세 설정 /////////////////////////
+
+            // 추가 배송비 합계
+            with(textViewOrderMainAddDeliveryPrice) {
+                text = "${"추가 배송비 합계"} 원"
             }
-        }
 
-    }
+            // 작품 가격 합계
+            with(textViewOrderMainPiecePrice) {
+                text = "${"작품 가격 합계"} 원"
+            }
 
 
-    ///////////////////////////////// 리사이클러뷰 ///////////////////////////////////////
-    // 주문하기 화면의 RecyclerView 설정
-    fun setRecyclerViewOrderMain() {
-        fragmentOrderMainBinding.apply {
-            recyclerViewOrderList.apply {
+            // 주문하기 화면 RecyclerView ///////////////////////////////////////////////////////////
+            with(recyclerViewOrderList) {
                 // 어뎁터
                 adapter = OrderMainAdapter()
                 // 레이아웃 매니저
@@ -115,20 +104,20 @@ class OrderMainFragment : Fragment() {
                         dividerInsetEnd = 16.dp
                         dividerInsetStart = 16.dp
                     }
-
                 )
             }
         }
     }
+
+    // dp값으로 변환하는 확장함수 ex) 16dp로 적용시 16.dp 로 작성 //////////////////////////////////
+    inline val Int.dp: Int
+        get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics
+        ).toInt()
+
+    inline val Float.dp: Float
+        get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
+        )
 }
 
-// dp값으로 변환하는 확장함수
-inline val Int.dp: Int
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics
-    ).toInt()
-
-inline val Float.dp: Float
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
-    )

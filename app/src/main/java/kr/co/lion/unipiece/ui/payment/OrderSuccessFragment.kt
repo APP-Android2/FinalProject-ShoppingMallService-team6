@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.payment.order
+package kr.co.lion.unipiece.ui.payment
 
 
 import android.content.Intent
@@ -13,7 +13,7 @@ import kr.co.lion.unipiece.ui.mygallery.PurchasedPieceDetailActivity
 
 class OrderSuccessFragment : Fragment() {
 
-    lateinit var fragmentOrderSuccessBinding: FragmentOrderSuccessBinding
+    lateinit var binding: FragmentOrderSuccessBinding
 
 
     override fun onCreateView(
@@ -23,32 +23,31 @@ class OrderSuccessFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
 
-        fragmentOrderSuccessBinding = FragmentOrderSuccessBinding.inflate(layoutInflater)
+        binding = FragmentOrderSuccessBinding.inflate(inflater, container, false)
 
-        clickButtonPaymentDetail()
-        clickButtonContinueShopping()
-
-        return fragmentOrderSuccessBinding.root
+        return binding.root
     }
 
-    // 결제 내역 보기 버튼 클릭 시
-    fun clickButtonPaymentDetail() {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
-        fragmentOrderSuccessBinding.apply {
-            buttonPaymentDetailSee.apply {
+        initView()
+    }
+
+    fun initView() {
+        with(binding) {
+
+
+            // 결제 내역 보기 버튼 클릭 시 ////////////////////////////////////////////////////
+            with(buttonPaymentDetailSee) {
                 setOnClickListener {
                     val purchasedIntent =
                         Intent(requireActivity(), PurchasedPieceDetailActivity::class.java)
                     startActivity(purchasedIntent)
                 }
             }
-        }
-    }
-
-    // 계속 쇼핑하기 버튼 클릭 시
-    fun clickButtonContinueShopping() {
-        fragmentOrderSuccessBinding.apply {
-            buttonContinueShopping.apply {
+            // 계속 쇼핑하기 버튼 클릭 시 /////////////////////////////////////////////////
+            with(buttonContinueShopping) {
                 setOnClickListener {
                     val buyIntent = Intent(requireActivity(), MainActivity::class.java)
                     val mainActivity = startActivity(buyIntent)

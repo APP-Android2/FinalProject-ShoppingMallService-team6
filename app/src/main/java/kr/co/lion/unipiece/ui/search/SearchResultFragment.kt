@@ -11,7 +11,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchResultBinding
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.ui.payment.CartActivity
 import kr.co.lion.unipiece.model.SearchAuthorData
 import kr.co.lion.unipiece.model.SearchPieceData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultAdapter
