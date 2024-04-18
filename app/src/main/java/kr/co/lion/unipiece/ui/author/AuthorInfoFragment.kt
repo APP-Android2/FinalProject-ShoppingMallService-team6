@@ -91,8 +91,8 @@ class AuthorInfoFragment : Fragment() {
                 menu.findItem(R.id.menu_edit).isVisible = false
                 lifecycleScope.launch {
                     // 추후 수정 필요
-                    val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
-                    if(authorCheck){ // 나중에 ! 제거
+                    val authorCheck = authorInfoViewModel?.checkAuthor(userIdx)
+                    if(authorCheck == true){ // 나중에 ! 제거
                         // 작가 본인인 경우 작가 정보 수정 아이콘 표시
                         menu.findItem(R.id.menu_edit).isVisible = true
                     }
@@ -129,20 +129,32 @@ class AuthorInfoFragment : Fragment() {
 
     private fun initView(){
         with(fragmentAuthorInfoBinding){
-            lifecycleScope.launch {
-                // 추후 수정 필요
-                val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
-                // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
-                // 추후 수정
-                if(authorCheck){
-                    // 사용자가 해당 작가인 경우
-                    buttonAuthorFollow.isVisible = false
-                    buttonAuthorReview.isVisible = false
+            // 작가 정보 셋팅
+            authorInfoViewModel?.authorInfoData?.observe(viewLifecycleOwner) {
+                lifecycleScope.launch {
+                    val authorName = it.authorName + " 작가"
+                    textViewAuthorName.text = authorName
+                    textViewAuthorBasicInfo.text = it.authorBasic
+                    textViewAuthorDetailInfo.text = it.authorInfo
+
+                    val authorCheck = authorInfoViewModel?.checkAuthor(userIdx)
+                    // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
+                    // 추후 수정
+                    if(authorCheck == true){
+                        // 사용자가 해당 작가인 경우
+                        buttonAuthorFollow.isVisible = false
+                        buttonAuthorReview.isVisible = false
+                    }
+
+                    // 작가 이미지 셋팅
+                    val authorImg = it.authorImg
+                    val imageUrl = authorInfoViewModel?.getAuthorInfoImg(authorImg)
+                    requireActivity().setImage(imageViewAuthor, imageUrl)
                 }
-                // 작가 이미지 셋팅
-                val authorImg = authorInfoViewModel!!.authorInfoData.value?.authorImg
-                val imageUrl = authorInfoViewModel!!.getAuthorInfoImg(authorImg!!)
-                requireActivity().setImage(imageViewAuthor, imageUrl)
+            }
+            // 팔로우 수 셋팅
+            authorInfoViewModel?.authorFollow?.observe(viewLifecycleOwner){
+                textViewAuthorFollower.text = it
             }
         }
     }
