@@ -81,16 +81,20 @@ class PieceAddInfoViewModel : ViewModel() {
                 val authorIdx = _authorIdx.value ?: 0
                 val pieceAddInfoList = pieceAddInfoRepository.getPieceAddInfo(authorIdx)
 
+                // 이미지를 제외한 데이터 먼저 UI에 반영
+                updateUIWithData(pieceAddInfoList)
+
+                // 각 이미지를 비동기적으로 가져오고, 가져온 이미지를 데이터에 추가하여 UI 업데이트
                 pieceAddInfoList.forEach { pieceAddInfo ->
                     val imageName = pieceAddInfo.addPieceImg
-                    val imageUrl = getPieceAddInfoImage(authorIdx, imageName)
-
-                    imageUrl?.let {
-                        pieceAddInfo.addPieceImg = it.toString()
+                    viewModelScope.launch {
+                        val imageUrl = getPieceAddInfoImage(authorIdx, imageName)
+                        imageUrl?.let {
+                            pieceAddInfo.addPieceImg = it.toString()
+                            updateUIWithData(pieceAddInfoList)
+                        }
                     }
                 }
-
-                _pieceAddInfoList.value = pieceAddInfoList
 
                 Log.e("PieceAddInfoViewModel", "pieceAddInfoList : $pieceAddInfoList")
             } catch (throwable: Throwable) {
@@ -98,6 +102,11 @@ class PieceAddInfoViewModel : ViewModel() {
             }
         }
     }
+
+    private fun updateUIWithData(pieceAddInfoList: List<PieceAddInfoData>) {
+        _pieceAddInfoList.value = pieceAddInfoList
+    }
+
 
     fun addPieceInfo(pieceAddInfoData: PieceAddInfoData) {
         viewModelScope.launch {
