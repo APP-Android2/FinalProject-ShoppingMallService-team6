@@ -8,9 +8,11 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.model.AuthorReviewData
+import kr.co.lion.unipiece.model.CartData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.AuthorReviewRepository
+import kr.co.lion.unipiece.repository.CartRepository
 import kr.co.lion.unipiece.repository.LikePieceRepository
 import kr.co.lion.unipiece.repository.PieceInfoRepository
 
@@ -23,6 +25,8 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
     private val authorReviewRepository = AuthorReviewRepository()
 
     private val likePieceInfoRepository = LikePieceRepository()
+
+    private val cartRepository = CartRepository()
 
     private val _pieceInfo = MutableLiveData<PieceInfoData?>()
     val pieceInfo : LiveData<PieceInfoData?> = _pieceInfo
@@ -46,12 +50,28 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
     private val _likePieceCount = MutableLiveData<Int>()
     val likePieceCount : LiveData<Int> = _likePieceCount
 
+    private val _cartPiece = MutableLiveData<Boolean>()
+    val cartPiece : LiveData<Boolean> = _cartPiece
+
     init {
         viewModelScope.launch {
             _allDataReceived.addSource(_pieceInfoReceived) { checkAllDataReceived() }
             _allDataReceived.addSource(_authorInfoReceived) { checkAllDataReceived() }
             _allDataReceived.addSource(_authorReviewReceived) { checkAllDataReceived() }
         }
+    }
+
+    suspend fun getCartPiece(){
+        val response = cartRepository.isCartPiece(pieceIdx, userIdx)
+
+        _cartPiece.value = response
+    }
+    suspend fun insertCartData(cartData: CartData){
+        cartRepository.insertCartData(cartData)
+    }
+
+    suspend fun cancelCartPiece(pieceIdx: Int, userIdx: Int){
+        cartRepository.cancelCartPiece(pieceIdx, userIdx)
     }
 
     suspend fun updateLike(pieceIdx: Int){

@@ -10,10 +10,12 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
+import kr.co.lion.unipiece.model.CartData
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
@@ -74,8 +76,10 @@ class BuyDetailActivity : AppCompatActivity() {
 
         visitGalleryBtn()
 
-        cartBtnClick()
         buyBtnClick()
+
+        getCartBtn()
+        setCartBtn()
     }
 
     fun setLikeCount(){
@@ -268,11 +272,33 @@ class BuyDetailActivity : AppCompatActivity() {
         }
     }
 
+    fun getCartBtn(){
+        lifecycleScope.launch {
+            viewModel.getCartPiece()
+        }
+    }
+
+    fun setCartBtn(){
+        viewModel.cartPiece.observe(this@BuyDetailActivity, {
+            with(binding.cartBtn) {
+                setImageResource(if(it) R.drawable.shopcart_icon_on else R.drawable.shopcart_icon)
+            }
+        })
+
+        cartBtnClick()
+    }
+
     fun cartBtnClick() {
-        with(binding.cartBtn) {
-            setOnClickListener {
-                val intent = Intent(this@BuyDetailActivity, CartActivity::class.java)
-                startActivity(intent)
+        binding.cartBtn.setOnClickListener {
+            lifecycleScope.launch {
+                if(viewModel.cartPiece.value == true){
+                    showSnackbar("장바구니에서 삭제했습니다.")
+                    viewModel.cancelCartPiece(pieceIdx, userIdx)
+                } else {
+                    showSnackbar("장바구니에 등록했습니다.")
+                    viewModel.insertCartData(CartData(userIdx, pieceIdx, Timestamp.now()))
+                }
+                viewModel.getCartPiece()
             }
         }
     }
