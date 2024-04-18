@@ -56,10 +56,11 @@ class ModifyAuthorInfoFragment : Fragment() {
     private val imageUri:Uri by lazy{
         requireActivity().getPictureUri("kr.co.lion.unipiece.file_provider")
     }
+    // 앨범에서 사진을 선택한 경우 여기에 Uri가 담김
+    private var albumImageUri:Uri? = null
 
     // 작가 이미지 변경 여부
     private var checkImg = false
-    private var albumImageUri:Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -84,8 +85,6 @@ class ModifyAuthorInfoFragment : Fragment() {
 
         return fragmentModifyAuthorInfoBinding.root
     }
-
-
 
     // 작가 정보 불러오기
     private fun fetchData(authorIdx:Int){
@@ -116,10 +115,12 @@ class ModifyAuthorInfoFragment : Fragment() {
     // 이미지 뷰 클릭 시 사진 변경
     private fun settingImageViewEvent(){
         with(fragmentModifyAuthorInfoBinding){
+            // 이미지 자체를 클릭한 경우
             imageViewModifyAuthor.setOnClickListener {
                 requireActivity().hideSoftInput()
                 changeAuthorImage()
             }
+            // 텍스트 버튼을 클릭한 경우
             buttonModifyAuthorImage.setOnClickListener {
                 requireActivity().hideSoftInput()
                 changeAuthorImage()
@@ -132,14 +133,18 @@ class ModifyAuthorInfoFragment : Fragment() {
         val dialog = AlertDialog.Builder(requireActivity())
         dialog.setTitle("이미지 변경 방법 선택")
         val items = arrayOf("카메라", "앨범")
-        dialog.setItems(items, DialogInterface.OnClickListener { dialogInterface, i ->
-            when(i){
+        dialog.setItems(items) { _, i ->
+            when (i) {
                 // 카메라 런처 실행
-                0 -> { startCameraLauncher() }
+                0 -> {
+                    startCameraLauncher()
+                }
                 // 앨범 런처 실행
-                1 -> { startAlbumLauncher() }
+                1 -> {
+                    startAlbumLauncher()
+                }
             }
-        })
+        }
         dialog.show()
     }
 
@@ -199,19 +204,22 @@ class ModifyAuthorInfoFragment : Fragment() {
                     } else {
                         // 컨텐츠 프로바이더를 통해 이미지 데이터에 접근한다.
                         val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
-                        if(cursor != null){
-                            cursor.moveToNext()
+                        // use를 이용하면 커서를 사용한 후 자동으로 닫아준다
+                        cursor.use { cursor ->
+                            if(cursor != null){
+                                cursor.moveToNext()
 
-                            // 이미지의 경로를 가져온다.
-                            val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
-                            val source = cursor.getString(idx)
+                                // 이미지의 경로를 가져온다.
+                                val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                                val source = cursor.getString(idx)
 
-                            // 이미지를 생성한다
-                            BitmapFactory.decodeFile(source)
-                                .rotate(degree.toFloat())
-                                .resize(150)
-                        } else {
-                            null
+                                // 이미지를 생성한다
+                                BitmapFactory.decodeFile(source)
+                                    .rotate(degree.toFloat())
+                                    .resize(150)
+                            } else {
+                                null
+                            }
                         }
                     }
 
@@ -254,15 +262,9 @@ class ModifyAuthorInfoFragment : Fragment() {
             lifecycleScope.launch {
                 // 이미지 변경이 있는 경우 스토리지에 이미지 업로드
                 if(checkImg){
-                    with(fragmentModifyAuthorInfoBinding){
-                        // 프로그래스 바 표시
-                        layoutProgressModifyAuthor.visibility = View.VISIBLE
-                        // 이미지 업로드 동안 버튼 클릭 방지
-                        imageViewModifyAuthor.isClickable = false
-                        buttonModifyAuthorImage.isClickable = false
-                        buttonModifyAuthorInfoConfirm.isClickable = false
-                        buttonModifyAuthorUpdateAuthor.isClickable = false
-                    }
+                    // 프로그래스 바 표시
+                    // 이미지 업로드 동안 버튼 클릭 방지
+                    clickableButton(false)
 
                     val uploadResult: Boolean
                     if(albumImageUri != null){
@@ -276,18 +278,11 @@ class ModifyAuthorInfoFragment : Fragment() {
                         file?.delete()
                     }
                     // 프로그래스 바 숨기기
-                    fragmentModifyAuthorInfoBinding.layoutProgressModifyAuthor.visibility = View.GONE
-
+                    clickableButton(true)
                     // 이미지 업로드 실패한 경우
                     if(!uploadResult){
                         Snackbar.make(requireActivity(), fragmentModifyAuthorInfoBinding.root, "통신 실패, 잠시후 다시 시도해주세요", Snackbar.LENGTH_SHORT).show()
-                        with(fragmentModifyAuthorInfoBinding){
-                            // 클릭 방지 해제
-                            imageViewModifyAuthor.isClickable = true
-                            buttonModifyAuthorImage.isClickable = true
-                            buttonModifyAuthorInfoConfirm.isClickable = true
-                            buttonModifyAuthorUpdateAuthor.isClickable = true
-                        }
+
                         return@launch
                     }
 
@@ -297,6 +292,22 @@ class ModifyAuthorInfoFragment : Fragment() {
                 removeFragment()
             }
 
+        }
+    }
+
+    // 버튼 클릭 방지
+    private fun clickableButton(bool:Boolean){
+        with(fragmentModifyAuthorInfoBinding){
+            if(bool){
+                layoutProgressModifyAuthor.visibility = View.GONE
+            }else{
+                layoutProgressModifyAuthor.visibility = View.VISIBLE
+            }
+            // 클릭 방지 해제
+            imageViewModifyAuthor.isClickable = bool
+            buttonModifyAuthorImage.isClickable = bool
+            buttonModifyAuthorInfoConfirm.isClickable = bool
+            buttonModifyAuthorUpdateAuthor.isClickable = bool
         }
     }
 
