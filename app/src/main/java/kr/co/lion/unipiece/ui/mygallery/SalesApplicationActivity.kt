@@ -86,10 +86,10 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingToolbar() {
         binding.apply {
             toolbarSalesApplication.apply {
-                if(isModify) {
-                    title = "작품 등록 신청 수정"
+                title = if(isModify) {
+                    "작품 등록 신청 수정"
                 } else {
-                    title = "작품 등록 신청"
+                    "작품 등록 신청"
                 }
 
                 setNavigationIcon(R.drawable.back_icon)
