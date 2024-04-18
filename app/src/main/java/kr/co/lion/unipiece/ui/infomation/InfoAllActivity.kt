@@ -48,7 +48,7 @@ class InfoAllActivity : AppCompatActivity() {
     private fun settingToolBar(){
         activityInfoAllBinding.apply {
             toolBarInfoAll.apply {
-                title = "소식 전체 보기"
+                title = "전체 보기"
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
                     finish()
