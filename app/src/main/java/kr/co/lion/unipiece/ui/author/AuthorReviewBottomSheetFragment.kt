@@ -114,7 +114,14 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 authorReviewViewModel.authorReviewList.observe(viewLifecycleOwner) { value ->
-                    reviewAdapter.updateList(value)
+                    if(value.isEmpty()){
+                        // 받아온 리뷰 데이터가 없을 경우
+                        val emptyData = AuthorReviewData(0, 0, "", 0, "등록된 리뷰가 없습니다", Timestamp.now())
+                        val emptyList = listOf(emptyData)
+                        reviewAdapter.updateList(emptyList)
+                    }else{
+                        reviewAdapter.updateList(value)
+                    }
                 }
             }
         }
