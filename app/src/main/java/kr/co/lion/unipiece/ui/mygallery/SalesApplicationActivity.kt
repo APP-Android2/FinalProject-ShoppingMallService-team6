@@ -48,11 +48,14 @@ class SalesApplicationActivity : AppCompatActivity() {
     private var topCategory = ""
     private var isAddPicture = false
     private var selectedImageUri: Uri? = null
+    private var isModify = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySalesApplicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        isModify = intent.getBooleanExtra("isModify", false)
 
         settingToolbar()
         settingView()
@@ -83,7 +86,11 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingToolbar() {
         binding.apply {
             toolbarSalesApplication.apply {
-                title = "작품 등록 신청"
+                if(isModify) {
+                    title = "작품 등록 신청 수정"
+                } else {
+                    title = "작품 등록 신청"
+                }
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
@@ -125,9 +132,12 @@ class SalesApplicationActivity : AppCompatActivity() {
             buttonSalesApplicationSubmit.setOnClickListener {
                 this@SalesApplicationActivity.hideSoftInput()
 
-                if(isFormValid()) {
-                    selectedImageUri?.let { imageUri ->
-                        viewModel.uploadImage(viewModel.authorIdx.value ?:0, imageUri)
+                if(isModify) {
+                } else {
+                    if(isFormValid()) {
+                        selectedImageUri?.let { imageUri ->
+                            viewModel.uploadImage(viewModel.authorIdx.value ?:0, imageUri)
+                        }
                     }
                 }
             }

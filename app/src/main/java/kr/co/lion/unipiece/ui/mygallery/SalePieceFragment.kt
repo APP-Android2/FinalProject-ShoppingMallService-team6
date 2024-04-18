@@ -106,6 +106,7 @@ class SalePieceFragment : Fragment() {
         binding.apply {
             buttonSalePieceAddPiece.setOnClickListener {
                 val intent = Intent(requireActivity(), SalesApplicationActivity::class.java)
+                intent.putExtra("isModify", false)
                 startActivity(intent)
             }
         }
