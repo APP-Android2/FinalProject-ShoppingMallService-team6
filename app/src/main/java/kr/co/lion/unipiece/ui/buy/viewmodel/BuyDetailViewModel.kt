@@ -11,15 +11,18 @@ import kr.co.lion.unipiece.model.AuthorReviewData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.AuthorReviewRepository
+import kr.co.lion.unipiece.repository.LikePieceRepository
 import kr.co.lion.unipiece.repository.PieceInfoRepository
 
-class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int): ViewModel() {
+class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, private val userIdx: Int): ViewModel() {
 
     private val pieceInfoRepository = PieceInfoRepository()
 
     private val authorInfoRepository = AuthorInfoRepository()
 
     private val authorReviewRepository = AuthorReviewRepository()
+
+    private val likePieceInfoRepository = LikePieceRepository()
 
     private val _pieceInfo = MutableLiveData<PieceInfoData?>()
     val pieceInfo : LiveData<PieceInfoData?> = _pieceInfo
@@ -37,6 +40,9 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int):
     private val _allDataReceived = MediatorLiveData<Boolean>()
     val allDataReceived: LiveData<Boolean> = _allDataReceived
 
+    private val _likePiece = MutableLiveData<Boolean>()
+    val likePiece : LiveData<Boolean> = _likePiece
+
     init {
         viewModelScope.launch {
             getIdxPieceInfo(pieceIdx)
@@ -47,6 +53,20 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int):
             _allDataReceived.addSource(_authorInfoReceived) { checkAllDataReceived() }
             _allDataReceived.addSource(_authorReviewReceived) { checkAllDataReceived() }
         }
+    }
+
+    suspend fun getLikePiece() {
+        val response = likePieceInfoRepository.isLikePiece(pieceIdx, userIdx)
+
+        _likePiece.value = response
+    }
+
+    suspend fun addLikePiece(pieceIdx: Int, userIdx: Int){
+        likePieceInfoRepository.addLikePiece(pieceIdx, userIdx)
+    }
+
+    suspend fun cancelLikePiece(pieceIdx: Int, userIdx: Int){
+        likePieceInfoRepository.cancelLikePiece(pieceIdx, userIdx)
     }
 
     private fun checkAllDataReceived() {

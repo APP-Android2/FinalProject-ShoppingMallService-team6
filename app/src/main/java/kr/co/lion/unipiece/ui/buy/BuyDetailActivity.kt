@@ -4,13 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
@@ -18,7 +17,6 @@ import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModelFactory
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.payment.order.OrderActivity
-import kr.co.lion.unipiece.util.MainFragmentName.*
 import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.text.DecimalFormat
@@ -31,12 +29,12 @@ class BuyDetailActivity : AppCompatActivity() {
 
     private var authorIdx: Int = -1
 
+    private var userIdx: Int = UniPieceApplication.prefs.getUserIdx("userIdx",0)
+
     private val viewModel: BuyDetailViewModel by lazy {
-        ViewModelProvider(this, BuyDetailViewModelFactory(pieceIdx, authorIdx)).get(BuyDetailViewModel::class.java)
+        ViewModelProvider(this, BuyDetailViewModelFactory(pieceIdx, authorIdx, userIdx)).get(BuyDetailViewModel::class.java)
     }
 
-    // 좋아요 버튼 테스트 데이터
-    var click = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -45,7 +43,6 @@ class BuyDetailActivity : AppCompatActivity() {
 
         initView()
         setToolbar()
-        likeBtnClick()
         cartBtnClick()
         buyBtnClick()
 
@@ -66,6 +63,38 @@ class BuyDetailActivity : AppCompatActivity() {
         setAuthorInfo()
         setAuthorReview()
         setProgressBar()
+        getLikeBtn()
+        setLikeBtn()
+    }
+
+    fun setLikeBtn(){
+
+        viewModel.likePiece.observe(this@BuyDetailActivity, Observer { isLiked ->
+            with(binding.likeBtn) {
+                setImageResource(if(isLiked) R.drawable.heart_icon else R.drawable.heartoff_icon)
+            }
+        })
+
+        clickLikeBtn()
+    }
+
+    fun getLikeBtn(){
+        lifecycleScope.launch {
+            viewModel.getLikePiece()
+        }
+    }
+
+    fun clickLikeBtn(){
+        binding.likeBtn.setOnClickListener {
+            lifecycleScope.launch {
+                if(viewModel.likePiece.value == true) {
+                    viewModel.cancelLikePiece(pieceIdx, userIdx)
+                } else {
+                    viewModel.addLikePiece(pieceIdx, userIdx)
+                }
+                viewModel.getLikePiece()
+            }
+        }
     }
 
     fun setProgressBar(){
@@ -209,20 +238,6 @@ class BuyDetailActivity : AppCompatActivity() {
         intent.putExtra(name, true)
         startActivity(intent)
         finish()
-    }
-
-    fun likeBtnClick(){
-
-        with(binding.likeBtn){
-            setOnClickListener {
-                click = !click
-                if(click){
-                    setImageResource(R.drawable.heart_icon)
-                } else {
-                    setImageResource(R.drawable.heartoff_icon)
-                }
-            }
-        }
     }
 
     fun cartBtnClick() {
