@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
@@ -101,9 +102,11 @@ class BuyDetailActivity : AppCompatActivity() {
         binding.likeBtn.setOnClickListener {
             lifecycleScope.launch {
                 if(viewModel.likePiece.value == true) {
+                    showSnackbar("좋아요를 취소했습니다.")
                     viewModel.cancelLikePiece(pieceIdx, userIdx)
                     viewModel.updateLike(pieceIdx)
                 } else {
+                    showSnackbar("좋아요를 눌렀습니다.")
                     viewModel.addLikePiece(pieceIdx, userIdx)
                     viewModel.updateLike(pieceIdx)
                 }
@@ -271,5 +274,13 @@ class BuyDetailActivity : AppCompatActivity() {
                 startActivity(intent)
             }
         }
+    }
+
+    private fun showSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAnchorView(binding.bottomBarBuyDetail)
+            .setBackgroundTint(ContextCompat.getColor(this@BuyDetailActivity, R.color.first))
+            .setTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.white))
+            .show()
     }
 }
