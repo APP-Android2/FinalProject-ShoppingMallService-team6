@@ -141,9 +141,12 @@ class AuthorInfoFragment : Fragment() {
                     // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
                     // 추후 수정
                     if(authorCheck == true){
-                        // 사용자가 해당 작가인 경우
-                        buttonAuthorFollow.isVisible = false
-                        buttonAuthorReview.isVisible = false
+                        // 사용자가 해당 작가인 경우 리뷰 버튼만 보여주기
+                        buttonAuthorReview.visibility = View.VISIBLE
+                    }else{
+                        // 사용자가 해당 작가가 아닌 경우 리뷰, 팔로우 버튼 모두 보여주기
+                        buttonAuthorReview.visibility = View.VISIBLE
+                        buttonAuthorFollow.visibility = View.VISIBLE
                     }
 
                     // 작가 이미지 셋팅

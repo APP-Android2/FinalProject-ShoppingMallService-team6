@@ -111,7 +111,8 @@
                                 android:text="팔로우"
                                 android:textColor="@color/first"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
 
                             <Button
                                 android:id="@+id/buttonAuthorReview"
@@ -125,7 +126,8 @@
                                 android:text="리뷰"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
