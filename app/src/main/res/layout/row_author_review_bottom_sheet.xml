@@ -19,8 +19,7 @@
             android:layout_weight="2"
             android:text="김토끼"
             android:textColor="@color/black"
-            android:textSize="20sp"
-            android:textStyle="bold" />
+            android:textSize="14sp" />
 
         <Button
             android:id="@+id/buttonRowAuthorReviewDelete"
@@ -36,5 +35,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="홍작가님 작품 너무 대박이에요"
-        android:textColor="@color/black" />
+        android:textColor="@color/black"
+        android:textSize="18sp" />
 </LinearLayout>

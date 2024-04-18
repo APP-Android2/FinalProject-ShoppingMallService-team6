@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowAuthorReviewBottomSheetBinding
 import kr.co.lion.unipiece.model.AuthorReviewData
 
-class AuthorReviewAdapter(val userIdx:Int, val reviewList: List<AuthorReviewData>, private val deleteListener: (reviewIdx: Int) -> Unit): RecyclerView.Adapter<AuthorReviewViewHolder>() {
+class AuthorReviewAdapter(val userIdx:Int, var reviewList: List<AuthorReviewData>, private val deleteListener: (reviewIdx: Int) -> Unit): RecyclerView.Adapter<AuthorReviewViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AuthorReviewViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val rowAuthorReviewBottomSheetBinding = RowAuthorReviewBottomSheetBinding.inflate(inflater)
@@ -35,6 +35,11 @@ class AuthorReviewAdapter(val userIdx:Int, val reviewList: List<AuthorReviewData
             deleteListener(reviewList[position].reviewIdx)
         }
 
+    }
+
+    fun updateList(data:List<AuthorReviewData>){
+        reviewList = data
+        notifyDataSetChanged()
     }
 }
 

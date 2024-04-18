@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -47,10 +46,11 @@ class AuthorInfoFragment : Fragment() {
         fragmentAuthorInfoBinding.authorInfoViewModel = authorInfoViewModel
         fragmentAuthorInfoBinding.lifecycleOwner = this
 
+        settingToolbar()
+
         lifecycleScope.launch(Dispatchers.Main){
             fetchData()
             initView()
-            settingToolbar()
             settingButtonFollow()
             settingButtonReview()
         }
@@ -89,14 +89,6 @@ class AuthorInfoFragment : Fragment() {
 
                 // 회원 유형에 따라 메뉴 아이콘 다르게 표시
                 menu.findItem(R.id.menu_edit).isVisible = false
-                lifecycleScope.launch {
-                    // 추후 수정 필요
-                    val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
-                    if(authorCheck){ // 나중에 ! 제거
-                        // 작가 본인인 경우 작가 정보 수정 아이콘 표시
-                        menu.findItem(R.id.menu_edit).isVisible = true
-                    }
-                }
 
                 // 툴바 메뉴 클릭 이벤트
                 setOnMenuItemClickListener {
@@ -129,20 +121,44 @@ class AuthorInfoFragment : Fragment() {
 
     private fun initView(){
         with(fragmentAuthorInfoBinding){
-            lifecycleScope.launch {
-                // 추후 수정 필요
-                val authorCheck = authorInfoViewModel!!.checkAuthor(userIdx)
-                // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
-                // 추후 수정
-                if(authorCheck){
-                    // 사용자가 해당 작가인 경우
-                    buttonAuthorFollow.isVisible = false
-                    buttonAuthorReview.isVisible = false
+            // 작가 정보 셋팅
+            authorInfoViewModel?.authorInfoData?.observe(viewLifecycleOwner) {
+                lifecycleScope.launch {
+                    val authorName = it.authorName + " 작가"
+                    textViewAuthorName.text = authorName
+                    textViewAuthorBasicInfo.text = it.authorBasic
+                    textViewAuthorDetailInfo.text = it.authorInfo
+
+                    authorInfoViewModel?.checkAuthor(userIdx)
+
+                    // 작가 이미지 셋팅
+                    val authorImg = it.authorImg
+                    val imageUrl = authorInfoViewModel?.getAuthorInfoImg(authorImg)
+                    requireActivity().setImage(imageViewAuthor, imageUrl)
+
+                    progressBarAuthorInfo.visibility = View.GONE
+                    scrollViewAuthorInfo.visibility = View.VISIBLE
                 }
-                // 작가 이미지 셋팅
-                val authorImg = authorInfoViewModel!!.authorInfoData.value?.authorImg
-                val imageUrl = authorInfoViewModel!!.getAuthorInfoImg(authorImg!!)
-                requireActivity().setImage(imageViewAuthor, imageUrl)
+
+            }
+
+            authorInfoViewModel?.authorIsMe?.observe(viewLifecycleOwner){
+                // 회원 유형에 따라 팔로우, 리뷰 버튼 표시
+                if(it){
+                    // 사용자가 해당 작가인 경우 리뷰 버튼만 보여주기
+                    buttonAuthorReview.visibility = View.VISIBLE
+                    // 툴바 수정 버튼 보여주기
+                    toolbarAuthorInfo.menu.findItem(R.id.menu_edit).isVisible = true
+                }else{
+                    // 사용자가 해당 작가가 아닌 경우 리뷰, 팔로우 버튼 모두 보여주기
+                    buttonAuthorReview.visibility = View.VISIBLE
+                    buttonAuthorFollow.visibility = View.VISIBLE
+                }
+            }
+
+            // 팔로우 수 셋팅
+            authorInfoViewModel?.authorFollow?.observe(viewLifecycleOwner){
+                textViewAuthorFollower.text = it
             }
         }
     }
@@ -190,6 +206,8 @@ class AuthorInfoFragment : Fragment() {
             val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
             authorReviewBottomSheetFragment.arguments = Bundle().apply {
                 putInt("authorIdx", authorIdx)
+                // 해당 작가가 본인인 경우 본인 여부 값 전달
+                authorInfoViewModel.authorIsMe.value?.let { it1 -> putBoolean("authorIsMe", it1) }
             }
             authorReviewBottomSheetFragment.show(parentFragmentManager, "BottomSheet")
         }
@@ -207,6 +225,7 @@ class AuthorInfoFragment : Fragment() {
                 val authorPiecesAdapter = AuthorPiecesAdapter(piecesList) { pieceIdx ->
                     val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
                     pieceIntent.putExtra("pieceIdx", pieceIdx)
+                    pieceIntent.putExtra("authorIdx", authorIdx)
                     startActivity(pieceIntent)
                 }
 
@@ -220,8 +239,6 @@ class AuthorInfoFragment : Fragment() {
             }
         }
     }
-
-
 
     // 프래그먼트 교체 메서드
     private fun replaceFragment(bundle: Bundle){

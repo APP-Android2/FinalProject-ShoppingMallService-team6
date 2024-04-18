@@ -27,9 +27,26 @@
             android:theme="?attr/actionBarTheme"
             app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressBarAuthorInfo"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/first" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollViewAuthorInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -76,7 +93,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{authorInfoViewModel.authorInfoData.authorName+` 작가`}"
+                                android:text=""
                                 android:textAlignment="center"
                                 android:textColor="@color/black"
                                 android:textSize="20sp"
@@ -87,7 +104,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_weight="1"
-                                android:text="@{authorInfoViewModel.authorFollow}"
+                                android:text=""
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
                                 android:textStyle="bold" />
@@ -111,7 +128,8 @@
                                 android:text="팔로우"
                                 android:textColor="@color/first"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
 
                             <Button
                                 android:id="@+id/buttonAuthorReview"
@@ -125,7 +143,8 @@
                                 android:text="리뷰"
                                 android:textColor="@color/white"
                                 android:textSize="14sp"
-                                android:textStyle="bold" />
+                                android:textStyle="bold"
+                                android:visibility="invisible" />
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -140,7 +159,7 @@
                     android:paddingTop="5dp"
                     android:paddingRight="16dp"
                     android:paddingBottom="5dp"
-                    android:text="@{authorInfoViewModel.authorInfoData.authorBasic}"
+                    android:text=""
                     android:textColor="@color/black" />
 
                 <TextView
@@ -159,7 +178,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/textfield_radius"
                     android:padding="16dp"
-                    android:text="@{authorInfoViewModel.authorInfoData.authorInfo}"
+                    android:text=""
                     android:textColor="@color/black" />
 
                 <TextView

@@ -104,9 +104,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
+                        android:editable="false"
+                        android:focusable="false"
                         android:inputType="text"
                         android:paddingLeft="10dp"
-                        android:text="@={modifyAuthorInfoViewModel.authorInfoData.authorName}"/>
+                        android:text="@={modifyAuthorInfoViewModel.authorInfoData.authorName}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
