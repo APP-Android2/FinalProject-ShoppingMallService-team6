@@ -41,6 +41,10 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         requireArguments().getInt("authorIdx")
     }
 
+    val authorIsMe by lazy {
+        requireArguments().getBoolean("authorIsMe")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +54,7 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         fragmentAuthorReviewBottomSheetBinding.authorReviewViewModel = authorReviewViewModel
         fragmentAuthorReviewBottomSheetBinding.lifecycleOwner = this
 
+        initView()
         settingButtonAuthorReviewAdd()
 
         return fragmentAuthorReviewBottomSheetBinding.root
@@ -60,6 +65,12 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         settingRecyclerView()
     }
 
+    private fun initView(){
+        // 작가 본인인 경우 댓글 입력창 없애기
+        if(authorIsMe){
+            fragmentAuthorReviewBottomSheetBinding.layoutInputReview.visibility = View.GONE
+        }
+    }
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
