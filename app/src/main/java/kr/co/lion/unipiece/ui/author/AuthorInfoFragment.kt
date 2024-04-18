@@ -203,7 +203,8 @@ class AuthorInfoFragment : Fragment() {
             val authorReviewBottomSheetFragment = AuthorReviewBottomSheetFragment()
             authorReviewBottomSheetFragment.arguments = Bundle().apply {
                 putInt("authorIdx", authorIdx)
-                putBoolean("authorIsMe", true)
+                // 해당 작가가 본인인 경우 본인 여부 값 전달
+                authorInfoViewModel.authorIsMe.value?.let { it1 -> putBoolean("authorIsMe", it1) }
             }
             authorReviewBottomSheetFragment.show(parentFragmentManager, "BottomSheet")
         }
