@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.repository
 
+import android.net.Uri
 import kr.co.lion.unipiece.db.remote.AuthorInfoDataSource
 import kr.co.lion.unipiece.model.AuthorInfoData
 
@@ -47,4 +48,7 @@ class AuthorInfoRepository {
 
     // 작가 이미지 url 작가 idx로 받아오기
     suspend fun getAuthorInfoImg(authorIdx: Int) = authorInfoDataSource.getAuthorIdxImg(authorIdx)
+
+    // 작가 이미지 파일 업로드
+    suspend fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean = authorInfoDataSource.uploadImage(authorIdx, imageUri)
 }

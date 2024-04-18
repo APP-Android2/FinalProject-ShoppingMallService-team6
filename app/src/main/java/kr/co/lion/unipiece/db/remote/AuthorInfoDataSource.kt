@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.db.remote
 
+import android.net.Uri
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
@@ -253,6 +254,20 @@ class AuthorInfoDataSource {
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error getPieceInfoImg: ${e.message} ${path}")
             null
+        }
+    }
+
+    // 작가 이미지 파일 업로드
+    suspend fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean {
+        val imageFileName = "${authorIdx}.jpg"
+        val imageRef = storage.child("AuthorInfo/$imageFileName")
+
+        return try {
+            imageRef.putFile(imageUri).await()
+            true
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error uploadImage: ${e.message}")
+            false
         }
     }
 }

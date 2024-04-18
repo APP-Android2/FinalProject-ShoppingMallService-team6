@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
@@ -11,7 +12,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:orientation="vertical"
         tools:context=".ui.author.ModifyAuthorInfoFragment">
 
@@ -25,6 +25,31 @@
             android:paddingRight="16dp"
             android:theme="?attr/actionBarTheme"
             app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+
+        <LinearLayout
+            android:id="@+id/layoutProgressModifyAuthor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textViewProgressModifyAuthor"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="10dp"
+                android:gravity="center"
+                android:text="수정 사항 저장 중..."
+                android:textSize="18sp" />
+
+            <ProgressBar
+                android:id="@+id/progressBarModifyAuthor"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminateTint="@color/first" />
+        </LinearLayout>
 
         <ScrollView
             android:layout_width="match_parent"
@@ -40,7 +65,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
                     <androidx.cardview.widget.CardView
                         android:id="@+id/cardViewImageModifyAuthor"
@@ -55,6 +80,13 @@
                             android:layout_height="match_parent"
                             android:src="@drawable/icon" />
                     </androidx.cardview.widget.CardView>
+
+                    <TextView
+                        android:id="@+id/buttonModifyAuthorImage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="이미지 변경하기"
+                        android:textColor="@color/first" />
 
                 </LinearLayout>
 
