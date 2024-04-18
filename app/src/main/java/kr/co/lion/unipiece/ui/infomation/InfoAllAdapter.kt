@@ -51,7 +51,7 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.
     }
 
     interface ItemOnClickListener{
-        fun recyclerviewClickListener(promoteImg: String)
+        fun recyclerviewClickListener(promoteImg: String?)
     }
 }
 

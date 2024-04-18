@@ -24,9 +24,9 @@ class InfoAllActivity : AppCompatActivity() {
     val infoAllAdapter:InfoAllAdapter by lazy {
         val adapter = InfoAllAdapter(emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
-            override fun recyclerviewClickListener(promoteImg: String) {
+            override fun recyclerviewClickListener(promoteImg: String?) {
                 val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
-                val imageName = gettingImageName(promoteImg)
+                val imageName = gettingImageName(promoteImg?:"")
                 newIntent.putExtra("promoteImg", imageName)
                 //Log.d("test2345", "${promoteImg}")
                 startActivity(newIntent)
