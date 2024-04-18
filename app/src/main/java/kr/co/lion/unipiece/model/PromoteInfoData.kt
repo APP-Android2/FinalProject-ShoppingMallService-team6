@@ -10,5 +10,6 @@ data class PromoteInfoData (
     var promoteImg:String = "",
     var promoteLink:String = "",
     var promoteMoney:String = "",
-    var promotePlace:String = ""
+    var promotePlace:String = "",
+    var homeIdx:Int = 0
 )

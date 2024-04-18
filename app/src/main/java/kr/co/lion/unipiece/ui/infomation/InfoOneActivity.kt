@@ -4,14 +4,17 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoOneBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.util.getImageUrlFromName
+import kr.co.lion.unipiece.util.getImageUrlFromNews
 import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -20,6 +23,8 @@ class InfoOneActivity : AppCompatActivity() {
     lateinit var activityInfoOneBinding: ActivityInfoOneBinding
 
     val promoteViewModel:PromoteInfoViewModel by viewModels()
+
+    val newsViewModel:NewsInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +41,17 @@ class InfoOneActivity : AppCompatActivity() {
             toolBarInfoOne.apply {
 
                 val promoteImg = intent?.getStringExtra("promoteImg")
+                val newsImg = intent?.getStringExtra("newsImg")
+
+
                 lifecycleScope.launch {
                     val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
+                    val newsInfo = newsViewModel.getNewsInfoByImage(newsImg?:"")
 
-                    if (promoteInfo?.promoteImg == promoteImg){
+                    if (promoteInfo?.homeIdx == 1){
                         title = "전시 홍보"
+                    }else if (newsInfo?.homeIdx == 2){
+                        title = "소식"
                     }
                 }
                 setNavigationIcon(R.drawable.back_icon)
@@ -74,11 +85,13 @@ class InfoOneActivity : AppCompatActivity() {
     private fun initView(){
         activityInfoOneBinding.apply {
             val promoteImg = intent?.getStringExtra("promoteImg")
-
+            val newsImg = intent?.getStringExtra("newsImg")
             lifecycleScope.launch {
                 val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
 
-                if (promoteInfo?.promoteImg == promoteImg){
+                val newsInfo = newsViewModel.getNewsInfoByImage(newsImg?:"")
+
+                if (promoteInfo?.homeIdx == 1){
                     textInfoOneName.text = "행사명 : ${promoteInfo?.promoteName}"
                     textInfoOneDate.text = "일정 : ${promoteInfo?.promoteDate}"
                     textInfoOnePlace.text = "장소 : ${promoteInfo?.promotePlace}"
@@ -87,6 +100,18 @@ class InfoOneActivity : AppCompatActivity() {
                     textInfoOneUrl.text = "참가 신청 주소 : ${promoteInfo?.promoteLink}"
 
                     val imgUrl = getImageUrlFromName(promoteInfo?.promoteImg?:"")
+
+                    setImage(activityInfoOneBinding.imageViewEventLogo, imgUrl)
+                }else if (newsInfo?.homeIdx == 2){
+                    textInfoOneName.text = "행사명 : ${newsInfo?.newsName}"
+                    textInfoOneDate.text = "일정 : ${newsInfo?.newsDate}"
+                    textInfoOnePlace.visibility = View.GONE
+                    textInfoOneInfo.text = "이벤트 소개: ${newsInfo?.newsContent}"
+                    textInfoOneCost.text = "이벤트 : ${newsInfo?.newsSale}"
+                    textInfoOneUrl.visibility = View.GONE
+
+                    val imgUrl = getImageUrlFromNews(newsInfo?.newsImg?:"")
+                    Log.d("test1234", imgUrl)
 
                     setImage(activityInfoOneBinding.imageViewEventLogo, imgUrl)
                 }

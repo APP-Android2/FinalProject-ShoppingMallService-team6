@@ -34,13 +34,14 @@
                 android:id="@+id/textInfoOneName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="50dp"
                 android:fontFamily="@font/pretendard_bold" />
 
             <TextView
                 android:id="@+id/textInfoOneDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="TextView" />
 
@@ -48,6 +49,7 @@
                 android:id="@+id/textInfoOnePlace"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="TextView" />
 
@@ -55,7 +57,7 @@
                 android:id="@+id/textInfoOneInfo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="TextView" />
 
@@ -63,7 +65,7 @@
                 android:id="@+id/textInfoOneCost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="TextView" />
 
@@ -71,7 +73,7 @@
                 android:id="@+id/textInfoOneUrl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="15dp"
                 android:fontFamily="@font/pretendard_bold"
                 android:text="TextView" />
         </LinearLayout>

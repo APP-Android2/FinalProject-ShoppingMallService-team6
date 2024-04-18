@@ -8,4 +8,6 @@ class NewsInfoRepository {
 
     suspend fun getNewsImage() = newsInfoDataSource.getNewsImage()
 
+    suspend fun getNewsInfoByImage(newsImg:String) = newsInfoDataSource.getNewsInfoByImage(newsImg)
+
 }
