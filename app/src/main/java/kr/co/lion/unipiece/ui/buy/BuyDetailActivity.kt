@@ -18,6 +18,7 @@ import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModelFactory
+import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.payment.order.OrderActivity
 import kr.co.lion.unipiece.util.setImage
@@ -70,6 +71,8 @@ class BuyDetailActivity : AppCompatActivity() {
         setLikeBtn()
 
         setLikeCount()
+
+        visitGalleryBtn()
 
         cartBtnClick()
         buyBtnClick()
@@ -256,6 +259,13 @@ class BuyDetailActivity : AppCompatActivity() {
         intent.putExtra(name, true)
         startActivity(intent)
         finish()
+    }
+
+    fun visitGalleryBtn(){
+        binding.galleryBtn.setOnClickListener {
+            val intent = Intent(this@BuyDetailActivity, VisitGalleryActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     fun cartBtnClick() {
