@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import kr.co.lion.unipiece.model.NewsInfoData
 import kr.co.lion.unipiece.repository.NewsInfoRepository
 
 class NewsInfoViewModel : ViewModel(){
@@ -28,6 +29,10 @@ class NewsInfoViewModel : ViewModel(){
                 "에러 : ${e}"
             }
         }
+    }
+
+    suspend fun getNewsInfoByImage(newsImg:String):NewsInfoData?{
+        return newsInfoRepository.getNewsInfoByImage(newsImg)
     }
 
 }
