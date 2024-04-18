@@ -14,90 +14,91 @@
         android:theme="?attr/actionBarTheme"
         app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
+    <ProgressBar
+        android:id="@+id/progressBar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/first" />
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="1">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="20dp">
 
 
             <kr.co.lion.unipiece.util.SquareImageView
                 android:id="@+id/pieceImg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:src="@drawable/test_piece_img"
                 android:scaleType="fitXY"/>
 
             <TextView
                 android:id="@+id/authorName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="홍길동"
                 android:layout_marginTop="20dp"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="14sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/pieceName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 이름"
                 android:fontFamily="@font/pretendard_bold"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/pieceYear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="제작년도 2023"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/pieceSize"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 크기 20 * 20 (cm)"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/pieceMaterial"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 재료 컨버스에 아크릴, 자개"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <TextView
                 android:id="@+id/pieceLike"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="20명이 좋아요를 눌렀어요"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="16sp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16sp" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerColor="@color/lightgray"
                 android:layout_marginTop="20dp"
+                app:dividerColor="@color/lightgray"
                 app:dividerInsetEnd="-4dp"
                 app:dividerInsetStart="-4dp" />
 
@@ -106,52 +107,51 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작품 정보"
                 android:fontFamily="@font/pretendard_bold"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+                android:text="작품 정보"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/pieceInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="홍길동 작가의 전체 작품은 인간의 삶을 담아서 어쩌구 저쩌구 저쩌구 합니다. 그림에서 사용된 저쩌구 저쩌고는 단순히 아름다움 어쩌고를 표현하고 프랑스 예술 풍의 어쩌구를 합니다. 자개를 표현하고 그림의 색채를 무엇을 사용을 했습니다."
-                android:fontFamily="@font/pretendard_medium"
-                android:textSize="14sp"
                 android:background="@drawable/button_radius"
+                android:fontFamily="@font/pretendard_medium"
                 android:padding="20dp"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 app:dividerColor="@color/lightgray"
                 app:dividerInsetEnd="-4dp"
-                app:dividerInsetStart="-4dp"
-                android:layout_marginTop="20dp"/>
+                app:dividerInsetStart="-4dp" />
 
             <TextView
                 android:id="@+id/authorInfoTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="작가 소개"
                 android:fontFamily="@font/pretendard_bold"
-                android:textSize="20sp"
-                android:textColor="@color/black"/>
+                android:text="작가 소개"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
 
             <androidx.cardview.widget.CardView
-                android:id="@+id/authorImg"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:layout_gravity="center"
                 app:cardCornerRadius="50dp">
 
                 <ImageView
+                    android:id="@+id/authorImg"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/mypage_icon"/>
+                    android:src="@drawable/mypage_icon" />
 
             </androidx.cardview.widget.CardView>
 
@@ -159,27 +159,26 @@
                 android:id="@+id/authorInfoName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="5dp"
-                android:text="홍길동 작가"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="18sp"
                 android:textColor="@color/black"
-                android:layout_gravity="center"/>
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/authorInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="홍길동 작가의 작업은 어쩌구저쩌구로 나뉜다. 분채 작업과 자개를 특징으로 하고 있고, 두가지 스타일로 작업한다. 작가는 절제된 욕망을 통해 어쩌구 저쩌구로 활동하고 탐색한다. "
-                android:fontFamily="@font/pretendard_medium"
-                android:textSize="14sp"
-                android:textColor="@color/white"
                 android:background="@drawable/button_radius"
+                android:fontFamily="@font/pretendard_medium"
                 android:padding="20dp"
-                android:layout_gravity="center"/>
+                android:textColor="@color/white"
+                android:textSize="14sp" />
 
             <LinearLayout
+                android:id="@+id/review1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -189,26 +188,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/review1"
+                    android:id="@+id/reviewText1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="작가님의 작품에서는 색채가 느껴지고 어쩌고 정말 최고입니다/ 인간의 삶에 대한 표현이 너무 잘되어있는 것 같습니다."
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
                     android:background="@drawable/buy_detail_radius"
-                    android:padding="20dp" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/review2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -218,26 +216,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/review2"
+                    android:id="@+id/reviewText2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="작가님의 작품에서는 색채가 느껴지고 어쩌고 정말 최고입니다/ 인간의 삶에 대한 표현이 너무 잘되어있는 것 같습니다."
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
                     android:background="@drawable/buy_detail_radius"
-                    android:padding="20dp" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/review3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
@@ -247,22 +244,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
-                    android:text="닉네임"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textSize="16sp"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="16sp" />
 
                 <TextView
-                    android:id="@+id/review3"
+                    android:id="@+id/reviewText3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:text="작가님의 작품에서는 색채가 느껴지고 어쩌고 정말 최고입니다/ 인간의 삶에 대한 표현이 너무 잘되어있는 것 같습니다."
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textSize="14sp"
-                    android:textColor="@color/white"
                     android:background="@drawable/buy_detail_radius"
-                    android:padding="20dp" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:padding="20dp"
+                    android:textColor="@color/white"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -270,18 +265,18 @@
                 android:id="@+id/authorInfoMore"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:text="아티스트 소개 더보기"
                 android:fontFamily="@font/pretendard_medium"
-                android:textSize="18sp"
+                android:text="작가 소개 더보기"
                 android:textColor="@color/black"
-                android:layout_gravity="center"/>
+                android:textSize="18sp" />
 
             <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerColor="@color/lightgray"
                 android:layout_marginTop="20dp"
+                app:dividerColor="@color/lightgray"
                 app:dividerInsetEnd="-4dp"
                 app:dividerInsetStart="-4dp" />
 
@@ -289,11 +284,11 @@
                 android:id="@+id/galleryBtn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_marginTop="20dp"
                 android:layout_margin="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/button_radius"
                 android:text="작품 전시실 신청"
-                android:textColor="@color/white"/>
+                android:textColor="@color/white" />
 
 
         </LinearLayout>
@@ -327,7 +322,6 @@
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/button_radius"
-            android:text="100,000원 구매"
             android:textColor="@color/white"/>
 
 

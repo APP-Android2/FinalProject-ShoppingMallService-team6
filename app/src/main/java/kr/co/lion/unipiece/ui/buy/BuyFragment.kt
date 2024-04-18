@@ -10,7 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.OnBackPressedCallback
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.activityViewModels
+import androidx.core.view.forEach
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
@@ -30,9 +31,14 @@ class BuyFragment : Fragment() {
 
     private lateinit var callback: OnBackPressedCallback
 
-    private val viewModel: BuyViewModel by activityViewModels()
+    private val viewModel: BuyViewModel by viewModels()
 
     var currentFragment : Int = -1
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        callBack()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -49,11 +55,6 @@ class BuyFragment : Fragment() {
         settingToolbarBuy()
         initViewPager()
         setBuyNaviDrawer()
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        callBack()
     }
 
     override fun onDetach() {
@@ -124,6 +125,7 @@ class BuyFragment : Fragment() {
             }
 
             with(navigationDrawer){
+
                 val headerDrawerBinding = HeaderBuyDrawerBinding.inflate(layoutInflater)
                 addHeaderView(headerDrawerBinding.root)
 
@@ -134,16 +136,24 @@ class BuyFragment : Fragment() {
                 setNavigationItemSelectedListener {
 
                     drawerBuyLayout.close()
-                    it.isChecked = true
+
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.popLoading(true)
+                        viewModel.newLoading(true)
+                    }
+
+                    it.setChecked(true)
 
                     when(it.itemId){
                         R.id.menuAll -> {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceInfo()
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceInfo()
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -151,9 +161,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceSort("예술 대학")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceSort("예술 대학")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -161,9 +173,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("서양화")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("서양화")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -171,9 +185,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("동양화")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("동양화")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -181,9 +197,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("서예")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("서예")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -191,9 +209,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("조소")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("조소")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -201,9 +221,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("판화")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("판화")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -211,9 +233,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("가구/목재")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("가구/목재")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -221,9 +245,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("도자기/유리")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("도자기/유리")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -231,9 +257,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("섬유/염색")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("섬유/염색")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -241,9 +269,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("금속")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("금속")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -251,9 +281,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("만화")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("만화")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -261,9 +293,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("애니메이션")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("애니메이션")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -271,9 +305,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceSort("인문 대학")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceSort("인문 대학")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -281,9 +317,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("소설")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("소설")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -291,9 +329,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("시")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("시")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -301,9 +341,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("극본")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("극본")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -311,9 +353,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceSort("공과 대학")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceSort("공과 대학")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -321,9 +365,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("소프트웨어")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("소프트웨어")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -331,9 +377,11 @@ class BuyFragment : Fragment() {
                             when(currentFragment){
                                 0 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getPopPieceDetailSort("하드웨어")
+                                    viewModel.popLoading(false)
                                 }
                                 1 -> viewLifecycleOwner.lifecycleScope.launch {
                                     viewModel.getNewPieceDetailSort("하드웨어")
+                                    viewModel.newLoading(false)
                                 }
                             }
                         }
@@ -347,7 +395,7 @@ class BuyFragment : Fragment() {
     fun initViewPager() {
 
         val titles = listOf("인기 순", "신규 순")
-        val vpAdapter = BuyAdapter(requireActivity())
+        val vpAdapter = BuyAdapter(this)
         vpAdapter.addFragment(BuyPopFragment())
         vpAdapter.addFragment(BuyNewFragment())
 

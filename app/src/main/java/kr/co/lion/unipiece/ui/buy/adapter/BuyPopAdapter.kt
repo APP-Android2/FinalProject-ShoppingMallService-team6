@@ -5,12 +5,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.databinding.ItemBuyBinding
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.model.SearchResultData
 import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
-class BuyPopAdapter (var pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<BuyPopViewHolder>() {
+class BuyPopAdapter (var pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int, Int) -> Unit) : RecyclerView.Adapter<BuyPopViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType:Int): BuyPopViewHolder {
         val binding: ItemBuyBinding = ItemBuyBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -31,21 +35,24 @@ class BuyPopAdapter (var pieceInfoList: List<PieceInfoData>, private val itemCli
     }
 }
 
-class BuyPopViewHolder(val binding: ItemBuyBinding, private val itemClickListener: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
+class BuyPopViewHolder(val binding: ItemBuyBinding, private val itemClickListener: (Int, Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: PieceInfoData, itemClickListener: (Int) -> Unit) {
+    fun bind(item: PieceInfoData, itemClickListener: (Int, Int) -> Unit) {
+        val priceFormat = DecimalFormat("###,###")
+        val price = priceFormat.format(item.piecePrice)
+
         with(binding) {
             authorName.text = item.authorName
             pieceName.text = item.pieceName
-            piecePrice.text = "${item.piecePrice}원"
+            piecePrice.text = "${price}원"
+
+            // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
+            root.setOnClickListener {
+                itemClickListener.invoke(item.pieceIdx, item.authorIdx)
+            }
 
             root.context.setImage(pieceImg, item.pieceImg)
 
-        }
-
-        // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
-        binding.root.setOnClickListener {
-            itemClickListener.invoke(item.pieceIdx)
         }
     }
 }

@@ -4,8 +4,7 @@
     <item
         android:id="@+id/menuAll"
         android:checkable="true"
-        android:title="전체 보기"
-        android:checked="true"/>
+        android:title="전체 보기" />
     <item
         android:id="@+id/menuArtUni"
         android:title="예술 대학">
@@ -13,7 +12,7 @@
             <item
                 android:id="@+id/menuArtAll"
                 android:checkable="true"
-                android:title="예술 대학 전체"/>
+                android:title="예술 대학 전체" />
             <item
                 android:id="@+id/menuArtWest"
                 android:checkable="true"

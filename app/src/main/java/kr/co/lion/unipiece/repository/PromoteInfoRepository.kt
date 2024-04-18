@@ -8,4 +8,6 @@ class PromoteInfoRepository {
 
     suspend fun getPromoteImage() = promoteInfoDataSource.getPromoteImage()
 
+    suspend fun gettingPromoteInfoByImage(promoteImg:String) = promoteInfoDataSource.gettingPromoteInfoByImage(promoteImg)
+
 }

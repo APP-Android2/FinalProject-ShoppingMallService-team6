@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.db.remote
 
-import java.net.URI
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
@@ -114,7 +113,7 @@ class PieceInfoDataSource {
 
     }
 
-    // 이미지 url 받아오기
+    // 작품 이미지 url 받아오기
     suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String): String? {
         val path = "PieceInfo/$pieceIdx/$pieceImg"
         return try {
@@ -126,7 +125,6 @@ class PieceInfoDataSource {
     }
 
     // 작가별 작품 불러오기
-
     suspend fun getAuthorPieceInfo(authorIdx: Int): List<PieceInfoData> {
         return try{
             val query = pieceInfoStore.whereEqualTo("pieceSaleState", true)
@@ -141,4 +139,18 @@ class PieceInfoDataSource {
             emptyList()
         }
     }
+
+    // 작품 아이디로 작품 정보 불러오기
+    suspend fun getIdxPieceInfo(pieceIdx: Int): PieceInfoData? {
+        return try{
+            val query = pieceInfoStore.whereEqualTo("pieceIdx", pieceIdx)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.documents.first()?.toObject(PieceInfoData::class.java)
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
+            null
+        }
+    }
+
 }
