@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.login
+package kr.co.lion.unipiece.ui.login.viewModel
 
 import android.util.Log
 import androidx.lifecycle.LiveData
