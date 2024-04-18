@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.indices
 import androidx.core.view.isInvisible
@@ -82,11 +83,20 @@ class SalePieceFragment : Fragment() {
                                         if (addPieceInfo.addPieceState == "판매 완료" || addPieceInfo.addPieceState == "판매 중") {
                                             val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
                                             intent.putExtra("pieceIdx", addPieceInfo.pieceIdx)
+                                            intent.putExtra("authorIdx", addPieceInfo.authorIdx)
                                             startActivity(intent)
                                         } else if(addPieceInfo.addPieceState == "판매 승인 거절") {
-                                            Snackbar.make(requireView(), "판매 승인이 거절된 작품입니다.", Snackbar.LENGTH_LONG).show()
+                                            createSnackBar("판매 승인이 거절된 작품입니다.", Snackbar.LENGTH_SHORT).apply {
+                                                val layoutParams = this.view.layoutParams as CoordinatorLayout.LayoutParams
+                                                layoutParams.setMargins(20, 0, 20, 50)
+                                                this.view.layoutParams = layoutParams
+                                            }.show()
                                         } else {
-                                            Snackbar.make(requireView(), "판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_LONG).show()
+                                            createSnackBar("판매 승인이 완료될 때까지 기다려주세요.", Snackbar.LENGTH_SHORT).apply {
+                                                val layoutParams = this.view.layoutParams as CoordinatorLayout.LayoutParams
+                                                layoutParams.setMargins(20, 0, 20, 50)
+                                                this.view.layoutParams = layoutParams
+                                            }.show()
                                         }
                                     }
 
@@ -111,6 +121,10 @@ class SalePieceFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun createSnackBar(message: String, duration: Int): Snackbar {
+        return Snackbar.make(requireView(), message, duration)
     }
 
     fun settingButtonSalePieceAddPiece() {
