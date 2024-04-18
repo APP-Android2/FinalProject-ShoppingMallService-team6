@@ -39,7 +39,7 @@ class InfoOneActivity : AppCompatActivity() {
                 lifecycleScope.launch {
                     val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
 
-                    if (promoteInfo?.homeIdx == 1){
+                    if (promoteInfo?.promoteImg == promoteImg){
                         title = "전시 홍보"
                     }
                 }
@@ -78,7 +78,7 @@ class InfoOneActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
 
-                if (promoteInfo?.homeIdx == 1){
+                if (promoteInfo?.promoteImg == promoteImg){
                     textInfoOneName.text = "행사명 : ${promoteInfo?.promoteName}"
                     textInfoOneDate.text = "일정 : ${promoteInfo?.promoteDate}"
                     textInfoOnePlace.text = "장소 : ${promoteInfo?.promotePlace}"

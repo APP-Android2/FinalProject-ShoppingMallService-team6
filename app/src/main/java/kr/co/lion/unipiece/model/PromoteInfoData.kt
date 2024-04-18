@@ -9,7 +9,6 @@ data class PromoteInfoData (
     var promoteTime:Timestamp = Timestamp.now(),
     var promoteImg:String = "",
     var promoteLink:String = "",
-    var homeIdx:Int = 0,
     var promoteMoney:String = "",
     var promotePlace:String = ""
 )

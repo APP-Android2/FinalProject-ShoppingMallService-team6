@@ -8,5 +8,4 @@ data class NewsInfoData (
     var newsContent:String = "",
     var newsTime:Timestamp = Timestamp.now(),
     var newsImg:String = "",
-    var homeInd:Int = 0
 )

@@ -31,7 +31,6 @@ class PromoteFragment(val imgRes: String) : Fragment() {
 
         requireActivity().setImage(fragmentPromoteBinding.imagePromote, imgRes)
 
-
         settingEvent()
         return fragmentPromoteBinding.root
     }
