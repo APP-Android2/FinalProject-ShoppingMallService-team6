@@ -7,7 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
@@ -222,6 +221,7 @@ class AuthorInfoFragment : Fragment() {
                 val authorPiecesAdapter = AuthorPiecesAdapter(piecesList) { pieceIdx ->
                     val pieceIntent = Intent(requireActivity(), BuyDetailActivity::class.java)
                     pieceIntent.putExtra("pieceIdx", pieceIdx)
+                    pieceIntent.putExtra("authorIdx", authorIdx)
                     startActivity(pieceIntent)
                 }
 
@@ -235,8 +235,6 @@ class AuthorInfoFragment : Fragment() {
             }
         }
     }
-
-
 
     // 프래그먼트 교체 메서드
     private fun replaceFragment(bundle: Bundle){
