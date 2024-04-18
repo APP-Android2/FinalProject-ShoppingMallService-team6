@@ -23,6 +23,10 @@ class AuthorInfoViewModel: ViewModel() {
     private val _checkFollow = MutableLiveData<Boolean>()
     val checkFollow:LiveData<Boolean> = _checkFollow
 
+    // 작가 본인 여부
+    private val _authorIsMe = MutableLiveData<Boolean>()
+    val authorIsMe:LiveData<Boolean> = _authorIsMe
+
     // 작가 작품 리스트
     private val _authorPieces = MutableLiveData<List<PieceInfoData>>()
     val authorPieces = _authorPieces
@@ -39,9 +43,8 @@ class AuthorInfoViewModel: ViewModel() {
     }
 
     // 본인이 해당 작가인지 여부 확인
-    // 추후 수정
-    fun checkAuthor(userIdx: Int): Boolean{
-        return authorInfoData.value?.userIdx == userIdx
+    fun checkAuthor(userIdx: Int){
+        _authorIsMe.value = authorInfoData.value?.userIdx == userIdx
     }
 
     // 팔로우 수 불러오기
