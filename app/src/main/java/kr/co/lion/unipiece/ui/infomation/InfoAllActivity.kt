@@ -3,14 +3,16 @@ package kr.co.lion.unipiece.ui.infomation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import androidx.activity.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoAllBinding
-import kr.co.lion.unipiece.databinding.InfoAllBinding
 import kr.co.lion.unipiece.ui.infomation.viewModel.InfoAllViewModel
+import kr.co.lion.unipiece.util.gettingImageName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class InfoAllActivity : AppCompatActivity() {
@@ -22,8 +24,12 @@ class InfoAllActivity : AppCompatActivity() {
     val infoAllAdapter:InfoAllAdapter by lazy {
         val adapter = InfoAllAdapter(emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
-            override fun recyclerviewClickListener() {
-                startActivity(Intent(this@InfoAllActivity, InfoOneActivity::class.java))
+            override fun recyclerviewClickListener(promoteImg: String) {
+                val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
+                val imageName = gettingImageName(promoteImg)
+                newIntent.putExtra("promoteImg", imageName)
+                //Log.d("test2345", "${promoteImg}")
+                startActivity(newIntent)
             }
         })
         adapter
@@ -73,9 +79,12 @@ class InfoAllActivity : AppCompatActivity() {
     }
 
     private fun initView(){
-        lifecycleScope.launch {
-            viewModel.promoteInfoList.observe(this@InfoAllActivity) { value ->
-                infoAllAdapter.updateData(value)
+        activityInfoAllBinding.apply {
+            lifecycleScope.launch {
+                viewModel.promoteInfoList.observe(this@InfoAllActivity) { value ->
+                    progressBar4.visibility = View.GONE
+                    infoAllAdapter.updateData(value)
+                }
             }
         }
     }

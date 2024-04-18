@@ -43,6 +43,7 @@ class PromoteInfoDataSource {
         return promoteInfoData
     }
 
+
     //날짜순으로 모든 정보 받아오기
     suspend fun gettingDataByDate(): List<PromoteInfoData>{
         return try {

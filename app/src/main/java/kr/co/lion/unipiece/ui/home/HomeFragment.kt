@@ -94,6 +94,7 @@ class HomeFragment : Fragment() {
 
     //이벤트 설정
     private fun settingEvent(){
+
         fragmentHomeBinding.apply {
             buttonAllPromote.setOnClickListener {
                 startActivity(Intent(mainActivity, InfoAllActivity::class.java))

@@ -1,16 +1,13 @@
 package kr.co.lion.unipiece.ui.infomation
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.InfoAllBinding
-import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.model.PromoteInfoData
 import kr.co.lion.unipiece.util.setImage
-import kotlin.coroutines.coroutineContext
 
 class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.Adapter<ViewHolderClass>() {
 
@@ -41,7 +38,7 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.
         holder.infoAllBinding.textInfoAllDate.text = promoteInfoList[position].promoteDate
         holder.infoAllBinding.textInfoAllAuthorName.text = promoteInfoList[position].promotePlace
         holder.infoAllBinding.root.setOnClickListener {
-            itemOnClickListener.recyclerviewClickListener()
+            itemOnClickListener.recyclerviewClickListener(promoteInfoList[position].promoteImg)
         }
 
     }
@@ -54,7 +51,7 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.
     }
 
     interface ItemOnClickListener{
-        fun recyclerviewClickListener()
+        fun recyclerviewClickListener(promoteImg: String)
     }
 }
 
@@ -67,6 +64,5 @@ class ViewHolderClass(infoAllBinding: InfoAllBinding):RecyclerView.ViewHolder(in
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-
     }
 }
