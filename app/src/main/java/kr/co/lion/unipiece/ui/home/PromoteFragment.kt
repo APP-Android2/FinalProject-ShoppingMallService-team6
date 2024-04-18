@@ -2,18 +2,27 @@ package kr.co.lion.unipiece.ui.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.databinding.FragmentPromoteBinding
+import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
+import kr.co.lion.unipiece.util.gettingImageName
 import kr.co.lion.unipiece.util.setImage
+import java.net.URLDecoder
 
 class PromoteFragment(val imgRes: String) : Fragment() {
 
     lateinit var fragmentPromoteBinding: FragmentPromoteBinding
+
+    val viewModel: PromoteInfoViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -22,19 +31,24 @@ class PromoteFragment(val imgRes: String) : Fragment() {
 
         requireActivity().setImage(fragmentPromoteBinding.imagePromote, imgRes)
 
-
         settingEvent()
         return fragmentPromoteBinding.root
     }
 
 
     //이벤트 설정
-    private fun settingEvent(){
+    private fun settingEvent() {
         fragmentPromoteBinding.apply {
             imagePromote.setOnClickListener {
-                startActivity(Intent(requireActivity(), InfoOneActivity::class.java))
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val imageName = requireActivity().gettingImageName(imgRes)
+                    val imageInfo = viewModel.getPromoteInfoByImage(imageName)
+
+                    val newIntent = Intent(requireActivity(), InfoOneActivity::class.java)
+                    newIntent.putExtra("promoteImg", imageInfo?.promoteImg)
+                    startActivity(newIntent)
+                }
             }
         }
     }
-
 }

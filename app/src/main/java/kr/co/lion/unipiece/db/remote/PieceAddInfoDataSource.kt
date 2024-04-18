@@ -6,6 +6,9 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.PieceAddInfoData
 import java.util.UUID
@@ -31,10 +34,11 @@ class PieceAddInfoDataSource {
                 "addPiecePrice" to pieceAddInfoData.addPiecePrice,
                 "addPieceState" to pieceAddInfoData.addPieceState,
                 "addPieceDate" to pieceAddInfoData.addPieceDate,
-                "authorIdx" to pieceAddInfoData.authorIdx
+                "authorIdx" to pieceAddInfoData.authorIdx,
+                "pieceIdx" to pieceAddInfoData.pieceIdx,
+                "addPieceIdx" to pieceAddInfoData.addPieceIdx
             )
 
-            // 작품 정보 저장
             db.collection("PieceAddInfo")
                 .document(pieceAddInfoId)
                 .set(pieceAddInfoDataMap)
@@ -60,17 +64,45 @@ class PieceAddInfoDataSource {
         }
     }
 
-    fun uploadImage(imageUri: Uri): String {
+    suspend fun getPieceAddSequence(): Int {
+        return try {
+            val sequenceSnapshot = db.collection("Sequence")
+                .document("PieceAddSequence")
+                .get()
+                .await()
+
+            sequenceSnapshot.getLong("value")?.toInt() ?: -1
+        } catch (e: Exception) {
+            -1
+        }
+    }
+
+    suspend fun updatePieceAddSequence(pieceAddSequence: Int) {
+        try {
+            val pieceAddSequenceDocument = db.collection("Sequence")
+                .document("PieceAddSequence")
+
+            val map = mutableMapOf<String, Long>()
+            map["value"] = pieceAddSequence.toLong()
+
+            pieceAddSequenceDocument.set(map).await()
+        } catch (e: Exception) {
+            Log.e("firebase", "Failed to update pieceAddSequence", e)
+        }
+    }
+
+
+    fun uploadImage(authorIdx: Int, imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"
-        val imageRef = storageRef.child("addPieceInfo/$imageFileName")
+        val imageRef = storageRef.child("addPieceInfo/${authorIdx}/${imageFileName}")
 
         imageRef.putFile(imageUri)
 
         return imageFileName
     }
 
-    suspend fun getPieceAddInfoImage(addPieceImg: String): Uri? {
-        val path = "addPieceInfo/$addPieceImg"
+    suspend fun getPieceAddInfoImage(authorIdx: Int, addPieceImg: String): Uri? {
+        val path = "addPieceInfo/${authorIdx}/${addPieceImg}"
 
         return try {
             val storageRef = Firebase.storage.reference.child(path)

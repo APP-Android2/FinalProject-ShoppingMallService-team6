@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
+import kr.co.lion.unipiece.model.PromoteInfoData
 import kr.co.lion.unipiece.repository.PromoteInfoRepository
 
 class PromoteInfoViewModel : ViewModel() {
@@ -24,6 +25,10 @@ class PromoteInfoViewModel : ViewModel() {
                 "에러 : ${e}"
             }
         }
+    }
+
+    suspend fun getPromoteInfoByImage(promoteImg:String):PromoteInfoData?{
+        return promoteInfoRepository.gettingPromoteInfoByImage(promoteImg)
     }
 
 }

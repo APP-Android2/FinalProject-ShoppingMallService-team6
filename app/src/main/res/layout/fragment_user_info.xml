@@ -1,156 +1,168 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:transitionGroup="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="userInfoViewModel"
+            type="kr.co.lion.unipiece.ui.mypage.viewmodel.UserInfoViewModel" />
+    </data>
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarUserInfo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:theme="?attr/actionBarTheme"
-        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:transitionGroup="true">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarUserInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="64dp"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:theme="?attr/actionBarTheme"
+            app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="이름"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputUserInfoName"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="닉네임"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputUserInfoNickName"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="휴대폰 번호"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputUserInfoPhoneNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="아이디"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputUserInfoPw"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:clickable="false"
-                        android:cursorVisible="false"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/buttonModifyUserInfo"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/button_radius"
-                    android:text="회원 정보 수정"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerColor="@color/lightgray"
-                app:dividerInsetEnd="16dp"
-                app:dividerInsetStart="16dp" />
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <Button
-                    android:id="@+id/buttonManageAddress"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="16dp"
-                    android:background="@drawable/button_radius"
-                    android:text="배송지 관리"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="이름"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputUserInfoName"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:inputType="text"
+                            android:paddingLeft="10dp"
+                            android:text="@{userInfoViewModel.userInfoData.userName}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="닉네임"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputUserInfoNickName"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:inputType="text"
+                            android:paddingLeft="10dp"
+                            android:text="@{userInfoViewModel.userInfoData.nickName}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="휴대폰 번호"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputUserInfoPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:inputType="text"
+                            android:paddingLeft="10dp"
+                            android:text="@{userInfoViewModel.userInfoData.phoneNumber}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="아이디"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputUserInfoId"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:clickable="false"
+                            android:cursorVisible="false"
+                            android:focusable="false"
+                            android:inputType="text"
+                            android:paddingLeft="10dp"
+                            android:text="@{userInfoViewModel.userInfoData.userId}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/buttonModifyUserInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/button_radius"
+                        android:text="회원 정보 수정"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="@color/lightgray"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <Button
+                        android:id="@+id/buttonManageAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/button_radius"
+                        android:text="배송지 관리"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
             </LinearLayout>
+        </ScrollView>
 
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

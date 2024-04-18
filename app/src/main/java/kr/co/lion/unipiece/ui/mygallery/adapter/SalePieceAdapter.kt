@@ -42,6 +42,7 @@ class SalePieceViewHolderClass(val binding: RowSalePieceBinding): RecyclerView.V
             } else {
                 binding.buttonRowSalePieceModify.setOnClickListener {
                     val intent = Intent(root.context, SalesApplicationActivity::class.java)
+                    intent.putExtra("isModify", true)
                     root.context.startActivity(intent)
                 }
             }

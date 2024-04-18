@@ -16,7 +16,8 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginEnd="15dp"
-            app:srcCompat="@drawable/ic_launcher_foreground" />
+            app:srcCompat="@drawable/icon"
+            android:scaleType="centerCrop"/>
 
         <LinearLayout
             android:layout_width="200dp"

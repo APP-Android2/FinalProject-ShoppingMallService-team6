@@ -16,5 +16,7 @@ class PieceInfoRepository {
 
     suspend fun getPieceInfoImg(pieceIdx: String, pieceImg: String) = pieceInfoDataSource.getPieceInfoImg(pieceIdx, pieceImg)
 
+    suspend fun getIdxPieceInfo(pieceIdx: Int) = pieceInfoDataSource.getIdxPieceInfo(pieceIdx)
+
     suspend fun getAuthorPieceInfo(authorIdx: Int) = pieceInfoDataSource.getAuthorPieceInfo(authorIdx)
 }

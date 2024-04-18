@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.buy.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -18,11 +19,25 @@ class BuyViewModel(): ViewModel() {
     private val _newPieceInfoList = MutableLiveData<List<PieceInfoData>>()
     val newPieceInfoList : LiveData<List<PieceInfoData>> = _newPieceInfoList
 
+    private val _popLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val popLoading: LiveData<Boolean> = _popLoading
+
+    private val _newLoading: MutableLiveData<Boolean> = MutableLiveData()
+    val newLoading: LiveData<Boolean> = _newLoading
+
     init {
         viewModelScope.launch {
             getPopPieceInfo()
             getNewPieceInfo()
         }
+    }
+
+    fun popLoading(check: Boolean){
+        _popLoading.value = check
+    }
+
+    fun newLoading(check: Boolean){
+        _newLoading.value = check
     }
 
     suspend fun getPopPieceInfo(){
@@ -49,6 +64,7 @@ class BuyViewModel(): ViewModel() {
         }
 
         _newPieceInfoList.value = pieceInfoList
+        Log.d("buy new", _newPieceInfoList.value.toString())
     }
 
     suspend fun getPopPieceSort(category: String){
@@ -88,6 +104,7 @@ class BuyViewModel(): ViewModel() {
         }
 
         _newPieceInfoList.value = pieceInfoList
+        Log.d("buy new sort", _newPieceInfoList.value.toString())
     }
 
     suspend fun getNewPieceDetailSort(detailCategory: String){
@@ -101,6 +118,7 @@ class BuyViewModel(): ViewModel() {
         }
 
         _newPieceInfoList.value = pieceInfoList
+        Log.d("buy new detail sort", _newPieceInfoList.value.toString())
     }
 
     private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): String? {
