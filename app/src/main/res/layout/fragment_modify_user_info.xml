@@ -33,6 +33,7 @@
                 android:padding="20dp">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="이름"
@@ -50,6 +51,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutUserNickName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -68,6 +70,7 @@
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutUserPhoneNumber"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -82,16 +85,19 @@
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
                         android:inputType="text"
+                        android:maxLength="11"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutUserPw"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="비밀번호"
                     app:boxStrokeColor="@color/second"
                     app:cursorColor="@color/second"
+                    app:endIconMode="password_toggle"
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -99,17 +105,19 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
-                        android:inputType="text"
+                        android:inputType="text|textPassword"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutUserPw2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:hint="비밀번호 확인"
                     app:boxStrokeColor="@color/second"
                     app:cursorColor="@color/second"
+                    app:endIconMode="password_toggle"
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -117,7 +125,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
-                        android:inputType="text"
+                        android:inputType="text|textPassword"
                         android:paddingLeft="10dp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
