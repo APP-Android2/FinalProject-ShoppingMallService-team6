@@ -33,6 +33,7 @@ class PieceAddInfoDataSource {
                 "addPieceImg" to pieceAddInfoData.addPieceImg,
                 "addPiecePrice" to pieceAddInfoData.addPiecePrice,
                 "addPieceState" to pieceAddInfoData.addPieceState,
+                "addPieceMessage" to pieceAddInfoData.addPieceMessage,
                 "addPieceDate" to pieceAddInfoData.addPieceDate,
                 "authorIdx" to pieceAddInfoData.authorIdx,
                 "pieceIdx" to pieceAddInfoData.pieceIdx,

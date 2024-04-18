@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
 import android.content.Intent
+import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
@@ -9,6 +10,7 @@ import kr.co.lion.unipiece.databinding.RowSalePieceBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.ui.mygallery.SalesApplicationActivity
 import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
 class SalePieceAdapter (val pieceAddInfoList: List<PieceAddInfoData>, private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<SalePieceViewHolderClass>() {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): SalePieceViewHolderClass {
@@ -29,13 +31,22 @@ class SalePieceAdapter (val pieceAddInfoList: List<PieceAddInfoData>, private va
 
 class SalePieceViewHolderClass(val binding: RowSalePieceBinding): RecyclerView.ViewHolder(binding.root) {
     fun bind(pieceAddInfoData: PieceAddInfoData, onItemClick: (Int) -> Unit) {
+        val priceFormat = DecimalFormat("###,###")
+        val price = priceFormat.format(pieceAddInfoData.addPiecePrice)
+
         with(binding) {
             root.context.setImage(imageViewSalePiece, pieceAddInfoData.addPieceImg)
 
             textViewSalePieceState.text = pieceAddInfoData.addPieceState
             textViewRowSalePieceName.text = pieceAddInfoData.addPieceName
             textViewRowSalePieceArtistName.text = pieceAddInfoData.addAuthorName
-            textViewRowSalePiecePrice.text = "${pieceAddInfoData.addPiecePrice}원"
+            textViewRowSalePiecePrice.text = "${price}원"
+
+           if(pieceAddInfoData.addPieceState == "판매 승인 거절") {
+               textViewRowSalePieceMessage.text = pieceAddInfoData.addPieceMessage
+           } else {
+               textViewRowSalePieceMessage.isVisible = false
+           }
 
             if(pieceAddInfoData.addPieceState != "판매 승인 대기") {
                 binding.buttonRowSalePieceModify.isVisible = false

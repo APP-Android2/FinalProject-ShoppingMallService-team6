@@ -320,6 +320,7 @@ class SalesApplicationActivity : AppCompatActivity() {
         val addPieceImg = imageFileName
         val piecePrice = binding.textFieldSalesApplicationPrice.text.toString().toInt()
         val pieceState = "판매 승인 대기"
+        val addPieceMessage = ""
         val pieceDate = Timestamp.now()
         val authorIdx = viewModel.authorIdx.value ?: 0
         val pieceIdx = -1
@@ -328,8 +329,8 @@ class SalesApplicationActivity : AppCompatActivity() {
         return PieceAddInfoData(
             authorName, pieceName, pieceSort, pieceDetailSort,
             makeYear, pieceSize, pieceMaterial, pieceInfo,
-            addPieceImg, piecePrice, pieceState, pieceDate,
-            authorIdx, pieceIdx, addPieceIdx)
+            addPieceImg, piecePrice, pieceState, addPieceMessage,
+            pieceDate, authorIdx, pieceIdx, addPieceIdx)
     }
 
     private fun showSuccessDialog() {
