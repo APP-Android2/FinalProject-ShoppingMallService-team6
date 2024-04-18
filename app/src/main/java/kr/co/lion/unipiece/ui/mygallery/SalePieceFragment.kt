@@ -43,6 +43,16 @@ class SalePieceFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                // 프로그래스바를 표시
+                binding.progressBarSalePiece.isVisible = true
+            } else {
+                // 프로그래스바를 숨김
+                binding.progressBarSalePiece.isVisible = false
+            }
+        }
+
         initView()
     }
 
@@ -94,6 +104,7 @@ class SalePieceFragment : Fragment() {
                         }
                     }
                 } else {
+                    progressBarSalePiece.isVisible = false
                     layoutNotArtist.isVisible = true
                     settingButtonSalePieceAddArtist()
                 }

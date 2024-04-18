@@ -34,6 +34,9 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _isAuthor = MutableLiveData<Boolean>()
     val isAuthor: LiveData<Boolean> = _isAuthor
 
+    private val _isLoading = MutableLiveData<Boolean>()
+    val isLoading: LiveData<Boolean> = _isLoading
+
     init {
         viewModelScope.launch {
             val userIdx = getUserIdxFromSharedPreferences()
@@ -76,6 +79,8 @@ class PieceAddInfoViewModel : ViewModel() {
     }
 
     private fun getPieceAddInfo() {
+        _isLoading.value = true
+
         viewModelScope.launch {
             try {
                 val authorIdx = _authorIdx.value ?: 0
@@ -83,6 +88,8 @@ class PieceAddInfoViewModel : ViewModel() {
 
                 // 이미지를 제외한 데이터 먼저 UI에 반영
                 updateUIWithData(pieceAddInfoList)
+
+                _isLoading.value = false
 
                 // 각 이미지를 비동기적으로 가져오고, 가져온 이미지를 데이터에 추가하여 UI 업데이트
                 pieceAddInfoList.forEach { pieceAddInfo ->
@@ -98,6 +105,7 @@ class PieceAddInfoViewModel : ViewModel() {
 
                 Log.e("PieceAddInfoViewModel", "pieceAddInfoList : $pieceAddInfoList")
             } catch (throwable: Throwable) {
+                _isLoading.value = false
                 Log.e("PieceAddInfoViewModel", "Failed to get pieceAddInfo: $throwable")
             }
         }

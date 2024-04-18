@@ -6,6 +6,14 @@
     android:layout_height="match_parent"
     tools:context=".ui.mygallery.SalePieceFragment">
 
+    <ProgressBar
+        android:id="@+id/progressBarSalePiece"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/first" />
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/layoutArtist"
         android:layout_width="match_parent"
@@ -35,6 +43,7 @@
             android:textSize="16sp"
             app:hideOnScroll="true"
             app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior" />
+
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
     <LinearLayout
