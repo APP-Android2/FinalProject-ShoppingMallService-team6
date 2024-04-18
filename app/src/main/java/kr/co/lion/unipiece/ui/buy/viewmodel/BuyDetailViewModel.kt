@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.ui.buy.viewmodel
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -29,12 +30,42 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int):
     private val _authorReviewList = MutableLiveData<List<AuthorReviewData>>()
     val authorReviewList : LiveData<List<AuthorReviewData>> = _authorReviewList
 
+    private val _pieceInfoReceived = MutableLiveData<Boolean>()
+    private val _authorInfoReceived = MutableLiveData<Boolean>()
+    private val _authorReviewReceived = MutableLiveData<Boolean>()
+
+    private val _allDataReceived = MediatorLiveData<Boolean>()
+    val allDataReceived: LiveData<Boolean> = _allDataReceived
+
     init {
         viewModelScope.launch {
             getIdxPieceInfo(pieceIdx)
             getIdxAuthorInfo(authorIdx)
             getAuthorReviewDataByIdx(authorIdx)
+
+            _allDataReceived.addSource(_pieceInfoReceived) { checkAllDataReceived() }
+            _allDataReceived.addSource(_authorInfoReceived) { checkAllDataReceived() }
+            _allDataReceived.addSource(_authorReviewReceived) { checkAllDataReceived() }
         }
+    }
+
+    private fun checkAllDataReceived() {
+        val getAllDataReceived = _pieceInfoReceived.value == true &&
+                _authorInfoReceived.value == true &&
+                _authorReviewReceived.value == true
+        _allDataReceived.value = getAllDataReceived
+    }
+
+    fun setPieceInfoReceived(received: Boolean) {
+        _pieceInfoReceived.value = received
+    }
+
+    fun setAuthorInfoReceived(received: Boolean) {
+        _authorInfoReceived.value = received
+    }
+
+    fun setAuthorReviewReceived(received: Boolean) {
+        _authorReviewReceived.value = received
     }
 
     suspend fun getIdxPieceInfo(pieceIdx: Int) {

@@ -65,13 +65,26 @@ class BuyDetailActivity : AppCompatActivity() {
         setPieceInfo()
         setAuthorInfo()
         setAuthorReview()
+        setProgressBar()
+    }
+
+    fun setProgressBar(){
+        viewModel.allDataReceived.observe(this@BuyDetailActivity, Observer {
+            if(it){
+                binding.progressBar.visibility = View.GONE
+            }
+        })
     }
 
     fun setPieceInfo(){
         viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
-                    progressBar.visibility = View.GONE
+
+                    lifecycleScope.launch {
+                        viewModel.setPieceInfoReceived(true)
+                    }
+
                     setImage(pieceImg, it.pieceImg)
                     authorName.text = it.authorName
                     pieceName.text = it.pieceName
@@ -93,7 +106,11 @@ class BuyDetailActivity : AppCompatActivity() {
         viewModel.authorInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
-                    progressBar.visibility = View.GONE
+
+                    lifecycleScope.launch {
+                        viewModel.setAuthorInfoReceived(true)
+                    }
+
                     setImage(authorImg, it.authorImg)
                     authorInfoName.text = it.authorName
                     authorInfo.text = it.authorInfo
@@ -113,7 +130,11 @@ class BuyDetailActivity : AppCompatActivity() {
     fun setAuthorReview(){
         viewModel.authorReviewList.observe(this@BuyDetailActivity, Observer {
             with(binding){
-                progressBar.visibility = View.GONE
+
+                lifecycleScope.launch {
+                    viewModel.setAuthorReviewReceived(true)
+                }
+
                 if (it != null) {
                     when(it.size){
                         0 -> {
