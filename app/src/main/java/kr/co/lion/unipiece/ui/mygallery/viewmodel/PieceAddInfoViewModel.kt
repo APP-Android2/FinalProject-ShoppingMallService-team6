@@ -104,8 +104,7 @@ class PieceAddInfoViewModel : ViewModel() {
             try {
                 pieceAddInfoData.addPieceIdx = getAddPieceIdx()
 
-                pieceAddInfoRepository.addPieceInfo(pieceAddInfoData)
-                _addPieceInfoResult.value = true
+                _addPieceInfoResult.value = pieceAddInfoRepository.addPieceInfo(pieceAddInfoData)
             } catch (throwable: Throwable) {
                 _addPieceInfoResult.value = false
             }
@@ -143,19 +142,4 @@ class PieceAddInfoViewModel : ViewModel() {
         val sharedPrefs = UniPieceApplication.prefs
         return sharedPrefs.getUserIdx("userIdx", 0)
     }
-
-    private fun isAuthorCheck(userIdx: Int) {
-        viewModelScope.launch {
-            try {
-                val isAuthor = authorInfoRepository.isAuthor(userIdx)
-                _isAuthor.value = isAuthor
-
-                Log.e("PieceAddInfoViewModel", "author status: ${_isAuthor.value}")
-            } catch (throwable: Throwable) {
-                Log.e("PieceAddInfoViewModel", "Failed to check author status: $throwable")
-                _isAuthor.value = false
-            }
-        }
-    }
-
 }
