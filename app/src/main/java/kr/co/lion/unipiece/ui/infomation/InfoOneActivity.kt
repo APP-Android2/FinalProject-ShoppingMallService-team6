@@ -106,7 +106,7 @@ class InfoOneActivity : AppCompatActivity() {
                     textInfoOneName.text = "행사명 : ${newsInfo?.newsName}"
                     textInfoOneDate.text = "일정 : ${newsInfo?.newsDate}"
                     textInfoOnePlace.visibility = View.GONE
-                    textInfoOneInfo.text = "행사소개: ${newsInfo?.newsContent}"
+                    textInfoOneInfo.text = "이벤트 소개: ${newsInfo?.newsContent}"
                     textInfoOneCost.text = "이벤트 : ${newsInfo?.newsSale}"
                     textInfoOneUrl.visibility = View.GONE
 
