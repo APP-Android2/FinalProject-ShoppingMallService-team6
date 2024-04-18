@@ -3,22 +3,24 @@ package kr.co.lion.unipiece.ui.infomation
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.ViewGroup
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.activity.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.google.android.material.divider.MaterialDividerItemDecoration
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoAllBinding
 import kr.co.lion.unipiece.databinding.InfoAllBinding
+import kr.co.lion.unipiece.ui.infomation.viewModel.InfoAllViewModel
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class InfoAllActivity : AppCompatActivity() {
 
     lateinit var activityInfoAllBinding: ActivityInfoAllBinding
 
+    val viewModel:InfoAllViewModel by viewModels()
+
     val infoAllAdapter:InfoAllAdapter by lazy {
-        val adapter = InfoAllAdapter()
+        val adapter = InfoAllAdapter(emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
             override fun recyclerviewClickListener() {
                 startActivity(Intent(this@InfoAllActivity, InfoOneActivity::class.java))
@@ -30,6 +32,7 @@ class InfoAllActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         activityInfoAllBinding = ActivityInfoAllBinding.inflate(layoutInflater)
         setContentView(activityInfoAllBinding.root)
+        initView()
         settingToolBar()
         settingAdapter()
     }
@@ -65,6 +68,14 @@ class InfoAllActivity : AppCompatActivity() {
             recyclerviewInfoAll.apply {
                 adapter = infoAllAdapter
                 layoutManager = LinearLayoutManager(this@InfoAllActivity)
+            }
+        }
+    }
+
+    private fun initView(){
+        lifecycleScope.launch {
+            viewModel.promoteInfoList.observe(this@InfoAllActivity) { value ->
+                infoAllAdapter.updateData(value)
             }
         }
     }
