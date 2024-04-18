@@ -109,11 +109,11 @@ class BuyDetailActivity : AppCompatActivity() {
         binding.likeBtn.setOnClickListener {
             lifecycleScope.launch {
                 if(viewModel.likePiece.value == true) {
-                    showSnackbar("좋아요를 취소했습니다.")
+                    showLikeSnackbar("좋아요를 취소했습니다.")
                     viewModel.cancelLikePiece(pieceIdx, userIdx)
                     viewModel.updateLike(pieceIdx)
                 } else {
-                    showSnackbar("좋아요를 눌렀습니다.")
+                    showLikeSnackbar("좋아요를 눌렀습니다.")
                     viewModel.addLikePiece(pieceIdx, userIdx)
                     viewModel.updateLike(pieceIdx)
                 }
@@ -292,10 +292,10 @@ class BuyDetailActivity : AppCompatActivity() {
         binding.cartBtn.setOnClickListener {
             lifecycleScope.launch {
                 if(viewModel.cartPiece.value == true){
-                    showSnackbar("장바구니에서 삭제했습니다.")
+                    showCartSnackbar("장바구니에서 삭제했습니다.")
                     viewModel.cancelCartPiece(pieceIdx, userIdx)
                 } else {
-                    showSnackbar("장바구니에 등록했습니다.")
+                    showCartSnackbar("장바구니에 담았습니다.")
                     viewModel.insertCartData(CartData(userIdx, pieceIdx, Timestamp.now()))
                 }
                 viewModel.getCartPiece()
@@ -318,11 +318,24 @@ class BuyDetailActivity : AppCompatActivity() {
         }
     }
 
-    private fun showSnackbar(message: String) {
+    private fun showLikeSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAnchorView(binding.bottomBarBuyDetail)
+            .setBackgroundTint(ContextCompat.getColor(this@BuyDetailActivity, R.color.second))
+            .setTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.white))
+            .show()
+    }
+
+    private fun showCartSnackbar(message: String) {
         Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
             .setAnchorView(binding.bottomBarBuyDetail)
             .setBackgroundTint(ContextCompat.getColor(this@BuyDetailActivity, R.color.first))
             .setTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.white))
+            .setActionTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.third))
+            .setAction("장바구니로 가기"){
+                val intent = Intent(this@BuyDetailActivity, CartActivity::class.java)
+                startActivity(intent)
+            }
             .show()
     }
 }
