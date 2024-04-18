@@ -23,6 +23,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
@@ -47,11 +48,14 @@ class SalesApplicationActivity : AppCompatActivity() {
     private var topCategory = ""
     private var isAddPicture = false
     private var selectedImageUri: Uri? = null
+    private var isModify = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySalesApplicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        isModify = intent.getBooleanExtra("isModify", false)
 
         settingToolbar()
         settingView()
@@ -82,7 +86,11 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun settingToolbar() {
         binding.apply {
             toolbarSalesApplication.apply {
-                title = "작품 등록 신청"
+                title = if(isModify) {
+                    "작품 등록 신청 수정"
+                } else {
+                    "작품 등록 신청"
+                }
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
@@ -124,9 +132,12 @@ class SalesApplicationActivity : AppCompatActivity() {
             buttonSalesApplicationSubmit.setOnClickListener {
                 this@SalesApplicationActivity.hideSoftInput()
 
-                if(isFormValid()) {
-                    selectedImageUri?.let { imageUri ->
-                        viewModel.uploadImage(imageUri)
+                if(isModify) {
+                } else {
+                    if(isFormValid()) {
+                        selectedImageUri?.let { imageUri ->
+                            viewModel.uploadImage(viewModel.authorIdx.value ?:0, imageUri)
+                        }
                     }
                 }
             }
@@ -297,7 +308,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     }
 
     fun createPieceInfoData(imageFileName: String): PieceAddInfoData {
-        val authorName = "한명운"
+        val authorName = viewModel.authorName.value ?: ""
         val pieceName = binding.textFieldSalesApplicationPieceName.text.toString()
         val pieceSort = topCategory
         val pieceDetailSort = binding.textFieldSalesApplicationCategory.text.toString()
@@ -310,12 +321,15 @@ class SalesApplicationActivity : AppCompatActivity() {
         val piecePrice = binding.textFieldSalesApplicationPrice.text.toString().toInt()
         val pieceState = "판매 승인 대기"
         val pieceDate = Timestamp.now()
-        val authorIdx = 18
+        val authorIdx = viewModel.authorIdx.value ?: 0
+        val pieceIdx = -1
+        val addPieceIdx = 0
 
         return PieceAddInfoData(
             authorName, pieceName, pieceSort, pieceDetailSort,
             makeYear, pieceSize, pieceMaterial, pieceInfo,
-            addPieceImg, piecePrice, pieceState, pieceDate, authorIdx)
+            addPieceImg, piecePrice, pieceState, pieceDate,
+            authorIdx, pieceIdx, addPieceIdx)
     }
 
     private fun showSuccessDialog() {

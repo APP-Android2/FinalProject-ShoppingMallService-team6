@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/white"
     tools:context=".ui.mygallery.MyGalleryFragment">
 
     <com.google.android.material.appbar.MaterialToolbar
@@ -32,6 +33,7 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpagerMyGallery"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:paddingBottom="12dp"/>
 
 </LinearLayout>
