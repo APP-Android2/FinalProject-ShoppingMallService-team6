@@ -3,14 +3,95 @@ package kr.co.lion.unipiece.db.remote
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.DeliveryData
 
 class DeliveryDataSource {
 
     private val deliveryStore = Firebase.firestore.collection("Delivery")
+    private val sequenceStore = Firebase.firestore.collection("Sequence")
 
-    // 신규 배송지 등록 및 수정
+    // 배송지 번호 시퀀스값을 가져온다.
+    suspend fun getDeliverySequence(): Int {
+        var deliverySequence = -1
+
+        val job1 = CoroutineScope(Dispatchers.IO).launch {
+            // 사용자 번호 시퀀스값을 가지고 있는 문서에 접근할 수 있는 객체를 가져온다.
+            val documentReference = sequenceStore.document("DeliverySequence")
+            // 문서내에 있는 데이터를 가져올 수 있는 객체를 가져온다.
+            val documentSnapShot = documentReference.get().await()
+
+            deliverySequence = documentSnapShot.getLong("value")?.toInt() ?: -1
+        }
+        job1.join()
+
+        return deliverySequence
+    }
+
+    // 배송지 시퀀스 값을 업데이트 한다.
+    suspend fun updateDeliverySequence(deliverySequence: Int) {
+        try {
+
+            val job1 = CoroutineScope(Dispatchers.IO).launch {
+                // 배송지 시퀀스 값을 가지고 있는 문서에 접근할 수 있는 객체를 가져온다.
+                val documentReference = sequenceStore.document("DeliverySequence")
+                // 저장할 데이터를 담을 HashMap을 만들어준다.
+                val map = mutableMapOf<String, Long>()
+                // "value"라는 이름의 필드가 있다면 값이 덮어씌워지고 필드가 없다면 필드가 새로 생성된다.
+                map["value"] = deliverySequence.toLong()
+                // 저장한다.
+                documentReference.set(map)
+            }
+            job1.join()
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error updateDeliverySequence : ${e.message}")
+        }
+    }
+
+    // 기존 배송지를 수정한다.
+    suspend fun updateDeliveryData(deliveryData: DeliveryData) {
+        try {
+
+            // 기본 배송지로 설정하는 경우
+            if (deliveryData.basicDelivery) {
+                // 모든 기존 배송지의 basicDelivery를 false로 설정
+                val allDeliveryDocuments = deliveryStore.get().await()
+                allDeliveryDocuments.forEach { document ->
+                    if (document.getBoolean("basicDelivery") == true) {
+                        document.reference.update("basicDelivery", false)
+                    }
+                }
+            }
+            // deliveryIdx를 사용하여 해당 배송지 정보를 찾는다.
+            val query = deliveryStore.whereEqualTo("deliveryIdx", deliveryData.deliveryIdx)
+            val querySnapshot = query.get().await()
+
+            // 해당하는 모든 문서에 대하여 업데이트를 진행한다.
+            // 일반적으로 deliveryIdx는 유일한 값이므로, 하나의 문서만 업데이트 될 것이다.
+            // 그러나 혹시 모르는 상황에 대비해 forEach를 사용한다.
+            querySnapshot.forEach { document ->
+                val deliveryDataMap = hashMapOf(
+                    "deliveryName" to deliveryData.deliveryName,
+                    "deliveryAddress" to deliveryData.deliveryAddress,
+                    "deliveryAddressDetail" to deliveryData.deliveryAddressDetail,
+                    "deliveryPhone" to deliveryData.deliveryPhone,
+                    "deliveryNickName" to deliveryData.deliveryNickName,
+                    "deliveryMemo" to deliveryData.deliveryMemo,
+                    "basicDelivery" to deliveryData.basicDelivery,
+                    "deliveryIdx" to deliveryData.deliveryIdx,
+                    "userIdx" to deliveryData.userIdx
+                )
+                document.reference.update(deliveryDataMap as Map<String, Any>).await()
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error updateDeliveryData : ${e.message}")
+        }
+    }
+
+    // 신규 배송지를 등록한다.
     suspend fun insertDeliveryData(deliveryData: DeliveryData) {
         try {
             val deliveryId = deliveryStore.document().id
@@ -25,56 +106,29 @@ class DeliveryDataSource {
                     }
                 }
             }
+            val deliveryDataMap = hashMapOf(
+                "deliveryName" to deliveryData.deliveryName,
+                "deliveryAddress" to deliveryData.deliveryAddress,
+                "deliveryAddressDetail" to deliveryData.deliveryAddressDetail,
+                "deliveryPhone" to deliveryData.deliveryPhone,
+                "deliveryNickName" to deliveryData.deliveryNickName,
+                "deliveryMemo" to deliveryData.deliveryMemo,
+                "basicDelivery" to deliveryData.basicDelivery,
+                "deliveryIdx" to deliveryData.deliveryIdx,
+                "userIdx" to deliveryData.userIdx,
+            )
 
-            // 신규 배송지 등록에서 저장한다면 (배송지 시퀀스 + 1 세팅)
-            if (deliveryData.deliveryIdx == 0) {
-                val deliveryDataMap = hashMapOf(
-                    "deliveryName" to deliveryData.deliveryName,
-                    "deliveryAddress" to deliveryData.deliveryAddress,
-                    "deliveryAddressDetail" to deliveryData.deliveryAddressDetail,
-                    "deliveryPhone" to deliveryData.deliveryPhone,
-                    "deliveryNickName" to deliveryData.deliveryNickName,
-                    "deliveryMemo" to deliveryData.deliveryMemo,
-                    "basicDelivery" to deliveryData.basicDelivery,
-                    "deliveryIdx" to deliveryData.deliveryIdx,
-                    "userIdx" to deliveryData.userIdx,
-                )
-
-                // 작품 정보 저장
-                deliveryStore
-                    .document(deliveryId)
-                    .set(deliveryDataMap)
-                    .await()
-            } else {
-                // 배송지 수정에서 저장한다면 (해당 배송지 인덱스를 가진 문서에 접근해서 수정)
-
-                val query = deliveryStore.whereEqualTo("deliveryIdx", deliveryData.deliveryIdx)
-                Log.d("test1","$query")
-                val querySnapshot = query.get().await()
-                Log.d("test2","$querySnapshot")
-                // 저장할 데이터를 담을 HashMap을 만들어준다.
-                val map = mutableMapOf<String, Any?>()
-                map["deliveryName"] = deliveryData.deliveryName
-                map["deliveryAddress"] = deliveryData.deliveryAddress
-                map["deliveryAddressDetail"] = deliveryData.deliveryAddressDetail
-                map["deliveryPhone"] = deliveryData.deliveryPhone
-                map["deliveryNickName"] = deliveryData.deliveryNickName
-                map["deliveryMemo"] = deliveryData.deliveryMemo
-                map["basicDelivery"] = deliveryData.basicDelivery
-                map["userIdx"] = deliveryData.userIdx
-                map["deliveryIdx"] = deliveryData.deliveryIdx
-
-                // 해당 문서를 업데이트한다.
-                querySnapshot.documents[0].reference.update(map).await()
-            }
-
-
+            // 작품 정보 저장
+            deliveryStore
+                .document(deliveryId)
+                .set(deliveryDataMap)
+                .await()
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error insertDeliveryData : ${e.message}")
+            Log.e("Firebase Error", "Error dbinsertDeliveryData : ${e.message}")
         }
     }
 
-    // UserIdx 를 통해 배송지 정보를 가져와 반환한다
+    // UserIdx 를 통해 배송지 정보를 가져와 반환한다. (배송지 관리 접근 시)
     suspend fun getDeliveryDataByIdx(userIdx: Int): List<DeliveryData> {
 
         return try {

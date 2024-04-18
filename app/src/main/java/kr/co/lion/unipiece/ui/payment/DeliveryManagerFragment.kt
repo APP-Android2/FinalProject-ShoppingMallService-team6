@@ -94,7 +94,7 @@ class DeliveryManagerFragment : Fragment() {
                             "등록하기",
                             object : CustomFullDialogListener {
 
-                                // 저장하기 버튼 클릭 후 동작
+                                // 등록하기 버튼 클릭 후 동작
                                 override fun onClickSaveButton(deliveryData: DeliveryData) {
                                     viewLifecycleOwner.lifecycleScope.launch {
                                         repeatOnLifecycle(Lifecycle.State.STARTED) {

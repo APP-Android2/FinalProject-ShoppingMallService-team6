@@ -20,7 +20,7 @@ import java.util.Locale
 
 // 배송지 화면의 RecyclerView의 어뎁터
 class DeliveryAdapter(
-    var deliveryList: List<DeliveryData>,
+    private var deliveryList: List<DeliveryData>,
     private val itemClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<DeliveryViewHolder>() {
 
@@ -134,8 +134,8 @@ class DeliveryViewHolder(
                                     viewModel.insertDeliveryData(deliveryData)
 
 
-
                                 }
+
 
                             }
 

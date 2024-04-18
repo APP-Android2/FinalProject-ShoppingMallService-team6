@@ -6,10 +6,19 @@ import kr.co.lion.unipiece.model.DeliveryData
 class DeliveryRepository {
     private val deliveryDataSource = DeliveryDataSource()
 
+    // 배송지 시퀀스 값을 가져온다.
+    suspend fun getDeliverySequence() = deliveryDataSource.getDeliverySequence()
+
+    // 배송지 시퀀스 값을 업데이트한다.
+    suspend fun updateDeliverySequence(deliverySequence: Int) = deliveryDataSource.updateDeliverySequence(deliverySequence)
+
+    // 배송지 정보를 업데이트한다.
+    suspend fun updateDeliveryData(deliveryData: DeliveryData) = deliveryDataSource.updateDeliveryData(deliveryData)
+
     // 배송지 정보를 저장한다.
     suspend fun insertDeliveryData(deliveryData: DeliveryData) = deliveryDataSource.insertDeliveryData(deliveryData)
 
-    // 유저 번호를 통해 배송지 정보를 가져와 반환한다
+    // 유저 번호를 통해 배송지 정보를 가져와 반환한다.
     suspend fun getDeliveryDataByIdx(userIdx:Int) = deliveryDataSource.getDeliveryDataByIdx(userIdx)
 
 }
