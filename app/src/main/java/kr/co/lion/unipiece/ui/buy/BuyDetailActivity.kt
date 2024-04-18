@@ -208,7 +208,7 @@ class BuyDetailActivity : AppCompatActivity() {
                             reviewText2.text = it[1].reviewContent
 
                         }
-                        3 -> {
+                        else -> {
                             nickname1.text = it[0].userNickname
                             reviewText1.text = it[0].reviewContent
                             nickname2.text = it[1].userNickname
