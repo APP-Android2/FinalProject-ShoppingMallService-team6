@@ -43,16 +43,22 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
     private val _likePiece = MutableLiveData<Boolean>()
     val likePiece : LiveData<Boolean> = _likePiece
 
+    private val _likePieceCount = MutableLiveData<Int>()
+    val likePieceCount : LiveData<Int> = _likePieceCount
+
     init {
         viewModelScope.launch {
-            getIdxPieceInfo(pieceIdx)
-            getIdxAuthorInfo(authorIdx)
-            getAuthorReviewDataByIdx(authorIdx)
-
             _allDataReceived.addSource(_pieceInfoReceived) { checkAllDataReceived() }
             _allDataReceived.addSource(_authorInfoReceived) { checkAllDataReceived() }
             _allDataReceived.addSource(_authorReviewReceived) { checkAllDataReceived() }
         }
+    }
+
+    suspend fun updateLike(pieceIdx: Int){
+        val countLike = likePieceInfoRepository.countLikePiece(pieceIdx)
+        pieceInfoRepository.updatePieceLike(pieceIdx, countLike)
+
+        _likePieceCount.value = countLike
     }
 
     suspend fun getLikePiece() {

@@ -4,9 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
@@ -42,10 +44,6 @@ class BuyDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
-        setToolbar()
-        cartBtnClick()
-        buyBtnClick()
-
     }
 
     fun initView(){
@@ -59,12 +57,27 @@ class BuyDetailActivity : AppCompatActivity() {
             viewModel.getAuthorReviewDataByIdx(authorIdx)
         }
 
+        setToolbar()
+
         setPieceInfo()
         setAuthorInfo()
         setAuthorReview()
+
         setProgressBar()
+
         getLikeBtn()
         setLikeBtn()
+
+        setLikeCount()
+
+        cartBtnClick()
+        buyBtnClick()
+    }
+
+    fun setLikeCount(){
+        viewModel.likePieceCount.observe(this@BuyDetailActivity, Observer { likeCount ->
+            binding.pieceLike.text = "${likeCount}명이 좋아요를 눌렀어요"
+        })
     }
 
     fun setLikeBtn(){
@@ -89,8 +102,10 @@ class BuyDetailActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 if(viewModel.likePiece.value == true) {
                     viewModel.cancelLikePiece(pieceIdx, userIdx)
+                    viewModel.updateLike(pieceIdx)
                 } else {
                     viewModel.addLikePiece(pieceIdx, userIdx)
+                    viewModel.updateLike(pieceIdx)
                 }
                 viewModel.getLikePiece()
             }
@@ -257,5 +272,4 @@ class BuyDetailActivity : AppCompatActivity() {
             }
         }
     }
-
 }
