@@ -27,9 +27,26 @@
             android:theme="?attr/actionBarTheme"
             app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <ProgressBar
+                android:id="@+id/progressBarAuthorInfo"
+                style="?android:attr/progressBarStyle"
+                android:layout_width="50dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:indeterminateTint="@color/first" />
+        </LinearLayout>
+
+        <ScrollView
+            android:id="@+id/scrollViewAuthorInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
             <LinearLayout
                 android:layout_width="match_parent"

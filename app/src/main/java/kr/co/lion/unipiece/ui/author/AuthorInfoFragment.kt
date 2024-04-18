@@ -135,7 +135,11 @@ class AuthorInfoFragment : Fragment() {
                     val authorImg = it.authorImg
                     val imageUrl = authorInfoViewModel?.getAuthorInfoImg(authorImg)
                     requireActivity().setImage(imageViewAuthor, imageUrl)
+
+                    progressBarAuthorInfo.visibility = View.GONE
+                    scrollViewAuthorInfo.visibility = View.VISIBLE
                 }
+
             }
 
             authorInfoViewModel?.authorIsMe?.observe(viewLifecycleOwner){
