@@ -4,14 +4,18 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
@@ -31,6 +35,8 @@ class HomeFragment : Fragment() {
     lateinit var fragmentHomeBinding: FragmentHomeBinding
 
     lateinit var mainActivity: MainActivity
+
+    val viewModel: PromoteInfoViewModel by viewModels()
 
 
     val timer = Timer()
@@ -97,8 +103,14 @@ class HomeFragment : Fragment() {
 
         fragmentHomeBinding.apply {
             buttonAllPromote.setOnClickListener {
-                startActivity(Intent(mainActivity, InfoAllActivity::class.java))
-            }
+                lifecycleScope.launch {
+                    var promoteInfo = viewModel.getPromoteDataByDate()
+                    val newIntent = Intent(requireActivity(), InfoAllActivity::class.java)
+                    Log.d("seonguk1234", "${promoteInfo}")
+                    newIntent.putExtra("promoteInfo", promoteInfo.toString())
+                    startActivity(newIntent)
+                }
+        }
 
             buttonAllNews.setOnClickListener {
                 startActivity(Intent(mainActivity, InfoAllActivity::class.java))

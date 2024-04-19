@@ -22,14 +22,24 @@ class InfoAllActivity : AppCompatActivity() {
     val viewModel:InfoAllViewModel by viewModels()
 
     val infoAllAdapter:InfoAllAdapter by lazy {
-        val adapter = InfoAllAdapter(emptyList())
+        val adapter = InfoAllAdapter(emptyList(), emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
-            override fun recyclerviewClickListener(promoteImg: String?) {
-                val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
-                val imageName = gettingImageName(promoteImg?:"")
-                newIntent.putExtra("promoteImg", imageName)
-                //Log.d("test2345", "${promoteImg}")
-                startActivity(newIntent)
+            override fun recyclerviewClickListener(image: String?) {
+                val promoteInfo = intent?.getStringExtra("promoteInfo")
+
+                if (!promoteInfo.isNullOrEmpty()){
+                    val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
+                    val imageName = gettingImageName(image?:"")
+                    newIntent.putExtra("promoteImg", imageName)
+                    //Log.d("test2345", "${promoteImg}")
+                    startActivity(newIntent)
+                }else{
+                    val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
+                    val imageName = gettingImageName(image?:"")
+                    newIntent.putExtra("newsImg", imageName)
+                    startActivity(newIntent)
+                }
+
             }
         })
         adapter
@@ -81,9 +91,18 @@ class InfoAllActivity : AppCompatActivity() {
     private fun initView(){
         activityInfoAllBinding.apply {
             lifecycleScope.launch {
-                viewModel.promoteInfoList.observe(this@InfoAllActivity) { value ->
-                    progressBar4.visibility = View.GONE
-                    infoAllAdapter.updateData(value)
+                val promoteInfo = intent?.getStringExtra("promoteInfo")
+
+                if (!promoteInfo.isNullOrEmpty()){
+                    viewModel.promoteInfoList.observe(this@InfoAllActivity) { value ->
+                        progressBar4.visibility = View.GONE
+                        infoAllAdapter.updateData(value)
+                    }
+                }else{
+                    viewModel.newsInfoList.observe(this@InfoAllActivity){ value ->
+                        progressBar4.visibility = View.GONE
+                        infoAllAdapter.updateDataNews(value)
+                    }
                 }
             }
         }

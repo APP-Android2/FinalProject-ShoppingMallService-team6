@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.db.remote
 
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.storage
@@ -36,6 +37,29 @@ class NewsInfoDataSource {
         }
         job1.join()
         return newsInfoData
+    }
+
+    //날짜 순으로 모든 정보 받아오기(TimeStamp)
+    suspend fun getNewsDataByDate(): List<NewsInfoData>{
+        return try {
+            //private val newsInfo = Firebase.firestore.collection("NewsInfo")
+            val query = newsInfo.orderBy("newsTime", Query.Direction.DESCENDING)
+            val querySnapshot = query.get().await()
+            querySnapshot.map { it.toObject(NewsInfoData::class.java) }
+        }catch (e:Exception){
+            emptyList()
+        }
+    }
+
+    //이미지 이름을 이미지 url로 바꾸기
+    suspend fun getNewsInfoImg(image:String): String?{
+        val path = "NewsInfo/$image"
+        return try {
+            //private val storage = Firebase.storage.reference
+            storage.child(path).downloadUrl.await().toString()
+        }catch (e:Exception){
+            null
+        }
     }
 
 }
