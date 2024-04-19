@@ -79,10 +79,6 @@ class ModifyUserInfoFragment : Fragment() {
 
         modifyUserInfoViewModel.deleteComplete.observe(viewLifecycleOwner){
             if(it){
-                Snackbar.make(requireView(),"회원 탈퇴 완료", Snackbar.LENGTH_SHORT)
-                    .setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.first))
-                    .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
-                    .show()
                 // 로그인 화면으로 이동
                 val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
                 UniPieceApplication.prefs.deleteUserIdx("userIdx")
