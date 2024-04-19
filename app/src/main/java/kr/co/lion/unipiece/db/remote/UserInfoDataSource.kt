@@ -1,8 +1,8 @@
 package kr.co.lion.unipiece.db.remote
 
+import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
-import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -98,6 +98,41 @@ class UserInfoDataSource {
         job1.join()
 
         return userInfoData
+    }
+
+    // 유저 정보 업데이트
+    suspend fun updateUserData(userInfoData: UserInfoData):Boolean{
+        return try{
+            val userInfoDataMap = mapOf(
+                "userName" to userInfoData.userName,
+                "nickName" to userInfoData.nickName,
+                "phoneNumber" to userInfoData.phoneNumber,
+                "userPwd" to userInfoData.userPwd,
+            )
+            val collectionReference = db.collection("UserInfo")
+            val querySnapshot = collectionReference.whereEqualTo("userIdx", userInfoData.userIdx).get().await()
+            querySnapshot.documents[0].reference.update(userInfoDataMap).await()
+            true
+        }catch (e: Exception){
+            Log.e("Firebase Error", "Error updateUserData: ${e.message}")
+            false
+        }
+    }
+
+    // 회원 탈퇴 처리
+    suspend fun deleteUser(userIdx:Int):Boolean{
+        return try{
+            val userInfoDataMap = mapOf(
+                "userState" to false
+            )
+            val collectionReference = db.collection("UserInfo")
+            val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
+            querySnapshot.documents[0].reference.update(userInfoDataMap).await()
+            true
+        }catch (e: Exception){
+            Log.e("Firebase Error", "Error deleteUser: ${e.message}")
+            false
+        }
     }
 
 }
