@@ -19,4 +19,8 @@ class UserInfoRepository {
 
     suspend fun getUserDataByUserId(userId: String) = userInfoDataSource.getUserDataByUserId(userId)
 
+    suspend fun updateUserData(userInfoData: UserInfoData):Boolean = userInfoDataSource.updateUserData(userInfoData)
+
+    suspend fun deleteUser(userIdx:Int):Boolean = userInfoDataSource.deleteUser(userIdx)
+
 }
