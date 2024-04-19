@@ -6,10 +6,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.InfoAllBinding
+import kr.co.lion.unipiece.model.NewsInfoData
 import kr.co.lion.unipiece.model.PromoteInfoData
 import kr.co.lion.unipiece.util.setImage
 
-class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.Adapter<ViewHolderClass>() {
+class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoList: List<NewsInfoData>) : RecyclerView.Adapter<ViewHolderClass>() {
 
     private lateinit var itemOnClickListener: ItemOnClickListener
 
@@ -29,16 +30,30 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.
     }
 
     override fun getItemCount(): Int {
-        return promoteInfoList.size
+        return if (!promoteInfoList.isEmpty()){
+            promoteInfoList.size
+        }else {
+            newsInfoList.size
+        }
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-        holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, promoteInfoList[position].promoteImg)
-        holder.infoAllBinding.textInfoAllTitle.text = promoteInfoList[position].promoteName
-        holder.infoAllBinding.textInfoAllDate.text = promoteInfoList[position].promoteDate
-        holder.infoAllBinding.textInfoAllAuthorName.text = promoteInfoList[position].promotePlace
-        holder.infoAllBinding.root.setOnClickListener {
-            itemOnClickListener.recyclerviewClickListener(promoteInfoList[position].promoteImg)
+        if (!promoteInfoList.isEmpty()){
+            holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, promoteInfoList[position].promoteImg)
+            holder.infoAllBinding.textInfoAllTitle.text = promoteInfoList[position].promoteName
+            holder.infoAllBinding.textInfoAllDate.text = promoteInfoList[position].promoteDate
+            holder.infoAllBinding.textInfoAllAuthorName.text = promoteInfoList[position].promotePlace
+            holder.infoAllBinding.root.setOnClickListener {
+                itemOnClickListener.recyclerviewClickListener(promoteInfoList[position].promoteImg)
+            }
+        }else{
+            holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, newsInfoList[position].newsImg)
+            holder.infoAllBinding.textInfoAllTitle.text = newsInfoList[position].newsName
+            holder.infoAllBinding.textInfoAllDate.text = newsInfoList[position].newsDate
+            holder.infoAllBinding.textInfoAllAuthorName.text = newsInfoList[position].newsSale
+            holder.infoAllBinding.root.setOnClickListener {
+                itemOnClickListener.recyclerviewClickListener(newsInfoList[position].newsImg)
+            }
         }
 
     }
@@ -46,6 +61,13 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.
     @SuppressLint("NotifyDataSetChanged")
     fun updateData(list: List<PromoteInfoData>){
         promoteInfoList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateDataNews(list: List<NewsInfoData>){
+        newsInfoList = list
         notifyDataSetChanged()
         Log.d("update adapter", list.toString())
     }

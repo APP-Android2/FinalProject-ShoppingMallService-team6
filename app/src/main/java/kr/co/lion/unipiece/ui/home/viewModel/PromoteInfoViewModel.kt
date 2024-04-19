@@ -27,6 +27,10 @@ class PromoteInfoViewModel : ViewModel() {
         }
     }
 
+    suspend fun getPromoteDataByDate():List<PromoteInfoData>{
+        return promoteInfoRepository.gettingDataByDate()
+    }
+
     suspend fun getPromoteInfoByImage(promoteImg:String):PromoteInfoData?{
         return promoteInfoRepository.gettingPromoteInfoByImage(promoteImg)
     }
