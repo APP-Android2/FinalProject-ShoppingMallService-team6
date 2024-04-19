@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ProgressBar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -95,6 +94,7 @@ class HomeFragment : Fragment() {
 
     //이벤트 설정
     private fun settingEvent(){
+
         fragmentHomeBinding.apply {
             buttonAllPromote.setOnClickListener {
                 startActivity(Intent(mainActivity, InfoAllActivity::class.java))

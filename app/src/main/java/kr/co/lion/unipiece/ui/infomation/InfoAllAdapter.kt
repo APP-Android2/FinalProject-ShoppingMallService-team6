@@ -1,14 +1,18 @@
 package kr.co.lion.unipiece.ui.infomation
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.InfoAllBinding
+import kr.co.lion.unipiece.model.PromoteInfoData
+import kr.co.lion.unipiece.util.setImage
 
-class InfoAllAdapter() : RecyclerView.Adapter<ViewHolderClass>() {
+class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>) : RecyclerView.Adapter<ViewHolderClass>() {
 
     private lateinit var itemOnClickListener: ItemOnClickListener
+
 
     fun setRecyclerviewClickListener(itemOnClickListener: ItemOnClickListener){
         this.itemOnClickListener = itemOnClickListener
@@ -25,21 +29,29 @@ class InfoAllAdapter() : RecyclerView.Adapter<ViewHolderClass>() {
     }
 
     override fun getItemCount(): Int {
-        return 30
+        return promoteInfoList.size
     }
 
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
-        holder.infoAllBinding.imageView2.setImageResource(R.drawable.icon)
-        holder.infoAllBinding.textInfoAllTitle.text = "UniPiece"
-        holder.infoAllBinding.textInfoAllDate.text = "2024-04-01 ~ 2024-04-26"
-        holder.infoAllBinding.textInfoAllAuthorName.text = "멋쟁이 사람들"
+        holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, promoteInfoList[position].promoteImg)
+        holder.infoAllBinding.textInfoAllTitle.text = promoteInfoList[position].promoteName
+        holder.infoAllBinding.textInfoAllDate.text = promoteInfoList[position].promoteDate
+        holder.infoAllBinding.textInfoAllAuthorName.text = promoteInfoList[position].promotePlace
         holder.infoAllBinding.root.setOnClickListener {
-            itemOnClickListener.recyclerviewClickListener()
+            itemOnClickListener.recyclerviewClickListener(promoteInfoList[position].promoteImg)
         }
+
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: List<PromoteInfoData>){
+        promoteInfoList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
     }
 
     interface ItemOnClickListener{
-        fun recyclerviewClickListener()
+        fun recyclerviewClickListener(promoteImg: String?)
     }
 }
 
@@ -52,6 +64,5 @@ class ViewHolderClass(infoAllBinding: InfoAllBinding):RecyclerView.ViewHolder(in
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-
     }
 }

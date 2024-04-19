@@ -2,7 +2,9 @@ package kr.co.lion.unipiece.db.remote
 
 import android.content.Context
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,5 +41,27 @@ class PromoteInfoDataSource {
         job1.join()
 
         return promoteInfoData
+    }
+
+
+    //날짜순으로 모든 정보 받아오기
+    suspend fun gettingDataByDate(): List<PromoteInfoData>{
+        return try {
+            val query = promoteInfo.orderBy("promoteTime", Query.Direction.DESCENDING)
+            val querySnapshot = query.get().await()
+            querySnapshot.map { it.toObject(PromoteInfoData::class.java) }
+        }catch (e:Exception){
+            emptyList()
+        }
+    }
+
+    //이미지URL 받아오기
+    suspend fun getPromoteInfoImg(image:String): String?{
+        val path = "PromoteInfo/$image"
+        return try {
+            storage.child(path).downloadUrl.await().toString()
+        }catch (e:Exception){
+            null
+        }
     }
 }
