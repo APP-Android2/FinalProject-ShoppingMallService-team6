@@ -44,8 +44,11 @@ class DeliveryActivity : AppCompatActivity() {
                 newFragment = DeliveryManagerFragment()
             }
 
-            DeliveryFragmentName.DELIVERY_CUSTOM_DIALOG_FRAGMENT -> {
-                newFragment = DeliveryCustomDialogFragment("","","","","","","",false,0,0)
+            DeliveryFragmentName.DELIVERY_ADD_FRAGMENT -> {
+                newFragment = DeliveryAddFragment()
+            }
+            DeliveryFragmentName.DELIVERY_UPDATE_FRAGMENT -> {
+                newFragment = DeliveryUpdateFragment()
             }
 
         }

@@ -7,12 +7,16 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
+import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
-import kr.co.lion.unipiece.ui.payment.DeliveryCustomDialogFragment
+import kr.co.lion.unipiece.ui.payment.DeliveryAddFragment
+import kr.co.lion.unipiece.ui.payment.DeliveryUpdateFragment
 import kr.co.lion.unipiece.util.CustomDialog
+import kr.co.lion.unipiece.util.DeliveryFragmentName
 import java.util.Locale
 
 // 배송지 화면의 RecyclerView의 어뎁터
@@ -61,7 +65,6 @@ class DeliveryViewHolder(
 
     // 배송지 항목별로 세팅.
     fun bind(data: DeliveryData, itemClickListener: (Int) -> Unit) {
-        val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
         with(binding) {
 
@@ -109,38 +112,15 @@ class DeliveryViewHolder(
                     }
 
                 })
-                 // dialog.show(parentFragmentManager,"deleteDialog")
+                // dialog.show(parentFragmentManager, "deleteDialog")
 
             }
 
-            // 항목별 수정 풀스크린 다이얼로그
-            with(buttonDeliveryUpdate){
+            // 항목별 수정 버튼
+            with(buttonDeliveryUpdate) {
                 // 버튼 클릭 시
                 setOnClickListener {
-                    val dialog =
-                        DeliveryCustomDialogFragment(
-                            "배송지 수정",
-                            "수정하기",
-                            textViewDeliveryName.text.toString(),
-                            textViewDeliveryPhone.text.toString(),
-                            textViewDeliveryNickName.text.toString(),
-                            textViewDeliveryAddress.text.toString(),
-                            textViewDeliveryAddressDetail.text.toString(),
-                            buttonBasicDelivery.isVisible,
-                            data.userIdx,
-                            data.deliveryIdx,
-                        )
-                    dialog.setButtonClickListener(object : DeliveryCustomDialogFragment.DeliveryCustomDialogListener {
-                        override fun onClickSaveButton(deliveryData: DeliveryData) {
-                            // viewModel.insertDeliveryData(deliveryData)
-                            // viewModel.getDeliveryDataByIdx(userIdx)
 
-                        }
-                        override fun onClickCancelButton() {
-
-                        }
-                    })
-                    // dialog.show(parentFragmentManager,"DeliveryCustomDialog")
                 }
             }
 

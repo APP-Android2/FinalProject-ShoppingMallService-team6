@@ -22,21 +22,27 @@ class DeliveryViewModel : ViewModel() {
     private val _insertDeliveryData = MutableLiveData<List<DeliveryData>>()
     val insertDeliveryData: LiveData<List<DeliveryData>> = _insertDeliveryData
 
+    // 배송지 삭제하기
     private val _deleteDeliveryData = MutableLiveData<Int>()
     val deleteDeliveryData: LiveData<Int> = _deleteDeliveryData
+
+    // 기본 배송지
+    private val _getBasicDeliveryData = MutableLiveData<List<DeliveryData>>()
+    val getBasicDeliveryData: LiveData<List<DeliveryData>> = _getBasicDeliveryData
 
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     init {
         viewModelScope.launch {
             getDeliveryDataByIdx(userIdx)
+            getBasicDeliveryData(userIdx)
             insertDeliveryData(DeliveryData())
         }
     }
 
     // 배송지 정보 불러오기
 
-    suspend fun getDeliveryDataByIdx(userIdx: Int){
+    fun getDeliveryDataByIdx(userIdx: Int) = viewModelScope.launch {
         try {
             val response = deliveryRepository.getDeliveryDataByIdx(userIdx)
 
@@ -48,9 +54,7 @@ class DeliveryViewModel : ViewModel() {
     }
 
     // 신규 배송지 등록 및 수정하기
-    fun insertDeliveryData(
-        deliveryDataList: DeliveryData
-    ) = viewModelScope.launch{
+    fun insertDeliveryData(deliveryDataList: DeliveryData) = viewModelScope.launch {
         try {
             // 신규 배송지 등록일 경우
             if (deliveryDataList.deliveryIdx == 0) {
@@ -82,14 +86,23 @@ class DeliveryViewModel : ViewModel() {
 
     }
 
-    suspend fun deleteDeliveryData(deliveryIdx: Int){
-        try{
+    suspend fun deleteDeliveryData(deliveryIdx: Int) {
+        try {
             val response = deliveryRepository.deleteDeliveryData(deliveryIdx)
             _deleteDeliveryData.value = response
-        }catch (e:Exception){
+        } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmDeleteDeliveryData : ${e.message}")
         }
 
+    }
+
+    suspend fun getBasicDeliveryData(userIdx: Int) {
+        try {
+            val response = deliveryRepository.getBasicDeliveryData(userIdx)
+            _getBasicDeliveryData.value = response
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error vmGetBasicDeliveryData : ${e.message}")
+        }
     }
 
 

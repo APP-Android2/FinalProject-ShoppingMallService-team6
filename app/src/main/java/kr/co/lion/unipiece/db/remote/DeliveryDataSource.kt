@@ -150,6 +150,7 @@ class DeliveryDataSource {
         }
     }
 
+    // deliveryIdx 를 통해 해당 배송지 정보를 삭제한다.
     suspend fun deleteDeliveryData(deliveryIdx: Int): Int {
         try {
             val query = deliveryStore.whereEqualTo("deliveryIdx", deliveryIdx)
@@ -160,6 +161,19 @@ class DeliveryDataSource {
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error dbDeleteDeliveryData : ${e.message}")
             return 0
+        }
+    }
+
+    // userIdx 를 통해 해당 유저의 배송지 정보중에서 기본 배송지를 가져온다.
+    suspend fun getBasicDeliveryData(userIdx: Int) : List<DeliveryData>{
+        return try {
+            val query = deliveryStore.whereEqualTo("userIdx", userIdx).whereEqualTo("basicDelivery",true)
+            val querySnapshot = query.get().await()
+
+            querySnapshot.map { it.toObject(DeliveryData::class.java) }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error dbGetBasicDeliveryData : ${e.message}")
+            emptyList()
         }
     }
 }

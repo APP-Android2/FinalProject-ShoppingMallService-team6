@@ -11,17 +11,15 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
-import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
+import kr.co.lion.unipiece.util.DeliveryFragmentName
 
 class DeliveryManagerFragment : Fragment() {
 
     private lateinit var binding: FragmentDeliveryManagerBinding
     private val viewModel: DeliveryViewModel by viewModels()
-    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
 
     val deliveryAdapter: DeliveryAdapter = DeliveryAdapter(
@@ -72,47 +70,27 @@ class DeliveryManagerFragment : Fragment() {
                     requireActivity().finish()
                 }
             }
-            // 신규 배송지 등록 /////////////////////////////////////
+
+            // 신규 배송지 등록 버튼
             with(buttonDeliveryMainNewAdd) {
                 // 버튼 클릭 시
                 setOnClickListener {
-                    val dialog =
-                        DeliveryCustomDialogFragment(
-                            "신규 배송지 등록",
-                            "등록하기",
-                            "",
-                            "",
-                            "()",
-                            "",
-                            "",
-                            false,
-                            userIdx,
-                            // 신규 배송지 등록에서는 deliveryIdx 값을 0으로 세팅해서 반환한다.
-                            0
-                        )
+                    viewLifecycleOwner.lifecycleScope.launch{
+                        val supportFragmentManager = parentFragmentManager.beginTransaction()
+                        supportFragmentManager.replace(R.id.containerDelivery, DeliveryAddFragment())
+                            .addToBackStack(DeliveryFragmentName.DELIVERY_ADD_FRAGMENT.str)
+                            .commit()
+                    }
 
-                    dialog.setButtonClickListener(object : DeliveryCustomDialogFragment.DeliveryCustomDialogListener {
 
-                        // 저장 버튼 클릭한 이후 동작
-                        override fun onClickSaveButton(deliveryData: DeliveryData) {
-                            viewLifecycleOwner.lifecycleScope.launch {
-                                with(viewModel) {
-                                    insertDeliveryData(deliveryData)
-                                    getDeliveryDataByIdx(userIdx)
-                                }
-                            }
-                        }
-                        // 뒤로가기 버튼 클릭한 이후
-                        override fun onClickCancelButton() {
-
-                        }
-                    })
-                    dialog.show(parentFragmentManager,"DeliveryCustomDialog")
                 }
             }
-            // 리사이클러뷰 //////////////////////////////////////////////////////////////////////
+
+            // 리사이클러뷰
             with(recyclerViewDeliveryList) {
                 // 리사이클러뷰 어답터
+
+
                 adapter = deliveryAdapter
 
                 // 리사이클러뷰 레이아웃
