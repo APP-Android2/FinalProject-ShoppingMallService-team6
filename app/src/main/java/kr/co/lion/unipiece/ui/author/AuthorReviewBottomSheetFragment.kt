@@ -10,7 +10,9 @@ import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -41,6 +43,10 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         requireArguments().getInt("authorIdx")
     }
 
+    val authorIsMe by lazy {
+        requireArguments().getBoolean("authorIsMe")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -50,6 +56,8 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         fragmentAuthorReviewBottomSheetBinding.authorReviewViewModel = authorReviewViewModel
         fragmentAuthorReviewBottomSheetBinding.lifecycleOwner = this
 
+        fetchData()
+        initView()
         settingButtonAuthorReviewAdd()
 
         return fragmentAuthorReviewBottomSheetBinding.root
@@ -60,34 +68,60 @@ class AuthorReviewBottomSheetFragment : BottomSheetDialogFragment() {
         settingRecyclerView()
     }
 
+    private fun fetchData(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                // 리뷰 데이터 가져오기
+                authorReviewViewModel.getReviewList(authorIdx)
+            }
+        }
+    }
+
+    private fun initView(){
+        // 작가 본인인 경우 댓글 입력창 없애기
+        if(authorIsMe){
+            fragmentAuthorReviewBottomSheetBinding.layoutInputReview.visibility = View.GONE
+        }
+    }
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
-        lifecycleScope.launch(Dispatchers.Main) {
-            authorReviewViewModel.getReviewList(authorIdx)
-            authorReviewViewModel.authorReviewList.observe(viewLifecycleOwner) { value ->
-                val reviewAdapter =
-                    AuthorReviewAdapter(userIdx, value, deleteListener = { reviewIdx ->
-                        lifecycleScope.launch(Dispatchers.IO){
-                            // 리뷰 삭제
-                            authorReviewViewModel.deleteReview(reviewIdx)
-                            // 시퀀스 값 업데이트
-                            val reviewSequence = authorReviewViewModel.getReviewSequence() -1
-                            authorReviewViewModel.updateReviewSequence(reviewSequence)
-                            // 리뷰 정보 다시 불러오기
-                            authorReviewViewModel.getReviewList(authorIdx)
-                        }
-                    })
+        val reviewAdapter =
+                AuthorReviewAdapter(userIdx, emptyList(), deleteListener = { reviewIdx ->
+                    lifecycleScope.launch(Dispatchers.IO){
+                        // 리뷰 삭제
+                        authorReviewViewModel.deleteReview(reviewIdx)
+                        // 시퀀스 값 업데이트
+                        val reviewSequence = authorReviewViewModel.getReviewSequence() -1
+                        authorReviewViewModel.updateReviewSequence(reviewSequence)
+                        // 리뷰 정보 다시 불러오기
+                        authorReviewViewModel.getReviewList(authorIdx)
+                    }
+                })
 
-                // 리사이클러뷰 셋팅
-                fragmentAuthorReviewBottomSheetBinding.recyclerViewAuthorReview.apply {
-                    // 어댑터
-                    adapter = reviewAdapter
-                    // 레이아웃 매니저, 가로 방향 셋팅
-                    layoutManager = LinearLayoutManager(requireActivity())
-                    // 데코레이션
-                    val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
-                    addItemDecoration(deco)
+        // 리사이클러뷰 셋팅
+        fragmentAuthorReviewBottomSheetBinding.recyclerViewAuthorReview.apply {
+            // 어댑터
+            adapter = reviewAdapter
+            // 레이아웃 매니저, 가로 방향 셋팅
+            layoutManager = LinearLayoutManager(requireActivity())
+            // 데코레이션
+            val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
+            addItemDecoration(deco)
+        }
+
+        // 리뷰 데이터가 바뀌는 시점에 업데이트
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                authorReviewViewModel.authorReviewList.observe(viewLifecycleOwner) { value ->
+                    if(value.isEmpty()){
+                        // 받아온 리뷰 데이터가 없을 경우
+                        val emptyData = AuthorReviewData(0, 0, "", 0, "등록된 리뷰가 없습니다", Timestamp.now())
+                        val emptyList = listOf(emptyData)
+                        reviewAdapter.updateList(emptyList)
+                    }else{
+                        reviewAdapter.updateList(value)
+                    }
                 }
             }
         }

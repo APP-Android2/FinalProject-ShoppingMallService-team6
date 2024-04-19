@@ -10,4 +10,7 @@ class PromoteInfoRepository {
 
     suspend fun gettingPromoteInfoByImage(promoteImg:String) = promoteInfoDataSource.gettingPromoteInfoByImage(promoteImg)
 
+    suspend fun gettingDataByDate() = promoteInfoDataSource.gettingDataByDate()
+
+    suspend fun getPromoteInfoImg(image:String) = promoteInfoDataSource.getPromoteInfoImg(image)
 }
