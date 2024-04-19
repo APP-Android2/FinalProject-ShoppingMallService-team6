@@ -7,14 +7,11 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.RecyclerView
-import kotlinx.coroutines.launch
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
-import kr.co.lion.unipiece.ui.payment.CustomFullDialogListener
-import kr.co.lion.unipiece.ui.payment.CustomFullDialogMaker
-import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
+import kr.co.lion.unipiece.ui.payment.DeliveryCustomDialogFragment
 import kr.co.lion.unipiece.util.CustomDialog
 import java.util.Locale
 
@@ -32,7 +29,6 @@ class DeliveryAdapter(
         return DeliveryViewHolder(
             viewGroup.context,
             binding,
-            DeliveryViewModel(),
             itemClickListener
         )
     }
@@ -53,20 +49,22 @@ class DeliveryAdapter(
         notifyDataSetChanged()
         Log.d("update adapter", list.toString())
     }
-
 }
 
 class DeliveryViewHolder(
     private val context: Context,
-    val binding: RowDeliveryBinding,
-    private val viewModel: DeliveryViewModel,
+    private val binding: RowDeliveryBinding,
     private val itemClickListener: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
+
+
     // 배송지 항목별로 세팅.
     fun bind(data: DeliveryData, itemClickListener: (Int) -> Unit) {
+        val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
         with(binding) {
+
             // 받는 이
             textViewDeliveryName.text = data.deliveryName
             // 배송지명 (별명)
@@ -111,49 +109,38 @@ class DeliveryViewHolder(
                     }
 
                 })
-                // dialog.show(dialog.childFragmentManager,"deleteDialog")
+                 // dialog.show(parentFragmentManager,"deleteDialog")
 
             }
 
-            // 항목별 수정 버튼 클릭 시 풀스크린 다이얼로그
-            buttonDeliveryUpdate.setOnClickListener {
+            // 항목별 수정 풀스크린 다이얼로그
+            with(buttonDeliveryUpdate){
+                // 버튼 클릭 시
+                setOnClickListener {
+                    val dialog =
+                        DeliveryCustomDialogFragment(
+                            "배송지 수정",
+                            "수정하기",
+                            textViewDeliveryName.text.toString(),
+                            textViewDeliveryPhone.text.toString(),
+                            textViewDeliveryNickName.text.toString(),
+                            textViewDeliveryAddress.text.toString(),
+                            textViewDeliveryAddressDetail.text.toString(),
+                            buttonBasicDelivery.isVisible,
+                            data.userIdx,
+                            data.deliveryIdx,
+                        )
+                    dialog.setButtonClickListener(object : DeliveryCustomDialogFragment.DeliveryCustomDialogListener {
+                        override fun onClickSaveButton(deliveryData: DeliveryData) {
+                            // viewModel.insertDeliveryData(deliveryData)
+                            // viewModel.getDeliveryDataByIdx(userIdx)
 
-                // 커스텀 다이얼로그 (풀스크린)
-                with(CustomFullDialogMaker) {
-                    // 다이얼로그 호출
-                    getDialog(
-                        context,
-                        "배송지 수정",
-                        "수정하기",
-                        object : CustomFullDialogListener {
+                        }
+                        override fun onClickCancelButton() {
 
-                            // 클릭한 이후 동작
-                            // 수정하기 버튼 클릭 후 동작
-                            override fun onClickSaveButton(deliveryData: DeliveryData) {
-                                viewModel.viewModelScope.launch {
-                                    viewModel.insertDeliveryData(deliveryData)
-
-
-                                }
-
-
-                            }
-
-                            // 뒤로가기 버튼 클릭 후 동작
-                            override fun onClickCancelButton() {
-
-                            }
-                        },
-
-                        textViewDeliveryName.text.toString(),
-                        textViewDeliveryPhone.text.toString(),
-                        textViewDeliveryNickName.text.toString(),
-                        textViewDeliveryAddress.text.toString(),
-                        textViewDeliveryAddressDetail.text.toString(),
-                        buttonBasicDelivery.isVisible,
-                        data.userIdx,
-                        data.deliveryIdx,
-                    )
+                        }
+                    })
+                    // dialog.show(parentFragmentManager,"DeliveryCustomDialog")
                 }
             }
 
@@ -165,3 +152,4 @@ class DeliveryViewHolder(
         }
     }
 }
+

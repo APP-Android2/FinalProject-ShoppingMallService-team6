@@ -66,6 +66,6 @@ enum class OrderFragmentName(var str:String){
 // DeliveryActivity에서 보여줄 프래그먼트들의 이름
 enum class DeliveryFragmentName(var str:String){
     DELIVERY_MANAGER_FRAGMENT("DeliveryManagerFragment"),
-    DELIVERY_ADD_FRAGMENT("DeliveryAddFragment"),
+    DELIVERY_CUSTOM_DIALOG_FRAGMENT("DeliveryCustomDialogFragment"),
 }
 

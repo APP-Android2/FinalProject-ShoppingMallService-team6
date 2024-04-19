@@ -2,10 +2,13 @@ package kr.co.lion.unipiece.ui.payment
 
 import android.os.Bundle
 import android.os.SystemClock
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityDeliveryBinding
+import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
 import kr.co.lion.unipiece.util.DeliveryFragmentName
 
 class DeliveryActivity : AppCompatActivity() {
@@ -14,6 +17,7 @@ class DeliveryActivity : AppCompatActivity() {
 
     var oldFragment: Fragment? = null
     var newFragment: Fragment? = null
+
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,8 +44,8 @@ class DeliveryActivity : AppCompatActivity() {
                 newFragment = DeliveryManagerFragment()
             }
 
-            DeliveryFragmentName.DELIVERY_ADD_FRAGMENT -> {
-                newFragment = DeliveryAddFragment()
+            DeliveryFragmentName.DELIVERY_CUSTOM_DIALOG_FRAGMENT -> {
+                newFragment = DeliveryCustomDialogFragment("","","","","","","",false,0,0)
             }
 
         }

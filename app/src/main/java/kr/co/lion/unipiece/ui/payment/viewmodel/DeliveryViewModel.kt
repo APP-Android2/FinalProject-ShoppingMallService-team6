@@ -5,13 +5,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.model.DeliveryData
-import kr.co.lion.unipiece.model.PieceAddInfoData
-import kr.co.lion.unipiece.model.UserInfoData
 import kr.co.lion.unipiece.repository.DeliveryRepository
 
 class DeliveryViewModel : ViewModel() {
@@ -26,33 +22,36 @@ class DeliveryViewModel : ViewModel() {
     private val _insertDeliveryData = MutableLiveData<List<DeliveryData>>()
     val insertDeliveryData: LiveData<List<DeliveryData>> = _insertDeliveryData
 
+    private val _deleteDeliveryData = MutableLiveData<Int>()
+    val deleteDeliveryData: LiveData<Int> = _deleteDeliveryData
+
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     init {
         viewModelScope.launch {
             getDeliveryDataByIdx(userIdx)
+            insertDeliveryData(DeliveryData())
         }
     }
 
     // 배송지 정보 불러오기
-    suspend fun getDeliveryDataByIdx(userIdx: Int) {
+
+    suspend fun getDeliveryDataByIdx(userIdx: Int){
         try {
             val response = deliveryRepository.getDeliveryDataByIdx(userIdx)
 
             _deliveryDataList.value = response
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error insertDeliveryData : ${e.message}")
-            return
+            Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
         }
 
     }
 
     // 신규 배송지 등록 및 수정하기
-    suspend fun insertDeliveryData(
+    fun insertDeliveryData(
         deliveryDataList: DeliveryData
-    ) {
+    ) = viewModelScope.launch{
         try {
-            Log.d("deliveryDataList1","${deliveryDataList}")
             // 신규 배송지 등록일 경우
             if (deliveryDataList.deliveryIdx == 0) {
                 // 배송지 시퀀스 값 가져오기
@@ -73,15 +72,25 @@ class DeliveryViewModel : ViewModel() {
                     deliveryDataList.userIdx,
                     deliveryIdx
                 )
-                Log.d("deliveryData2","${sqDeliveryData}")
                 deliveryRepository.insertDeliveryData(sqDeliveryData)
             } else {
-                Log.d("deliveryData3","${deliveryDataList}")
                 deliveryRepository.updateDeliveryData(deliveryDataList)
             }
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error insertDeliveryData : ${e.message}")
+            Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
         }
 
     }
+
+    suspend fun deleteDeliveryData(deliveryIdx: Int){
+        try{
+            val response = deliveryRepository.deleteDeliveryData(deliveryIdx)
+            _deleteDeliveryData.value = response
+        }catch (e:Exception){
+            Log.e("Firebase Error", "Error vmDeleteDeliveryData : ${e.message}")
+        }
+
+    }
+
+
 }

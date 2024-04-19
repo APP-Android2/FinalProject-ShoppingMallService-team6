@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.db.remote
 
 import android.util.Log
+import com.google.android.gms.tasks.Task
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
@@ -16,19 +17,25 @@ class DeliveryDataSource {
 
     // 배송지 번호 시퀀스값을 가져온다.
     suspend fun getDeliverySequence(): Int {
-        var deliverySequence = -1
+        try {
+            var deliverySequence = -1
 
-        val job1 = CoroutineScope(Dispatchers.IO).launch {
-            // 사용자 번호 시퀀스값을 가지고 있는 문서에 접근할 수 있는 객체를 가져온다.
-            val documentReference = sequenceStore.document("DeliverySequence")
-            // 문서내에 있는 데이터를 가져올 수 있는 객체를 가져온다.
-            val documentSnapShot = documentReference.get().await()
+            val job1 = CoroutineScope(Dispatchers.IO).launch {
+                // 사용자 번호 시퀀스값을 가지고 있는 문서에 접근할 수 있는 객체를 가져온다.
+                val documentReference = sequenceStore.document("DeliverySequence")
+                // 문서내에 있는 데이터를 가져올 수 있는 객체를 가져온다.
+                val documentSnapShot = documentReference.get().await()
 
-            deliverySequence = documentSnapShot.getLong("value")?.toInt() ?: -1
+                deliverySequence = documentSnapShot.getLong("value")?.toInt() ?: -1
+            }
+            job1.join()
+
+            return deliverySequence
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error dbGetDeliverySequence : ${e.message}")
+            return 0
         }
-        job1.join()
 
-        return deliverySequence
     }
 
     // 배송지 시퀀스 값을 업데이트 한다.
@@ -47,12 +54,13 @@ class DeliveryDataSource {
             }
             job1.join()
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error updateDeliverySequence : ${e.message}")
+            Log.e("Firebase Error", "Error dbUpdateDeliverySequence : ${e.message}")
         }
     }
 
     // 기존 배송지를 수정한다.
     suspend fun updateDeliveryData(deliveryData: DeliveryData) {
+
         try {
 
             // 기본 배송지로 설정하는 경우
@@ -87,7 +95,7 @@ class DeliveryDataSource {
                 document.reference.update(deliveryDataMap as Map<String, Any>).await()
             }
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error updateDeliveryData : ${e.message}")
+            Log.e("Firebase Error", "Error dbUpdateDeliveryData : ${e.message}")
         }
     }
 
@@ -124,7 +132,7 @@ class DeliveryDataSource {
                 .set(deliveryDataMap)
                 .await()
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error dbinsertDeliveryData : ${e.message}")
+            Log.e("Firebase Error", "Error dbInsertDeliveryData : ${e.message}")
         }
     }
 
@@ -137,8 +145,21 @@ class DeliveryDataSource {
             querySnapshot.map { it.toObject(DeliveryData::class.java) }
 
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error getDeliveryDataByIdx : ${e.message}")
+            Log.e("Firebase Error", "Error dbGetDeliveryDataByIdx : ${e.message}")
             emptyList()
+        }
+    }
+
+    suspend fun deleteDeliveryData(deliveryIdx: Int): Int {
+        try {
+            val query = deliveryStore.whereEqualTo("deliveryIdx", deliveryIdx)
+            val querySnapshot = query.get().await()
+
+            val result = querySnapshot.documents[0].reference.delete().toString().toInt()
+            return result
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error dbDeleteDeliveryData : ${e.message}")
+            return 0
         }
     }
 }

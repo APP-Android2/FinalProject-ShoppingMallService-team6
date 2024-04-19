@@ -1,37 +1,55 @@
 package kr.co.lion.unipiece.ui.payment
 
-import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.os.Bundle
 import android.text.Editable
-import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.WindowManager
+import androidx.core.view.ViewCompat
+import androidx.fragment.app.DialogFragment
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.databinding.DialogDeliveryAddBinding
+import kr.co.lion.unipiece.databinding.FragmentDeliveryCustomDialogBinding
 import kr.co.lion.unipiece.model.DeliveryData
+import java.util.concurrent.locks.ReentrantLock
 
-object CustomFullDialogMaker {
+class DeliveryCustomDialogFragment(
+    val title: String,
+    val saveButtonText: String,
+    val addReceiver: String,
+    val addPhone: String,
+    val addNickName: String,
+    val addAddress: String,
+    val addAddressDetail: String,
+    val basicDelivery: Boolean,
+    val userIdx: Int,
+    val deliveryIdx: Int
+) : DialogFragment() {
 
-    // 기능 구현부에서 커스텀 다이얼로그를 호출할 함수
-    fun getDialog(
-        context: Context,
-        title: String,
-        saveButtonText: String,
-        target: CustomFullDialogListener,
-        addReceiver: String,
-        addPhone: String,
-        addNickName: String,
-        addAddress: String,
-        addAddressDetail: String,
-        basicDelivery: Boolean,
-        userIdx: Int,
-        deliveryIdx: Int,
-    ) {
-        val dialog = Dialog(context, R.style.Theme_UniPiece)
-        val dialogBinding = DialogDeliveryAddBinding.inflate(dialog.layoutInflater)
-        dialog.setContentView(dialogBinding.root)
+    private lateinit var binding: FragmentDeliveryCustomDialogBinding
 
-        // DB로 넘겨줄 배송지 데이터 세팅
+    override fun onStart() {
+        super.onStart()
+
+
+        // full Screen code
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        dialog?.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog?.window?.clearFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
+
+    }
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+        binding = FragmentDeliveryCustomDialogBinding.inflate(inflater, container, false)
+
+
         fun insertDeliveryData(): DeliveryData {
-            with(dialogBinding) {
+            with(binding) {
                 val deliveryName = textFieldDeliveryAddReceiver.text.toString()
                 val deliveryPhone = textFieldDeliveryAddPhone.text.toString()
                 val deliveryNickName = textFieldDeliveryAddNickName.text.toString()
@@ -55,27 +73,18 @@ object CustomFullDialogMaker {
         }
 
 
-        // 바인딩
-        with(dialogBinding) {
-
+        with(binding) {
             // 툴바
             with(toolbarDeliveryAdd) {
-
-                // 툴바 제목과 연결
+                // 툴바 타이틀
                 this.title = title
 
-                // 뒤로가기 내비 아이콘 연결
-                setNavigationIcon(R.drawable.back_icon)
-
-                // // 뒤로가기 내비게이션버튼 클릭 시 동작
                 setNavigationOnClickListener {
-                    target.onClickCancelButton()
-                    // 다이얼로그 종료
-                    dialog.dismiss()
+                    buttonCilckListener.onClickCancelButton()
+                    dismiss()
                 }
-                // 다이얼로그 출력
-                dialog.show()
             }
+
             // 배송지 수정으로 넘어왔을 경우 셋팅
             textFieldDeliveryAddReceiver.text = addReceiver.toEditable()
             textFieldDeliveryAddPhone.text = addPhone.toEditable()
@@ -84,25 +93,20 @@ object CustomFullDialogMaker {
             textFieldDeliveryAddAddress.text = addAddress.toEditable()
             textFieldDeliveryAddAddressDetail.text = addAddressDetail.toEditable()
             checkBoxAddDeliveryBasicDelivery.isChecked = basicDelivery
-            // 저장버튼
+
+
+            // 저장하기 버튼
             with(saveButton) {
 
                 // 저장버튼 텍스트와 연결
                 text = saveButtonText
 
-                // 저장버튼 클릭 시 동작
                 setOnClickListener {
 
-                    // 배송지 데이터를 담아서 보내준다.
                     val deliveryData = insertDeliveryData()
-                    target.onClickSaveButton(deliveryData)
-
-
-                    // 다이얼로그 종료
-                    dialog.dismiss()
+                    buttonCilckListener.onClickSaveButton(deliveryData)
+                    dismiss()
                 }
-                // 다이얼로그 출력
-                dialog.show()
             }
             // 집 클릭 시
             buttonDeliveryAddHouse.setOnClickListener {
@@ -144,13 +148,26 @@ object CustomFullDialogMaker {
 
             // 주소 비활성화
             textFieldDeliveryAddAddress.isEnabled = false
-
-
         }
+
+        return binding.root
     }
+
+    interface DeliveryCustomDialogListener {
+        fun onClickSaveButton(deliveryData: DeliveryData)
+
+        fun onClickCancelButton()
+
+    }
+
+    //클릭 이벤트 설정
+    fun setButtonClickListener(buttonClickListener: DeliveryCustomDialogListener) {
+        this.buttonCilckListener = buttonClickListener
+    }
+
+    //클릭 이벤트 설정
+    private lateinit var buttonCilckListener: DeliveryCustomDialogListener
 
     // String 타입을 editable 타입으로 형변환 코드
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
-
-
 }

@@ -21,4 +21,7 @@ class DeliveryRepository {
     // 유저 번호를 통해 배송지 정보를 가져와 반환한다.
     suspend fun getDeliveryDataByIdx(userIdx:Int) = deliveryDataSource.getDeliveryDataByIdx(userIdx)
 
+    // 배송지 번호를 통해 해당하는 배송지 정보를 삭제한다.
+    suspend fun deleteDeliveryData(deliveryIdx:Int) = deliveryDataSource.deleteDeliveryData(deliveryIdx)
+
 }
