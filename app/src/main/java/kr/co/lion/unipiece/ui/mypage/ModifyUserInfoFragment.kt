@@ -2,27 +2,18 @@ package kr.co.lion.unipiece.ui.mypage
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.gms.tasks.Task
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
@@ -77,6 +68,27 @@ class ModifyUserInfoFragment : Fragment() {
                     .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
                     .show()
                 removeFragment()
+            }else{
+                Snackbar.make(requireView(),"네트워크 오류, 잠시 후 다시 시도해주세요", Snackbar.LENGTH_SHORT)
+                    .setAnchorView(fragmentModifyUserInfoBinding.toolbarModifyUserInfo)
+                    .setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.first))
+                    .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+                    .show()
+            }
+        }
+
+        modifyUserInfoViewModel.deleteComplete.observe(viewLifecycleOwner){
+            if(it){
+                Snackbar.make(requireView(),"회원 탈퇴 완료", Snackbar.LENGTH_SHORT)
+                    .setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.first))
+                    .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+                    .show()
+                // 로그인 화면으로 이동
+                val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
+                UniPieceApplication.prefs.deleteUserIdx("userIdx")
+                UniPieceApplication.prefs.deleteUserId("userId")
+                loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(loginIntent)
             }else{
                 Snackbar.make(requireView(),"네트워크 오류, 잠시 후 다시 시도해주세요", Snackbar.LENGTH_SHORT)
                     .setAnchorView(fragmentModifyUserInfoBinding.toolbarModifyUserInfo)
@@ -181,12 +193,10 @@ class ModifyUserInfoFragment : Fragment() {
 
                 dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
                     override fun okButtonClick() {
-                        // 회원 탈퇴 처리
-
-                        // 로그인 화면으로 이동
-                        val loginIntent = Intent(requireActivity(), LoginActivity::class.java)
-                        loginIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                        startActivity(loginIntent)
+                        lifecycleScope.launch {
+                            // 회원 탈퇴 처리
+                            modifyUserInfoViewModel.deleteUser()
+                        }
                     }
 
                     override fun noButtonClick() {
