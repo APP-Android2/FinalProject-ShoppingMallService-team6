@@ -73,7 +73,7 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoLis
     }
 
     interface ItemOnClickListener{
-        fun recyclerviewClickListener(promoteImg: String?)
+        fun recyclerviewClickListener(image: String?)
     }
 }
 

@@ -24,14 +24,21 @@ class InfoAllActivity : AppCompatActivity() {
     val infoAllAdapter:InfoAllAdapter by lazy {
         val adapter = InfoAllAdapter(emptyList(), emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
-            override fun recyclerviewClickListener(promoteImg: String?) {
-                val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
-                val imageName = gettingImageName(promoteImg?:"")
-                newIntent.putExtra("promoteImg", imageName)
+            override fun recyclerviewClickListener(image: String?) {
+                val promoteInfo = intent?.getStringExtra("promoteInfo")
+
+                if (!promoteInfo.isNullOrEmpty()){
+                    val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
+                    val imageName = gettingImageName(image?:"")
+                    newIntent.putExtra("promoteImg", imageName)
                     //Log.d("test2345", "${promoteImg}")
-                startActivity(newIntent)
-
-
+                    startActivity(newIntent)
+                }else{
+                    val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
+                    val imageName = gettingImageName(image?:"")
+                    newIntent.putExtra("newsImg", imageName)
+                    startActivity(newIntent)
+                }
 
             }
         })
