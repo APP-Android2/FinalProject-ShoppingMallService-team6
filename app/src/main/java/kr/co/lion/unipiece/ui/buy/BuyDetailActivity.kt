@@ -4,21 +4,25 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.activity.viewModels
+import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityBuyDetailBinding
+import kr.co.lion.unipiece.model.CartData
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModelFactory
+import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
 import kr.co.lion.unipiece.ui.payment.cart.CartActivity
 import kr.co.lion.unipiece.ui.payment.order.OrderActivity
-import kr.co.lion.unipiece.util.MainFragmentName.*
 import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.text.DecimalFormat
@@ -31,12 +35,12 @@ class BuyDetailActivity : AppCompatActivity() {
 
     private var authorIdx: Int = -1
 
+    private var userIdx: Int = UniPieceApplication.prefs.getUserIdx("userIdx",0)
+
     private val viewModel: BuyDetailViewModel by lazy {
-        ViewModelProvider(this, BuyDetailViewModelFactory(pieceIdx, authorIdx)).get(BuyDetailViewModel::class.java)
+        ViewModelProvider(this, BuyDetailViewModelFactory(pieceIdx, authorIdx, userIdx)).get(BuyDetailViewModel::class.java)
     }
 
-    // 좋아요 버튼 테스트 데이터
-    var click = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -44,11 +48,6 @@ class BuyDetailActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
-        setToolbar()
-        likeBtnClick()
-        cartBtnClick()
-        buyBtnClick()
-
     }
 
     fun initView(){
@@ -62,16 +61,84 @@ class BuyDetailActivity : AppCompatActivity() {
             viewModel.getAuthorReviewDataByIdx(authorIdx)
         }
 
+        setToolbar()
+
         setPieceInfo()
         setAuthorInfo()
         setAuthorReview()
+
+        setProgressBar()
+
+        getLikeBtn()
+        setLikeBtn()
+
+        setLikeCount()
+
+        visitGalleryBtn()
+
+        buyBtnClick()
+
+        getCartBtn()
+        setCartBtn()
+    }
+
+    fun setLikeCount(){
+        viewModel.likePieceCount.observe(this@BuyDetailActivity, Observer { likeCount ->
+            binding.pieceLike.text = "${likeCount}명이 좋아요를 눌렀어요"
+        })
+    }
+
+    fun setLikeBtn(){
+
+        viewModel.likePiece.observe(this@BuyDetailActivity, Observer { isLiked ->
+            with(binding.likeBtn) {
+                setImageResource(if(isLiked) R.drawable.heart_icon else R.drawable.heartoff_icon)
+            }
+        })
+
+        clickLikeBtn()
+    }
+
+    fun getLikeBtn(){
+        lifecycleScope.launch {
+            viewModel.getLikePiece()
+        }
+    }
+
+    fun clickLikeBtn(){
+        binding.likeBtn.setOnClickListener {
+            lifecycleScope.launch {
+                if(viewModel.likePiece.value == true) {
+                    showLikeSnackbar("좋아요를 취소했습니다.")
+                    viewModel.cancelLikePiece(pieceIdx, userIdx)
+                    viewModel.updateLike(pieceIdx)
+                } else {
+                    showLikeSnackbar("좋아요를 눌렀습니다.")
+                    viewModel.addLikePiece(pieceIdx, userIdx)
+                    viewModel.updateLike(pieceIdx)
+                }
+                viewModel.getLikePiece()
+            }
+        }
+    }
+
+    fun setProgressBar(){
+        viewModel.allDataReceived.observe(this@BuyDetailActivity, Observer {
+            if(it){
+                binding.progressBar.visibility = View.GONE
+            }
+        })
     }
 
     fun setPieceInfo(){
         viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
-                    progressBar.visibility = View.GONE
+
+                    lifecycleScope.launch {
+                        viewModel.setPieceInfoReceived(true)
+                    }
+
                     setImage(pieceImg, it.pieceImg)
                     authorName.text = it.authorName
                     pieceName.text = it.pieceName
@@ -93,7 +160,11 @@ class BuyDetailActivity : AppCompatActivity() {
         viewModel.authorInfo.observe(this@BuyDetailActivity, Observer {
             with(binding){
                 if (it != null) {
-                    progressBar.visibility = View.GONE
+
+                    lifecycleScope.launch {
+                        viewModel.setAuthorInfoReceived(true)
+                    }
+
                     setImage(authorImg, it.authorImg)
                     authorInfoName.text = it.authorName
                     authorInfo.text = it.authorInfo
@@ -113,7 +184,11 @@ class BuyDetailActivity : AppCompatActivity() {
     fun setAuthorReview(){
         viewModel.authorReviewList.observe(this@BuyDetailActivity, Observer {
             with(binding){
-                progressBar.visibility = View.GONE
+
+                lifecycleScope.launch {
+                    viewModel.setAuthorReviewReceived(true)
+                }
+
                 if (it != null) {
                     when(it.size){
                         0 -> {
@@ -137,7 +212,7 @@ class BuyDetailActivity : AppCompatActivity() {
                             reviewText2.text = it[1].reviewContent
 
                         }
-                        3 -> {
+                        else -> {
                             nickname1.text = it[0].userNickname
                             reviewText1.text = it[0].reviewContent
                             nickname2.text = it[1].userNickname
@@ -190,25 +265,40 @@ class BuyDetailActivity : AppCompatActivity() {
         finish()
     }
 
-    fun likeBtnClick(){
-
-        with(binding.likeBtn){
-            setOnClickListener {
-                click = !click
-                if(click){
-                    setImageResource(R.drawable.heart_icon)
-                } else {
-                    setImageResource(R.drawable.heartoff_icon)
-                }
-            }
+    fun visitGalleryBtn(){
+        binding.galleryBtn.setOnClickListener {
+            val intent = Intent(this@BuyDetailActivity, VisitGalleryActivity::class.java)
+            startActivity(intent)
         }
     }
 
+    fun getCartBtn(){
+        lifecycleScope.launch {
+            viewModel.getCartPiece()
+        }
+    }
+
+    fun setCartBtn(){
+        viewModel.cartPiece.observe(this@BuyDetailActivity, {
+            with(binding.cartBtn) {
+                setImageResource(if(it) R.drawable.shopcart_icon_on else R.drawable.shopcart_icon)
+            }
+        })
+
+        cartBtnClick()
+    }
+
     fun cartBtnClick() {
-        with(binding.cartBtn) {
-            setOnClickListener {
-                val intent = Intent(this@BuyDetailActivity, CartActivity::class.java)
-                startActivity(intent)
+        binding.cartBtn.setOnClickListener {
+            lifecycleScope.launch {
+                if(viewModel.cartPiece.value == true){
+                    showCartSnackbar("장바구니에서 삭제했습니다.")
+                    viewModel.cancelCartPiece(pieceIdx, userIdx)
+                } else {
+                    showCartSnackbar("장바구니에 담았습니다.")
+                    viewModel.insertCartData(CartData(userIdx, pieceIdx, Timestamp.now()))
+                }
+                viewModel.getCartPiece()
             }
         }
     }
@@ -217,9 +307,35 @@ class BuyDetailActivity : AppCompatActivity() {
         with(binding.buyBtn) {
             setOnClickListener {
                 val intent = Intent(this@BuyDetailActivity, OrderActivity::class.java)
+
+                intent.putExtra("pieceName", viewModel.pieceInfo.value?.pieceName)
+                intent.putExtra("piecePrice", viewModel.pieceInfo.value?.piecePrice)
+                intent.putExtra("pieceImg", viewModel.pieceInfo.value?.pieceImg)
+                intent.putExtra("authorName", viewModel.pieceInfo.value?.authorName)
+
                 startActivity(intent)
             }
         }
     }
 
+    private fun showLikeSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAnchorView(binding.bottomBarBuyDetail)
+            .setBackgroundTint(ContextCompat.getColor(this@BuyDetailActivity, R.color.second))
+            .setTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.white))
+            .show()
+    }
+
+    private fun showCartSnackbar(message: String) {
+        Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAnchorView(binding.bottomBarBuyDetail)
+            .setBackgroundTint(ContextCompat.getColor(this@BuyDetailActivity, R.color.first))
+            .setTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.white))
+            .setActionTextColor(ContextCompat.getColor(this@BuyDetailActivity, R.color.third))
+            .setAction("장바구니로 가기"){
+                val intent = Intent(this@BuyDetailActivity, CartActivity::class.java)
+                startActivity(intent)
+            }
+            .show()
+    }
 }

@@ -153,4 +153,24 @@ class PieceInfoDataSource {
         }
     }
 
+    // pieceLike 업데이트 하기
+    suspend fun updatePieceLike(pieceIdx: Int, pieceLike: Int) {
+        try {
+            val query = pieceInfoStore.whereEqualTo("pieceIdx", pieceIdx)
+            val querySnapShot = query.get().await()
+            val document = querySnapShot.documents.firstOrNull()
+
+            document?.let {
+                val map = mutableMapOf<String, Any>()
+                map["pieceLike"] = pieceLike
+
+                it.reference.update(map).await() // 문서 업데이트
+            } ?: run {
+                Log.e("Firebase Error", "No document found with pieceIdx: $pieceIdx")
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error updating pieceLike: ${e.message}")
+        }
+    }
+
 }
