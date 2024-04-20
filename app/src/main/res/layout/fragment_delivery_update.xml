@@ -7,11 +7,12 @@
     android:orientation="vertical">
 
     <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarDeliveryAdd"
+        android:id="@+id/toolbarDeliveryUpdate"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         app:titleCentered="true"
-        android:background="@color/white"/>
+        android:background="@color/white"
+        android:theme="@style/Theme.UniPiece"/>
 
 
     <LinearLayout
@@ -31,7 +32,7 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFieldDeliveryAddReceiver"
+                android:id="@+id/textFieldDeliveryUpdateReceiver"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
@@ -49,7 +50,7 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFieldDeliveryAddPhone"
+                android:id="@+id/textFieldDeliveryUpdatePhone"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:layout_marginTop="8dp"
@@ -68,7 +69,7 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFieldDeliveryAddNickName"
+                android:id="@+id/textFieldDeliveryUpdateNickName"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
@@ -86,12 +87,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:theme="@style/Theme.Material3"
-                app:checkedChip="@id/buttonDeliveryAddDirectly"
+                app:checkedChip="@id/buttonDeliveryUpdateDirectly"
                 app:singleLine="true"
                 app:singleSelection="true">
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/buttonDeliveryAddHouse"
+                    android:id="@+id/buttonDeliveryUpdateHouse"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -106,7 +107,7 @@
                     app:textStartPadding="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/buttonDeliveryAddCompany"
+                    android:id="@+id/buttonDeliveryUpdateCompany"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -122,7 +123,7 @@
                     app:textStartPadding="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/buttonDeliveryAddSchool"
+                    android:id="@+id/buttonDeliveryUpdateSchool"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,7 +139,7 @@
                     app:textStartPadding="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/buttonDeliveryAddFriend"
+                    android:id="@+id/buttonDeliveryUpdateFriend"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -154,7 +155,7 @@
                     app:textStartPadding="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/buttonDeliveryAddFamily"
+                    android:id="@+id/buttonDeliveryUpdateFamily"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -170,7 +171,7 @@
                     app:textStartPadding="2dp" />
 
                 <com.google.android.material.chip.Chip
-                    android:id="@+id/buttonDeliveryAddDirectly"
+                    android:id="@+id/buttonDeliveryUpdateDirectly"
                     style="@style/Widget.Material3.Chip.Suggestion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -197,7 +198,7 @@
             android:orientation="horizontal">
 
             <Button
-                android:id="@+id/buttonDeliveryAddAdressSearch"
+                android:id="@+id/buttonDeliveryUpdateAddessSearch"
                 android:layout_width="60dp"
                 android:layout_height="30dp"
                 android:layout_marginLeft="290dp"
@@ -217,7 +218,7 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFieldDeliveryAddAddress"
+                android:id="@+id/textFieldDeliveryUpdateAddress"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
@@ -235,14 +236,14 @@
             app:hintTextColor="@color/second">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textFieldDeliveryAddAddressDetail"
+                android:id="@+id/textFieldDeliveryUpdateAddressDetail"
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
                 android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
         <CheckBox
-            android:id="@+id/checkBoxAddDeliveryBasicDelivery"
+            android:id="@+id/checkBoxUpdateDeliveryBasicDelivery"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="기본 배송지로 설정"
@@ -258,11 +259,11 @@
         android:padding="30dp">
 
         <Button
-            android:id="@+id/saveButton"
+            android:id="@+id/updateButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/button_radius"
-            android:text="저장하기"
+            android:text="수정하기"
             android:textColor="@color/white" />
     </LinearLayout>
 

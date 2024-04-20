@@ -67,5 +67,6 @@ enum class OrderFragmentName(var str:String){
 enum class DeliveryFragmentName(var str:String){
     DELIVERY_MANAGER_FRAGMENT("DeliveryManagerFragment"),
     DELIVERY_ADD_FRAGMENT("DeliveryAddFragment"),
+    DELIVERY_UPDATE_FRAGMENT("DeliveryUpdateFragment"),
 }
 

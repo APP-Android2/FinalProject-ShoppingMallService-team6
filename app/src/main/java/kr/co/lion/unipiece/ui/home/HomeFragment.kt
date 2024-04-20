@@ -24,7 +24,7 @@ import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.ui.payment.CartActivity
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.util.Timer

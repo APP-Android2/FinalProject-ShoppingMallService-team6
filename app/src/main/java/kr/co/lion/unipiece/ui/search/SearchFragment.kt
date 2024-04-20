@@ -10,7 +10,7 @@ import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchBinding
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
+import kr.co.lion.unipiece.ui.payment.CartActivity
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.setMenuIconColor
 

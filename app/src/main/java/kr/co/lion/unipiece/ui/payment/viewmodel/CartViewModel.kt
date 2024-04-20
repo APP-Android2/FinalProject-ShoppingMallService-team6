@@ -1,4 +1,4 @@
-package kr.co.lion.unipiece.ui.payment.cart
+package kr.co.lion.unipiece.ui.payment.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.LiveData

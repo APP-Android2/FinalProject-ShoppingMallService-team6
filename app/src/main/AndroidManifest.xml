@@ -17,13 +17,13 @@
             android:name=".ui.mypage.FollowActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.payment.delivery.DeliveryActivity"
+            android:name=".ui.payment.DeliveryActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.payment.order.OrderActivity"
+            android:name=".ui.payment.OrderActivity"
             android:exported="false" />
         <activity
-            android:name=".ui.payment.cart.CartActivity"
+            android:name=".ui.payment.CartActivity"
             android:exported="false" />
         <activity
             android:name=".ui.buy.BuyDetailActivity"

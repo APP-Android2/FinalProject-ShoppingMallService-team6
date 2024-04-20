@@ -1,32 +1,31 @@
-package kr.co.lion.unipiece.ui.payment.delivery
+package kr.co.lion.unipiece.ui.payment
 
 import android.os.Bundle
 import android.os.SystemClock
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.databinding.ActivityDeliveryBinding
-import kr.co.lion.unipiece.util.DeliveryFragmentName
+import kr.co.lion.unipiece.databinding.ActivityOrderBinding
+import kr.co.lion.unipiece.util.OrderFragmentName
 
-class DeliveryActivity : AppCompatActivity() {
+class OrderActivity : AppCompatActivity() {
 
-    lateinit var activityDeliveryBinding: ActivityDeliveryBinding
+    lateinit var activityOrderBinding: ActivityOrderBinding
 
     var oldFragment: Fragment? = null
     var newFragment: Fragment? = null
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        activityOrderBinding = ActivityOrderBinding.inflate(layoutInflater)
+        setContentView(activityOrderBinding.root)
 
-        activityDeliveryBinding = ActivityDeliveryBinding.inflate(layoutInflater)
-        setContentView(activityDeliveryBinding.root)
-
-        replaceFragment(DeliveryFragmentName.DELIVERY_MANAGER_FRAGMENT, false)
-
+        replaceFragment(OrderFragmentName.ORDER_MAIN_FRAGMENT, false)
     }
 
-    fun replaceFragment(name: DeliveryFragmentName, addToBackStack: Boolean) {
+    // 지정한 Fragment를 보여주는 메서드
+    fun replaceFragment(name: OrderFragmentName, addToBackStack: Boolean) {
         SystemClock.sleep(200)
         // Fragment를 교체할 수 있는 객체를 추출한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -36,17 +35,16 @@ class DeliveryActivity : AppCompatActivity() {
         }
         // 이름으로 분기한다.
         when (name) {
-            DeliveryFragmentName.DELIVERY_MANAGER_FRAGMENT -> {
-                newFragment = DeliveryManagerFragment()
+            OrderFragmentName.ORDER_MAIN_FRAGMENT -> {
+                newFragment = OrderMainFragment()
             }
 
-            DeliveryFragmentName.DELIVERY_ADD_FRAGMENT -> {
-                newFragment = DeliveryAddFragment()
+            OrderFragmentName.ORDER_SUCCESS_FRAGMENT -> {
+                newFragment = OrderSuccessFragment()
             }
-
         }
         if (newFragment != null) {
-            fragmentTransaction.replace(R.id.containerDelivery, newFragment!!)
+            fragmentTransaction.replace(R.id.containerOrder, newFragment!!)
             // addToBackStack 변수의 값이 true면 새롭게 보여질 Fragment를 BackStack에 포함시켜 준다.
             if (addToBackStack == true) {
                 // BackStack 포함 시킬때 이름을 지정해주면 원하는 Fragment를 BackStack에서 제거할 수 있다.
@@ -58,10 +56,9 @@ class DeliveryActivity : AppCompatActivity() {
     }
 
     // BackStack에서 Fragment를 제거한다.
-    fun removeFragment(name: DeliveryManagerFragment) {
+    fun removeFragment(name: OrderFragmentName) {
         SystemClock.sleep(200)
         // 지정한 이름으로 있는 Fragment를 BackStack에서 제거한다.
-        // supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
-
 }

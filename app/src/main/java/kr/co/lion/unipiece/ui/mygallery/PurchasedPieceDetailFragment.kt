@@ -10,10 +10,6 @@ import androidx.core.view.isVisible
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceDetailBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.home.HomeFragment
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
-import kr.co.lion.unipiece.ui.search.SearchFragment
-import kr.co.lion.unipiece.util.MainFragmentName
 import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 

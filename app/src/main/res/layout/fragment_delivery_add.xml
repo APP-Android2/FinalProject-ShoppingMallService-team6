@@ -1,13 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".OrderActivity" >
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/containerDeliveryAddDialog"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbarDeliveryAdd"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="64dp"
+        app:titleCentered="true"
+        android:background="@color/white"
+        android:theme="@style/Theme.UniPiece"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="받는 이"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/second">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddReceiver"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:paddingLeft="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="연락처"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/second">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddPhone"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/textfield_radius"
+                android:paddingLeft="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="배송지명(선택)"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/second">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddNickName"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:paddingLeft="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <com.google.android.material.chip.ChipGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:theme="@style/Theme.Material3"
+                app:checkedChip="@id/buttonDeliveryAddDirectly"
+                app:singleLine="true"
+                app:singleSelection="true">
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/buttonDeliveryAddHouse"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="집"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Material3"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipMinHeight="30dp"
+                    app:chipStrokeColor="@color/lightgray"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/buttonDeliveryAddCompany"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="0dp"
+                    android:text="회사"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Material3"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipMinHeight="30dp"
+                    app:chipStrokeColor="@color/lightgray"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/buttonDeliveryAddSchool"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="0dp"
+                    android:text="학교"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Material3"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipMinHeight="30dp"
+                    app:chipStrokeColor="@color/lightgray"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/buttonDeliveryAddFriend"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="0dp"
+                    android:text="친구"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Material3"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipMinHeight="30dp"
+                    app:chipStrokeColor="@color/lightgray"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/buttonDeliveryAddFamily"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checkable="true"
+                    android:padding="0dp"
+                    android:text="가족"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Material3"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipMinHeight="30dp"
+                    app:chipStrokeColor="@color/lightgray"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="2dp" />
+
+                <com.google.android.material.chip.Chip
+                    android:id="@+id/buttonDeliveryAddDirectly"
+                    style="@style/Widget.Material3.Chip.Suggestion"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="직접 입력"
+                    android:textColor="@color/black"
+                    android:theme="@style/Theme.Material3"
+                    app:chipBackgroundColor="@color/white"
+                    app:chipEndPadding="8dp"
+                    app:chipIconVisible="false"
+                    app:chipMinHeight="30dp"
+                    app:chipStartPadding="6dp"
+                    app:chipStrokeColor="@color/lightgray"
+                    app:textEndPadding="0dp"
+                    app:textStartPadding="2dp" />
+            </com.google.android.material.chip.ChipGroup>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/buttonDeliveryAddAddressSearch"
+                android:layout_width="60dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="290dp"
+                android:background="@drawable/button_radius"
+                android:padding="0dp"
+                android:text="주소검색"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="주소"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/second">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddAddress"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:paddingLeft="15dp"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="상세주소"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/second">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddAddressDetail"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:paddingLeft="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+        <CheckBox
+            android:id="@+id/checkBoxAddDeliveryBasicDelivery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="기본 배송지로 설정"
+            android:paddingVertical="10dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_radius"
+            android:text="저장하기"
+            android:textColor="@color/white" />
+    </LinearLayout>
+
 </LinearLayout>

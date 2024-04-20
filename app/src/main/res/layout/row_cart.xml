@@ -7,7 +7,7 @@
     <data>
         <variable
             name="cartViewModel"
-            type="kr.co.lion.unipiece.ui.payment.cart.CartViewModel" />
+            type="kr.co.lion.unipiece.ui.payment.viewmodel.CartViewModel" />
     </data>
     <!-- 뷰모델 객체 정의 끝 -->
     <LinearLayout

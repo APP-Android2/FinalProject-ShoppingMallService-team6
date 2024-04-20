@@ -1,10 +1,9 @@
-package kr.co.lion.unipiece.ui.payment.cart
+package kr.co.lion.unipiece.ui.payment
 
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.TypedValue
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
@@ -12,7 +11,6 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityCartBinding
 import kr.co.lion.unipiece.ui.payment.adapter.CartAdapter
 import kr.co.lion.unipiece.ui.payment.adapter.OnItemCheckStateChangeListener
-import kr.co.lion.unipiece.ui.payment.order.OrderActivity
 
 class CartActivity : AppCompatActivity() {
     lateinit var activityCartBinding: ActivityCartBinding
