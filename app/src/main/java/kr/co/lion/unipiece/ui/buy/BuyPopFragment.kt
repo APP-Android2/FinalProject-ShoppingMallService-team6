@@ -58,25 +58,22 @@ class BuyPopFragment : Fragment() {
         }
 
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.popPieceInfoList.observe(viewLifecycleOwner) { value ->
-                    binding.progressBar.visibility = View.GONE
-                    buyPopAdapter.updateData(value)
-                }
+            viewModel.popPieceInfoList.observe(viewLifecycleOwner) { value ->
+                binding.progressBar.visibility = View.GONE
+                buyPopAdapter.updateData(value)
             }
         }
+
     }
 
     fun setLoading(){
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.popLoading.observe(viewLifecycleOwner) { value ->
-                    if (value) {
-                        binding.buyPopRV.scrollToPosition(0)
-                        binding.progressBar.visibility = View.VISIBLE
-                    } else {
-                        binding.progressBar.visibility = View.GONE
-                    }
+            viewModel.popLoading.observe(viewLifecycleOwner) { value ->
+                if (value) {
+                    binding.buyPopRV.scrollToPosition(0)
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
                 }
             }
         }
