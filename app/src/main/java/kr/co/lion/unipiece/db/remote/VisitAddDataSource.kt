@@ -2,8 +2,12 @@ package kr.co.lion.unipiece.db.remote
 
 import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObjects
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.VisitAddData
 
@@ -39,7 +43,10 @@ class VisitAddDataSource {
     suspend fun getVisitAddList(userIdx: Int): List<VisitAddData> {
         return try {
             // 전시실 방문 신청 목록을 가져온다.
-            val querySnapshot = collectionReference.whereEqualTo("userIdx", userIdx).get().await()
+            val querySnapshot = collectionReference
+                .whereEqualTo("userIdx", userIdx)
+                .orderBy("visitIdx", Query.Direction.DESCENDING)
+                .get().await()
             // 전시실 방문 신청 목록을 담은 리스트
             querySnapshot.toObjects<VisitAddData>()
         }catch (e:Exception){
