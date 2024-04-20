@@ -32,11 +32,13 @@ class DeliveryViewModel : ViewModel() {
 
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
+    private val _insertData = MutableLiveData<Boolean?>(null)
+    val insertData : LiveData<Boolean?> = _insertData
+
     init {
         viewModelScope.launch {
             getDeliveryDataByIdx(userIdx)
             getBasicDeliveryData(userIdx)
-            insertDeliveryData(DeliveryData())
         }
     }
 
@@ -78,13 +80,19 @@ class DeliveryViewModel : ViewModel() {
                     deliveryIdx
                 )
                 deliveryRepository.insertDeliveryData(sqDeliveryData)
+                _insertData.value = true
             } else {
                 deliveryRepository.updateDeliveryData(deliveryDataList)
+                _insertData.value = true
             }
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
         }
 
+    }
+
+    fun setdata(){
+        _insertData.value = null
     }
 
     suspend fun deleteDeliveryData(deliveryIdx: Int) {
