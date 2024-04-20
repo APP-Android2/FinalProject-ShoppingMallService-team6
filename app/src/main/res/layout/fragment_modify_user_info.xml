@@ -1,164 +1,184 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:transitionGroup="true">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="modifyUserInfoViewModel"
+            type="kr.co.lion.unipiece.ui.mypage.viewmodel.ModifyUserInfoViewModel" />
+    </data>
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarModifyUserInfo"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:theme="?attr/actionBarTheme"
-        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:transitionGroup="true">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarModifyUserInfo"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="64dp"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:theme="?attr/actionBarTheme"
+            app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="이름"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserName"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="닉네임"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserNickName"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="휴대폰 번호"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPhoneNumber"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="비밀번호"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPw"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:hint="비밀번호 확인"
-                    app:boxStrokeColor="@color/second"
-                    app:cursorColor="@color/second"
-                    app:hintTextColor="@color/second">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/textInputModifyUserPw2"
-                        android:layout_width="match_parent"
-                        android:layout_height="56dp"
-                        android:background="@drawable/textfield_radius"
-                        android:inputType="text"
-                        android:paddingLeft="10dp" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <Button
-                    android:id="@+id/buttonModifyUserInfoConfirm"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="16dp"
-                    android:background="@drawable/button_radius"
-                    android:text="수정완료"
-                    android:textColor="@color/white"
-                    android:textSize="18sp" />
-            </LinearLayout>
-
-            <com.google.android.material.divider.MaterialDivider
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:dividerColor="@color/lightgray"
-                app:dividerInsetEnd="16dp"
-                app:dividerInsetStart="16dp" />
+                android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical"
-                android:padding="20dp">
-
-                <Button
-                    android:id="@+id/buttonDeleteUser"
-                    style="@style/Widget.MaterialComponents.Button.TextButton"
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:text="회원 탈퇴"
-                    android:textAlignment="center"
-                    android:textColor="@color/first"
-                    android:textSize="16sp" />
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutUserName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="이름"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputModifyUserName"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:inputType="text"
+                            android:paddingLeft="10dp"
+                            android:text="@={modifyUserInfoViewModel.userInfoData.userName}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutUserNickName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="닉네임"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputModifyUserNickName"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:inputType="text"
+                            android:paddingLeft="10dp"
+                            android:text="@={modifyUserInfoViewModel.userInfoData.nickName}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutUserPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="휴대폰 번호"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputModifyUserPhoneNumber"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:inputType="text"
+                            android:maxLength="11"
+                            android:paddingLeft="10dp"
+                            android:text="@={modifyUserInfoViewModel.userInfoData.phoneNumber}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutUserPw"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="비밀번호"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:endIconMode="password_toggle"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputModifyUserPw"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:inputType="text|textPassword"
+                            android:paddingLeft="10dp"
+                            android:text="@={modifyUserInfoViewModel.userInfoData.userPwd}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layoutUserPw2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:hint="비밀번호 확인"
+                        app:boxStrokeColor="@color/second"
+                        app:cursorColor="@color/second"
+                        app:endIconMode="password_toggle"
+                        app:hintTextColor="@color/second">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputModifyUserPw2"
+                            android:layout_width="match_parent"
+                            android:layout_height="56dp"
+                            android:background="@drawable/textfield_radius"
+                            android:inputType="text|textPassword"
+                            android:paddingLeft="10dp" />
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/buttonModifyUserInfoConfirm"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/button_radius"
+                        android:text="수정완료"
+                        android:textColor="@color/white"
+                        android:textSize="18sp" />
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="@color/lightgray"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <Button
+                        android:id="@+id/buttonDeleteUser"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:text="회원 탈퇴"
+                        android:textAlignment="center"
+                        android:textColor="@color/first"
+                        android:textSize="16sp" />
+                </LinearLayout>
+
+
             </LinearLayout>
+        </ScrollView>
 
-
-        </LinearLayout>
-    </ScrollView>
-
-</LinearLayout>
+    </LinearLayout>
+</layout>

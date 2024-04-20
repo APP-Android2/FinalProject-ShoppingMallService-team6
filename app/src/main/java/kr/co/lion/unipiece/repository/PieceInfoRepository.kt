@@ -19,4 +19,6 @@ class PieceInfoRepository {
     suspend fun getIdxPieceInfo(pieceIdx: Int) = pieceInfoDataSource.getIdxPieceInfo(pieceIdx)
 
     suspend fun getAuthorPieceInfo(authorIdx: Int) = pieceInfoDataSource.getAuthorPieceInfo(authorIdx)
+
+    suspend fun updatePieceLike(pieceIdx: Int, pieceLike: Int) = pieceInfoDataSource.updatePieceLike(pieceIdx, pieceLike)
 }
