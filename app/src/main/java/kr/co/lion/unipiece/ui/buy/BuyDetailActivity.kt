@@ -21,8 +21,8 @@ import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModelFactory
 import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
-import kr.co.lion.unipiece.ui.payment.order.OrderActivity
+import kr.co.lion.unipiece.ui.payment.CartActivity
+import kr.co.lion.unipiece.ui.payment.OrderActivity
 import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.text.DecimalFormat
