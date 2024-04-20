@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.model.VisitAddData
 
-class VisitGalleryAdapter(val visitList: List<VisitAddData>, private val itemClickListener: (position: Int) -> Unit): RecyclerView.Adapter<VisitGalleryViewHolder>(){
+class VisitGalleryAdapter(var visitList: List<VisitAddData>, private val itemClickListener: (position: Int) -> Unit): RecyclerView.Adapter<VisitGalleryViewHolder>(){
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VisitGalleryViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -38,9 +38,14 @@ class VisitGalleryAdapter(val visitList: List<VisitAddData>, private val itemCli
 
         // 신청 수정 버튼 클릭 이벤트
         holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.setOnClickListener {
-            // 회원 정보 수정 프래그먼트 교체
-            itemClickListener(position)
+            // 전시실 방문 신청 프래그먼트 교체
+            itemClickListener(visitList[position].visitIdx)
         }
+    }
+
+    fun updateList(data:List<VisitAddData>){
+        visitList = data
+        notifyDataSetChanged()
     }
 
 }
