@@ -6,21 +6,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentGalleryBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
+import kr.co.lion.unipiece.util.setImage
 
-class GalleryFragment(val imgRes : Int) : Fragment() {
+class GalleryFragment(val imgRes : String) : Fragment() {
 
     lateinit var fragmentGalleryBinding: FragmentGalleryBinding
 
+    val viewModel: GalleryInfoViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         fragmentGalleryBinding = FragmentGalleryBinding.inflate(layoutInflater)
-        fragmentGalleryBinding.imageGallery.setImageResource(imgRes)
+
+        requireActivity().setImage(fragmentGalleryBinding.imageGallery, imgRes)
+
         settingEvent()
         return fragmentGalleryBinding.root
     }

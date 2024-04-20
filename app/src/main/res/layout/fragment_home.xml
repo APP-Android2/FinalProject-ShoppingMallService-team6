@@ -162,7 +162,7 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/viewPagerHomeGallery"
                 android:layout_width="match_parent"
-                android:layout_height="500dp" />
+                android:layout_height="400dp" />
 
             <Button
                 android:id="@+id/buttonHomeVisitGallery"

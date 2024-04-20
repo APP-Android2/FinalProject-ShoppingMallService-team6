@@ -42,7 +42,7 @@ class NewsFragment(val imgRes: String) : Fragment() {
                 viewLifecycleOwner.lifecycleScope.launch {
                     val imgName = requireActivity().gettingImageName(imgRes)
                     val newsImage = viewModel.getNewsInfoByImage(imgName)
-                    Log.d("test1234", "${imgRes}")
+                    //Log.d("test1234", "${imgRes}")
 
                     val newIntent = Intent(requireActivity(), InfoOneActivity::class.java)
                     newIntent.putExtra("newsImg", newsImage?.newsImg)
