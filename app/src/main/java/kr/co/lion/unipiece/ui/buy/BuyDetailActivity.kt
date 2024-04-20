@@ -85,18 +85,18 @@ class BuyDetailActivity : AppCompatActivity() {
     }
 
     fun setLikeCount(){
-        viewModel.likePieceCount.observe(this@BuyDetailActivity, Observer { likeCount ->
+        viewModel.likePieceCount.observe(this@BuyDetailActivity) { likeCount ->
             binding.pieceLike.text = "${likeCount}명이 좋아요를 눌렀어요"
-        })
+        }
     }
 
     fun setLikeBtn(){
 
-        viewModel.likePiece.observe(this@BuyDetailActivity, Observer { isLiked ->
+        viewModel.likePiece.observe(this@BuyDetailActivity) { isLiked ->
             with(binding.likeBtn) {
-                setImageResource(if(isLiked) R.drawable.heart_icon else R.drawable.heartoff_icon)
+                setImageResource(if (isLiked) R.drawable.heart_icon else R.drawable.heartoff_icon)
             }
-        })
+        }
 
         clickLikeBtn()
     }
@@ -125,16 +125,16 @@ class BuyDetailActivity : AppCompatActivity() {
     }
 
     fun setProgressBar(){
-        viewModel.allDataReceived.observe(this@BuyDetailActivity, Observer {
-            if(it){
+        viewModel.allDataReceived.observe(this@BuyDetailActivity) {
+            if (it) {
                 binding.progressBar.visibility = View.GONE
             }
-        })
+        }
     }
 
     fun setPieceInfo(){
-        viewModel.pieceInfo.observe(this@BuyDetailActivity, Observer {
-            with(binding){
+        viewModel.pieceInfo.observe(this@BuyDetailActivity) {
+            with(binding) {
                 if (it != null) {
 
                     lifecycleScope.launch {
@@ -155,12 +155,12 @@ class BuyDetailActivity : AppCompatActivity() {
                     buyBtn.text = "${price}원 구매"
                 }
             }
-        })
+        }
     }
 
     fun setAuthorInfo(){
-        viewModel.authorInfo.observe(this@BuyDetailActivity, Observer {
-            with(binding){
+        viewModel.authorInfo.observe(this@BuyDetailActivity) {
+            with(binding) {
                 if (it != null) {
 
                     lifecycleScope.launch {
@@ -179,24 +179,25 @@ class BuyDetailActivity : AppCompatActivity() {
                     }
                 }
             }
-        })
+        }
     }
 
     fun setAuthorReview(){
-        viewModel.authorReviewList.observe(this@BuyDetailActivity, Observer {
-            with(binding){
+        viewModel.authorReviewList.observe(this@BuyDetailActivity) {
+            with(binding) {
 
                 lifecycleScope.launch {
                     viewModel.setAuthorReviewReceived(true)
                 }
 
                 if (it != null) {
-                    when(it.size){
+                    when (it.size) {
                         0 -> {
                             review1.visibility = View.GONE
                             review2.visibility = View.GONE
                             review3.visibility = View.GONE
                         }
+
                         1 -> {
                             review2.visibility = View.GONE
                             review3.visibility = View.GONE
@@ -204,6 +205,7 @@ class BuyDetailActivity : AppCompatActivity() {
                             nickname1.text = it[0].userNickname
                             reviewText1.text = it[0].reviewContent
                         }
+
                         2 -> {
                             review3.visibility = View.GONE
 
@@ -213,6 +215,7 @@ class BuyDetailActivity : AppCompatActivity() {
                             reviewText2.text = it[1].reviewContent
 
                         }
+
                         else -> {
                             nickname1.text = it[0].userNickname
                             reviewText1.text = it[0].reviewContent
@@ -224,7 +227,7 @@ class BuyDetailActivity : AppCompatActivity() {
                     }
                 }
             }
-        })
+        }
     }
 
     fun setToolbar(){
@@ -275,11 +278,11 @@ class BuyDetailActivity : AppCompatActivity() {
     }
 
     fun setCartBtn(){
-        viewModel.cartPiece.observe(this@BuyDetailActivity, {
+        viewModel.cartPiece.observe(this@BuyDetailActivity) {
             with(binding.cartBtn) {
-                setImageResource(if(it) R.drawable.shopcart_icon_on else R.drawable.shopcart_icon)
+                setImageResource(if (it) R.drawable.shopcart_icon_on else R.drawable.shopcart_icon)
             }
-        })
+        }
 
         cartBtnClick()
     }

@@ -60,10 +60,10 @@ class BuyNewFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.newPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
+                viewModel.newPieceInfoList.observe(viewLifecycleOwner) { value ->
                     binding.progressBar.visibility = View.GONE
                     buyNewAdapter.updateData(value)
-                })
+                }
             }
         }
     }
@@ -71,14 +71,14 @@ class BuyNewFragment : Fragment() {
     fun setLoading(){
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.newLoading.observe(viewLifecycleOwner, Observer { value ->
-                    if(value){
+                viewModel.newLoading.observe(viewLifecycleOwner) { value ->
+                    if (value) {
                         binding.buyNewRV.scrollToPosition(0)
                         binding.progressBar.visibility = View.VISIBLE
                     } else {
                         binding.progressBar.visibility = View.GONE
                     }
-                })
+                }
             }
         }
     }
