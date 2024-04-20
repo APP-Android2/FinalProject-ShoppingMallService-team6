@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.model
 
 import com.google.firebase.Timestamp
+import java.text.SimpleDateFormat
 
 data class VisitAddData(
     var visitorName:String = "",
@@ -19,5 +20,11 @@ data class VisitAddData(
             "visitorNumber" to visitorNumber,
             "visitorDate" to visitorDate
         )
+    }
+
+    // Timestamp를 String으로 변환
+    fun timestampToString():String{
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd")
+        return dateFormat.format(visitorDate)
     }
 }
