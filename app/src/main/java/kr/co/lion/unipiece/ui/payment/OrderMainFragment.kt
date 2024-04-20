@@ -13,6 +13,7 @@ import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.map
 import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,8 @@ import kr.co.lion.unipiece.databinding.FragmentOrderMainBinding
 import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.OrderMainAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
+import kr.co.lion.unipiece.util.setImage
+import org.checkerframework.checker.units.qual.K
 
 
 class OrderMainFragment : Fragment() {
@@ -69,10 +72,24 @@ class OrderMainFragment : Fragment() {
                 }
             }
 
+
+
+            // 기본 배송지 세팅
+            viewModel.getBasicDeliveryData.observe(viewLifecycleOwner) {
+                lifecycleScope.launch {
+                    val deliveryName = it[0].deliveryName
+                    val deliveryPhone = it[0].deliveryPhone
+                    val deliveryAddress = it[0].deliveryAddress
+                    val deliveryAddressDetail = it[0].deliveryAddressDetail
+                    textViewOrderPersonName.text = deliveryName
+                    textViewOrderPhone.text = deliveryPhone
+                    textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
+                }
+
+            }
+
             // 처음 들어왔을 때 기본 배송지 세팅
-            textViewOrderAddress.text = "서울 강남역 2번출구"
-            textViewOrderPersonName.text = "이수근"
-            textViewOrderPhone.text = "010-1544-7979"
+
 
             // 배송메모 세팅
             with(spinnerOrderMainDeliveryMemo) {
