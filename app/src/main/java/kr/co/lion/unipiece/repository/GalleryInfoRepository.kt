@@ -9,4 +9,6 @@ class GalleryInfoRepository {
 
     suspend fun getGalleryImg() = galleryInfoDataSource.getGalleryImg()
 
+    suspend fun getGalleryByImage(galleryImg:String) = galleryInfoDataSource.getGalleryByImage(galleryImg)
+
 }
