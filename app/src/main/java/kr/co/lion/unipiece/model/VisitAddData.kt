@@ -25,6 +25,6 @@ data class VisitAddData(
     // Timestamp를 String으로 변환
     fun timestampToString():String{
         val dateFormat = SimpleDateFormat("yyyy.MM.dd")
-        return dateFormat.format(visitorDate)
+        return dateFormat.format(visitorDate.toDate()).toString()
     }
 }
