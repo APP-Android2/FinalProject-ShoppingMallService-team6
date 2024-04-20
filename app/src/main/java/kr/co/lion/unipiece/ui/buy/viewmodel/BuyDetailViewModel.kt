@@ -117,23 +117,23 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
     suspend fun getIdxPieceInfo() {
         val response = pieceInfoRepository.getIdxPieceInfo(pieceIdx)
 
-        response?.pieceImg?.let {
-            val pieceImgUrl = getPieceImg(response.pieceIdx.toString(), it)
-            response.pieceImg = pieceImgUrl ?: it
+        val updatedResponse = response?.let {
+            val pieceImgUrl = getPieceImg(it.pieceIdx.toString(), it.pieceImg)
+            it.copy(pieceImg = pieceImgUrl ?: it.pieceImg)
         }
 
-        _pieceInfo.value = response
+        _pieceInfo.value = updatedResponse
     }
 
     suspend fun getIdxAuthorInfo() {
         val response = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
 
-        response?.authorImg?.let {
-            val authorImgUrl = getAuthorImg(response.authorIdx)
-            response.authorImg = authorImgUrl ?: it
+        val updatedResponse = response?.let {
+            val authorImgUrl = getAuthorImg(it.authorIdx)
+            it.copy(authorImg = authorImgUrl ?: it.authorImg)
         }
 
-        _authorInfo.value = response
+        _authorInfo.value = updatedResponse
     }
 
     suspend fun getAuthorReviewDataByIdx(){

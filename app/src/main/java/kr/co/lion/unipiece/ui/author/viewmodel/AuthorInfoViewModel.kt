@@ -85,8 +85,8 @@ class AuthorInfoViewModel: ViewModel() {
 
         response.forEach { pieceInfoData ->
             val pieceImgUrl = pieceInfoRepository.getPieceInfoImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
+            val finalPieceInfoData = pieceInfoData.copy(pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg)
+            pieceInfoList.add(finalPieceInfoData)
         }
 
         _authorPieces.value = pieceInfoList
