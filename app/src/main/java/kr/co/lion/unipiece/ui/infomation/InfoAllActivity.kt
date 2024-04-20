@@ -22,7 +22,7 @@ class InfoAllActivity : AppCompatActivity() {
     val viewModel:InfoAllViewModel by viewModels()
 
     val infoAllAdapter:InfoAllAdapter by lazy {
-        val adapter = InfoAllAdapter(emptyList(), emptyList())
+        val adapter = InfoAllAdapter(emptyList(), emptyList(), emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
             override fun recyclerviewClickListener(image: String?) {
                 val promoteInfo = intent?.getStringExtra("promoteInfo")
@@ -103,6 +103,11 @@ class InfoAllActivity : AppCompatActivity() {
                         progressBar4.visibility = View.GONE
                         infoAllAdapter.updateDataNews(value)
                     }
+                }
+
+                viewModel.galleryInfoList.observe(this@InfoAllActivity) { value ->
+                    progressBar4.visibility = View.GONE
+                    infoAllAdapter.updateDataGallery(value)
                 }
             }
         }

@@ -32,4 +32,6 @@ class GalleryInfoViewModel : ViewModel() {
         return galleryInfoRepository.getGalleryByImage(galleryImg)
     }
 
+
+
 }

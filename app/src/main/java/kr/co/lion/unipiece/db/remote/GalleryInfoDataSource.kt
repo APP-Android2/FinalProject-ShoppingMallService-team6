@@ -1,7 +1,9 @@
 package kr.co.lion.unipiece.db.remote
 
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.toObject
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -36,5 +38,26 @@ class GalleryInfoDataSource {
         }
         job1.join()
         return galleryInfoData
+    }
+
+    //날짜 순으로 모든 정보를 받아오기(TimeStamp)
+    suspend fun getGalleryDataByDate():List<GalleryInfoData>{
+        return try {
+            val query = galleryInfo.orderBy("galleryTime", Query.Direction.DESCENDING)
+            val querySnapshot = query.get().await()
+            querySnapshot.map { it.toObject(GalleryInfoData::class.java) }
+        }catch (e:Exception){
+            emptyList()
+        }
+    }
+
+    //이미지 이름을 Url로 변경하기
+    suspend fun getGalleryInfoImg(image:String): String?{
+        val path = "GalleryInfo/$image"
+        return try {
+            storage.child(path).downloadUrl.await().toString()
+        }catch (e:Exception){
+            null
+        }
     }
 }
