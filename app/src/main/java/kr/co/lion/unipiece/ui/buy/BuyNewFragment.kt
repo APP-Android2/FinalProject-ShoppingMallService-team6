@@ -23,18 +23,6 @@ class BuyNewFragment : Fragment() {
 
     private val viewModel: BuyViewModel by viewModels( ownerProducer = { requireParentFragment()} )
 
-    val buyNewAdapter : BuyNewAdapter by lazy {
-        BuyNewAdapter(
-            emptyList(),
-            itemClickListener = { pieceIdx, authorIdx->
-                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                intent.putExtra("pieceIdx", pieceIdx)
-                intent.putExtra("authorIdx", authorIdx)
-                startActivity(intent)
-            }
-        )
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,15 +41,24 @@ class BuyNewFragment : Fragment() {
 
     fun initView() {
 
-        with(binding){
-            buyNewRV.adapter = buyNewAdapter
-            buyNewRV.layoutManager = GridLayoutManager(activity, 2)
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.newPieceInfoList.observe(viewLifecycleOwner) { value ->
+                val buyNewAdapter  = BuyNewAdapter(
+                        value,
+                        itemClickListener = { position ->
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            intent.putExtra("pieceIdx", value[position].pieceIdx)
+                            intent.putExtra("authorIdx", value[position].authorIdx)
+                            startActivity(intent)
+                        }
+                    )
+
+                with(binding){
+                    buyNewRV.adapter = buyNewAdapter
+                    buyNewRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+
                 binding.progressBar.visibility = View.GONE
-                buyNewAdapter.updateData(value)
             }
         }
     }

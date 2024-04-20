@@ -23,17 +23,6 @@ class BuyPopFragment : Fragment() {
 
     private val viewModel: BuyViewModel by viewModels( ownerProducer = { requireParentFragment()} )
 
-    val buyPopAdapter: BuyPopAdapter by lazy {
-        BuyPopAdapter(
-            emptyList(),
-            itemClickListener = { pieceIdx, authorIdx ->
-                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                intent.putExtra("pieceIdx", pieceIdx)
-                intent.putExtra("authorIdx", authorIdx)
-                startActivity(intent)
-            }
-        )
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,15 +41,26 @@ class BuyPopFragment : Fragment() {
 
     fun initView() {
 
-        with(binding){
-            buyPopRV.adapter = buyPopAdapter
-            buyPopRV.layoutManager = GridLayoutManager(activity, 2)
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.popPieceInfoList.observe(viewLifecycleOwner) { value ->
+
+                val buyPopAdapter =
+                    BuyPopAdapter(
+                        value,
+                        itemClickListener = { poisition ->
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            intent.putExtra("pieceIdx", value[poisition].pieceIdx)
+                            intent.putExtra("authorIdx", value[poisition].authorIdx)
+                            startActivity(intent)
+                        }
+                    )
+
+                with(binding){
+                    buyPopRV.adapter = buyPopAdapter
+                    buyPopRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+
                 binding.progressBar.visibility = View.GONE
-                buyPopAdapter.updateData(value)
             }
         }
 
