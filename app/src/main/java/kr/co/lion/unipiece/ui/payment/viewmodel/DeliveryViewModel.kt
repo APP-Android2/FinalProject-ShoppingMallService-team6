@@ -49,12 +49,12 @@ class DeliveryViewModel : ViewModel() {
             _deliveryDataList.value = response
             Log.d("test1234","${_deliveryDataList.value.toString()}")
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
+            Log.e("Firebase Error", "Error vmGetDeliveryDataByIdx : ${e.message}")
         }
 
     }
 
-    // 신규 배송지 등록 및 수정하기
+    // 신규 배송지 등록 및 수정하기 분기
     fun insertDeliveryData(deliveryDataList: DeliveryData) = viewModelScope.launch {
         try {
             // 신규 배송지 등록일 경우

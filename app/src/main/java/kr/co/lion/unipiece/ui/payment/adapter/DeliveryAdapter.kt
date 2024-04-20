@@ -21,7 +21,7 @@ import java.util.Locale
 class DeliveryAdapter(
     private var deliveryList: List<DeliveryData>,
     private val itemClickListener: (Int) -> Unit,
-    private val updateButtonClickListener: (DeliveryData) -> Unit,
+    private val updateButtonClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<DeliveryViewHolder>() {
 
 
@@ -60,7 +60,7 @@ class DeliveryViewHolder(
     private val context: Context,
     private val binding: RowDeliveryBinding,
     private val itemClickListener: (Int) -> Unit,
-    private val updateButtonClickListener: (DeliveryData) -> Unit
+    private val updateButtonClickListener: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -122,7 +122,7 @@ class DeliveryViewHolder(
             with(buttonDeliveryUpdate) {
                 // 버튼 클릭 시
                 setOnClickListener {
-                    updateButtonClickListener.invoke(data)
+                    updateButtonClickListener.invoke(data.deliveryIdx)
                 }
             }
 

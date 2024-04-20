@@ -7,14 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
-import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
 import kr.co.lion.unipiece.util.DeliveryFragmentName
@@ -23,7 +21,7 @@ class DeliveryManagerFragment : Fragment() {
 
     private lateinit var binding: FragmentDeliveryManagerBinding
     private val viewModel: DeliveryViewModel by activityViewModels()
-    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx",0)
+    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     val deliveryAdapter: DeliveryAdapter = DeliveryAdapter(
         emptyList(),
@@ -31,9 +29,8 @@ class DeliveryManagerFragment : Fragment() {
             Log.d("테스트 deliveryIdx", deliveryIdx.toString())
             requireActivity().finish()
         },
-        updateButtonClickListener = { deliveryData ->
-            Log.d("테스트 deliveryData", deliveryData.toString())
-            requireActivity().supportFragmentManager.beginTransaction().replace(R.id.containerDelivery,DeliveryUpdateFragment()).addToBackStack(DeliveryFragmentName.DELIVERY_UPDATE_FRAGMENT.str).commit()
+        updateButtonClickListener = { deliveryIdx ->
+
         }
     )
 
@@ -56,7 +53,6 @@ class DeliveryManagerFragment : Fragment() {
         viewModel.getDeliveryDataByIdx(userIdx)
         observeData()
     }
-
 
 
     fun initView() {
@@ -89,7 +85,6 @@ class DeliveryManagerFragment : Fragment() {
                     supportFragmentManager.replace(R.id.containerDelivery, DeliveryAddFragment())
                         .addToBackStack(DeliveryFragmentName.DELIVERY_ADD_FRAGMENT.str)
                         .commit()
-
 
 
                 }
