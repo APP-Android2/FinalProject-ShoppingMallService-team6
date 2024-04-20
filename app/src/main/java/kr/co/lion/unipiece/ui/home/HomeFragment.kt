@@ -20,6 +20,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
@@ -181,6 +182,17 @@ class HomeFragment : Fragment() {
             val galleryVPAdapter = BannerVPAdapter(this@HomeFragment)
             viewPagerHomeGallery.adapter = galleryVPAdapter
             viewPagerHomeGallery.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+            val viewModel = ViewModelProvider(this@HomeFragment).get(GalleryInfoViewModel::class.java)
+            viewModel.galleryInfoList.observe(viewLifecycleOwner) { imageUrl ->
+                galleryVPAdapter.fragmentList.clear()
+                imageUrl.forEach {
+                    val galleryFragment = GalleryFragment(it)
+                    galleryVPAdapter.addFragment(galleryFragment)
+                }
+                galleryVPAdapter.notifyDataSetChanged()
+            }
+            viewModel.getGalleryImg()
 
             autoSlideGallery(galleryVPAdapter)
 
