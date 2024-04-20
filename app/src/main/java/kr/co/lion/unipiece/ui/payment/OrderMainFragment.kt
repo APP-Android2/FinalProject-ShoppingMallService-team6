@@ -77,33 +77,33 @@ class OrderMainFragment : Fragment() {
             // 처음 들어왔을 때 기본 배송지 세팅
             viewModel.getBasicDeliveryData.observe(viewLifecycleOwner) {
                 lifecycleScope.launch {
-                    val deliveryName = it[0].deliveryName
-                    val deliveryPhone = it[0].deliveryPhone
-                    val deliveryAddress = it[0].deliveryAddress
-                    val deliveryAddressDetail = it[0].deliveryAddressDetail
-                    val basicMemo = it[0].deliveryMemo
-                    // 받는 이
-                    textViewOrderPersonName.text = deliveryName
-                    // 연락처
-                    textViewOrderPhone.text = deliveryPhone
-                    // 주소 (주소 + 상세주소)
-                    textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
+                    if(it.size!=0){
+                        val deliveryName = it[0].deliveryName
+                        val deliveryPhone = it[0].deliveryPhone
+                        val deliveryAddress = it[0].deliveryAddress
+                        val deliveryAddressDetail = it[0].deliveryAddressDetail
+                        val basicMemo = it[0].deliveryMemo
 
+                        // 받는 이
+                        textViewOrderPersonName.text = deliveryName
+                        // 연락처
+                        textViewOrderPhone.text = deliveryPhone
+                        // 주소 (주소 + 상세주소)
+                        textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
 
-                    // 배송 메모 세팅
-                    with(spinnerOrderMainDeliveryMemo){
+                        // 배송 메모 세팅
+                        with(spinnerOrderMainDeliveryMemo){
 
-                        val items = arrayOf(basicMemo, "문 앞", "경비실", "택배함", "선택 안함")
-                        val adapter =
-                            ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
-                        val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
-                        spinner.adapter = adapter
+                            val items = arrayOf(basicMemo, "문 앞", "경비실", "택배함", "선택 안함")
+                            val adapter =
+                                ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
+                            val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
+                            spinner.adapter = adapter
 
+                        }
                     }
                 }
-
             }
-
 
             // 배송지 변경 버튼 클릭
             with(buttonOrderDeliveryChange) {

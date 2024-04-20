@@ -55,9 +55,12 @@ class DeliveryUpdateFragment : Fragment() {
                 setNavigationIcon(R.drawable.back_icon)
                 // 뒤로가기 버튼 클릭 시
                 setNavigationOnClickListener {
-
+                    val supportFragmentManager = parentFragmentManager.beginTransaction()
+                    supportFragmentManager.replace(R.id.containerDelivery,DeliveryManagerFragment()).commit()
                 }
             }
+
+
 
 
             // 텍스트 필드 초기값 셋팅

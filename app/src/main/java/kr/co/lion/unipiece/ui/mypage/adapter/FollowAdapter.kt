@@ -21,8 +21,8 @@ class FollowAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowViewHolder {
         val inflater = LayoutInflater.from(parent.context)
-        val rowFollowBinding = RowFollowBinding.inflate(inflater, parent, false)
-        val followViewHolder = FollowViewHolder(parent.context, rowFollowBinding)
+        val binding = RowFollowBinding.inflate(inflater, parent, false)
+        val followViewHolder = FollowViewHolder(parent.context, binding)
         return followViewHolder
     }
 
@@ -31,9 +31,9 @@ class FollowAdapter :
     }
 
     override fun onBindViewHolder(holder: FollowViewHolder, position: Int) {
-        holder.rowFollowBinding.imageViewFollowingAuthor.setImageResource(R.drawable.mypage_icon)
-        holder.rowFollowBinding.textViewFollowListAuthorName.text = "홍길동"
-        holder.rowFollowBinding.ivProfileImage.setOnClickListener {
+        holder.binding.imageViewFollowingAuthor.setImageResource(R.drawable.mypage_icon)
+        holder.binding.textViewFollowListAuthorName.text = "홍길동"
+        holder.binding.ivProfileImage.setOnClickListener {
             followAuthorImageClickListener.followAuthorImageClickListener()
         }
     }
@@ -45,21 +45,21 @@ class FollowAdapter :
 
 }
 
-class FollowViewHolder(context: Context, rowFollowBinding: RowFollowBinding) :
-    RecyclerView.ViewHolder(rowFollowBinding.root) {
-    val rowFollowBinding: RowFollowBinding
+class FollowViewHolder(context: Context, binding: RowFollowBinding) :
+    RecyclerView.ViewHolder(binding.root) {
+    val binding: RowFollowBinding
 
     init {
-        this.rowFollowBinding = rowFollowBinding
+        this.binding = binding
 
         // 프로필 사진을 클릭 시
-        this.rowFollowBinding.ivProfileImage.setOnClickListener {
+        this.binding.ivProfileImage.setOnClickListener {
             val authorInfoIntent = Intent(context, AuthorInfoActivity::class.java)
             context.startActivity(authorInfoIntent)
         }
 
         // 항목별 팔로우 취소 텍스트 버튼 클릭 시
-        this.rowFollowBinding.textButtonFollowCancel.setOnClickListener {
+        this.binding.textButtonFollowCancel.setOnClickListener {
             val followCancelDialog = CustomDialog("팔로우 취소", "홍길동 작가 팔로우를 취소하시겠습니까?")
             followCancelDialog.show(
                 followCancelDialog.parentFragmentManager,
@@ -77,7 +77,7 @@ class FollowViewHolder(context: Context, rowFollowBinding: RowFollowBinding) :
             })
         }
 
-        this.rowFollowBinding.root.layoutParams = ViewGroup.LayoutParams(
+        this.binding.root.layoutParams = ViewGroup.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )

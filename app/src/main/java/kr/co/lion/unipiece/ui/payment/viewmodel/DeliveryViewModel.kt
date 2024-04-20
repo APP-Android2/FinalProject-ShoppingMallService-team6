@@ -47,6 +47,7 @@ class DeliveryViewModel : ViewModel() {
             val response = deliveryRepository.getDeliveryDataByIdx(userIdx)
 
             _deliveryDataList.value = response
+            Log.d("test1234","${_deliveryDataList.value.toString()}")
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
         }

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ import kr.co.lion.unipiece.util.DeliveryFragmentName
 class DeliveryAddFragment : Fragment() {
 
     lateinit var binding: FragmentDeliveryAddBinding
-    private val viewModel: DeliveryViewModel by viewModels()
+    private val viewModel: DeliveryViewModel by activityViewModels()
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
 
@@ -54,7 +55,10 @@ class DeliveryAddFragment : Fragment() {
                 setNavigationIcon(R.drawable.back_icon)
                 // 뒤로가기 버튼 클릭 시
                 setNavigationOnClickListener {
-
+                    val supportFragmentManager = parentFragmentManager.beginTransaction()
+                    supportFragmentManager.replace(R.id.containerDelivery, DeliveryManagerFragment())
+                        .addToBackStack(DeliveryFragmentName.DELIVERY_MANAGER_FRAGMENT.str)
+                        .commit()
                 }
             }
 
@@ -119,11 +123,10 @@ class DeliveryAddFragment : Fragment() {
                             insertDeliveryData(deliveryData)
 
                         }
-                        val supportFragmentManager = parentFragmentManager.beginTransaction()
-                        supportFragmentManager.replace(R.id.containerDelivery, DeliveryManagerFragment())
-                            .addToBackStack(DeliveryFragmentName.DELIVERY_MANAGER_FRAGMENT.str)
-                            .commit()
                         viewModel.getDeliveryDataByIdx(userIdx)
+
+                        parentFragmentManager.popBackStack()
+
 
                     }
                 }

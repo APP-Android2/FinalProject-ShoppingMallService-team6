@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
@@ -22,7 +20,8 @@ import java.util.Locale
 // 배송지 화면의 RecyclerView의 어뎁터
 class DeliveryAdapter(
     private var deliveryList: List<DeliveryData>,
-    private val itemClickListener: (Int) -> Unit
+    private val itemClickListener: (Int) -> Unit,
+    private val updateButtonClickListener: (DeliveryData) -> Unit,
 ) : RecyclerView.Adapter<DeliveryViewHolder>() {
 
 
@@ -33,7 +32,8 @@ class DeliveryAdapter(
         return DeliveryViewHolder(
             viewGroup.context,
             binding,
-            itemClickListener
+            itemClickListener,
+            updateButtonClickListener
         )
     }
 
@@ -45,6 +45,7 @@ class DeliveryAdapter(
 
     override fun onBindViewHolder(holder: DeliveryViewHolder, position: Int) {
         holder.bind(deliveryList[position], itemClickListener)
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -58,7 +59,8 @@ class DeliveryAdapter(
 class DeliveryViewHolder(
     private val context: Context,
     private val binding: RowDeliveryBinding,
-    private val itemClickListener: (Int) -> Unit
+    private val itemClickListener: (Int) -> Unit,
+    private val updateButtonClickListener: (DeliveryData) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
@@ -120,7 +122,7 @@ class DeliveryViewHolder(
             with(buttonDeliveryUpdate) {
                 // 버튼 클릭 시
                 setOnClickListener {
-
+                    updateButtonClickListener.invoke(data)
                 }
             }
 
