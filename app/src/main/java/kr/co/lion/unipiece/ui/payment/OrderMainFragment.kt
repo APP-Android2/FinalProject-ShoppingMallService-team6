@@ -58,7 +58,7 @@ class OrderMainFragment : Fragment() {
         // 바인딩
         with(binding) {
 
-            // 툴바 ////////////////////////////////////
+            // 툴바
             toolbarOrderMain.apply {
                 // 타이틀
                 title = "주문하기"
@@ -74,34 +74,38 @@ class OrderMainFragment : Fragment() {
 
 
 
-            // 기본 배송지 세팅
+            // 처음 들어왔을 때 기본 배송지 세팅
             viewModel.getBasicDeliveryData.observe(viewLifecycleOwner) {
                 lifecycleScope.launch {
                     val deliveryName = it[0].deliveryName
                     val deliveryPhone = it[0].deliveryPhone
                     val deliveryAddress = it[0].deliveryAddress
                     val deliveryAddressDetail = it[0].deliveryAddressDetail
+                    val basicMemo = it[0].deliveryMemo
+                    // 받는 이
                     textViewOrderPersonName.text = deliveryName
+                    // 연락처
                     textViewOrderPhone.text = deliveryPhone
+                    // 주소 (주소 + 상세주소)
                     textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
+
+
+                    // 배송 메모 세팅
+                    with(spinnerOrderMainDeliveryMemo){
+
+                        val items = arrayOf(basicMemo, "문 앞", "경비실", "택배함", "선택 안함")
+                        val adapter =
+                            ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
+                        val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
+                        spinner.adapter = adapter
+
+                    }
                 }
 
             }
 
-            // 처음 들어왔을 때 기본 배송지 세팅
 
-
-            // 배송메모 세팅
-            with(spinnerOrderMainDeliveryMemo) {
-                val items = arrayOf("선택 안함", "문 앞", "경비실", "택배함")
-                val adapter =
-                    ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
-                val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
-                spinner.adapter = adapter
-            }
-
-
-            // 배송지 변경 버튼 클릭 /////////////////////////////////////////////////////////
+            // 배송지 변경 버튼 클릭
             with(buttonOrderDeliveryChange) {
                 setOnClickListener {
                     // DeliveryActivity를 실행한다.
@@ -111,7 +115,7 @@ class OrderMainFragment : Fragment() {
             }
 
 
-            // 결제하기 버튼 클릭 //////////////////////////////////////////////
+            // 결제하기 버튼 클릭
             with(buttonOrderPaymentSubmit) {
                 setOnClickListener {
                     parentFragmentManager.beginTransaction()
@@ -121,7 +125,7 @@ class OrderMainFragment : Fragment() {
                 }
             }
 
-            // 주문 상세 설정 /////////////////////////
+            // 주문 상세 설정
 
             // 추가 배송비 합계
             with(textViewOrderMainAddDeliveryPrice) {
@@ -134,7 +138,7 @@ class OrderMainFragment : Fragment() {
             }
 
 
-            // 주문하기 화면 RecyclerView ///////////////////////////////////////////////////////////
+            // 주문하기 화면 RecyclerView
             with(recyclerViewOrderList) {
 
 
