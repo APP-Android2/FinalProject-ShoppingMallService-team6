@@ -1,32 +1,46 @@
 package kr.co.lion.unipiece.ui.mypage
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityFollowBinding
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.home.AuthorAdapter
 import kr.co.lion.unipiece.ui.mypage.adapter.FollowAdapter
 
 class FollowActivity : AppCompatActivity() {
 
-    lateinit var activityFollowBinding: ActivityFollowBinding
+    lateinit var binding: ActivityFollowBinding
+
+    val followAdapter: FollowAdapter by lazy {
+        val adapter = FollowAdapter()
+        adapter.setRecyclerviewClickListener(object : FollowAdapter.FollowAuthorImageOnClickListener{
+            override fun followAuthorImageClickListener() {
+                startActivity(Intent(this@FollowActivity,AuthorInfoActivity::class.java))
+            }
+        })
+        adapter
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activityFollowBinding = ActivityFollowBinding.inflate(layoutInflater)
-        setContentView(activityFollowBinding.root)
+        binding = ActivityFollowBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
-        setToolbar()
-        setRecyclerViewFollow()
+        initView()
 
     }
 
-    // 툴바 셋팅
-    fun setToolbar() {
-        activityFollowBinding.apply {
-            toolbarFollowAuthor.apply {
+
+    fun initView(){
+        with(binding){
+
+            // 툴바 셋팅
+            with(toolbarFollowAuthor) {
                 title = "팔로우한 작가"
                 isTitleCentered = true
 
@@ -36,20 +50,14 @@ class FollowActivity : AppCompatActivity() {
                     finish()
                 }
             }
-        }
-    }
 
-    // 메인 화면의 RecyclerView 설정
-    fun setRecyclerViewFollow() {
-        activityFollowBinding.apply {
-            recyclerViewFollowAuthorList.apply {
+            // 리사이클러뷰
+            with(recyclerViewFollowAuthorList) {
                 // 어뎁터
-                adapter = FollowAdapter()
+                adapter = followAdapter
                 // 레이아웃 매니저
                 layoutManager = GridLayoutManager(this@FollowActivity, 2)
             }
         }
     }
-
-
 }

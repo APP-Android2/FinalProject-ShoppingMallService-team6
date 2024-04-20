@@ -5,6 +5,7 @@ import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.RowFollowBinding
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.util.CustomDialog
@@ -12,6 +13,11 @@ import kr.co.lion.unipiece.util.CustomDialog
 // 메인 화면의 RecyclerView의 어뎁터
 class FollowAdapter :
     RecyclerView.Adapter<FollowViewHolder>() {
+    private lateinit var followAuthorImageClickListener: FollowAuthorImageOnClickListener
+
+    fun setRecyclerviewClickListener(followAuthorImageClickListener: FollowAuthorImageOnClickListener) {
+        this.followAuthorImageClickListener = followAuthorImageClickListener
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FollowViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -25,7 +31,15 @@ class FollowAdapter :
     }
 
     override fun onBindViewHolder(holder: FollowViewHolder, position: Int) {
+        holder.rowFollowBinding.imageViewFollowingAuthor.setImageResource(R.drawable.mypage_icon)
         holder.rowFollowBinding.textViewFollowListAuthorName.text = "홍길동"
+        holder.rowFollowBinding.ivProfileImage.setOnClickListener {
+            followAuthorImageClickListener.followAuthorImageClickListener()
+        }
+    }
+
+    interface FollowAuthorImageOnClickListener {
+        fun followAuthorImageClickListener()
     }
 
 
@@ -47,7 +61,10 @@ class FollowViewHolder(context: Context, rowFollowBinding: RowFollowBinding) :
         // 항목별 팔로우 취소 텍스트 버튼 클릭 시
         this.rowFollowBinding.textButtonFollowCancel.setOnClickListener {
             val followCancelDialog = CustomDialog("팔로우 취소", "홍길동 작가 팔로우를 취소하시겠습니까?")
-            //followCancelDialog.show(,"FollowCancelCustomDialog")
+            followCancelDialog.show(
+                followCancelDialog.parentFragmentManager,
+                "FollowCancelCustomDialog"
+            )
             followCancelDialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
                 override fun okButtonClick() {
 
