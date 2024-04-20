@@ -13,7 +13,7 @@ import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.util.setImage
 import java.text.DecimalFormat
 
-class BuyNewAdapter (var pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int, Int) -> Unit) : RecyclerView.Adapter<BuyNewViewHolder>() {
+class BuyNewAdapter (var pieceInfoList: List<PieceInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<BuyNewViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType:Int): BuyNewViewHolder {
         val binding: ItemBuyBinding = ItemBuyBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -21,7 +21,7 @@ class BuyNewAdapter (var pieceInfoList: List<PieceInfoData>, private val itemCli
     }
 
     override fun onBindViewHolder(holder: BuyNewViewHolder, position: Int){
-        holder.bind(pieceInfoList[position], itemClickListener)
+        holder.bind(pieceInfoList[position])
     }
 
     override fun getItemCount(): Int = pieceInfoList.size
@@ -34,8 +34,16 @@ class BuyNewAdapter (var pieceInfoList: List<PieceInfoData>, private val itemCli
     }
 }
 
-class BuyNewViewHolder(val binding: ItemBuyBinding, private val itemClickListener: (Int, Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
-    fun bind(item: PieceInfoData, itemClickListener: (Int, Int) -> Unit) {
+class BuyNewViewHolder(val binding: ItemBuyBinding, private val itemClickListener: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
+
+    init {
+        // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
+        binding.root.setOnClickListener {
+            itemClickListener.invoke(adapterPosition)
+        }
+    }
+
+    fun bind(item: PieceInfoData) {
         val priceFormat = DecimalFormat("###,###")
         val price = priceFormat.format(item.piecePrice)
 
@@ -43,11 +51,6 @@ class BuyNewViewHolder(val binding: ItemBuyBinding, private val itemClickListene
             authorName.text = item.authorName
             pieceName.text = item.pieceName
             piecePrice.text = "${price}원"
-
-            // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
-            root.setOnClickListener {
-                itemClickListener.invoke(item.pieceIdx, item.authorIdx)
-            }
 
            root.context.setImage(pieceImg, item.pieceImg)
 

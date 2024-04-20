@@ -23,18 +23,6 @@ class BuyNewFragment : Fragment() {
 
     private val viewModel: BuyViewModel by viewModels( ownerProducer = { requireParentFragment()} )
 
-    val buyNewAdapter : BuyNewAdapter by lazy {
-        BuyNewAdapter(
-            emptyList(),
-            itemClickListener = { pieceIdx, authorIdx->
-                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                intent.putExtra("pieceIdx", pieceIdx)
-                intent.putExtra("authorIdx", authorIdx)
-                startActivity(intent)
-            }
-        )
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -53,32 +41,37 @@ class BuyNewFragment : Fragment() {
 
     fun initView() {
 
-        with(binding){
-            buyNewRV.adapter = buyNewAdapter
-            buyNewRV.layoutManager = GridLayoutManager(activity, 2)
-        }
-
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.newPieceInfoList.observe(viewLifecycleOwner, Observer { value ->
-                    binding.progressBar.visibility = View.GONE
-                    buyNewAdapter.updateData(value)
-                })
+            viewModel.newPieceInfoList.observe(viewLifecycleOwner) { value ->
+                val buyNewAdapter  = BuyNewAdapter(
+                        value,
+                        itemClickListener = { position ->
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            intent.putExtra("pieceIdx", value[position].pieceIdx)
+                            intent.putExtra("authorIdx", value[position].authorIdx)
+                            startActivity(intent)
+                        }
+                    )
+
+                with(binding){
+                    buyNewRV.adapter = buyNewAdapter
+                    buyNewRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+
+                binding.progressBar.visibility = View.GONE
             }
         }
     }
 
     fun setLoading(){
         viewLifecycleOwner.lifecycleScope.launch {
-            repeatOnLifecycle(Lifecycle.State.STARTED) {
-                viewModel.newLoading.observe(viewLifecycleOwner, Observer { value ->
-                    if(value){
-                        binding.buyNewRV.scrollToPosition(0)
-                        binding.progressBar.visibility = View.VISIBLE
-                    } else {
-                        binding.progressBar.visibility = View.GONE
-                    }
-                })
+            viewModel.newLoading.observe(viewLifecycleOwner) { value ->
+                if (value) {
+                    binding.buyNewRV.scrollToPosition(0)
+                    binding.progressBar.visibility = View.VISIBLE
+                } else {
+                    binding.progressBar.visibility = View.GONE
+                }
             }
         }
     }

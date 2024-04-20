@@ -4,10 +4,8 @@ import com.google.firebase.Timestamp
 
 
 data class CartData(
-    var userIdx: Int,
-    var pieceIdx: Int,
-    var cartPieceDate: Timestamp,
+    val userIdx: Int = -1,
+    val pieceIdx: Int = -1,
+    val cartPieceDate: Timestamp = Timestamp.now(),
 
-){
-    constructor() : this(0, 0, Timestamp.now())
-}
+)

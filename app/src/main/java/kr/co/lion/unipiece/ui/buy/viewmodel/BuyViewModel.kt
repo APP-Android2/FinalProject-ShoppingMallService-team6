@@ -42,84 +42,53 @@ class BuyViewModel(): ViewModel() {
 
     suspend fun getPopPieceInfo(){
         val response = pieceInfoRepository.getPopPieceInfo()
-        val pieceInfoList = mutableListOf<PieceInfoData>()
+        val updatedPieceInfoList = updateImagePieceInfo(response)
 
-        response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
-        }
-
-        _popPieceInfoList.value = pieceInfoList
+        _popPieceInfoList.value = updatedPieceInfoList
     }
 
     suspend fun getNewPieceInfo(){
         val response = pieceInfoRepository.getNewPieceInfo()
-        val pieceInfoList = mutableListOf<PieceInfoData>()
+        val updatedPieceInfoList = updateImagePieceInfo(response)
 
-        response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
-        }
-
-        _newPieceInfoList.value = pieceInfoList
-        Log.d("buy new", _newPieceInfoList.value.toString())
+        _newPieceInfoList.value = updatedPieceInfoList
     }
 
     suspend fun getPopPieceSort(category: String){
         val response = pieceInfoRepository.getPopPieceSort(category)
-        val pieceInfoList = mutableListOf<PieceInfoData>()
+        val updatedPieceInfoList = updateImagePieceInfo(response)
 
-        response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
-        }
-
-        _popPieceInfoList.value = pieceInfoList
+        _popPieceInfoList.value = updatedPieceInfoList
     }
 
     suspend fun getPopPieceDetailSort(detailCategory: String){
         val response = pieceInfoRepository.getPopPieceDetailSort(detailCategory)
-        val pieceInfoList = mutableListOf<PieceInfoData>()
+        val updatedPieceInfoList = updateImagePieceInfo(response)
 
-        response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
-        }
-
-        _popPieceInfoList.value = pieceInfoList
+        _popPieceInfoList.value = updatedPieceInfoList
     }
 
     suspend fun getNewPieceSort(category: String){
         val response = pieceInfoRepository.getNewPieceSort(category)
-        val pieceInfoList = mutableListOf<PieceInfoData>()
+        val updatedPieceInfoList = updateImagePieceInfo(response)
 
-        response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
-        }
-
-        _newPieceInfoList.value = pieceInfoList
-        Log.d("buy new sort", _newPieceInfoList.value.toString())
+        _newPieceInfoList.value = updatedPieceInfoList
     }
 
     suspend fun getNewPieceDetailSort(detailCategory: String){
         val response = pieceInfoRepository.getNewPieceDetailSort(detailCategory)
-        val pieceInfoList = mutableListOf<PieceInfoData>()
+        val updatedPieceInfoList = updateImagePieceInfo(response)
 
-        response.forEach { pieceInfoData ->
-            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
-            pieceInfoData.pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg
-            pieceInfoList.add(pieceInfoData)
-        }
-
-        _newPieceInfoList.value = pieceInfoList
-        Log.d("buy new detail sort", _newPieceInfoList.value.toString())
+        _newPieceInfoList.value = updatedPieceInfoList
     }
+
+    suspend fun updateImagePieceInfo(pieceInfoList: List<PieceInfoData>): List<PieceInfoData> {
+        return pieceInfoList.map { pieceInfoData ->
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
+            pieceInfoData.copy(pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg)
+        }
+    }
+
 
     private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): String? {
         return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)
