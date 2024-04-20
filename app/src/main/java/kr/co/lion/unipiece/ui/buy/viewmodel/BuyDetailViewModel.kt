@@ -70,11 +70,11 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
         cartRepository.insertCartData(cartData)
     }
 
-    suspend fun cancelCartPiece(pieceIdx: Int, userIdx: Int){
+    suspend fun cancelCartPiece(){
         cartRepository.cancelCartPiece(pieceIdx, userIdx)
     }
 
-    suspend fun updateLike(pieceIdx: Int){
+    suspend fun updateLike(){
         val countLike = likePieceInfoRepository.countLikePiece(pieceIdx)
         pieceInfoRepository.updatePieceLike(pieceIdx, countLike)
 
@@ -87,11 +87,11 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
         _likePiece.value = response
     }
 
-    suspend fun addLikePiece(pieceIdx: Int, userIdx: Int){
+    suspend fun addLikePiece(){
         likePieceInfoRepository.addLikePiece(pieceIdx, userIdx)
     }
 
-    suspend fun cancelLikePiece(pieceIdx: Int, userIdx: Int){
+    suspend fun cancelLikePiece(){
         likePieceInfoRepository.cancelLikePiece(pieceIdx, userIdx)
     }
 
@@ -114,7 +114,7 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
         _authorReviewReceived.value = received
     }
 
-    suspend fun getIdxPieceInfo(pieceIdx: Int) {
+    suspend fun getIdxPieceInfo() {
         val response = pieceInfoRepository.getIdxPieceInfo(pieceIdx)
 
         response?.pieceImg?.let {
@@ -125,7 +125,7 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
         _pieceInfo.value = response
     }
 
-    suspend fun getIdxAuthorInfo(authorIdx: Int) {
+    suspend fun getIdxAuthorInfo() {
         val response = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
 
         response?.authorImg?.let {
@@ -136,7 +136,7 @@ class BuyDetailViewModel(private val pieceIdx: Int, private val authorIdx: Int, 
         _authorInfo.value = response
     }
 
-    suspend fun getAuthorReviewDataByIdx(authorIdx: Int){
+    suspend fun getAuthorReviewDataByIdx(){
         val response = authorReviewRepository.getAuthorReviewDataByIdx(authorIdx)
         _authorReviewList.value = response
     }

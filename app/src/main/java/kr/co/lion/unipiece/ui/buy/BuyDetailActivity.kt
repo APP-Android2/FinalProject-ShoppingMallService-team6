@@ -4,7 +4,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -21,8 +20,8 @@ import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModel
 import kr.co.lion.unipiece.ui.buy.viewmodel.BuyDetailViewModelFactory
 import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
-import kr.co.lion.unipiece.ui.payment.cart.CartActivity
-import kr.co.lion.unipiece.ui.payment.order.OrderActivity
+import kr.co.lion.unipiece.ui.payment.CartActivity
+import kr.co.lion.unipiece.ui.payment.OrderActivity
 import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.setMenuIconColor
 import java.text.DecimalFormat
@@ -47,18 +46,21 @@ class BuyDetailActivity : AppCompatActivity() {
         binding = ActivityBuyDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        getIdx()
         initView()
+    }
+
+    fun getIdx(){
+        pieceIdx = intent.getIntExtra("pieceIdx", -1)
+        authorIdx = intent.getIntExtra("authorIdx", -1)
     }
 
     fun initView(){
 
-        pieceIdx = intent.getIntExtra("pieceIdx", -1)
-        authorIdx = intent.getIntExtra("authorIdx", -1)
-
         lifecycleScope.launch {
-            viewModel.getIdxPieceInfo(pieceIdx)
-            viewModel.getIdxAuthorInfo(authorIdx)
-            viewModel.getAuthorReviewDataByIdx(authorIdx)
+            viewModel.getIdxPieceInfo()
+            viewModel.getIdxAuthorInfo()
+            viewModel.getAuthorReviewDataByIdx()
         }
 
         setToolbar()
@@ -110,12 +112,12 @@ class BuyDetailActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 if(viewModel.likePiece.value == true) {
                     showLikeSnackbar("좋아요를 취소했습니다.")
-                    viewModel.cancelLikePiece(pieceIdx, userIdx)
-                    viewModel.updateLike(pieceIdx)
+                    viewModel.cancelLikePiece()
+                    viewModel.updateLike()
                 } else {
                     showLikeSnackbar("좋아요를 눌렀습니다.")
-                    viewModel.addLikePiece(pieceIdx, userIdx)
-                    viewModel.updateLike(pieceIdx)
+                    viewModel.addLikePiece()
+                    viewModel.updateLike()
                 }
                 viewModel.getLikePiece()
             }
@@ -175,7 +177,6 @@ class BuyDetailActivity : AppCompatActivity() {
                     authorInfoMore.setOnClickListener {
                         startActivity(intent)
                     }
-
                 }
             }
         })
@@ -241,14 +242,9 @@ class BuyDetailActivity : AppCompatActivity() {
                             setIntent("SearchFragment")
                             true
                         }
-                        R.id.menu_cart -> {
-
-                            true
-                        }
                         else -> false
                     }
                 }
-
                 setMenuIconColor(menu, R.id.menu_search, R.color.second)
             }
         }
@@ -293,7 +289,7 @@ class BuyDetailActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 if(viewModel.cartPiece.value == true){
                     showCartSnackbar("장바구니에서 삭제했습니다.")
-                    viewModel.cancelCartPiece(pieceIdx, userIdx)
+                    viewModel.cancelCartPiece()
                 } else {
                     showCartSnackbar("장바구니에 담았습니다.")
                     viewModel.insertCartData(CartData(userIdx, pieceIdx, Timestamp.now()))
