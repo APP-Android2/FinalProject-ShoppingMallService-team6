@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
@@ -119,19 +120,18 @@ class DeliveryAddFragment : Fragment() {
                 setOnClickListener {
                     viewLifecycleOwner.lifecycleScope.launch {
                         val deliveryData = setInsertDeliveryData()
-                        with(viewModel) {
-                            insertDeliveryData(deliveryData)
+                        viewModel.insertDeliveryData(deliveryData)
 
+                        viewModel.insertData.observe(viewLifecycleOwner) {
+                            // 데이터 삽입 작업이 완료되었을 때 호출됨
+                            if(it == true){
+                                viewModel.setdata()
+                                parentFragmentManager.popBackStack()
+                            }
                         }
-                        viewModel.getDeliveryDataByIdx(userIdx)
-
-                        parentFragmentManager.popBackStack()
-
-
                     }
                 }
             }
-
 
             // 주소 비활성화
             textFieldDeliveryAddAddress.isEnabled = true
