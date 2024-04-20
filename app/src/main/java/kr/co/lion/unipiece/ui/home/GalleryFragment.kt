@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentGalleryBinding
 import kr.co.lion.unipiece.ui.MainActivity
@@ -37,11 +39,15 @@ class GalleryFragment(val imgRes : String) : Fragment() {
     private fun settingEvent(){
         fragmentGalleryBinding.apply {
             imageGallery.setOnClickListener {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    val imageName = requireActivity().gettingImageName(imgRes)
+                    //Log.d("test1234", imageName)
+                    val galleryImg = viewModel.getGalleryInfoByImg(imageName)
 
-                val imageName = requireActivity().gettingImageName(imgRes)
-                Log.d("test1234", imageName)
-
-                startActivity(Intent(requireActivity(), InfoOneActivity::class.java))
+                    val newIntent = Intent(requireActivity(), InfoOneActivity::class.java)
+                    newIntent.putExtra("galleryInfoImg", galleryImg?.galleryInfoImg)
+                    startActivity(newIntent)
+                }
             }
         }
     }
