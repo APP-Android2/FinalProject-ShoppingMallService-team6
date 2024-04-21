@@ -11,12 +11,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.PieceAddInfoData
+import kr.co.lion.unipiece.model.PieceInfoData
 import java.util.UUID
 
 class PieceAddInfoDataSource {
     private val db = Firebase.firestore
     private val storageRef = Firebase.storage.reference
 
+    // 작품 등록 정보 저장
     suspend fun addPieceInfo(pieceAddInfoData: PieceAddInfoData): Boolean {
         return try {
             val pieceAddInfoId = db.collection("PieceAddInfo").document().id
@@ -51,6 +53,7 @@ class PieceAddInfoDataSource {
         }
     }
 
+    // authorIdx로 작품 등록 정보 가져오기
     suspend fun getPieceAddInfo(authorIdx: Int) : List<PieceAddInfoData> {
         return try {
             val querySnapshot = db.collection("PieceAddInfo")
@@ -65,6 +68,21 @@ class PieceAddInfoDataSource {
         }
     }
 
+    // addPieceIdx로 작품 등록 정보 가져오기
+    suspend fun getPieceAddInfoByAddPieceIdx(addPieceIdx: Int): PieceAddInfoData? {
+        return try {
+            val querySnapshot = db.collection("PieceAddInfo")
+                .whereEqualTo("addPieceIdx", addPieceIdx)
+                .get()
+                .await()
+
+            querySnapshot.documents.first()?.toObject(PieceAddInfoData::class.java)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
+    // 작품 등록 정보 시퀀스 가져오기
     suspend fun getPieceAddSequence(): Int {
         return try {
             val sequenceSnapshot = db.collection("Sequence")
@@ -78,6 +96,7 @@ class PieceAddInfoDataSource {
         }
     }
 
+    // 작품 등록 정보 시퀀스 업데이트
     suspend fun updatePieceAddSequence(pieceAddSequence: Int) {
         try {
             val pieceAddSequenceDocument = db.collection("Sequence")
@@ -93,6 +112,7 @@ class PieceAddInfoDataSource {
     }
 
 
+    // 작품 등록 정보 이미지 저장
     fun uploadImage(authorIdx: Int, imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"
         val imageRef = storageRef.child("addPieceInfo/${authorIdx}/${imageFileName}")
@@ -102,6 +122,7 @@ class PieceAddInfoDataSource {
         return imageFileName
     }
 
+    // 작품 등록 정보 이미지 가져오기
     suspend fun getPieceAddInfoImage(authorIdx: Int, addPieceImg: String): Uri? {
         val path = "addPieceInfo/${authorIdx}/${addPieceImg}"
 
