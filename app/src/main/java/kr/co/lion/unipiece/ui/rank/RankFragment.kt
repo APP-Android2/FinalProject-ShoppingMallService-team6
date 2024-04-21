@@ -6,8 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankBinding
+import kr.co.lion.unipiece.ui.rank.viewmodel.RankViewModel
 import kr.co.lion.unipiece.ui.search.SearchFragment
 import kr.co.lion.unipiece.util.RankFragmentName
 import kr.co.lion.unipiece.util.RankFragmentName.*
@@ -16,6 +20,8 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class RankFragment : Fragment() {
 
     lateinit var binding: FragmentRankBinding
+
+    private val viewModel: RankViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,11 +37,27 @@ class RankFragment : Fragment() {
 
         settingToolbarRank()
         initView()
+        setLoading()
         setFragmentBtn()
     }
 
     private fun initView() {
         setFragment(RANK_PIECE_FRAGMENT)
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getPopPieceInfo()
+        }
+    }
+
+    fun setLoading(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loading.observe(viewLifecycleOwner) { value ->
+                if (value) {
+                    binding.rankProgressBar.visibility = View.VISIBLE
+                } else {
+                    binding.rankProgressBar.visibility = View.GONE
+                }
+            }
+        }
     }
 
     private fun settingToolbarRank(){
@@ -47,8 +69,8 @@ class RankFragment : Fragment() {
                 setOnMenuItemClickListener { menuItem ->
                     when (menuItem.itemId) {
                         R.id.menu_search -> {
-                            val fragmentManager = activity?.supportFragmentManager?.beginTransaction()
-                            fragmentManager?.replace(R.id.fl_container, SearchFragment())?.addToBackStack("SearchFragment")?.commit()
+                            val fragmentManager = parentFragmentManager.beginTransaction()
+                            fragmentManager.replace(R.id.fl_container, SearchFragment()).addToBackStack("SearchFragment").commit()
                             true
                         }
                         else -> false
@@ -80,7 +102,7 @@ class RankFragment : Fragment() {
 
     private fun setFragment(name: RankFragmentName) {
 
-        val fragmentMananger = parentFragmentManager.beginTransaction()
+        val fragmentMananger = childFragmentManager.beginTransaction()
 
             when(name) {
                 RANK_PIECE_FRAGMENT -> {

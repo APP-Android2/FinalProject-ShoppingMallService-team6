@@ -6,27 +6,22 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankPieceBinding
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
+import kr.co.lion.unipiece.ui.buy.adapter.BuyPopAdapter
 import kr.co.lion.unipiece.ui.rank.adapter.RankPieceAdapter
+import kr.co.lion.unipiece.ui.rank.viewmodel.RankViewModel
 
 class RankPieceFragment : Fragment() {
 
     lateinit var binding: FragmentRankPieceBinding
 
-    val testPieceList = arrayListOf(R.drawable.logo, R.drawable.icon, R.drawable.test_piece_img,
-        R.drawable.icon, R.drawable.test_piece_img, R.drawable.icon,
-        R.drawable.logo, R.drawable.test_piece_img, R.drawable.logo)
-
-    val adapter: RankPieceAdapter by lazy {
-        RankPieceAdapter(testPieceList,
-            itemClickListener = { testId ->
-                val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                startActivity(intent)
-            })
-    }
+    private val viewModel: RankViewModel by viewModels( ownerProducer = { requireParentFragment() } )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,14 +34,44 @@ class RankPieceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setRecyclerView()
+        initView()
+        setLoading()
     }
 
-    fun setRecyclerView() {
-        with (binding){
-            rankPieceRV.adapter = adapter
-            rankPieceRV.layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter.notifyDataSetChanged()
+    fun initView() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.pieceRankList.observe(viewLifecycleOwner) { value ->
+
+                val rankPieceAdapter =
+                    RankPieceAdapter(
+                        value,
+                        itemClickListener = { poisition ->
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            intent.putExtra("pieceIdx", value[poisition].pieceIdx)
+                            intent.putExtra("authorIdx", value[poisition].authorIdx)
+                            startActivity(intent)
+                        }
+                    )
+
+                with(binding){
+                    rankPieceRV.adapter = rankPieceAdapter
+                    rankPieceRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+
+                viewModel.setLoading(false)
+            }
+        }
+
+    }
+
+    fun setLoading(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loading.observe(viewLifecycleOwner) { value ->
+                if (value) {
+                    binding.rankPieceRV.scrollToPosition(0)
+                }
+            }
         }
     }
 }
