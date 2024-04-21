@@ -82,6 +82,37 @@ class PieceAddInfoDataSource {
         }
     }
 
+    // 작품 등록 정보 업데이트
+    suspend fun updatePieceAddInfo(pieceAddInfoData: PieceAddInfoData): Boolean {
+        return try {
+            val addPieceIdx = pieceAddInfoData.addPieceIdx
+
+            val updatedData = mapOf(
+                "addPieceName" to pieceAddInfoData.addPieceName,
+                "addMakeYear" to pieceAddInfoData.addMakeYear,
+                "addPieceSize" to pieceAddInfoData.addPieceSize,
+                "addPieceMaterial" to pieceAddInfoData.addPieceMaterial,
+                "addPieceInfo" to pieceAddInfoData.addPieceInfo,
+                "addPieceImg" to pieceAddInfoData.addPieceImg,
+                "addPiecePrice" to pieceAddInfoData.addPiecePrice,
+            )
+
+            val querySnapshot = db.collection("PieceAddInfo")
+                .whereEqualTo("addPieceIdx", addPieceIdx)
+                .get()
+                .await()
+
+            querySnapshot.documents[0].reference.update(updatedData).await()
+
+            true
+        } catch (e: Exception) {
+            Log.d("PieceAddInfoDataSource", "pieceAddInfoData.addPieceIdx: ${pieceAddInfoData.addPieceIdx}")
+            Log.e("PieceAddInfoDataSource", "Failed to update PieceAddInfo", e)
+            false
+        }
+    }
+
+
     // 작품 등록 정보 시퀀스 가져오기
     suspend fun getPieceAddSequence(): Int {
         return try {
@@ -111,7 +142,6 @@ class PieceAddInfoDataSource {
         }
     }
 
-
     // 작품 등록 정보 이미지 저장
     fun uploadImage(authorIdx: Int, imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"
@@ -120,6 +150,13 @@ class PieceAddInfoDataSource {
         imageRef.putFile(imageUri)
 
         return imageFileName
+    }
+
+    // 작품 등록 정보 이미지 업데이트
+    fun updateImage(authorIdx: Int, imageUri: Uri, imageFileName: String){
+        val imageRef = storageRef.child("addPieceInfo/${authorIdx}/${imageFileName}")
+
+        imageRef.putFile(imageUri)
     }
 
     // 작품 등록 정보 이미지 가져오기
