@@ -19,7 +19,7 @@
         app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
     <TextView
-        android:id="@+id/textView7"
+        android:id="@+id/textViewAvailableTime"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/lightgray"
