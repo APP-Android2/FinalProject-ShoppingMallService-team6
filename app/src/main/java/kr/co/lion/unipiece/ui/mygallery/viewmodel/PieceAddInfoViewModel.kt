@@ -28,6 +28,9 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _pieceAddInfoList = MutableLiveData<List<PieceAddInfoData>>()
     val pieceAddInfoList : LiveData<List<PieceAddInfoData>> = _pieceAddInfoList
 
+    private val _pieceAddInfo = MutableLiveData<PieceAddInfoData>()
+    val pieceAddInfo : LiveData<PieceAddInfoData> = _pieceAddInfo
+
     private val _uploadImageResult = MutableLiveData<String?>()
     val uploadImageResult: LiveData<String?> = _uploadImageResult
 
@@ -111,10 +114,48 @@ class PieceAddInfoViewModel : ViewModel() {
         }
     }
 
+    suspend fun getPieceAddInfoByAddPieceIdx(authorIdx: Int, addPieceIdx: Int) {
+        viewModelScope.launch {
+            try {
+                val pieceAddInfo = pieceAddInfoRepository.getPieceAddInfoByAddPieceIdx(addPieceIdx)
+
+                if (pieceAddInfo != null) {
+                    // 이미지를 제외한 데이터 먼저 UI에 반영
+                    updateUIWithOneData(pieceAddInfo)
+                    Log.d("PieceAddInfoViewModel", "updateUIWithOneData - pieceAddInfo: $pieceAddInfo")
+
+                    // 이미지를 비동기적으로 가져오기
+                    fetchImageAsync(authorIdx, pieceAddInfo)
+                    Log.d("PieceAddInfoViewModel", "fetchImageAsync - pieceAddInfo: $pieceAddInfo")
+                }
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to get pieceAddInfo: $throwable")
+            }
+        }
+    }
+
     private fun updateUIWithData(pieceAddInfoList: List<PieceAddInfoData>) {
         _pieceAddInfoList.value = pieceAddInfoList
     }
 
+    private fun updateUIWithOneData(pieceAddInfoData: PieceAddInfoData) {
+        _pieceAddInfo.value = pieceAddInfoData
+    }
+
+    private fun fetchImageAsync(authorIdx: Int, pieceAddInfo: PieceAddInfoData) {
+        val imageName = pieceAddInfo.addPieceImg
+        viewModelScope.launch {
+            try {
+                val imageUrl = getPieceAddInfoImage(authorIdx, imageName)
+                imageUrl?.let {
+                    pieceAddInfo.addPieceImg = it.toString()
+                    updateUIWithOneData(pieceAddInfo)
+                }
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to fetch image: $throwable")
+            }
+        }
+    }
 
     fun addPieceInfo(pieceAddInfoData: PieceAddInfoData) {
         viewModelScope.launch {
