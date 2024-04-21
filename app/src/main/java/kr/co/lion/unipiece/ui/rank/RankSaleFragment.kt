@@ -7,27 +7,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankSaleBinding
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
+import kr.co.lion.unipiece.ui.rank.adapter.RankPieceAdapter
 import kr.co.lion.unipiece.ui.rank.adapter.RankSaleAdapter
+import kr.co.lion.unipiece.ui.rank.viewmodel.RankViewModel
 
 class RankSaleFragment : Fragment() {
 
     lateinit var binding: FragmentRankSaleBinding
 
-    val testAuthorList = arrayListOf(R.drawable.mypage_icon, R.drawable.icon, R.drawable.mypage_icon,
-        R.drawable.mypage_icon, R.drawable.test_piece_img, R.drawable.icon,
-        R.drawable.logo, R.drawable.test_piece_img, R.drawable.mypage_icon)
-
-    val adapter: RankSaleAdapter by lazy {
-        RankSaleAdapter(testAuthorList,
-            itemClickListener = {testId ->
-                val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
-                startActivity(intent)
-            })
-    }
+    private val viewModel: RankViewModel by viewModels( ownerProducer = { requireParentFragment().requireParentFragment() } )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -40,14 +36,46 @@ class RankSaleFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setRecyclerView()
+        initView()
+        setLoading()
     }
 
-    private fun setRecyclerView() {
-        with(binding) {
-            rankSaleRV.adapter = adapter
-            rankSaleRV.layoutManager = GridLayoutManager(requireContext(), 2)
-            adapter.notifyDataSetChanged()
+    fun initView() {
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.setLoading(true)
+            viewModel.getAuthorInfoSale()
+
+            viewModel.authorSaleList.observe(viewLifecycleOwner) { value ->
+
+                val rankSaleAdapter =
+                    RankSaleAdapter(
+                        value,
+                        itemClickListener = { poisition ->
+                            val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                            intent.putExtra("authorIdx", value[poisition].authorIdx)
+                            startActivity(intent)
+                        }
+                    )
+
+                with(binding){
+                    rankSaleRV.adapter = rankSaleAdapter
+                    rankSaleRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+
+                viewModel.setLoading(false)
+            }
+        }
+
+    }
+
+    fun setLoading(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loading.observe(viewLifecycleOwner) { value ->
+                if (value) {
+                    binding.rankSaleRV.scrollToPosition(0)
+                }
+            }
         }
     }
 

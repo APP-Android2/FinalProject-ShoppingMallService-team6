@@ -6,8 +6,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.ItemRankSaleBinding
+import kr.co.lion.unipiece.model.AuthorInfoData
+import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
-class RankSaleAdapter (val imageList: ArrayList<Int>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<RankSaleViewHolder>() {
+class RankSaleAdapter (val authorInfoList: List<AuthorInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<RankSaleViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType:Int): RankSaleViewHolder {
         val binding: ItemRankSaleBinding = ItemRankSaleBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -16,22 +20,30 @@ class RankSaleAdapter (val imageList: ArrayList<Int>, private val itemClickListe
     }
 
     override fun onBindViewHolder(holder: RankSaleViewHolder, position: Int){
-        holder.authorImg.setImageResource(imageList[position])
-        holder.authorRank.text = (position + 1).toString()
+        holder.bind(authorInfoList[position])
     }
 
-    override fun getItemCount(): Int = imageList.size
+    override fun getItemCount(): Int = authorInfoList.size
 }
 
 class RankSaleViewHolder(val binding: ItemRankSaleBinding, private val itemClickListener: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
-    val authorImg: ImageView = binding.authorImg
-    val authorRank: TextView = binding.authorRank
-    val authorName: TextView = binding.authorName
-    val saleCount: TextView = binding.saleCount
 
     init {
+        // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
         binding.root.setOnClickListener {
-            itemClickListener.invoke(position)
+            itemClickListener.invoke(adapterPosition)
+        }
+    }
+
+    fun bind(item: AuthorInfoData) {
+
+        with(binding) {
+            authorName.text = item.authorName
+            authorRank.text = (adapterPosition + 1).toString()
+            saleCount.text = "${item.authorSale}회"
+
+            root.context.setImage(authorImg, item.authorImg)
+
         }
     }
 }

@@ -94,10 +94,7 @@ class RankFragment : Fragment() {
                     }
 
                     selectedFragment?.let { fragment ->
-                        viewLifecycleOwner.lifecycleScope.launch {
-                            setFragment(fragment)
-                            viewModel.setLoading(true)
-                        }
+                        setFragment(fragment)
                     }
                     return@setOnMenuItemClickListener true
                 }
@@ -112,8 +109,11 @@ class RankFragment : Fragment() {
 
             when(name) {
                 RANK_PIECE_FRAGMENT -> {
-                    fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
-                    binding.rankTitle.text = "작품 랭킹"
+                    viewLifecycleOwner.lifecycleScope.launch {
+                        viewModel.setLoading(true)
+                        fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
+                        binding.rankTitle.text = "작품 랭킹"
+                    }
                 }
                 RANK_AUTHOR_FRAGMENT -> {
                     fragmentMananger.replace(R.id.rank_fragment, RankAuthorFragment())
