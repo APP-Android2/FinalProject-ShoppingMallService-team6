@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/imageViewEventLogo"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="300dp"
                 app:srcCompat="@drawable/icon" />
 
             <TextView
