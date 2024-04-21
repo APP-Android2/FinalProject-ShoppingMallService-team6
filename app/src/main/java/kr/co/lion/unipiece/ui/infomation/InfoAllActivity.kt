@@ -22,10 +22,12 @@ class InfoAllActivity : AppCompatActivity() {
     val viewModel:InfoAllViewModel by viewModels()
 
     val infoAllAdapter:InfoAllAdapter by lazy {
-        val adapter = InfoAllAdapter(emptyList(), emptyList())
+        val adapter = InfoAllAdapter(emptyList(), emptyList(), emptyList())
         adapter.setRecyclerviewClickListener(object : InfoAllAdapter.ItemOnClickListener{
             override fun recyclerviewClickListener(image: String?) {
                 val promoteInfo = intent?.getStringExtra("promoteInfo")
+
+                val galleryInfo = intent?.getStringExtra("galleryInfo")
 
                 if (!promoteInfo.isNullOrEmpty()){
                     val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
@@ -33,7 +35,16 @@ class InfoAllActivity : AppCompatActivity() {
                     newIntent.putExtra("promoteImg", imageName)
                     //Log.d("test2345", "${promoteImg}")
                     startActivity(newIntent)
-                }else{
+                }
+                else if (!galleryInfo.isNullOrEmpty()){
+                    val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
+                    //이미지 Url을 이미지의 이름으로 바꿔주는 확장함수
+                    val imageName = gettingImageName(image?:"")
+                    newIntent.putExtra("galleryInfoImg", imageName)
+                    startActivity(newIntent)
+                }
+                else
+                {
                     val newIntent = Intent(this@InfoAllActivity, InfoOneActivity::class.java)
                     val imageName = gettingImageName(image?:"")
                     newIntent.putExtra("newsImg", imageName)
@@ -93,12 +104,21 @@ class InfoAllActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 val promoteInfo = intent?.getStringExtra("promoteInfo")
 
+                val galleryInfo = intent?.getStringExtra("galleryInfo")
+
+
                 if (!promoteInfo.isNullOrEmpty()){
                     viewModel.promoteInfoList.observe(this@InfoAllActivity) { value ->
                         progressBar4.visibility = View.GONE
                         infoAllAdapter.updateData(value)
                     }
-                }else{
+                }else if (!galleryInfo.isNullOrEmpty()){
+                    viewModel.galleryInfoList.observe(this@InfoAllActivity) { value ->
+                        progressBar4.visibility = View.GONE
+                        infoAllAdapter.updateDataGallery(value)
+                    }
+                }
+                else {
                     viewModel.newsInfoList.observe(this@InfoAllActivity){ value ->
                         progressBar4.visibility = View.GONE
                         infoAllAdapter.updateDataNews(value)

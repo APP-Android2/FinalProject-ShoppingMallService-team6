@@ -39,6 +39,8 @@ class HomeFragment : Fragment() {
 
     val viewModel: PromoteInfoViewModel by viewModels()
 
+    val galleryViewModel:GalleryInfoViewModel by viewModels()
+
 
     val timer = Timer()
     val handler = Handler(Looper.getMainLooper())
@@ -118,7 +120,13 @@ class HomeFragment : Fragment() {
             }
 
             buttonAllGallery.setOnClickListener {
-                startActivity(Intent(mainActivity, InfoAllActivity::class.java))
+                lifecycleScope.launch {
+                    val galleryInfo = galleryViewModel.getGalleryDataByDate()
+                    Log.d("seonguk1234", "${galleryInfo}")
+                    val newIntent = Intent(requireActivity(), InfoAllActivity::class.java)
+                    newIntent.putExtra("galleryInfo", galleryInfo.toString())
+                    startActivity(newIntent)
+                }
             }
 
             buttonHomeVisitGallery.setOnClickListener {
