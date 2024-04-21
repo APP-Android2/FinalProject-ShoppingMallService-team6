@@ -35,8 +35,6 @@ class SalePieceViewHolderClass(val binding: RowSalePieceBinding): RecyclerView.V
         val price = priceFormat.format(pieceAddInfoData.addPiecePrice)
 
         with(binding) {
-            root.context.setImage(imageViewSalePiece, pieceAddInfoData.addPieceImg)
-
             textViewSalePieceState.text = pieceAddInfoData.addPieceState
             textViewRowSalePieceName.text = pieceAddInfoData.addPieceName
             textViewRowSalePieceArtistName.text = pieceAddInfoData.addAuthorName
@@ -54,9 +52,13 @@ class SalePieceViewHolderClass(val binding: RowSalePieceBinding): RecyclerView.V
                 binding.buttonRowSalePieceModify.setOnClickListener {
                     val intent = Intent(root.context, SalesApplicationActivity::class.java)
                     intent.putExtra("isModify", true)
+                    intent.putExtra("addPieceIdx", pieceAddInfoData.addPieceIdx)
+                    intent.putExtra("authorIdx", pieceAddInfoData.authorIdx)
                     root.context.startActivity(intent)
                 }
             }
+
+            root.context.setImage(imageViewSalePiece, pieceAddInfoData.addPieceImg)
         }
 
         binding.root.setOnClickListener {
