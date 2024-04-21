@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.db.remote
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.CoroutineScope
@@ -10,6 +11,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.AuthorInfoData
+import kr.co.lion.unipiece.model.PieceInfoData
 
 class AuthorInfoDataSource {
 
@@ -270,4 +272,20 @@ class AuthorInfoDataSource {
             false
         }
     }
+
+    // 판매횟수 순서대로 작가 정보 가져오기
+    suspend fun getAuthorInfoSale():List<AuthorInfoData>{
+        return try{
+            val query = db.collection("AuthorInfo")
+                .orderBy("authorSale", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(AuthorInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getAuthorInfoSale: ${e.message}")
+            emptyList()
+        }
+    }
+
 }
