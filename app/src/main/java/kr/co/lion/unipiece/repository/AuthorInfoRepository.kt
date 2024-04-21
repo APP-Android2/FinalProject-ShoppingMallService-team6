@@ -51,4 +51,7 @@ class AuthorInfoRepository {
 
     // 작가 이미지 파일 업로드
     suspend fun uploadImage(authorIdx: Int, imageUri: Uri): Boolean = authorInfoDataSource.uploadImage(authorIdx, imageUri)
+
+    // 판매횟수 순서대로 작가 정보 가져오기
+    suspend fun getAuthorInfoSale():List<AuthorInfoData> = authorInfoDataSource.getAuthorInfoSale()
 }
