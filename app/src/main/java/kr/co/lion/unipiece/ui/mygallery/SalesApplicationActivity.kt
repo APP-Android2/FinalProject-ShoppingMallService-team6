@@ -11,6 +11,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -18,10 +19,12 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
@@ -33,6 +36,7 @@ import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.isKeyboardVisible
 import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
+import kr.co.lion.unipiece.util.setImage
 import kr.co.lion.unipiece.util.showSoftInput
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -49,19 +53,36 @@ class SalesApplicationActivity : AppCompatActivity() {
     private var isAddPicture = false
     private var selectedImageUri: Uri? = null
     private var isModify = false
+    private var addPieceIdx = 0
+    private var authorIdx = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySalesApplicationBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        isModify = intent.getBooleanExtra("isModify", false)
-
+        initView()
         settingToolbar()
         settingView()
         settingAlbumLauncher()
         setupErrorHandling()
         observeAddPieceInfoResult()
+    }
+
+    private fun initView() {
+        isModify = intent.getBooleanExtra("isModify", false)
+
+        if(isModify) {
+            addPieceIdx = intent.getIntExtra("addPieceIdx", 0)
+            authorIdx = intent.getIntExtra("authorIdx", 0)
+
+            lifecycleScope.launch {
+                viewModel.getPieceAddInfoByAddPieceIdx(authorIdx, addPieceIdx)
+            }
+
+            initTextField()
+            settingAddPieceInfo()
+        }
     }
 
     private fun observeAddPieceInfoResult() {
@@ -102,7 +123,10 @@ class SalesApplicationActivity : AppCompatActivity() {
 
     fun settingView() {
         binding.apply {
-            imageViewSalesApplication.isVisible = false
+            if(!isModify) {
+                imageViewSalesApplication.isVisible = false
+            }
+
             textViewImageError.isVisible = false
 
             textFieldSalesApplicationCategory.setOnClickListener {
@@ -145,6 +169,31 @@ class SalesApplicationActivity : AppCompatActivity() {
             buttonSalesApplicationPictureAdd.setOnClickListener {
                 startAlbumLauncher()
             }
+        }
+    }
+
+    fun initTextField() {
+        binding.apply {
+            textFieldSalesApplicationPieceName.setText(" ")
+            textFieldSalesApplicationCategory.setText(" ")
+            textFieldSalesApplicationPrice.setText(" ")
+            textFieldSalesApplicationDate.setText(" ")
+            textFieldSalesApplicationMaterial.setText(" ")
+            textFieldSalesApplicationSize.setText(" ")
+            textFieldSalesApplicationDescription.setText(" ")
+        }
+    }
+
+    fun settingAddPieceInfo() {
+        viewModel.pieceAddInfo.observe(this@SalesApplicationActivity) { pieceAddInfo ->
+            binding.textFieldSalesApplicationPieceName.setText(pieceAddInfo.addPieceName)
+            binding.textFieldSalesApplicationCategory.setText(pieceAddInfo.addPieceDetailSort)
+            binding.textFieldSalesApplicationPrice.setText(pieceAddInfo.addPiecePrice.toString())
+            binding.textFieldSalesApplicationDate.setText(pieceAddInfo.addMakeYear)
+            binding.textFieldSalesApplicationMaterial.setText(pieceAddInfo.addPieceMaterial)
+            binding.textFieldSalesApplicationSize.setText(pieceAddInfo.addPieceSize)
+            binding.textFieldSalesApplicationDescription.setText(pieceAddInfo.addPieceInfo)
+            setImage(binding.imageViewSalesApplication, pieceAddInfo.addPieceImg)
         }
     }
 
