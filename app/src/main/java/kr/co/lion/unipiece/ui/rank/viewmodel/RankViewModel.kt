@@ -18,12 +18,6 @@ class RankViewModel(): ViewModel() {
     private val _loading: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean> = _loading
 
-    init {
-        viewModelScope.launch {
-            getPopPieceInfo()
-        }
-    }
-
     fun setLoading(check: Boolean){
         _loading.value = check
     }

@@ -41,6 +41,8 @@ class RankPieceFragment : Fragment() {
     fun initView() {
 
         viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.getPopPieceInfo()
+
             viewModel.pieceRankList.observe(viewLifecycleOwner) { value ->
 
                 val rankPieceAdapter =

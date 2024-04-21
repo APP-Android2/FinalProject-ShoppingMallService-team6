@@ -43,9 +43,6 @@ class RankFragment : Fragment() {
 
     private fun initView() {
         setFragment(RANK_PIECE_FRAGMENT)
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.getPopPieceInfo()
-        }
     }
 
     fun setLoading(){
@@ -88,10 +85,19 @@ class RankFragment : Fragment() {
             setOnClickListener {
                 val popup = PopupMenu(requireContext(), it)
                 popup.menuInflater.inflate(R.menu.menu_rank, popup.menu)
-                popup.setOnMenuItemClickListener {
-                    when(it.itemId) {
-                        R.id.menu_author -> setFragment(RANK_AUTHOR_FRAGMENT)
-                        R.id.menu_piece -> setFragment(RANK_PIECE_FRAGMENT)
+                popup.setOnMenuItemClickListener { menuItem ->
+
+                    val selectedFragment = when(menuItem.itemId) {
+                        R.id.menu_author -> RANK_AUTHOR_FRAGMENT
+                        R.id.menu_piece -> RANK_PIECE_FRAGMENT
+                        else -> null
+                    }
+
+                    selectedFragment?.let { fragment ->
+                        viewLifecycleOwner.lifecycleScope.launch {
+                            setFragment(fragment)
+                            viewModel.setLoading(true)
+                        }
                     }
                     return@setOnMenuItemClickListener true
                 }
