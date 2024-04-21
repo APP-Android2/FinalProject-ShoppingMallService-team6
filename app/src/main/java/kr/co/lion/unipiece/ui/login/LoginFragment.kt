@@ -31,6 +31,7 @@ import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.login.viewModel.LoginViewModel
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.LoginFragmentName
+import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.showSoftInput
 
 
@@ -174,7 +175,8 @@ class LoginFragment : Fragment() {
                             val dialog = CustomDialog("로그인 오류", "탈퇴한 회원입니다")
                             dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
                                 override fun okButtonClick() {
-
+                                    textLoginUserId.setText("")
+                                    textLoginUserPw.setText("")
                                 }
 
                                 override fun noButtonClick() {
