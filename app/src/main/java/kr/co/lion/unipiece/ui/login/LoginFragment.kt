@@ -29,7 +29,9 @@ import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentLoginBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.login.viewModel.LoginViewModel
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.LoginFragmentName
+import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.showSoftInput
 
 
@@ -154,18 +156,35 @@ class LoginFragment : Fragment() {
                         textLoginUserPwdLayout.error = "존재하지 않은 비밀번호입니다"
                         requireActivity().showSoftInput(textLoginUserPw)
                     }else{
-                        //자동 로그인을 누를 경우 아이디를 저장해준다
-                        if (checkBoxAutoLogin.isChecked){
-                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
-                            UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
-                            startActivity(newIntent)
-                            requireActivity().finish()
+
+                        if (userInfo.userState){
+                            //자동 로그인을 누를 경우 아이디를 저장해준다
+                            if (checkBoxAutoLogin.isChecked){
+                                val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
+                                UniPieceApplication.prefs.setAutoLogin("userId", userInfo.userId)
+                                startActivity(newIntent)
+                                requireActivity().finish()
+                            }else{
+                                val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
+                                startActivity(newIntent)
+                                requireActivity().finish()
+                            }
                         }else{
-                            val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                            UniPieceApplication.prefs.setUserIdx("userIdx", userInfo.userIdx)
-                            startActivity(newIntent)
-                            requireActivity().finish()
+                            val dialog = CustomDialog("로그인 오류", "탈퇴한 회원입니다")
+                            dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
+                                override fun okButtonClick() {
+                                    textLoginUserId.setText("")
+                                    textLoginUserPw.setText("")
+                                }
+
+                                override fun noButtonClick() {
+
+                                }
+
+                            })
+                            dialog.show(parentFragmentManager, "CustomDialog")
                         }
                     }
                 }
