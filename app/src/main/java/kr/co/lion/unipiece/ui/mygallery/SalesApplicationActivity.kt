@@ -66,7 +66,12 @@ class SalesApplicationActivity : AppCompatActivity() {
         settingView()
         settingAlbumLauncher()
         setupErrorHandling()
-        observeAddPieceInfoResult()
+
+        if(isModify) {
+            observeUpdatePieceInfoResult()
+        } else {
+            observeAddPieceInfoResult()
+        }
     }
 
     private fun initView() {
@@ -75,6 +80,7 @@ class SalesApplicationActivity : AppCompatActivity() {
         if(isModify) {
             addPieceIdx = intent.getIntExtra("addPieceIdx", 0)
             authorIdx = intent.getIntExtra("authorIdx", 0)
+            isAddPicture = true
 
             lifecycleScope.launch {
                 viewModel.getPieceAddInfoByAddPieceIdx(authorIdx, addPieceIdx)
@@ -96,6 +102,16 @@ class SalesApplicationActivity : AppCompatActivity() {
         }
 
         viewModel.addPieceInfoResult.observe(this) { isSuccess ->
+            if (isSuccess) {
+                showSuccessDialog()
+            } else {
+                showErrorDialog()
+            }
+        }
+    }
+
+    private fun observeUpdatePieceInfoResult() {
+        viewModel.updatePieceInfoResult.observe(this) { isSuccess ->
             if (isSuccess) {
                 showSuccessDialog()
             } else {
@@ -129,8 +145,10 @@ class SalesApplicationActivity : AppCompatActivity() {
 
             textViewImageError.isVisible = false
 
-            textFieldSalesApplicationCategory.setOnClickListener {
-                showCategoryDialog()
+            if(!isModify) {
+                textFieldSalesApplicationCategory.setOnClickListener {
+                    showCategoryDialog()
+                }
             }
 
             textFieldSalesApplicationDate.setOnClickListener {
@@ -138,10 +156,12 @@ class SalesApplicationActivity : AppCompatActivity() {
             }
 
             textFieldSalesApplicationPieceName.apply {
-                setOnEditorActionListener { v, actionId, event ->
-                    this@SalesApplicationActivity.hideSoftInput()
-                    showCategoryDialog()
-                    true
+                if(!isModify) {
+                    setOnEditorActionListener { v, actionId, event ->
+                        this@SalesApplicationActivity.hideSoftInput()
+                        showCategoryDialog()
+                        true
+                    }
                 }
             }
 
@@ -157,6 +177,14 @@ class SalesApplicationActivity : AppCompatActivity() {
                 this@SalesApplicationActivity.hideSoftInput()
 
                 if(isModify) {
+                    if(isFormValid()) {
+                        selectedImageUri?.let { imageUri ->
+                            viewModel.updateImage(viewModel.authorIdx.value ?:0, imageUri, viewModel.imageFileName.value.toString())
+                        }
+
+                        val pieceInfoData = createUpdatePieceInfoData(viewModel.imageFileName.value.toString(), addPieceIdx)
+                        viewModel.updatePieceAddInfo(pieceInfoData)
+                    }
                 } else {
                     if(isFormValid()) {
                         selectedImageUri?.let { imageUri ->
@@ -175,6 +203,7 @@ class SalesApplicationActivity : AppCompatActivity() {
     fun initTextField() {
         binding.apply {
             textFieldSalesApplicationPieceName.setText(" ")
+            textFieldSalesApplicationCategory.isEnabled = false
             textFieldSalesApplicationCategory.setText(" ")
             textFieldSalesApplicationPrice.setText(" ")
             textFieldSalesApplicationDate.setText(" ")
@@ -382,10 +411,41 @@ class SalesApplicationActivity : AppCompatActivity() {
             pieceDate, authorIdx, pieceIdx, addPieceIdx)
     }
 
+    fun createUpdatePieceInfoData(imageFileName: String, addPieceIdxUpdate: Int): PieceAddInfoData {
+        val authorName = viewModel.authorName.value ?: ""
+        val pieceName = binding.textFieldSalesApplicationPieceName.text.toString()
+        val pieceSort = topCategory
+        val pieceDetailSort = binding.textFieldSalesApplicationCategory.text.toString()
+        val fullPieceDate = binding.textFieldSalesApplicationDate.text.toString()
+        val makeYear = fullPieceDate.substring(0, 4)
+        val pieceSize = binding.textFieldSalesApplicationSize.text.toString()
+        val pieceMaterial = binding.textFieldSalesApplicationMaterial.text.toString()
+        val pieceInfo = binding.textFieldSalesApplicationDescription.text.toString()
+        val addPieceImg = imageFileName
+        val piecePrice = binding.textFieldSalesApplicationPrice.text.toString().toInt()
+        val pieceState = "판매 승인 대기"
+        val addPieceMessage = ""
+        val pieceDate = Timestamp.now()
+        val authorIdx = viewModel.authorIdx.value ?: 0
+        val pieceIdx = -1
+        val addPieceIdx = addPieceIdxUpdate
+
+        return PieceAddInfoData(
+            authorName, pieceName, pieceSort, pieceDetailSort,
+            makeYear, pieceSize, pieceMaterial, pieceInfo,
+            addPieceImg, piecePrice, pieceState, addPieceMessage,
+            pieceDate, authorIdx, pieceIdx, addPieceIdx)
+    }
+
     private fun showSuccessDialog() {
         MaterialAlertDialogBuilder(this@SalesApplicationActivity, R.style.Theme_Category_App_MaterialAlertDialog).apply {
-            setTitle("작품 등록 신청 완료")
-            setMessage("작품 등록 신청이 완료되었습니다.\n작품 등록 완료 시까지 1~2일 정도 소요됩니다.")
+            if(isModify) {
+                setTitle("작품 등록 신청 수정 완료")
+                setMessage("작품 등록 신청 수정이 완료되었습니다.\n작품 등록 완료 시까지 1~2일 정도 소요됩니다.")
+            } else {
+                setTitle("작품 등록 신청 완료")
+                setMessage("작품 등록 신청이 완료되었습니다.\n작품 등록 완료 시까지 1~2일 정도 소요됩니다.")
+            }
 
             setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
                 finish()
