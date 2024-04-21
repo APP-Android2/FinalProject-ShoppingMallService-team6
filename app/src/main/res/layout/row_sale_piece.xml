@@ -18,18 +18,36 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/textViewSalePieceState"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_semibold"
-                android:text="판매 및 신청 상태"
-                android:textSize="16sp" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textViewSalePieceState"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:text="판매 및 신청 상태"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/textViewRowSalePieceMessage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="판매 승인 거절 메시지"
+                    android:textColor="@color/first" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -68,7 +86,7 @@
                         android:id="@+id/textViewRowSalePiecePrice"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="10dp"
                         android:fontFamily="@font/pretendard_regular"
                         android:text="0원" />
 
@@ -80,9 +98,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="23dp"
                     android:background="@drawable/button_radius"
+                    android:fontFamily="@font/pretendard_regular"
                     android:text="신청 수정"
-                    android:textColor="@color/white"
-                    android:fontFamily="@font/pretendard_regular" />
+                    android:textColor="@color/white" />
 
             </LinearLayout>
         </LinearLayout>

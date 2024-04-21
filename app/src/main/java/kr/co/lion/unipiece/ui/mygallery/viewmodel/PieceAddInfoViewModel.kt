@@ -19,14 +19,23 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _addPieceInfoResult = MutableLiveData<Boolean>()
     val addPieceInfoResult: LiveData<Boolean> = _addPieceInfoResult
 
+    private val _updatePieceInfoResult = MutableLiveData<Boolean>()
+    val updatePieceInfoResult: LiveData<Boolean> = _updatePieceInfoResult
+
     private val _authorIdx = MutableLiveData<Int>()
     val authorIdx : LiveData<Int> = _authorIdx
 
     private val _authorName = MutableLiveData<String>()
     val authorName : LiveData<String> = _authorName
 
+    private val _imageFileName = MutableLiveData<String>()
+    val imageFileName : LiveData<String> = _imageFileName
+
     private val _pieceAddInfoList = MutableLiveData<List<PieceAddInfoData>>()
     val pieceAddInfoList : LiveData<List<PieceAddInfoData>> = _pieceAddInfoList
+
+    private val _pieceAddInfo = MutableLiveData<PieceAddInfoData>()
+    val pieceAddInfo : LiveData<PieceAddInfoData> = _pieceAddInfo
 
     private val _uploadImageResult = MutableLiveData<String?>()
     val uploadImageResult: LiveData<String?> = _uploadImageResult
@@ -111,10 +120,40 @@ class PieceAddInfoViewModel : ViewModel() {
         }
     }
 
+    suspend fun getPieceAddInfoByAddPieceIdx(authorIdx: Int, addPieceIdx: Int) {
+        viewModelScope.launch {
+            try {
+                val pieceAddInfo = pieceAddInfoRepository.getPieceAddInfoByAddPieceIdx(addPieceIdx)
+
+                if (pieceAddInfo != null) {
+                    _imageFileName.value = pieceAddInfo.addPieceImg
+                    Log.e("PieceAddInfoViewModel", "pieceAddInfo.addPieceImg : ${_imageFileName.value}")
+                    // 이미지를 제외한 데이터 먼저 UI에 반영
+                    updateUIWithOneData(pieceAddInfo)
+
+                    // 이미지를 비동기적으로 가져오기
+                    val imageName = pieceAddInfo.addPieceImg
+                    viewModelScope.launch {
+                        val imageUrl = getPieceAddInfoImage(authorIdx, imageName)
+                        imageUrl?.let {
+                            pieceAddInfo.addPieceImg = it.toString()
+                            updateUIWithOneData(pieceAddInfo)
+                        }
+                    }
+                }
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Failed to get pieceAddInfo: $throwable")
+            }
+        }
+    }
+
     private fun updateUIWithData(pieceAddInfoList: List<PieceAddInfoData>) {
         _pieceAddInfoList.value = pieceAddInfoList
     }
 
+    private fun updateUIWithOneData(pieceAddInfoData: PieceAddInfoData) {
+        _pieceAddInfo.value = pieceAddInfoData
+    }
 
     fun addPieceInfo(pieceAddInfoData: PieceAddInfoData) {
         viewModelScope.launch {
@@ -124,6 +163,16 @@ class PieceAddInfoViewModel : ViewModel() {
                 _addPieceInfoResult.value = pieceAddInfoRepository.addPieceInfo(pieceAddInfoData)
             } catch (throwable: Throwable) {
                 _addPieceInfoResult.value = false
+            }
+        }
+    }
+
+    fun updatePieceAddInfo(pieceAddInfoData: PieceAddInfoData) {
+        viewModelScope.launch {
+            try {
+                _updatePieceInfoResult.value = pieceAddInfoRepository.updatePieceAddInfo(pieceAddInfoData)
+            } catch (throwable: Throwable) {
+                _updatePieceInfoResult.value = false
             }
         }
     }
@@ -147,6 +196,16 @@ class PieceAddInfoViewModel : ViewModel() {
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")
                 _uploadImageResult.value = null
+            }
+        }
+    }
+
+    fun updateImage(authorIdx: Int, imageUri: Uri, imageFileName: String) {
+        viewModelScope.launch {
+            try {
+                pieceAddInfoRepository.updateImage(authorIdx, imageUri, imageFileName)
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")
             }
         }
     }
