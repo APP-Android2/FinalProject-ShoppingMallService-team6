@@ -19,12 +19,15 @@ class DeliveryRepository {
     suspend fun insertDeliveryData(deliveryData: DeliveryData) = deliveryDataSource.insertDeliveryData(deliveryData)
 
     // 유저 번호를 통해 배송지 정보를 가져와 반환한다.
-    suspend fun getDeliveryDataByIdx(userIdx:Int) = deliveryDataSource.getDeliveryDataByIdx(userIdx)
+    suspend fun getDeliveryDataByUserIdx(userIdx:Int) = deliveryDataSource.getDeliveryDataByUserIdx(userIdx)
 
     // 배송지 번호를 통해 해당하는 배송지 정보를 삭제한다.
     suspend fun deleteDeliveryData(deliveryIdx:Int) = deliveryDataSource.deleteDeliveryData(deliveryIdx)
 
     // 유저 번호를 통해 해당 유저의 배송지정보 중에서 기본 배송지 정보를 가져온다.
     suspend fun getBasicDeliveryData(userIdx:Int) = deliveryDataSource.getBasicDeliveryData(userIdx)
+
+    // deliveryIdx를 통해 해당 배송지 정보를 가져온다.
+    suspend fun getDeliveryDataByDeliveryIdx(deliveryIdx:Int) = deliveryDataSource.getDeliveryDataByDeliveryIdx(deliveryIdx)
 
 }

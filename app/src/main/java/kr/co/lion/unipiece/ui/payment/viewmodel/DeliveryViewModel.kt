@@ -14,13 +14,19 @@ class DeliveryViewModel : ViewModel() {
 
     private val deliveryRepository = DeliveryRepository()
 
-    // 배송지 정보 가져오기
-    private val _deliveryDataList = MutableLiveData<List<DeliveryData>>()
-    val deliveryDataList: LiveData<List<DeliveryData>> = _deliveryDataList
+    // userIdx로 가져온 배송지
+    private val _userIdxDeliveryDataList = MutableLiveData<List<DeliveryData>>()
+    val userIdxDeliveryDataList: LiveData<List<DeliveryData>> = _userIdxDeliveryDataList
+
+    // deliveryIdx로 가져온 배송지
+    private val _deliveryIdxDeliveryDataList = MutableLiveData<List<DeliveryData>>()
+    val deliveryIdxDeliveryDataList: LiveData<List<DeliveryData>> = _deliveryIdxDeliveryDataList
 
     // 신규 배송지 등록하기
     private val _insertDeliveryData = MutableLiveData<List<DeliveryData>>()
     val insertDeliveryData: LiveData<List<DeliveryData>> = _insertDeliveryData
+
+
 
     // 배송지 삭제하기
     private val _deleteDeliveryData = MutableLiveData<Int>()
@@ -32,26 +38,43 @@ class DeliveryViewModel : ViewModel() {
 
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
-    private val _insertData = MutableLiveData<Boolean?>(null)
-    val insertData : LiveData<Boolean?> = _insertData
+    private val _insertDataLoading = MutableLiveData<Boolean?>(null)
+    val insertDataLoading : LiveData<Boolean?> = _insertDataLoading
+
 
     init {
         viewModelScope.launch {
-            getDeliveryDataByIdx(userIdx)
+            getDeliveryDataByUserIdx(userIdx)
             getBasicDeliveryData(userIdx)
         }
     }
 
-    // 배송지 정보 불러오기
+    fun setdata(){
+        _insertDataLoading.value = null
+    }
 
-    fun getDeliveryDataByIdx(userIdx: Int) = viewModelScope.launch {
+    // userIdx로 가져온 배송지 정보 담기
+    fun getDeliveryDataByUserIdx(userIdx: Int) = viewModelScope.launch {
         try {
-            val response = deliveryRepository.getDeliveryDataByIdx(userIdx)
+            val response = deliveryRepository.getDeliveryDataByUserIdx(userIdx)
 
-            _deliveryDataList.value = response
-            Log.d("test1234","${_deliveryDataList.value.toString()}")
+            _userIdxDeliveryDataList.value = response
+            Log.d("테스트 vm1","${_userIdxDeliveryDataList.value.toString()}")
         } catch (e: Exception) {
-            Log.e("Firebase Error", "Error vmGetDeliveryDataByIdx : ${e.message}")
+            Log.e("Firebase Error", "Error vmGetDeliveryDataByUserIdx : ${e.message}")
+        }
+
+    }
+
+    // deliveryIdx로 가져온 배송지 정보 담기
+    fun getDeliveryDataByDeliveryIdx(deliveryIdx: Int) = viewModelScope.launch {
+        try {
+            val response = deliveryRepository.getDeliveryDataByDeliveryIdx(deliveryIdx)
+
+            _deliveryIdxDeliveryDataList.value = response
+            Log.d("테스트 vm2","${_deliveryIdxDeliveryDataList.value.toString()}")
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error vmGetDeliveryDataByDeliveryIdx : ${e.message}")
         }
 
     }
@@ -80,10 +103,10 @@ class DeliveryViewModel : ViewModel() {
                     deliveryIdx
                 )
                 deliveryRepository.insertDeliveryData(sqDeliveryData)
-                _insertData.value = true
+                _insertDataLoading.value = true
             } else {
                 deliveryRepository.updateDeliveryData(deliveryDataList)
-                _insertData.value = true
+                _insertDataLoading.value = true
             }
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
@@ -91,10 +114,9 @@ class DeliveryViewModel : ViewModel() {
 
     }
 
-    fun setdata(){
-        _insertData.value = null
-    }
 
+
+    // 삭제할 데이터 담기
     suspend fun deleteDeliveryData(deliveryIdx: Int) {
         try {
             val response = deliveryRepository.deleteDeliveryData(deliveryIdx)
@@ -105,7 +127,8 @@ class DeliveryViewModel : ViewModel() {
 
     }
 
-    suspend fun getBasicDeliveryData(userIdx: Int) {
+    // 가져온 기본 배송지 데이터 담기
+    fun getBasicDeliveryData(userIdx: Int) = viewModelScope.launch {
         try {
             val response = deliveryRepository.getBasicDeliveryData(userIdx)
             _getBasicDeliveryData.value = response

@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
@@ -20,7 +21,7 @@ import kr.co.lion.unipiece.util.DeliveryFragmentName
 
 class DeliveryUpdateFragment : Fragment() {
     private lateinit var binding: FragmentDeliveryUpdateBinding
-    private val viewModel: DeliveryViewModel by viewModels()
+    private val viewModel: DeliveryViewModel by activityViewModels()
 
     val deliveryIdx by lazy {
         requireArguments().getInt("deliveryIdx")
@@ -43,7 +44,7 @@ class DeliveryUpdateFragment : Fragment() {
         initView()
     }
 
-    fun initView(){
+    fun initView() {
         // 바인딩
         with(binding) {
 
@@ -56,22 +57,33 @@ class DeliveryUpdateFragment : Fragment() {
                 // 뒤로가기 버튼 클릭 시
                 setNavigationOnClickListener {
                     val supportFragmentManager = parentFragmentManager.beginTransaction()
-                    supportFragmentManager.replace(R.id.containerDelivery,DeliveryManagerFragment()).commit()
+                    supportFragmentManager.replace(
+                        R.id.containerDelivery,
+                        DeliveryManagerFragment()
+                    ).commit()
                 }
             }
 
 
 
 
-            // 텍스트 필드 초기값 셋팅
-            textFieldDeliveryUpdateReceiver.text = "".toEditable()
-            textFieldDeliveryUpdatePhone.text = "".toEditable()
-//            val length = addNickName.length
-//            textFieldDeliveryAddNickName.text = addNickName.substring(1, length - 1).toEditable()
-            textFieldDeliveryUpdateNickName.text = "".toEditable()
-            textFieldDeliveryUpdateAddress.text = "".toEditable()
-            textFieldDeliveryUpdateAddressDetail.text = "".toEditable()
-            checkBoxUpdateDeliveryBasicDelivery.isChecked = false
+            // 텍스트필드 초기값 셋팅
+            lifecycleScope.launch{
+                viewModel.getDeliveryDataByDeliveryIdx(deliveryIdx)
+                viewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) {
+                    textFieldDeliveryUpdateReceiver.text = it[0].deliveryName.toEditable()
+                    textFieldDeliveryUpdatePhone.text = it[0].deliveryPhone.toEditable()
+                    val length = it[0].deliveryNickName.length
+                    textFieldDeliveryUpdateNickName.text =
+                        it[0].deliveryNickName.substring(1, length - 1).toEditable()
+                    textFieldDeliveryUpdateAddress.text = it[0].deliveryAddress.toEditable()
+                    textFieldDeliveryUpdateAddressDetail.text =
+                        it[0].deliveryAddressDetail.toEditable()
+                    checkBoxUpdateDeliveryBasicDelivery.isChecked = it[0].basicDelivery
+                }
+            }
+
+
 
             // 집 클릭 시
             buttonDeliveryUpdateHouse.setOnClickListener {
@@ -120,17 +132,16 @@ class DeliveryUpdateFragment : Fragment() {
                 setOnClickListener {
                     viewLifecycleOwner.lifecycleScope.launch {
                         val deliveryData = setUpdateDeliveryData()
-                        with(viewModel){
+                        with(viewModel) {
                             insertDeliveryData(deliveryData)
-
+                            insertDataLoading.observe(viewLifecycleOwner){
+                                if(it == true){
+                                    viewModel.setdata()
+                                    parentFragmentManager.popBackStack()
+                                }
+                            }
                         }
-                        val supportFragmentManager = parentFragmentManager.beginTransaction()
-                        supportFragmentManager.replace(R.id.containerDelivery, DeliveryManagerFragment())
-                            .addToBackStack(DeliveryFragmentName.DELIVERY_MANAGER_FRAGMENT.str)
-                            .commit()
-                        viewModel.getDeliveryDataByIdx(userIdx)
                     }
-
                 }
             }
 

@@ -122,7 +122,7 @@ class DeliveryAddFragment : Fragment() {
                         val deliveryData = setInsertDeliveryData()
                         viewModel.insertDeliveryData(deliveryData)
 
-                        viewModel.insertData.observe(viewLifecycleOwner) {
+                        viewModel.insertDataLoading.observe(viewLifecycleOwner) {
                             // 데이터 삽입 작업이 완료되었을 때 호출됨
                             if(it == true){
                                 viewModel.setdata()
