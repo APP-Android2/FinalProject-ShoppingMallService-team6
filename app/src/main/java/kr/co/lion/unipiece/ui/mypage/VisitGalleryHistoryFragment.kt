@@ -6,19 +6,31 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.mypage.adapter.VisitGalleryAdapter
+import kr.co.lion.unipiece.ui.mypage.viewmodel.VisitGalleryViewModel
 import kr.co.lion.unipiece.util.VisitGalleryFragmentName
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class VisitGalleryHistoryFragment : Fragment() {
 
-    lateinit var fragmentVisitGalleryHistoryBinding: FragmentVisitGalleryHistoryBinding
-    lateinit var visitAdapter: VisitGalleryAdapter
+    private lateinit var fragmentVisitGalleryHistoryBinding: FragmentVisitGalleryHistoryBinding
+    private lateinit var visitAdapter: VisitGalleryAdapter
+    private val visitGalleryViewModel:VisitGalleryViewModel by viewModels()
+
+    val userIdx by lazy {
+        UniPieceApplication.prefs.getUserIdx("userIdx", -1)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -27,6 +39,7 @@ class VisitGalleryHistoryFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentVisitGalleryHistoryBinding = FragmentVisitGalleryHistoryBinding.inflate(inflater)
 
+        fetchData()
         settingToolbar()
         settingFabApplyVisitGallery()
 
@@ -37,6 +50,14 @@ class VisitGalleryHistoryFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingRecyclerView()
+    }
+
+    private fun fetchData(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                visitGalleryViewModel.getVisitAddList(userIdx)
+            }
+        }
     }
 
     // 툴바 셋팅
@@ -86,16 +107,11 @@ class VisitGalleryHistoryFragment : Fragment() {
 
     // 리사이클러 뷰 셋팅
     private fun settingRecyclerView(){
-        // 테스트 데이터
-        val visitList = arrayListOf<Any>(
-            "test1","test2","test3","test4","test5","test6",
-            "test7","test8","test9","test10","test11","test12"
-        )
-
         // 리사이클러뷰 어댑터
-        visitAdapter = VisitGalleryAdapter(visitList) { position ->
+        visitAdapter = VisitGalleryAdapter(emptyList()) { visitIdx ->
             val modifyBundle = Bundle()
             modifyBundle.putBoolean("isModify", true)
+            modifyBundle.putInt("visitIdx", visitIdx)
             replaceFragment(modifyBundle)
         }
 
@@ -108,6 +124,15 @@ class VisitGalleryHistoryFragment : Fragment() {
             // 데코레이션
             val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
             addItemDecoration(deco)
+        }
+
+        // 리뷰 데이터가 바뀌는 시점에 업데이트
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                visitGalleryViewModel.visitGalleryList.observe(viewLifecycleOwner) { value ->
+                    visitAdapter.updateList(value)
+                }
+            }
         }
     }
 

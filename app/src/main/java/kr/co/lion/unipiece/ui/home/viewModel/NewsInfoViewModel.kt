@@ -31,6 +31,8 @@ class NewsInfoViewModel : ViewModel(){
         }
     }
 
+
+
     suspend fun getNewsInfoByImage(newsImg:String):NewsInfoData?{
         return newsInfoRepository.getNewsInfoByImage(newsImg)
     }

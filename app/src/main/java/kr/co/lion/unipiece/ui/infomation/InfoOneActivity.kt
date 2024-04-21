@@ -11,8 +11,10 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoOneBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
+import kr.co.lion.unipiece.util.getImageUrlFromGallery
 import kr.co.lion.unipiece.util.getImageUrlFromName
 import kr.co.lion.unipiece.util.getImageUrlFromNews
 import kr.co.lion.unipiece.util.setImage
@@ -25,6 +27,8 @@ class InfoOneActivity : AppCompatActivity() {
     val promoteViewModel:PromoteInfoViewModel by viewModels()
 
     val newsViewModel:NewsInfoViewModel by viewModels()
+
+    val galleryViewModel:GalleryInfoViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +48,7 @@ class InfoOneActivity : AppCompatActivity() {
                 val newsImg = intent?.getStringExtra("newsImg")
 
 
+
                 lifecycleScope.launch {
                     val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
                     val newsInfo = newsViewModel.getNewsInfoByImage(newsImg?:"")
@@ -52,6 +57,8 @@ class InfoOneActivity : AppCompatActivity() {
                         title = "전시 홍보"
                     }else if (newsInfo?.homeIdx == 2){
                         title = "소식"
+                    }else{
+                        title = "전시실 작품"
                     }
                 }
                 setNavigationIcon(R.drawable.back_icon)
@@ -86,10 +93,13 @@ class InfoOneActivity : AppCompatActivity() {
         activityInfoOneBinding.apply {
             val promoteImg = intent?.getStringExtra("promoteImg")
             val newsImg = intent?.getStringExtra("newsImg")
+            val galleryInfoImg = intent?.getStringExtra("galleryInfoImg")
             lifecycleScope.launch {
                 val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
 
                 val newsInfo = newsViewModel.getNewsInfoByImage(newsImg?:"")
+
+                val galleryInfo = galleryViewModel.getGalleryInfoByImg(galleryInfoImg?:"")
 
                 if (promoteInfo?.homeIdx == 1){
                     textInfoOneName.text = "행사명 : ${promoteInfo?.promoteName}"
@@ -102,7 +112,8 @@ class InfoOneActivity : AppCompatActivity() {
                     val imgUrl = getImageUrlFromName(promoteInfo?.promoteImg?:"")
 
                     setImage(activityInfoOneBinding.imageViewEventLogo, imgUrl)
-                }else if (newsInfo?.homeIdx == 2){
+                }
+                else if (newsInfo?.homeIdx == 2){
                     textInfoOneName.text = "행사명 : ${newsInfo?.newsName}"
                     textInfoOneDate.text = "일정 : ${newsInfo?.newsDate}"
                     textInfoOnePlace.visibility = View.GONE
@@ -111,6 +122,19 @@ class InfoOneActivity : AppCompatActivity() {
                     textInfoOneUrl.visibility = View.GONE
 
                     val imgUrl = getImageUrlFromNews(newsInfo?.newsImg?:"")
+                    Log.d("test1234", imgUrl)
+
+                    setImage(activityInfoOneBinding.imageViewEventLogo, imgUrl)
+                }
+                else if (galleryInfo?.homeIdx == 3){
+                    textInfoOneName.text = "작품명 : ${galleryInfo?.galleryInfoName}"
+                    textInfoOneDate.text = "제작년도 : ${galleryInfo?.galleryInfoDate}"
+                    textInfoOnePlace.visibility = View.GONE
+                    textInfoOneInfo.text = "작가: ${galleryInfo?.galleryInfoAuthor}"
+                    textInfoOneCost.text = "작품 소개 : ${galleryInfo?.galleryInfoContent}"
+                    textInfoOneUrl.visibility = View.GONE
+
+                    val imgUrl = getImageUrlFromGallery(galleryInfo.galleryInfoImg?:"")
                     Log.d("test1234", imgUrl)
 
                     setImage(activityInfoOneBinding.imageViewEventLogo, imgUrl)

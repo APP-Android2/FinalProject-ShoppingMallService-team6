@@ -8,5 +8,6 @@ data class GalleryInfoData (
     var galleryInfoContent:String = "",
     var galleryInfoTime:Timestamp = Timestamp.now(),
     var galleryInfoImg:String = "",
-    var galleryInfoAuthor:String = ""
+    var galleryInfoAuthor:String = "",
+    var homeIdx:Int = 0
 )

@@ -41,6 +41,14 @@
 
     </LinearLayout>
 
+    <ProgressBar
+        android:id="@+id/rank_progress_bar"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/first" />
+
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/rank_fragment"
         android:layout_width="match_parent"

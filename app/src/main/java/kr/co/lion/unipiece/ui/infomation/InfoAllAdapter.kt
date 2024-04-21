@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.InfoAllBinding
+import kr.co.lion.unipiece.model.GalleryInfoData
 import kr.co.lion.unipiece.model.NewsInfoData
 import kr.co.lion.unipiece.model.PromoteInfoData
 import kr.co.lion.unipiece.util.setImage
 
-class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoList: List<NewsInfoData>) : RecyclerView.Adapter<ViewHolderClass>() {
+class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoList: List<NewsInfoData>, var galleryInfoList: List<GalleryInfoData>) : RecyclerView.Adapter<ViewHolderClass>() {
 
     private lateinit var itemOnClickListener: ItemOnClickListener
 
@@ -32,8 +33,10 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoLis
     override fun getItemCount(): Int {
         return if (!promoteInfoList.isEmpty()){
             promoteInfoList.size
-        }else {
+        }else if (!newsInfoList.isEmpty()) {
             newsInfoList.size
+        }else{
+            galleryInfoList.size
         }
     }
 
@@ -46,13 +49,22 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoLis
             holder.infoAllBinding.root.setOnClickListener {
                 itemOnClickListener.recyclerviewClickListener(promoteInfoList[position].promoteImg)
             }
-        }else{
+        }else if (!newsInfoList.isEmpty()){
             holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, newsInfoList[position].newsImg)
             holder.infoAllBinding.textInfoAllTitle.text = newsInfoList[position].newsName
             holder.infoAllBinding.textInfoAllDate.text = newsInfoList[position].newsDate
             holder.infoAllBinding.textInfoAllAuthorName.text = newsInfoList[position].newsSale
             holder.infoAllBinding.root.setOnClickListener {
                 itemOnClickListener.recyclerviewClickListener(newsInfoList[position].newsImg)
+            }
+        }else{
+            holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, galleryInfoList[position].galleryInfoImg)
+            holder.infoAllBinding.textInfoAllTitle.text = galleryInfoList[position].galleryInfoName
+            holder.infoAllBinding.textInfoAllDate.text = galleryInfoList[position].galleryInfoDate
+            holder.infoAllBinding.textInfoAllAuthorName.text = galleryInfoList[position].galleryInfoAuthor
+            holder.infoAllBinding.root.setOnClickListener {
+                //view를 클릭하면 이미지의 이름을 넘겨준다
+                itemOnClickListener.recyclerviewClickListener(galleryInfoList[position].galleryInfoImg)
             }
         }
 
@@ -68,6 +80,13 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoLis
     @SuppressLint("NotifyDataSetChanged")
     fun updateDataNews(list: List<NewsInfoData>){
         newsInfoList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateDataGallery(list: List<GalleryInfoData>){
+        galleryInfoList = list
         notifyDataSetChanged()
         Log.d("update adapter", list.toString())
     }

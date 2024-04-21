@@ -27,4 +27,18 @@ class GalleryInfoViewModel : ViewModel() {
         }
     }
 
+
+    //시간순으로 데이터 가져오기
+    suspend fun getGalleryDataByDate():List<GalleryInfoData>{
+        return galleryInfoRepository.getGalleryDataByDate()
+    }
+
+
+    //이미지의 이름으로 데이터 가져오기
+    suspend fun getGalleryInfoByImg(galleryImg:String): GalleryInfoData?{
+        return galleryInfoRepository.getGalleryByImage(galleryImg)
+    }
+
+
+
 }
