@@ -6,6 +6,11 @@ import kr.co.lion.unipiece.model.VisitAddData
 class VisitAddRepository {
     private val visitAddDataSource = VisitAddDataSource()
 
+
+    suspend fun getVisitAddSequence():Int = visitAddDataSource.getVisitAddSequence()
+
+    suspend fun updateVisitAddSequence(visitAddSequence: Int): Boolean = visitAddDataSource.updateVisitAddSequence(visitAddSequence)
+
     suspend fun insertVisitAddData(visitAddData: VisitAddData):Boolean = visitAddDataSource.insertVisitAddData(visitAddData)
 
     suspend fun getVisitAddDataByIdx(visitIdx:Int): VisitAddData? = visitAddDataSource.getVisitAddDataByIdx(visitIdx)

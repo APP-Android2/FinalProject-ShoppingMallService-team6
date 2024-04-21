@@ -5,12 +5,47 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObjects
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.VisitAddData
 
 class VisitAddDataSource {
 
     private val collectionReference = Firebase.firestore.collection("VisitAdd")
+
+    // 작가 번호 시퀀스값을 가져온다.
+    suspend fun getVisitAddSequence():Int{
+        return try {
+            val documentSnapShot = Firebase.firestore
+                .collection("Sequence")
+                .document("VisitAddSequence")
+                .get()
+                .await()
+            documentSnapShot.getLong("value")?.toInt()?: -1
+        }catch (e:Exception){
+            Log.e("Firebase Error", "Error getVisitAddSequence: ${e.message}")
+            -1
+        }
+    }
+
+    // 작가 시퀀스 값을 업데이트 한다.
+    suspend fun updateVisitAddSequence(visitAddSequence: Int): Boolean{
+        return try {
+            val documentReference = Firebase.firestore
+                .collection("Sequence")
+                .document("VisitAddSequence")
+            val map = mapOf(
+                "value" to visitAddSequence.toLong()
+            )
+            documentReference.set(map).await()
+            true
+        }catch (e:Exception){
+            Log.e("Firebase Error", "Error updateVisitAddSequence: ${e.message}")
+            false
+        }
+    }
 
     // 전시실 방문 신청서를 저장한다.
     suspend fun insertVisitAddData(visitAddData: VisitAddData):Boolean{
