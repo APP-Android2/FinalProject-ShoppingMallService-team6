@@ -97,4 +97,10 @@ class AuthorInfoViewModel: ViewModel() {
     suspend fun getAuthorInfoImg(authorImg:String):String?{
         return authorInfoRepository.getAuthorInfoImg(authorImg)
     }
+    
+    suspend fun updateAuthorFollow(authorIdx: Int){
+        val countFollow = authorInfoRepository.getAuthorFollow(authorIdx)
+        authorInfoRepository.updateAuthorFollow(authorIdx, countFollow)
+    }
+
 }
