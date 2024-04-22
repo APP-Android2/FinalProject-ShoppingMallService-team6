@@ -27,7 +27,7 @@
             <ImageView
                 android:id="@+id/imageViewEventLogo"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
+                android:layout_height="400dp"
                 app:srcCompat="@drawable/icon" />
 
             <TextView
@@ -35,7 +35,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="50dp"
-                android:fontFamily="@font/pretendard_bold" />
+                android:fontFamily="@font/pretendard_bold"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textInfoOneDate"
@@ -43,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="TextView" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textInfoOnePlace"
@@ -51,7 +52,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="TextView" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textInfoOneInfo"
@@ -59,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="TextView" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textInfoOneCost"
@@ -67,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="TextView" />
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/textInfoOneUrl"
@@ -75,7 +76,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:fontFamily="@font/pretendard_bold"
-                android:text="TextView" />
+                android:textColor="@color/black" />
         </LinearLayout>
     </ScrollView>
 

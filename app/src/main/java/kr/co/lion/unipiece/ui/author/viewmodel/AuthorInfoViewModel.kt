@@ -31,6 +31,7 @@ class AuthorInfoViewModel: ViewModel() {
     private val _authorPieces = MutableLiveData<List<PieceInfoData>>()
     val authorPieces = _authorPieces
 
+
     private val authorInfoRepository = AuthorInfoRepository()
 
     // 작가 정보를 불러오기
@@ -96,7 +97,7 @@ class AuthorInfoViewModel: ViewModel() {
     suspend fun getAuthorInfoImg(authorImg:String):String?{
         return authorInfoRepository.getAuthorInfoImg(authorImg)
     }
-
+    
     suspend fun updateAuthorFollow(authorIdx: Int){
         val countFollow = authorInfoRepository.getAuthorFollow(authorIdx)
         authorInfoRepository.updateAuthorFollow(authorIdx, countFollow)

@@ -1,43 +1,50 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.RowInterestingPieceBinding
+import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
-class InterestingPieceAdapter(private val onItemClick: (position: Int) -> Unit): RecyclerView.Adapter<InterestingPieceViewHolderClass>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): InterestingPieceViewHolderClass {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = RowInterestingPieceBinding.inflate(inflater, parent, false)
-        return InterestingPieceViewHolderClass(binding, onItemClick)
+class InterestingPieceAdapter(val likePieceDataList: List<PieceInfoData>, private val onItemClick: (Int) -> Unit, private val onLikeClick: (Int) -> Unit) : RecyclerView.Adapter<InterestingPieceViewHolderClass>() {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): InterestingPieceViewHolderClass {
+        val inflater = LayoutInflater.from(viewGroup.context)
+        val binding = RowInterestingPieceBinding.inflate(inflater, viewGroup, false)
+
+        return InterestingPieceViewHolderClass(binding)
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return likePieceDataList.size
     }
 
     override fun onBindViewHolder(holder: InterestingPieceViewHolderClass, position: Int) {
-        holder.bind(position)
+        holder.bind(likePieceDataList[position], onItemClick, onLikeClick)
     }
 }
 
-class InterestingPieceViewHolderClass(private val binding: RowInterestingPieceBinding, onItemClick: (position: Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
-    init {
-        binding.root.setOnClickListener {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                onItemClick(position)
+class InterestingPieceViewHolderClass(val binding: RowInterestingPieceBinding): RecyclerView.ViewHolder(binding.root) {
+    fun bind(likePieceData: PieceInfoData, onItemClick: (Int) -> Unit, onLikeClick: (Int) -> Unit) {
+        val priceFormat = DecimalFormat("###,###")
+        val price = priceFormat.format(likePieceData.piecePrice)
+
+        with(binding) {
+            textViewRowInterestingPieceName.text = likePieceData.pieceName
+            textViewRowInterestingPieceArtistName.text = likePieceData.authorName
+            textViewRowInterestingPiecePrice.text = "${price}원"
+            root.context.setImage(imageViewRowInterestingPiece, likePieceData.pieceImg)
+
+            imageViewLikedPiece.setOnClickListener {
+                onLikeClick(adapterPosition)
             }
         }
 
-        binding.root.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-
-    }
-
-    fun bind(position: Int) {
-        binding.textViewRowInterestingPieceName.text = "$position"
+        binding.root.setOnClickListener {
+            onItemClick(adapterPosition)
+        }
     }
 }

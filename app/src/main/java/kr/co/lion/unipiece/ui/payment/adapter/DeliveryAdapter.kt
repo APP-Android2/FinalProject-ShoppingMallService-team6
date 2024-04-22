@@ -7,9 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.view.isVisible
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.RowDeliveryBinding
 import kr.co.lion.unipiece.model.DeliveryData
@@ -22,7 +20,9 @@ import java.util.Locale
 // 배송지 화면의 RecyclerView의 어뎁터
 class DeliveryAdapter(
     private var deliveryList: List<DeliveryData>,
-    private val itemClickListener: (Int) -> Unit
+    private val rowClickListener: (Int) -> Unit,
+    private val updateButtonClickListener: (Int) -> Unit,
+    private val deleteButtonClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<DeliveryViewHolder>() {
 
 
@@ -33,7 +33,9 @@ class DeliveryAdapter(
         return DeliveryViewHolder(
             viewGroup.context,
             binding,
-            itemClickListener
+            rowClickListener,
+            updateButtonClickListener,
+            deleteButtonClickListener
         )
     }
 
@@ -44,7 +46,8 @@ class DeliveryAdapter(
     }
 
     override fun onBindViewHolder(holder: DeliveryViewHolder, position: Int) {
-        holder.bind(deliveryList[position], itemClickListener)
+        holder.bind(deliveryList[position], rowClickListener)
+
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -58,13 +61,15 @@ class DeliveryAdapter(
 class DeliveryViewHolder(
     private val context: Context,
     private val binding: RowDeliveryBinding,
-    private val itemClickListener: (Int) -> Unit
+    private val rowClickListener: (Int) -> Unit,
+    private val updateButtonClickListener: (Int) -> Unit,
+    private val deleteButtonClickListener: (Int) -> Unit
 ) :
     RecyclerView.ViewHolder(binding.root) {
 
 
     // 배송지 항목별로 세팅.
-    fun bind(data: DeliveryData, itemClickListener: (Int) -> Unit) {
+    fun bind(data: DeliveryData, rowClickListener: (Int) -> Unit) {
 
         with(binding) {
 
@@ -88,31 +93,18 @@ class DeliveryViewHolder(
 
             // 클릭 리스너 설정. 클릭하면 deliveryIdx를 전달한다.
             root.setOnClickListener {
-                itemClickListener.invoke(data.deliveryIdx)
+                rowClickListener.invoke(data.deliveryIdx)
             }
 
-            // 선택 버튼 클릭 시
+            // 화살표 버튼 클릭 시
             buttonDeliverySelect.setOnClickListener {
-                itemClickListener.invoke(data.deliveryIdx)
+                rowClickListener.invoke(data.deliveryIdx)
             }
 
 
             // 항목별 삭제 버튼 클릭 시 다이얼로그
             buttonDeliveryDelete.setOnClickListener {
-                val dialog = CustomDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
-                dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
-                    // 확인 버튼 클릭 시
-                    override fun okButtonClick() {
-                        // DB에 있는 해당 배송지 삭제 구현
-                    }
-
-                    // 취소 버튼 클릭 시
-                    override fun noButtonClick() {
-
-                    }
-
-                })
-                // dialog.show(parentFragmentManager, "deleteDialog")
+                deleteButtonClickListener.invoke(data.deliveryIdx)
 
             }
 
@@ -120,7 +112,7 @@ class DeliveryViewHolder(
             with(buttonDeliveryUpdate) {
                 // 버튼 클릭 시
                 setOnClickListener {
-
+                    updateButtonClickListener.invoke(data.deliveryIdx)
                 }
             }
 

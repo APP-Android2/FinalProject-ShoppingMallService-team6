@@ -4,14 +4,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
@@ -20,9 +18,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
-import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
-import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
-import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
+import kr.co.lion.unipiece.ui.home.viewModel.HomeViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
 import kr.co.lion.unipiece.ui.mypage.VisitGalleryActivity
 import kr.co.lion.unipiece.ui.payment.CartActivity
@@ -37,19 +33,19 @@ class HomeFragment : Fragment() {
 
     lateinit var mainActivity: MainActivity
 
-    val viewModel: PromoteInfoViewModel by viewModels()
-
-    val galleryViewModel:GalleryInfoViewModel by viewModels()
+    val viewModel: HomeViewModel by viewModels()
 
 
     val timer = Timer()
     val handler = Handler(Looper.getMainLooper())
 
     val authorAdapter:AuthorAdapter by lazy {
-        var adapter = AuthorAdapter()
+        var adapter = AuthorAdapter(emptyList())
         adapter.setRecyclerviewClickListener(object : AuthorAdapter.AuthorOnClickListener{
-            override fun authorItemClickListener() {
-                startActivity(Intent(mainActivity, AuthorInfoActivity::class.java))
+            override fun authorItemClickListener(authorIdx:Int) {
+                val newIntent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                newIntent.putExtra("authorIdx", authorIdx)
+                startActivity(newIntent)
             }
         })
         adapter
@@ -60,6 +56,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
         mainActivity = activity as MainActivity
+        initView()
         settingToolBar()
         settingEvent()
         connectAdapterPromote()
@@ -109,7 +106,7 @@ class HomeFragment : Fragment() {
                 lifecycleScope.launch {
                     var promoteInfo = viewModel.getPromoteDataByDate()
                     val newIntent = Intent(requireActivity(), InfoAllActivity::class.java)
-                    Log.d("seonguk1234", "${promoteInfo}")
+                    //Log.d("seonguk1234", "${promoteInfo}")
                     newIntent.putExtra("promoteInfo", promoteInfo.toString())
                     startActivity(newIntent)
                 }
@@ -121,8 +118,8 @@ class HomeFragment : Fragment() {
 
             buttonAllGallery.setOnClickListener {
                 lifecycleScope.launch {
-                    val galleryInfo = galleryViewModel.getGalleryDataByDate()
-                    Log.d("seonguk1234", "${galleryInfo}")
+                    val galleryInfo = viewModel.getGalleryDataByDate()
+                    //Log.d("seonguk1234", "${galleryInfo}")
                     val newIntent = Intent(requireActivity(), InfoAllActivity::class.java)
                     newIntent.putExtra("galleryInfo", galleryInfo.toString())
                     startActivity(newIntent)
@@ -143,7 +140,6 @@ class HomeFragment : Fragment() {
             viewPagerHomePromote.orientation = ViewPager2.ORIENTATION_HORIZONTAL
             progressBar2.visibility = View.VISIBLE
 
-            val viewModel = ViewModelProvider(this@HomeFragment).get(PromoteInfoViewModel::class.java)
             viewModel.promoteInfo.observe(viewLifecycleOwner, Observer { imageUrls ->
                 bannerVPAdapter.fragmentList.clear()
                 progressBar2.visibility = View.GONE
@@ -167,7 +163,6 @@ class HomeFragment : Fragment() {
             viewPagerHomeNews.adapter = newsVPAdapter
             viewPagerHomeNews.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-            val viewModel = ViewModelProvider(this@HomeFragment).get(NewsInfoViewModel::class.java)
             viewModel.newsInfo.observe(viewLifecycleOwner, Observer { imageUrls ->
                 newsVPAdapter.fragmentList.clear()
                 imageUrls.forEach {
@@ -191,7 +186,7 @@ class HomeFragment : Fragment() {
             viewPagerHomeGallery.adapter = galleryVPAdapter
             viewPagerHomeGallery.orientation = ViewPager2.ORIENTATION_HORIZONTAL
 
-            val viewModel = ViewModelProvider(this@HomeFragment).get(GalleryInfoViewModel::class.java)
+
             viewModel.galleryInfoList.observe(viewLifecycleOwner) { imageUrl ->
                 galleryVPAdapter.fragmentList.clear()
                 imageUrl.forEach {
@@ -206,6 +201,19 @@ class HomeFragment : Fragment() {
 
         }
     }
+
+    //작가 Recyclerview
+    private fun initView(){
+        fragmentHomeBinding.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModel.authorInfoDataList.observe(viewLifecycleOwner) { value ->
+                    authorAdapter.updateData(value)
+                }
+                viewModel.getAuthorInfoAll()
+            }
+        }
+    }
+
 
     //viewPagerPromote 자동 넘김
     private fun autoSlidePromote(adapter : BannerVPAdapter){

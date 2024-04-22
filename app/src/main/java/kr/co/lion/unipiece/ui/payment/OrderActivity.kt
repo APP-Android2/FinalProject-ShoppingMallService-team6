@@ -2,9 +2,12 @@ package kr.co.lion.unipiece.ui.payment
 
 import android.os.Bundle
 import android.os.SystemClock
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityOrderBinding
 import kr.co.lion.unipiece.util.OrderFragmentName
@@ -21,11 +24,25 @@ class OrderActivity : AppCompatActivity() {
         activityOrderBinding = ActivityOrderBinding.inflate(layoutInflater)
         setContentView(activityOrderBinding.root)
 
-        replaceFragment(OrderFragmentName.ORDER_MAIN_FRAGMENT, false)
+        lifecycleScope.launch {
+            // 배송지관리에서 배송지 번호를 들고온다. 없다면 0
+            val deliveryIdx = intent.getIntExtra("deliveryIdx", 0)
+            // 배송지 관리에서 받은 배송지 번호를 주문하기 화면에 전달한다.
+            if(deliveryIdx != 0){
+                val orderMainFragment = OrderMainFragment()
+                val bundle = Bundle()
+                bundle.putInt("deliveryIdx",deliveryIdx)
+                orderMainFragment.arguments = bundle
+                supportFragmentManager.beginTransaction().replace(R.id.containerOrder,orderMainFragment).commit()
+            }else{
+                // 다른 접근이라면 null 값을 전달하며 주문하기 화면을 띄운다.
+                replaceFragment(OrderFragmentName.ORDER_MAIN_FRAGMENT, false, null)
+            }
+        }
     }
 
     // 지정한 Fragment를 보여주는 메서드
-    fun replaceFragment(name: OrderFragmentName, addToBackStack: Boolean) {
+    fun replaceFragment(name: OrderFragmentName, addToBackStack: Boolean, data:Bundle?) {
         SystemClock.sleep(200)
         // Fragment를 교체할 수 있는 객체를 추출한다.
         val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -33,6 +50,12 @@ class OrderActivity : AppCompatActivity() {
         if (newFragment != null) {
             oldFragment = newFragment
         }
+
+        // 새로운 Fragment에 전달할 객체가 있다면 arguments 프로퍼티에 넣어준다.
+        if(data != null){
+            newFragment?.arguments = data
+        }
+
         // 이름으로 분기한다.
         when (name) {
             OrderFragmentName.ORDER_MAIN_FRAGMENT -> {

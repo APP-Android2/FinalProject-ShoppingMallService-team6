@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.db.remote
 import android.util.Log
 import com.google.firebase.Firebase
 import com.google.firebase.Timestamp
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.LikePieceData
@@ -61,6 +62,23 @@ class LikePieceDataSource {
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error getPopPieceInfo: ${e.message}")
             false
+        }
+    }
+
+    // userIdx로 관심 목록 가져오기
+    suspend fun getUserLikedPiece(userIdx: Int): List<LikePieceData> {
+        return try {
+            val querySnapshot = db.whereEqualTo("userIdx", userIdx)
+                .orderBy("likePieceData", Query.Direction.DESCENDING)
+                .get()
+                .await()
+
+            Log.e("LikePieceDataSource", "getUserLikedPieces: ${ querySnapshot.toObjects(LikePieceData::class.java)}")
+
+            querySnapshot.toObjects(LikePieceData::class.java)
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getUserLikedPieces: ${e.message}")
+            emptyList()
         }
     }
 }
