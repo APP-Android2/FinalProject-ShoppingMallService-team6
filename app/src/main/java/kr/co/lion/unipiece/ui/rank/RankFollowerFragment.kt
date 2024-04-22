@@ -38,17 +38,18 @@ class RankFollowerFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         initView()
         setLoading()
     }
 
-    fun initView() {
-
+    override fun onStart() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.setLoading(true)
             viewModel.getAuthorInfoFollow()
         }
+        super.onStart()
+    }
+    fun initView() {
 
         viewModel.authorFollowList.observe(viewLifecycleOwner) { value ->
 

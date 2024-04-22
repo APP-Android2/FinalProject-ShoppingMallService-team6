@@ -40,12 +40,15 @@ class RankSaleFragment : Fragment() {
         setLoading()
     }
 
-    fun initView() {
-
+    override fun onStart() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.setLoading(true)
             viewModel.getAuthorInfoSale()
         }
+        super.onStart()
+    }
+
+    fun initView() {
 
         viewModel.authorSaleList.observe(viewLifecycleOwner) { value ->
 
