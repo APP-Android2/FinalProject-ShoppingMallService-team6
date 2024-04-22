@@ -57,4 +57,6 @@ class AuthorInfoRepository {
 
     // 팔로워순대로 작가 정보 가져오기
     suspend fun getAuthorInfoFollow():List<AuthorInfoData> = authorInfoDataSource.getAuthorInfoFollow()
+
+    suspend fun updateAuthorFollow(authorIdx: Int, authorFollow: Int) = authorInfoDataSource.updateAuthorFollow(authorIdx, authorFollow)
 }

@@ -195,6 +195,7 @@ class AuthorInfoFragment : Fragment() {
                 }
                 authorInfoViewModel.checkFollow(userIdx, authorIdx)
                 authorInfoViewModel.getFollowCount(authorIdx)
+                authorInfoViewModel.updateAuthorFollow(authorIdx)
             }
         }
     }

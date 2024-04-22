@@ -11,7 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.AuthorInfoData
-import kr.co.lion.unipiece.model.PieceInfoData
 
 class AuthorInfoDataSource {
 
@@ -300,6 +299,26 @@ class AuthorInfoDataSource {
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error getAuthorInfoFollow: ${e.message}")
             emptyList()
+        }
+    }
+
+    // authorFollow 업데이트 하기
+    suspend fun updateAuthorFollow(authorIdx: Int, authorFollow: Int) {
+        try {
+            val query = db.collection("AuthorInfo").whereEqualTo("authorIdx", authorIdx)
+            val querySnapShot = query.get().await()
+            val document = querySnapShot.documents.firstOrNull()
+
+            document?.let {
+                val map = mutableMapOf<String, Any>()
+                map["authorFollow"] = authorFollow
+
+                it.reference.update(map).await() // 문서 업데이트
+            } ?: run {
+                Log.e("Firebase Error", "No document found with pieceIdx: $authorIdx")
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error updating pieceLike: ${e.message}")
         }
     }
 }
