@@ -9,7 +9,6 @@ import kr.co.lion.unipiece.model.UserInfoData
 import kr.co.lion.unipiece.repository.UserInfoRepository
 
 class UserInfoViewModel: ViewModel() {
-    //
     // 회원 정보
     private val _userInfoData = MutableLiveData<UserInfoData>()
     val userInfoData:LiveData<UserInfoData> = _userInfoData
