@@ -46,8 +46,8 @@ class PieceBuyInfoDataSource {
 
             true
         } catch (e: Exception) {
-            Log.d("PieceAddInfoDataSource", "pieceBuyInfoData.pieceBuyIdx: ${pieceBuyInfoData.pieceBuyIdx}")
-            Log.e("PieceAddInfoDataSource", "Failed to update PieceAddInfo", e)
+            Log.d("PieceBuyInfoDataSource", "pieceBuyInfoData.pieceBuyIdx: ${pieceBuyInfoData.pieceBuyIdx}")
+            Log.e("PieceBuyInfoDataSource", "Failed to update PieceAddInfo", e)
             false
         }
     }
@@ -72,8 +72,8 @@ class PieceBuyInfoDataSource {
 
             true
         } catch (e: Exception) {
-            Log.d("PieceAddInfoDataSource", "pieceBuyInfoData.pieceBuyIdx: ${pieceBuyInfoData.pieceBuyIdx}")
-            Log.e("PieceAddInfoDataSource", "Failed to update PieceAddInfo", e)
+            Log.d("PieceBuyInfoDataSource", "pieceBuyInfoData.pieceBuyIdx: ${pieceBuyInfoData.pieceBuyIdx}")
+            Log.e("PieceBuyInfoDataSource", "Failed to update PieceAddInfo", e)
             false
         }
     }
