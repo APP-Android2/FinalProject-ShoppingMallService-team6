@@ -1,62 +1,106 @@
 package kr.co.lion.unipiece.ui.mygallery
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
-import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentInterestingPieceBinding
-import kr.co.lion.unipiece.databinding.RowInterestingPieceBinding
-import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mygallery.adapter.InterestingPieceAdapter
+import kr.co.lion.unipiece.ui.mygallery.viewmodel.InterestingPieceViewModel
 
 class InterestingPieceFragment : Fragment() {
 
     lateinit var binding: FragmentInterestingPieceBinding
+    private val viewModel: InterestingPieceViewModel by viewModels()
 
-    val interestingPieceAdapter: InterestingPieceAdapter by lazy {
-        InterestingPieceAdapter { position ->
-            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-            intent.putExtra("MyGalleryFragment", true)
-            startActivity(intent)
-        }
-    }
-
-    var isLikedPieceExist = false
+    val userIdxPref = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentInterestingPieceBinding.inflate(inflater, container, false)
 
-        settingRecyclerView()
-
         return binding.root
     }
 
-    fun settingRecyclerView() {
-        binding.apply {
-            recyclerViewInterestingPiece.apply {
-                adapter = interestingPieceAdapter
-                layoutManager = LinearLayoutManager(requireActivity())
-                val deco = MaterialDividerItemDecoration(
-                    requireActivity(),
-                    MaterialDividerItemDecoration.VERTICAL
-                )
-                deco.dividerInsetStart = 50
-                deco.dividerInsetEnd = 50
-                deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                addItemDecoration(deco)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
+            if (isLoading) {
+                binding.progressBarInterestingPiece.isVisible = true
+            } else {
+                binding.progressBarInterestingPiece.isVisible = false
             }
         }
+
+        initView()
+    }
+
+    fun initView() {
+        binding.recyclerViewInterestingPiece.isVisible = false
+        binding.layoutNotExistLiked.isVisible = false
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.likePieceInfoList.observe(viewLifecycleOwner, Observer { value ->
+                if (viewModel.likePieceInfoList.value.isNullOrEmpty()) {
+                    binding.layoutNotExistLiked.isVisible = true
+                } else {
+                    binding.recyclerViewInterestingPiece.isVisible = true
+
+                    val interestingPieceAdapter = InterestingPieceAdapter(value,
+                        onItemClick = { position ->
+                            val likePieceInfo = value[position]
+                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                            intent.putExtra("MyGalleryFragment", true)
+                            intent.putExtra("pieceIdx", likePieceInfo.pieceIdx)
+                            intent.putExtra("authorIdx", likePieceInfo.authorIdx)
+                            startActivity(intent)
+                        },
+                        onLikeClick = { position ->
+                            val likePieceInfo = value[position]
+                            viewModel.cancelLikePiece(likePieceInfo.pieceIdx, userIdxPref)
+
+                            createSnackBar("관심 작품에서 삭제되었습니다.", Snackbar.LENGTH_SHORT).apply {
+                                val layoutParams = this.view.layoutParams as CoordinatorLayout.LayoutParams
+                                layoutParams.setMargins(20, 0, 20, 50)
+                                this.view.layoutParams = layoutParams
+                            }.show()
+                        })
+
+                    with(binding) {
+                        recyclerViewInterestingPiece.adapter = interestingPieceAdapter
+                        recyclerViewInterestingPiece.layoutManager = LinearLayoutManager(requireActivity())
+                        val deco = MaterialDividerItemDecoration(
+                            requireActivity(),
+                            MaterialDividerItemDecoration.VERTICAL
+                        )
+                        deco.dividerInsetStart = 50
+                        deco.dividerInsetEnd = 50
+                        deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
+                        recyclerViewInterestingPiece.addItemDecoration(deco)
+                    }
+                }
+            })
+        }
+    }
+
+    private fun createSnackBar(message: String, duration: Int): Snackbar {
+        return Snackbar.make(requireView(), message, duration)
     }
 }
