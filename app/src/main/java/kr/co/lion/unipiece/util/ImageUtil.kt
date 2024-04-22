@@ -43,6 +43,15 @@ fun Context.getImageUrlFromGallery(filename: String): String {
     return baseUrl + filename + token
 }
 
+// 이미지 파일 이름을 Firebase 스토리지의 URL로 변환하는 함수(authorInfo)
+fun Context.getImageUrlFromAuthorInfo(filename: String): String {
+    val baseUrl = "https://firebasestorage.googleapis.com/v0/b/unipiece-463d3.appspot.com/o/AuthorInfo%2F"
+    val token = "?alt=media&token=a3d6aae1-add5-44bc-b99f-8af6f33d4ae9"
+    return baseUrl + filename + token
+}
+
+
+
 
 class SquareImageView : AppCompatImageView {
 

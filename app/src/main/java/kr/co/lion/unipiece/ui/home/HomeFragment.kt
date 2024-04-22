@@ -20,6 +20,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
 import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
@@ -41,12 +42,14 @@ class HomeFragment : Fragment() {
 
     val galleryViewModel:GalleryInfoViewModel by viewModels()
 
+    val authorViewModel: AuthorInfoViewModel by viewModels()
+
 
     val timer = Timer()
     val handler = Handler(Looper.getMainLooper())
 
     val authorAdapter:AuthorAdapter by lazy {
-        var adapter = AuthorAdapter()
+        var adapter = AuthorAdapter(emptyList())
         adapter.setRecyclerviewClickListener(object : AuthorAdapter.AuthorOnClickListener{
             override fun authorItemClickListener() {
                 startActivity(Intent(mainActivity, AuthorInfoActivity::class.java))
@@ -60,6 +63,7 @@ class HomeFragment : Fragment() {
         // Inflate the layout for this fragment
         fragmentHomeBinding = FragmentHomeBinding.inflate(layoutInflater)
         mainActivity = activity as MainActivity
+        initView()
         settingToolBar()
         settingEvent()
         connectAdapterPromote()
@@ -109,7 +113,7 @@ class HomeFragment : Fragment() {
                 lifecycleScope.launch {
                     var promoteInfo = viewModel.getPromoteDataByDate()
                     val newIntent = Intent(requireActivity(), InfoAllActivity::class.java)
-                    Log.d("seonguk1234", "${promoteInfo}")
+                    //Log.d("seonguk1234", "${promoteInfo}")
                     newIntent.putExtra("promoteInfo", promoteInfo.toString())
                     startActivity(newIntent)
                 }
@@ -122,7 +126,7 @@ class HomeFragment : Fragment() {
             buttonAllGallery.setOnClickListener {
                 lifecycleScope.launch {
                     val galleryInfo = galleryViewModel.getGalleryDataByDate()
-                    Log.d("seonguk1234", "${galleryInfo}")
+                    //Log.d("seonguk1234", "${galleryInfo}")
                     val newIntent = Intent(requireActivity(), InfoAllActivity::class.java)
                     newIntent.putExtra("galleryInfo", galleryInfo.toString())
                     startActivity(newIntent)
@@ -206,6 +210,19 @@ class HomeFragment : Fragment() {
 
         }
     }
+
+    //작가 Recyclerview
+    private fun initView(){
+        fragmentHomeBinding.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                authorViewModel.authorInfoDataList.observe(viewLifecycleOwner) { value ->
+                    authorAdapter.updateData(value)
+                }
+                authorViewModel.getAuthorInfoAll()
+            }
+        }
+    }
+
 
     //viewPagerPromote 자동 넘김
     private fun autoSlidePromote(adapter : BannerVPAdapter){
