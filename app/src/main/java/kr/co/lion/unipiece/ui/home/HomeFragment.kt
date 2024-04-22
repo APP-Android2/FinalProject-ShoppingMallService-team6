@@ -22,6 +22,7 @@ import kr.co.lion.unipiece.ui.MainActivity
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
+import kr.co.lion.unipiece.ui.home.viewModel.HomeViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
 import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
 import kr.co.lion.unipiece.ui.infomation.InfoAllActivity
@@ -42,7 +43,7 @@ class HomeFragment : Fragment() {
 
     val galleryViewModel:GalleryInfoViewModel by viewModels()
 
-    val authorViewModel: AuthorInfoViewModel by viewModels()
+    val homeViewModel: HomeViewModel by viewModels()
 
 
     val timer = Timer()
@@ -215,10 +216,10 @@ class HomeFragment : Fragment() {
     private fun initView(){
         fragmentHomeBinding.apply {
             viewLifecycleOwner.lifecycleScope.launch {
-                authorViewModel.authorInfoDataList.observe(viewLifecycleOwner) { value ->
+                homeViewModel.authorInfoDataList.observe(viewLifecycleOwner) { value ->
                     authorAdapter.updateData(value)
                 }
-                authorViewModel.getAuthorInfoAll()
+                homeViewModel.getAuthorInfoAll()
             }
         }
     }
