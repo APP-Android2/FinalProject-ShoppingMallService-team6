@@ -91,7 +91,7 @@ class ApplyVisitGalleryFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
-                    removeFragment()
+                    requireActivity().recreate()
                 }
             }
         }
@@ -164,9 +164,8 @@ class ApplyVisitGalleryFragment : Fragment() {
     }
 
     private fun insertData(){
+        var isSuccess = true
         lifecycleScope.launch {
-            var isSuccess = true
-
             val visitIdx = applyVisitGalleryViewModel.getVisitAddSequence()
             if(visitIdx == -1){
                 isSuccess = false
@@ -205,8 +204,8 @@ class ApplyVisitGalleryFragment : Fragment() {
             }
 
             if(isSuccess){
-                showSnackBar("신청이 완료되었습니다")
-                removeFragment()
+                requireActivity().intent.putExtra("applyResult","신청이 완료되었습니다")
+                requireActivity().recreate()
             }else{
                 fragmentApplyVisitGalleryBinding.progressBarApplyVisit.visibility = View.GONE
                 showSnackBar("네트워크 오류, 잠시후 다시 시도해주세요")
@@ -224,8 +223,8 @@ class ApplyVisitGalleryFragment : Fragment() {
             )
             val updateResult = applyVisitGalleryViewModel.updateVisitAddData(addData!!)
             if(updateResult){
-                showSnackBar("수정이 완료되었습니다")
-                removeFragment()
+                requireActivity().intent.putExtra("applyResult","수정이 완료되었습니다")
+                requireActivity().recreate()
             }else{
                 fragmentApplyVisitGalleryBinding.progressBarApplyVisit.visibility = View.GONE
                 showSnackBar("네트워크 오류, 잠시후 다시 시도해주세요")
