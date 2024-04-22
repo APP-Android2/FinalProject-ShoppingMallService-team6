@@ -25,6 +25,7 @@
             android:orientation="vertical" >
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterUniLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="학교 입력"
@@ -42,6 +43,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -60,6 +62,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterMajorLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -84,6 +87,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textAddFileLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
@@ -133,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:adjustViewBounds="true"
-                app:srcCompat="@drawable/mygallery_cion" />
+                app:srcCompat="@drawable/mygallery_icon" />
 
             <Button
                 android:id="@+id/buttonAuthorRegister"
