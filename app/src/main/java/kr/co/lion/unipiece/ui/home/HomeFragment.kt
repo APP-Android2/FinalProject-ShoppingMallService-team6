@@ -15,6 +15,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager2.widget.ViewPager2
+import com.google.rpc.context.AttributeContext.Auth
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentHomeBinding
@@ -52,8 +53,10 @@ class HomeFragment : Fragment() {
     val authorAdapter:AuthorAdapter by lazy {
         var adapter = AuthorAdapter(emptyList())
         adapter.setRecyclerviewClickListener(object : AuthorAdapter.AuthorOnClickListener{
-            override fun authorItemClickListener() {
-                startActivity(Intent(mainActivity, AuthorInfoActivity::class.java))
+            override fun authorItemClickListener(authorIdx:Int) {
+                val newIntent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                newIntent.putExtra("authorIdx", authorIdx)
+                startActivity(newIntent)
             }
         })
         adapter

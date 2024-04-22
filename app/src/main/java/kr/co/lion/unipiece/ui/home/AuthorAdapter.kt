@@ -43,7 +43,7 @@ class AuthorAdapter(var authorInfoDataList: List<AuthorInfoData>) : RecyclerView
         holder.authorListBinding.root.context.setImage(holder.authorListBinding.imageAuthorNameList, imageName)
         holder.authorListBinding.textAuthorNameList.text = authorInfoDataList[position].authorName
         holder.authorListBinding.root.setOnClickListener {
-            authorItemClickListener.authorItemClickListener()
+            authorItemClickListener.authorItemClickListener(authorInfoDataList[position].authorIdx)
         }
     }
 
@@ -55,7 +55,7 @@ class AuthorAdapter(var authorInfoDataList: List<AuthorInfoData>) : RecyclerView
     }
 
     interface AuthorOnClickListener{
-        fun authorItemClickListener()
+        fun authorItemClickListener(authorIdx:Int)
     }
 }
 
