@@ -1,15 +1,23 @@
 package kr.co.lion.unipiece.ui.home
 
+import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.AuthorListBinding
+import kr.co.lion.unipiece.model.AuthorInfoData
+import kr.co.lion.unipiece.model.PromoteInfoData
+import kr.co.lion.unipiece.repository.AuthorInfoRepository
+import kr.co.lion.unipiece.util.getImageUrlFromAuthorInfo
+import kr.co.lion.unipiece.util.setImage
 
 
-class AuthorAdapter : RecyclerView.Adapter<AuthorViewHolder>() {
+class AuthorAdapter(var authorInfoDataList: List<AuthorInfoData>) : RecyclerView.Adapter<AuthorViewHolder>() {
 
     private lateinit var authorItemClickListener:AuthorOnClickListener
+
 
     fun setRecyclerviewClickListener(authorItemOnClickListener: AuthorOnClickListener){
         this.authorItemClickListener = authorItemOnClickListener
@@ -25,15 +33,25 @@ class AuthorAdapter : RecyclerView.Adapter<AuthorViewHolder>() {
     }
 
     override fun getItemCount(): Int {
-        return 15
+        return authorInfoDataList.size
     }
 
     override fun onBindViewHolder(holder: AuthorViewHolder, position: Int) {
-        holder.authorListBinding.imageAuthorNameList.setImageResource(R.drawable.mypage_icon)
-        holder.authorListBinding.textAuthorNameList.text = "작가명"
+        val authorImage = authorInfoDataList[position].authorImg
+        //Log.d("seonguk1234", "${authorImage}")
+        val imageName = holder.authorListBinding.root.context.getImageUrlFromAuthorInfo(authorImage)
+        holder.authorListBinding.root.context.setImage(holder.authorListBinding.imageAuthorNameList, imageName)
+        holder.authorListBinding.textAuthorNameList.text = authorInfoDataList[position].authorName
         holder.authorListBinding.root.setOnClickListener {
             authorItemClickListener.authorItemClickListener()
         }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: List<AuthorInfoData>){
+        authorInfoDataList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
     }
 
     interface AuthorOnClickListener{

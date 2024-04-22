@@ -43,6 +43,7 @@ class InfoAllAdapter(var promoteInfoList: List<PromoteInfoData>, var newsInfoLis
     override fun onBindViewHolder(holder: ViewHolderClass, position: Int) {
         if (!promoteInfoList.isEmpty()){
             holder.infoAllBinding.root.context.setImage(holder.infoAllBinding.imageView2, promoteInfoList[position].promoteImg)
+            //Log.d("seonguk1234", "${promoteInfoList[position].promoteImg}")
             holder.infoAllBinding.textInfoAllTitle.text = promoteInfoList[position].promoteName
             holder.infoAllBinding.textInfoAllDate.text = promoteInfoList[position].promoteDate
             holder.infoAllBinding.textInfoAllAuthorName.text = promoteInfoList[position].promotePlace
