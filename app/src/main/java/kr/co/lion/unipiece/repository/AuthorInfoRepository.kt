@@ -54,4 +54,7 @@ class AuthorInfoRepository {
 
     // 판매횟수 순서대로 작가 정보 가져오기
     suspend fun getAuthorInfoSale():List<AuthorInfoData> = authorInfoDataSource.getAuthorInfoSale()
+
+    // 팔로워순대로 작가 정보 가져오기
+    suspend fun getAuthorInfoFollow():List<AuthorInfoData> = authorInfoDataSource.getAuthorInfoFollow()
 }

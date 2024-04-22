@@ -7,9 +7,11 @@ import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.ItemRankFollowerBinding
+import kr.co.lion.unipiece.model.AuthorInfoData
+import kr.co.lion.unipiece.util.setImage
 
 
-class RankFollowerAdapter(val imageList: ArrayList<Int>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<RankFollowerViewHolder>() {
+class RankFollowerAdapter(val authorInfoList: List<AuthorInfoData>, private val itemClickListener: (Int) -> Unit) : RecyclerView.Adapter<RankFollowerViewHolder>() {
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType:Int): RankFollowerViewHolder {
         val binding: ItemRankFollowerBinding = ItemRankFollowerBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -18,22 +20,30 @@ class RankFollowerAdapter(val imageList: ArrayList<Int>, private val itemClickLi
     }
 
     override fun onBindViewHolder(holder: RankFollowerViewHolder, position: Int){
-        holder.authorImg.setImageResource(imageList[position])
-        holder.authorRank.text = (position + 1).toString()
+        holder.bind(authorInfoList[position])
     }
 
-    override fun getItemCount(): Int = imageList.size
+    override fun getItemCount(): Int = authorInfoList.size
 }
 
 class RankFollowerViewHolder(val binding: ItemRankFollowerBinding, private val itemClickListener: (Int) -> Unit): RecyclerView.ViewHolder(binding.root) {
-    val authorImg: ImageView = binding.authorImg
-    val authorRank: TextView = binding.authorRank
-    val authorName: TextView = binding.authorName
-    val followCount: TextView = binding.followCount
 
     init {
+        // 클릭 리스너 설정, 클릭 시 pieceIdx 전달
         binding.root.setOnClickListener {
-            itemClickListener.invoke(position)
+            itemClickListener.invoke(adapterPosition)
+        }
+    }
+
+    fun bind(item: AuthorInfoData) {
+
+        with(binding) {
+            authorName.text = item.authorName
+            authorRank.text = (adapterPosition + 1).toString()
+            followCount.text = "${item.authorFollow} 팔로워"
+
+            root.context.setImage(authorImg, item.authorImg)
+
         }
     }
 }

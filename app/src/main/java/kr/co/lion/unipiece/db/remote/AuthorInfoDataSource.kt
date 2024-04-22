@@ -288,4 +288,18 @@ class AuthorInfoDataSource {
         }
     }
 
+    // 팔로워순대로 작가 정보 가져오기
+    suspend fun getAuthorInfoFollow():List<AuthorInfoData>{
+        return try{
+            val query = db.collection("AuthorInfo")
+                .orderBy("authorFollow", Query.Direction.DESCENDING)
+
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(AuthorInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getAuthorInfoFollow: ${e.message}")
+            emptyList()
+        }
+    }
 }
