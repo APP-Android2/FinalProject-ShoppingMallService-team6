@@ -36,6 +36,14 @@
             android:textSize="16sp"
             android:textStyle="bold" />
 
+        <ProgressBar
+            android:id="@+id/progressBarApplyVisit"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:indeterminateTint="@color/first" />
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
