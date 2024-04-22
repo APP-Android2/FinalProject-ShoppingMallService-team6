@@ -11,9 +11,7 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.ActivityInfoOneBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.home.viewModel.GalleryInfoViewModel
-import kr.co.lion.unipiece.ui.home.viewModel.NewsInfoViewModel
-import kr.co.lion.unipiece.ui.home.viewModel.PromoteInfoViewModel
+import kr.co.lion.unipiece.ui.home.viewModel.HomeViewModel
 import kr.co.lion.unipiece.util.getImageUrlFromGallery
 import kr.co.lion.unipiece.util.getImageUrlFromName
 import kr.co.lion.unipiece.util.getImageUrlFromNews
@@ -24,11 +22,7 @@ class InfoOneActivity : AppCompatActivity() {
 
     lateinit var activityInfoOneBinding: ActivityInfoOneBinding
 
-    val promoteViewModel:PromoteInfoViewModel by viewModels()
-
-    val newsViewModel:NewsInfoViewModel by viewModels()
-
-    val galleryViewModel:GalleryInfoViewModel by viewModels()
+    val viewModel:HomeViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,8 +44,8 @@ class InfoOneActivity : AppCompatActivity() {
 
 
                 lifecycleScope.launch {
-                    val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
-                    val newsInfo = newsViewModel.getNewsInfoByImage(newsImg?:"")
+                    val promoteInfo = viewModel.getPromoteInfoByImage(promoteImg?:"")
+                    val newsInfo = viewModel.getNewsInfoByImage(newsImg?:"")
 
                     if (promoteInfo?.homeIdx == 1){
                         title = "전시 홍보"
@@ -95,11 +89,11 @@ class InfoOneActivity : AppCompatActivity() {
             val newsImg = intent?.getStringExtra("newsImg")
             val galleryInfoImg = intent?.getStringExtra("galleryInfoImg")
             lifecycleScope.launch {
-                val promoteInfo = promoteViewModel.getPromoteInfoByImage(promoteImg?:"")
+                val promoteInfo = viewModel.getPromoteInfoByImage(promoteImg?:"")
 
-                val newsInfo = newsViewModel.getNewsInfoByImage(newsImg?:"")
+                val newsInfo = viewModel.getNewsInfoByImage(newsImg?:"")
 
-                val galleryInfo = galleryViewModel.getGalleryInfoByImg(galleryInfoImg?:"")
+                val galleryInfo = viewModel.getGalleryInfoByImg(galleryInfoImg?:"")
 
                 if (promoteInfo?.homeIdx == 1){
                     textInfoOneName.text = "행사명 : ${promoteInfo?.promoteName}"
