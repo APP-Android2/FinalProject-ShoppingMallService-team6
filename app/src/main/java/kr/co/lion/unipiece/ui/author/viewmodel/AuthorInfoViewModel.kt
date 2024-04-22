@@ -1,15 +1,10 @@
 package kr.co.lion.unipiece.ui.author.viewmodel
 
-import android.content.Context
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Timestamp
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
@@ -102,36 +97,10 @@ class AuthorInfoViewModel: ViewModel() {
     suspend fun getAuthorInfoImg(authorImg:String):String?{
         return authorInfoRepository.getAuthorInfoImg(authorImg)
     }
-
-
-    //작가 정보 저장하기
-    fun insertAuthorInfo(
-        userIdx: Int, authorImg: String, authorName:String, authorBasic:String, authorInfo:String,
-        authorSale:Int, authorDate:Timestamp, callback:(Boolean) -> Unit
-    ){
-        viewModelScope.launch {
-            val authorSequence = authorInfoRepository.getAuthorSequence()
-
-            authorInfoRepository.updateAuthorSequence(authorSequence + 1)
-
-            val authorIdx = authorSequence + 1
-
-            val authorInfoData = AuthorInfoData(userIdx, authorIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate)
-            //비동기 작업을 메인 스레드에서 실행하여 callback값을 전달한다
-            val success = withContext(Dispatchers.IO){
-                try {
-                    authorInfoRepository.insertAuthorInfoData(authorInfoData)
-                    true
-                }catch (e:Exception){
-                    false
-                }
-            }
-            callback(success)
-        }
+    
+    suspend fun updateAuthorFollow(authorIdx: Int){
+        val countFollow = authorInfoRepository.getAuthorFollow(authorIdx)
+        authorInfoRepository.updateAuthorFollow(authorIdx, countFollow)
     }
 
-    // 작가 이미지 업로드
-    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String){
-        return authorInfoRepository.uploadImageByApp(context, fileName, uploadFileName)
-    }
 }

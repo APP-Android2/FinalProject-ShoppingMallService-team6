@@ -5,12 +5,47 @@ import com.google.firebase.Firebase
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.toObjects
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.VisitAddData
 
 class VisitAddDataSource {
 
     private val collectionReference = Firebase.firestore.collection("VisitAdd")
+
+    // 전시실 방문 시퀀스값을 가져온다.
+    suspend fun getVisitAddSequence():Int{
+        return try {
+            val documentSnapShot = Firebase.firestore
+                .collection("Sequence")
+                .document("VisitAddSequence")
+                .get()
+                .await()
+            documentSnapShot.getLong("value")?.toInt()?: -1
+        }catch (e:Exception){
+            Log.e("Firebase Error", "Error getVisitAddSequence: ${e.message}")
+            -1
+        }
+    }
+
+    // 전시실 방문 시퀀스 값을 업데이트 한다.
+    suspend fun updateVisitAddSequence(visitAddSequence: Int): Boolean{
+        return try {
+            val documentReference = Firebase.firestore
+                .collection("Sequence")
+                .document("VisitAddSequence")
+            val map = mapOf(
+                "value" to visitAddSequence.toLong()
+            )
+            documentReference.set(map).await()
+            true
+        }catch (e:Exception){
+            Log.e("Firebase Error", "Error updateVisitAddSequence: ${e.message}")
+            false
+        }
+    }
 
     // 전시실 방문 신청서를 저장한다.
     suspend fun insertVisitAddData(visitAddData: VisitAddData):Boolean{
@@ -56,7 +91,7 @@ class VisitAddDataSource {
     suspend fun updateVisitAddData(visitAddData: VisitAddData):Boolean{
         val map = visitAddData.instanceToMap()
         return try {
-            // 컬렉션이 가지고 있는 문서들 중에 수정할 작가 정보를 가져온다.
+            // 컬렉션이 가지고 있는 문서들 중에 수정할 전시실 방문 정보를 가져온다.
             val query = collectionReference.whereEqualTo("visitIdx", visitAddData.visitIdx).get().await()
             // 저장한다.
             query.documents.first().reference.update(map)
@@ -73,7 +108,7 @@ class VisitAddDataSource {
             "visitState" to state
         )
         return try{
-            // 컬렉션이 가지고 있는 문서들 중에 수정할 작가 정보를 가져온다.
+            // 컬렉션이 가지고 있는 문서들 중에 수정할 전시실 방문 정보를 가져온다.
             val query = collectionReference.whereEqualTo("visitIdx", visitIdx).get().await()
             // 변경한 상태값을 저장한다.
             query.documents.first().reference.update(map)

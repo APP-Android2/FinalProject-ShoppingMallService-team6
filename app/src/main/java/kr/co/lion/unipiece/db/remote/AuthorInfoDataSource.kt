@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.db.remote
 
-import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.Firebase
@@ -12,8 +11,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.AuthorInfoData
-import kr.co.lion.unipiece.model.PieceInfoData
-import java.io.File
 
 class AuthorInfoDataSource {
 
@@ -290,17 +287,38 @@ class AuthorInfoDataSource {
         }
     }
 
-    //이미지 데이터를 firebase storage에 업로드 하는 메서드
-    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String){
-        val path = context.getExternalFilesDir(null).toString()
-        val file = File("${path}/${fileName}")
-        val uri = Uri.fromFile(file)
+    // 팔로워순대로 작가 정보 가져오기
+    suspend fun getAuthorInfoFollow():List<AuthorInfoData>{
+        return try{
+            val query = db.collection("AuthorInfo")
+                .orderBy("authorFollow", Query.Direction.DESCENDING)
 
-        val job1 = CoroutineScope(Dispatchers.IO).launch {
-            val storageRef = storage.child("AuthorInfo/$uploadFileName")
-            storageRef.putFile(uri)
+            val querySnapShot = query.get().await()
+            querySnapShot.map { it.toObject(AuthorInfoData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getAuthorInfoFollow: ${e.message}")
+            emptyList()
         }
-        job1.join()
     }
 
+    // authorFollow 업데이트 하기
+    suspend fun updateAuthorFollow(authorIdx: Int, authorFollow: Int) {
+        try {
+            val query = db.collection("AuthorInfo").whereEqualTo("authorIdx", authorIdx)
+            val querySnapShot = query.get().await()
+            val document = querySnapShot.documents.firstOrNull()
+
+            document?.let {
+                val map = mutableMapOf<String, Any>()
+                map["authorFollow"] = authorFollow
+
+                it.reference.update(map).await() // 문서 업데이트
+            } ?: run {
+                Log.e("Firebase Error", "No document found with pieceIdx: $authorIdx")
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error updating pieceLike: ${e.message}")
+        }
+    }
 }

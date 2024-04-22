@@ -22,6 +22,9 @@ class RankViewModel(): ViewModel() {
     private val _authorSaleList= MutableLiveData<List<AuthorInfoData>>()
     val authorSaleList : LiveData<List<AuthorInfoData>> = _authorSaleList
 
+    private val _authorFollowList= MutableLiveData<List<AuthorInfoData>>()
+    val authorFollowList : LiveData<List<AuthorInfoData>> = _authorFollowList
+
     private val _loading: MutableLiveData<Boolean> = MutableLiveData()
     val loading: LiveData<Boolean> = _loading
 
@@ -41,6 +44,13 @@ class RankViewModel(): ViewModel() {
         val updateAuthorInfoList = updateImageAuthor(response)
 
         _authorSaleList.value = updateAuthorInfoList
+    }
+
+    suspend fun getAuthorInfoFollow(){
+        val response = authorInfoRepository.getAuthorInfoFollow()
+        val updateAuthorInfoList = updateImageAuthor(response)
+
+        _authorFollowList.value = updateAuthorInfoList
     }
 
     suspend fun updateImagePieceInfo(pieceInfoList: List<PieceInfoData>): List<PieceInfoData> {

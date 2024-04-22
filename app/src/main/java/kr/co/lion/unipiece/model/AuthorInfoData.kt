@@ -11,6 +11,7 @@ data class AuthorInfoData(
     var authorInfo: String,
     var authorSale: Int,
     var authorDate: Timestamp,
+    var authorFollow: Int,
 ){
-    constructor() : this(0, 0, "", "무명", "OO대학 OO학과", "작가 소개하는 내용", 0, Timestamp.now())
+    constructor() : this(0, 0, "", "무명", "OO대학 OO학과", "작가 소개하는 내용", 0, Timestamp.now(), 0)
 }

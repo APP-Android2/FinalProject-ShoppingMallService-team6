@@ -6,12 +6,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
@@ -32,6 +34,10 @@ class VisitGalleryHistoryFragment : Fragment() {
         UniPieceApplication.prefs.getUserIdx("userIdx", -1)
     }
 
+    val applyResult by lazy {
+        arguments?.getString("applyResult","")
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -43,13 +49,19 @@ class VisitGalleryHistoryFragment : Fragment() {
         settingToolbar()
         settingFabApplyVisitGallery()
 
-
         return fragmentVisitGalleryHistoryBinding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         settingRecyclerView()
+
+        if(applyResult != ""){
+            Snackbar.make(view, applyResult!!, Snackbar.LENGTH_SHORT)
+                .setBackgroundTint(ContextCompat.getColor(requireActivity(), R.color.first))
+                .setTextColor(ContextCompat.getColor(requireActivity(), R.color.white))
+                .show()
+        }
     }
 
     private fun fetchData(){
@@ -131,6 +143,7 @@ class VisitGalleryHistoryFragment : Fragment() {
             repeatOnLifecycle(Lifecycle.State.STARTED){
                 visitGalleryViewModel.visitGalleryList.observe(viewLifecycleOwner) { value ->
                     visitAdapter.updateList(value)
+                    fragmentVisitGalleryHistoryBinding.progressBarVisitGallery.visibility = View.GONE
                 }
             }
         }
