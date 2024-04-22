@@ -137,7 +137,7 @@ class DeliveryDataSource {
     }
 
     // UserIdx 를 통해 배송지 정보를 가져와 반환한다. (배송지 관리 접근 시)
-    suspend fun getDeliveryDataByIdx(userIdx: Int): List<DeliveryData> {
+    suspend fun getDeliveryDataByUserIdx(userIdx: Int): List<DeliveryData> {
 
         return try {
             val query = deliveryStore.whereEqualTo("userIdx", userIdx)
@@ -173,6 +173,20 @@ class DeliveryDataSource {
             querySnapshot.map { it.toObject(DeliveryData::class.java) }
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error dbGetBasicDeliveryData : ${e.message}")
+            emptyList()
+        }
+    }
+
+    // deliveryIdx를 통해 해당 배송지 정보를 가져온다.
+    suspend fun getDeliveryDataByDeliveryIdx(deliveryIdx: Int): List<DeliveryData> {
+
+        return try {
+            val query = deliveryStore.whereEqualTo("deliveryIdx", deliveryIdx)
+            val querySnapshot = query.get().await()
+            querySnapshot.map { it.toObject(DeliveryData::class.java) }
+
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error dbGetDeliveryDataByDeliveryIdx : ${e.message}")
             emptyList()
         }
     }
