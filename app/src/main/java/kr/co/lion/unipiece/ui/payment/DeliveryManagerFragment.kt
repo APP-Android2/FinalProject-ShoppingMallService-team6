@@ -67,8 +67,8 @@ class DeliveryManagerFragment : Fragment() {
             viewLifecycleOwner.lifecycleScope.launch {
 
                 // 삭제 다이얼로그 호출
-                val dialog = CustomDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
-                dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
+                val dialog = CustomDeleteDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
+                dialog.setButtonClickListener(object : CustomDeleteDialog.OnButtonClickListener {
                     // 확인 버튼 클릭 시
                     override fun okButtonClick() {
                         lifecycleScope.launch {
