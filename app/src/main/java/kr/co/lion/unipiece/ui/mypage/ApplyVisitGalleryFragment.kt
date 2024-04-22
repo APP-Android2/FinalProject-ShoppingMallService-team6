@@ -91,6 +91,8 @@ class ApplyVisitGalleryFragment : Fragment() {
 
                 setNavigationIcon(R.drawable.back_icon)
                 setNavigationOnClickListener {
+                    // 뒤로가기 할 경우 intent에 값을 담아준 applyResult를 초기화한다
+                    requireActivity().intent.removeExtra("applyResult")
                     requireActivity().recreate()
                 }
             }
