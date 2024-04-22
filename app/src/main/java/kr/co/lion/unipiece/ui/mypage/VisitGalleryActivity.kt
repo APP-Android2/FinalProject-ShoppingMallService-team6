@@ -24,6 +24,7 @@ class VisitGalleryActivity : AppCompatActivity() {
 
         // 추후 전달할 데이터는 여기에 담기
         val visitGalleryBundle = Bundle()
+        visitGalleryBundle.putString("applyResult",intent.getStringExtra("applyResult"))
 
         replaceFragment(VisitGalleryFragmentName.VISIT_GALLERY_HISTORY_FRAGMENT, false, visitGalleryBundle)
     }
