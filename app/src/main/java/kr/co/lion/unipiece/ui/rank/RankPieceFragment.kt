@@ -10,10 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import kotlinx.coroutines.launch
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRankPieceBinding
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
-import kr.co.lion.unipiece.ui.buy.adapter.BuyPopAdapter
 import kr.co.lion.unipiece.ui.rank.adapter.RankPieceAdapter
 import kr.co.lion.unipiece.ui.rank.viewmodel.RankViewModel
 
@@ -42,27 +40,28 @@ class RankPieceFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.getPopPieceInfo()
+            viewModel.setLoading(false)
+        }
 
-            viewModel.pieceRankList.observe(viewLifecycleOwner) { value ->
+        viewModel.pieceRankList.observe(viewLifecycleOwner) { value ->
 
-                val rankPieceAdapter =
-                    RankPieceAdapter(
-                        value,
-                        itemClickListener = { poisition ->
-                            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
-                            intent.putExtra("pieceIdx", value[poisition].pieceIdx)
-                            intent.putExtra("authorIdx", value[poisition].authorIdx)
-                            startActivity(intent)
-                        }
-                    )
+            val rankPieceAdapter =
+                RankPieceAdapter(
+                    value,
+                    itemClickListener = { poisition ->
+                        val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+                        intent.putExtra("pieceIdx", value[poisition].pieceIdx)
+                        intent.putExtra("authorIdx", value[poisition].authorIdx)
+                        startActivity(intent)
+                    }
+                )
 
-                with(binding){
-                    rankPieceRV.adapter = rankPieceAdapter
-                    rankPieceRV.layoutManager = GridLayoutManager(activity, 2)
-                }
-
-                viewModel.setLoading(false)
+            with(binding){
+                rankPieceRV.adapter = rankPieceAdapter
+                rankPieceRV.layoutManager = GridLayoutManager(activity, 2)
             }
+
+
         }
 
     }
