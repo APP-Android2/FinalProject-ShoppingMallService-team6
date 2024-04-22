@@ -147,10 +147,10 @@ class ApplyVisitGalleryFragment : Fragment() {
     private fun settingButtonApplyConfirm(){
         fragmentApplyVisitGalleryBinding.buttonApplyVisitGalleryConfirm.apply {
             setOnClickListener {
-                fragmentApplyVisitGalleryBinding.progressBarApplyVisit.visibility = View.VISIBLE
                 requireActivity().hideSoftInput()
                 // 입력 사항 확인
                 if(isInputEmpty())return@setOnClickListener
+                fragmentApplyVisitGalleryBinding.progressBarApplyVisit.visibility = View.VISIBLE
 
                 if(isModify){
                     // 수정인 경우
