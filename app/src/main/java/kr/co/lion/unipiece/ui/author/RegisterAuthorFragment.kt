@@ -1,22 +1,35 @@
 package kr.co.lion.unipiece.ui.author
 
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.graphics.ImageDecoder
+import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentRegisterAuthorBinding
 import kr.co.lion.unipiece.util.AddAuthorFragmentName
 import kr.co.lion.unipiece.util.CustomDialog
+import kr.co.lion.unipiece.util.getDegree
+import kr.co.lion.unipiece.util.resize
+import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.showSoftInput
 
 class RegisterAuthorFragment : Fragment() {
 
     lateinit var fragmentRegisterAuthorBinding: FragmentRegisterAuthorBinding
+
+    lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
 
     override fun onCreateView(
@@ -26,6 +39,7 @@ class RegisterAuthorFragment : Fragment() {
         initView()
         settingEvent()
         settingView()
+        settingAlbumLauncher()
         return fragmentRegisterAuthorBinding.root
     }
 
@@ -51,6 +65,10 @@ class RegisterAuthorFragment : Fragment() {
                 if (chk){
                     checkImg()
                 }
+            }
+
+            buttonGetPicture.setOnClickListener {
+                startAlbumLauncher()
             }
         }
     }
@@ -141,5 +159,62 @@ class RegisterAuthorFragment : Fragment() {
                 startActivity(Intent(requireActivity(), UpdateAuthorActivity::class.java))
             }
         }
+    }
+
+
+    //엘범 런쳐 설정
+    private fun settingAlbumLauncher(){
+        val contract = ActivityResultContracts.StartActivityForResult()
+        albumLauncher = registerForActivityResult(contract){ result ->
+            if(result.resultCode == AppCompatActivity.RESULT_OK){
+                // 선택한 이미지 경로 데이터 관리하는 Uri 객체 추출
+                val uri = result.data?.data
+                if(uri != null){
+                    val bitmap = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                        // 이미지 생성할 수 있는 객체 생성
+                        val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
+                        // Bitmap 생성
+                        ImageDecoder.decodeBitmap(source)
+                    } else {
+                        // 컨텐츠 프로바이더를 통해 이미지 데이터에 접근
+                        val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
+                        if(cursor != null){
+                            cursor.moveToNext()
+
+                            // 이미지 경로 가져오기
+                            val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                            val source = cursor.getString(idx)
+
+                            // 이미지 생성
+                            BitmapFactory.decodeFile(source)
+                        }  else {
+                            null
+                        }
+                    }
+
+                    // 회전 각도값 가져오기
+                    val degree = requireActivity().getDegree(uri)
+                    // 회전 이미지 가져오기
+                    val bitmap2 = bitmap?.rotate(degree.toFloat())
+                    // 크기를 줄인 이미지 가져오기
+                    val bitmap3 = bitmap2?.resize(1024)
+
+                    fragmentRegisterAuthorBinding.imageView3.setImageBitmap(bitmap3)
+                    fragmentRegisterAuthorBinding.textAddFile.setText(bitmap3.toString())
+                }
+            }
+        }
+
+    }
+
+    //앨범 런쳐를 실행하는 메서드
+    private fun startAlbumLauncher(){
+        //사진 가져오기
+        val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        albumIntent.setType("AuthorInfo/*")
+        val mimeType = arrayOf("AuthorInfo/*")
+        albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+
+        albumLauncher.launch(albumIntent)
     }
 }
