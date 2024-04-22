@@ -1,9 +1,14 @@
 package kr.co.lion.unipiece.ui.mypage.adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
+import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.RowVisitGalleryHistoryBinding
 import kr.co.lion.unipiece.model.VisitAddData
 
@@ -32,8 +37,18 @@ class VisitGalleryAdapter(var visitList: List<VisitAddData>, private val itemCli
         // 승인상태
         holder.rowVisitGalleryHistoryBinding.textViewRowVisitListStatus.text= visitList[position].visitState
         // 신청 수정 버튼 여부
-        if(visitList[position].visitState == "승인 대기"){
-            holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.isVisible = true
+        when(visitList[position].visitState){
+            "승인 대기" -> {
+                holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.visibility = View.VISIBLE
+            }
+            "승인 완료" -> {
+                holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.visibility = View.GONE
+                // holder.rowVisitGalleryHistoryBinding.textViewRowVisitListStatus.setTextColor(Color.BLUE)
+            }
+            "승인 거절" -> {
+                holder.rowVisitGalleryHistoryBinding.buttonRowVisitListModify.visibility = View.GONE
+                // holder.rowVisitGalleryHistoryBinding.textViewRowVisitListStatus.setTextColor(Color.RED)
+            }
         }
 
         // 신청 수정 버튼 클릭 이벤트
