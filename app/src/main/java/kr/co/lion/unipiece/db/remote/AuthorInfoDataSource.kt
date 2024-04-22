@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.db.remote
 
+import android.content.Context
 import android.net.Uri
 import android.util.Log
 import com.google.firebase.Firebase
@@ -12,6 +13,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.model.PieceInfoData
+import java.io.File
 
 class AuthorInfoDataSource {
 
@@ -286,6 +288,19 @@ class AuthorInfoDataSource {
             Log.e("Firebase Error", "Error getAuthorInfoSale: ${e.message}")
             emptyList()
         }
+    }
+
+    //이미지 데이터를 firebase storage에 업로드 하는 메서드
+    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String){
+        val path = context.getExternalFilesDir(null).toString()
+        val file = File("${path}/${fileName}")
+        val uri = Uri.fromFile(file)
+
+        val job1 = CoroutineScope(Dispatchers.IO).launch {
+            val storageRef = storage.child("AuthorInfo/$uploadFileName")
+            storageRef.putFile(uri)
+        }
+        job1.join()
     }
 
 }

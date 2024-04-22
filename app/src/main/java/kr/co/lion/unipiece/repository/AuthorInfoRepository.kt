@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.repository
 
+import android.content.Context
 import android.net.Uri
 import kr.co.lion.unipiece.db.remote.AuthorInfoDataSource
 import kr.co.lion.unipiece.model.AuthorInfoData
@@ -54,4 +55,7 @@ class AuthorInfoRepository {
 
     // 판매횟수 순서대로 작가 정보 가져오기
     suspend fun getAuthorInfoSale():List<AuthorInfoData> = authorInfoDataSource.getAuthorInfoSale()
+
+    //작가 등록 어플에서 하기
+    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String) = authorInfoDataSource.uploadImageByApp(context, fileName, uploadFileName)
 }

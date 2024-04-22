@@ -10,26 +10,38 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.google.firebase.Timestamp
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentRegisterAuthorBinding
+import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.util.AddAuthorFragmentName
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.getDegree
 import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
+import kr.co.lion.unipiece.util.saveAsImage
 import kr.co.lion.unipiece.util.showSoftInput
+
 
 class RegisterAuthorFragment : Fragment() {
 
     lateinit var fragmentRegisterAuthorBinding: FragmentRegisterAuthorBinding
 
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
+
+    val viewModel: AuthorInfoViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -138,6 +150,37 @@ class RegisterAuthorFragment : Fragment() {
         }
     }
 
+    //저장하기
+    private fun saveAuthorInfo(){
+        //서버에서의 첨부 이미지 이름
+        fragmentRegisterAuthorBinding.apply {
+            viewLifecycleOwner.lifecycleScope.launch {
+                var serverName:String? = null
+
+                fragmentRegisterAuthorBinding.imageView3.saveAsImage(requireActivity(), "authorInfo")
+                serverName = "authorInfo_${System.currentTimeMillis()}.jpg"
+
+                viewModel.uploadImageByApp(requireActivity(), "authorInfo", serverName)
+
+                //업로드 할 정보를 담아준다
+                val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", -1)
+                val authorImg = serverName
+                val authorName = textRegisterName.text.toString()
+                val authorBasic = textRegisterUni.text.toString()
+                val authorInfo = textRegisterMajor.text.toString()
+                val authorSale = 0
+                val authorDate = Timestamp.now()
+
+                viewModel.insertAuthorInfo(userIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate){ sucess->
+                    if (sucess){
+                        startActivity(Intent(requireActivity(), MainActivity::class.java))
+                        requireActivity().finish()
+                    }
+                }
+            }
+        }
+    }
+
     //이미지 체크
     private fun checkImg(){
         fragmentRegisterAuthorBinding.apply {
@@ -156,7 +199,7 @@ class RegisterAuthorFragment : Fragment() {
                 })
                 dialog.show(parentFragmentManager, "CustomDialog")
             }else{
-                startActivity(Intent(requireActivity(), UpdateAuthorActivity::class.java))
+                saveAuthorInfo()
             }
         }
     }
