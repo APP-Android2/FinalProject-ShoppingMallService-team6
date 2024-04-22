@@ -15,7 +15,7 @@ class VisitAddDataSource {
 
     private val collectionReference = Firebase.firestore.collection("VisitAdd")
 
-    // 작가 번호 시퀀스값을 가져온다.
+    // 전시실 방문 시퀀스값을 가져온다.
     suspend fun getVisitAddSequence():Int{
         return try {
             val documentSnapShot = Firebase.firestore
@@ -30,7 +30,7 @@ class VisitAddDataSource {
         }
     }
 
-    // 작가 시퀀스 값을 업데이트 한다.
+    // 전시실 방문 시퀀스 값을 업데이트 한다.
     suspend fun updateVisitAddSequence(visitAddSequence: Int): Boolean{
         return try {
             val documentReference = Firebase.firestore
@@ -91,7 +91,7 @@ class VisitAddDataSource {
     suspend fun updateVisitAddData(visitAddData: VisitAddData):Boolean{
         val map = visitAddData.instanceToMap()
         return try {
-            // 컬렉션이 가지고 있는 문서들 중에 수정할 작가 정보를 가져온다.
+            // 컬렉션이 가지고 있는 문서들 중에 수정할 전시실 방문 정보를 가져온다.
             val query = collectionReference.whereEqualTo("visitIdx", visitAddData.visitIdx).get().await()
             // 저장한다.
             query.documents.first().reference.update(map)
@@ -108,7 +108,7 @@ class VisitAddDataSource {
             "visitState" to state
         )
         return try{
-            // 컬렉션이 가지고 있는 문서들 중에 수정할 작가 정보를 가져온다.
+            // 컬렉션이 가지고 있는 문서들 중에 수정할 전시실 방문 정보를 가져온다.
             val query = collectionReference.whereEqualTo("visitIdx", visitIdx).get().await()
             // 변경한 상태값을 저장한다.
             query.documents.first().reference.update(map)
