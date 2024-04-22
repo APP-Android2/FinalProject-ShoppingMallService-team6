@@ -73,6 +73,7 @@ class DeliveryManagerFragment : Fragment() {
                             viewModel.deleteDataLoading.observe(viewLifecycleOwner) {
                                 if (it == true) {
                                     viewModel.setDeleteData()
+                                    viewModel.getDeliveryDataByUserIdx(userIdx)
                                     dialog.dismiss()
                                 }
                             }
