@@ -71,14 +71,20 @@ class DeliveryUpdateFragment : Fragment() {
             lifecycleScope.launch{
                 viewModel.getDeliveryDataByDeliveryIdx(deliveryIdx)
                 viewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) {
+                    // 받는 이
                     textFieldDeliveryUpdateReceiver.text = it[0].deliveryName.toEditable()
+                    // 연락처
                     textFieldDeliveryUpdatePhone.text = it[0].deliveryPhone.toEditable()
+                    // 배송지명
                     val length = it[0].deliveryNickName.length
                     textFieldDeliveryUpdateNickName.text =
                         it[0].deliveryNickName.substring(1, length - 1).toEditable()
+                    // 주소
                     textFieldDeliveryUpdateAddress.text = it[0].deliveryAddress.toEditable()
+                    // 상세주소
                     textFieldDeliveryUpdateAddressDetail.text =
                         it[0].deliveryAddressDetail.toEditable()
+                    // 기본 배송지 여부
                     checkBoxUpdateDeliveryBasicDelivery.isChecked = it[0].basicDelivery
                 }
             }
@@ -134,7 +140,7 @@ class DeliveryUpdateFragment : Fragment() {
                         val deliveryData = setUpdateDeliveryData()
                         with(viewModel) {
                             insertDeliveryData(deliveryData)
-                            insertDataLoading.observe(viewLifecycleOwner){
+                            dataLoading.observe(viewLifecycleOwner){
                                 if(it == true){
                                     viewModel.setdata()
                                     parentFragmentManager.popBackStack()
@@ -147,7 +153,7 @@ class DeliveryUpdateFragment : Fragment() {
 
 
             // 주소 비활성화
-            textFieldDeliveryUpdateAddress.isEnabled = true
+            textFieldDeliveryUpdateAddress.isEnabled = false
         }
     }
 

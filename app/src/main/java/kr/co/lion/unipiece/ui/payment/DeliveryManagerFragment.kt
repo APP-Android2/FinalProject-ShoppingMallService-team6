@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.ui.payment
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,8 +16,10 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentDeliveryManagerBinding
 import kr.co.lion.unipiece.model.DeliveryData
+import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.DeliveryFragmentName
 
 class DeliveryManagerFragment : Fragment() {
@@ -30,8 +33,16 @@ class DeliveryManagerFragment : Fragment() {
 
         // 항목을 클릭 시 (deliveryIdx를 받아옴)
         rowClickListener = { deliveryIdx ->
-            Log.d("테스트 itemClickListener deliveryIdx", deliveryIdx.toString())
-            requireActivity().finish()
+            Log.d("테스트 rowClickListener deliveryIdx", deliveryIdx.toString())
+            viewLifecycleOwner.lifecycleScope.launch {
+                val intent = Intent(requireActivity(), OrderActivity::class.java).putExtra(
+                    "deliveryIdx",
+                    deliveryIdx
+                )
+                startActivity(intent)
+                requireActivity().finish()
+            }
+
         },
 
         // 항목 수정버튼 클릭 시 (deliveryIdx를 받아옴)
@@ -50,11 +61,38 @@ class DeliveryManagerFragment : Fragment() {
 
         },
 
-        // 항목별 삭제 다이얼로그의 삭제버튼을 클릭 시
+        // 항목별 삭제 버튼 클릭 시
         deleteButtonClickListener = { deliveryIdx ->
             Log.d("테스트 deleteButtonClickListener deliveryIdx", deliveryIdx.toString())
             viewLifecycleOwner.lifecycleScope.launch {
-                viewModel.deleteDeliveryData(deliveryIdx)
+
+                // 삭제 다이얼로그 호출
+                val dialog = CustomDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
+                dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
+                    // 확인 버튼 클릭 시
+                    override fun okButtonClick() {
+                        lifecycleScope.launch {
+                            // 삭제 처리
+                            with(viewModel) {
+                                deleteDeliveryData(deliveryIdx)
+                                dataLoading.observe(viewLifecycleOwner) {
+                                    if (it == true) {
+                                        viewModel.setdata()
+                                        dialog.dismiss()
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    // 취소 버튼 클릭 시
+                    override fun noButtonClick() {
+
+                    }
+
+                })
+                dialog.show(parentFragmentManager, "deleteDialog")
+
             }
         }
     )

@@ -97,7 +97,7 @@
                         android:id="@+id/buttonDeliveryUpdate"
                         android:layout_width="40dp"
                         android:layout_height="30dp"
-                        android:background="@drawable/textfield_radius"
+                        android:background="@drawable/lightgray_radius"
                         android:padding="0dp"
                         android:paddingLeft="0dp"
                         android:paddingRight="0dp"
@@ -109,7 +109,7 @@
                         android:layout_width="40dp"
                         android:layout_height="30dp"
                         android:layout_marginLeft="10dp"
-                        android:background="@drawable/textfield_radius"
+                        android:background="@drawable/lightgray_radius"
                         android:padding="0dp"
                         android:paddingLeft="0dp"
                         android:paddingRight="0dp"
@@ -125,12 +125,12 @@
 
                 <Button
                     android:id="@+id/buttonDeliverySelect"
-                    android:layout_width="40dp"
+                    android:layout_width="30dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/button_radius"
+                    android:background="@drawable/arrow_forward_ios_icon"
                     android:padding="0dp"
-                    android:text="선택"
                     android:textColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>

@@ -96,7 +96,7 @@ class DeliveryViewHolder(
                 rowClickListener.invoke(data.deliveryIdx)
             }
 
-            // 선택 버튼 클릭 시
+            // 화살표 버튼 클릭 시
             buttonDeliverySelect.setOnClickListener {
                 rowClickListener.invoke(data.deliveryIdx)
             }
@@ -104,20 +104,7 @@ class DeliveryViewHolder(
 
             // 항목별 삭제 버튼 클릭 시 다이얼로그
             buttonDeliveryDelete.setOnClickListener {
-                val dialog = CustomDialog("배송지 삭제", "이 배송지를 삭제하시겠습니까?")
-                dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
-                    // 확인 버튼 클릭 시
-                    override fun okButtonClick() {
-                        deleteButtonClickListener.invoke(data.deliveryIdx)
-                    }
-
-                    // 취소 버튼 클릭 시
-                    override fun noButtonClick() {
-
-                    }
-
-                })
-                // dialog.show(parentFragmentManager, "deleteDialog")
+                deleteButtonClickListener.invoke(data.deliveryIdx)
 
             }
 

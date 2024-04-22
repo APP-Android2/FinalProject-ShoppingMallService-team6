@@ -26,8 +26,6 @@ class DeliveryViewModel : ViewModel() {
     private val _insertDeliveryData = MutableLiveData<List<DeliveryData>>()
     val insertDeliveryData: LiveData<List<DeliveryData>> = _insertDeliveryData
 
-
-
     // 배송지 삭제하기
     private val _deleteDeliveryData = MutableLiveData<Int>()
     val deleteDeliveryData: LiveData<Int> = _deleteDeliveryData
@@ -38,8 +36,8 @@ class DeliveryViewModel : ViewModel() {
 
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
-    private val _insertDataLoading = MutableLiveData<Boolean?>(null)
-    val insertDataLoading : LiveData<Boolean?> = _insertDataLoading
+    private val _dataLoading = MutableLiveData<Boolean?>(null)
+    val dataLoading : LiveData<Boolean?> = _dataLoading
 
 
     init {
@@ -50,7 +48,7 @@ class DeliveryViewModel : ViewModel() {
     }
 
     fun setdata(){
-        _insertDataLoading.value = null
+        _dataLoading.value = null
     }
 
     // userIdx로 가져온 배송지 정보 담기
@@ -103,10 +101,10 @@ class DeliveryViewModel : ViewModel() {
                     deliveryIdx
                 )
                 deliveryRepository.insertDeliveryData(sqDeliveryData)
-                _insertDataLoading.value = true
+                _dataLoading.value = true
             } else {
                 deliveryRepository.updateDeliveryData(deliveryDataList)
-                _insertDataLoading.value = true
+                _dataLoading.value = true
             }
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmInsertDeliveryData : ${e.message}")
@@ -121,6 +119,7 @@ class DeliveryViewModel : ViewModel() {
         try {
             val response = deliveryRepository.deleteDeliveryData(deliveryIdx)
             _deleteDeliveryData.value = response
+            _dataLoading.value = true
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmDeleteDeliveryData : ${e.message}")
         }

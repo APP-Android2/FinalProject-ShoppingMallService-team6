@@ -12,28 +12,28 @@ import android.widget.ArrayAdapter
 import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.map
-import androidx.lifecycle.viewModelScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentOrderMainBinding
-import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.ui.payment.adapter.OrderMainAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
-import kr.co.lion.unipiece.util.setImage
-import org.checkerframework.checker.units.qual.K
 
 
 class OrderMainFragment : Fragment() {
 
     lateinit var binding: FragmentOrderMainBinding
-    private val viewModel : DeliveryViewModel by viewModels()
-    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx",0)
+    private val viewModel: DeliveryViewModel by viewModels()
+    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
+
+    val deliveryIdx by lazy {
+        arguments?.getInt("deliveryIdx")
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -49,7 +49,6 @@ class OrderMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
-
 
 
     }
@@ -73,33 +72,80 @@ class OrderMainFragment : Fragment() {
             }
 
 
-
             // 처음 들어왔을 때 기본 배송지 세팅
             viewModel.getBasicDeliveryData.observe(viewLifecycleOwner) {
                 lifecycleScope.launch {
-                    if(it.size!=0){
-                        val deliveryName = it[0].deliveryName
-                        val deliveryPhone = it[0].deliveryPhone
-                        val deliveryAddress = it[0].deliveryAddress
-                        val deliveryAddressDetail = it[0].deliveryAddressDetail
-                        val basicMemo = it[0].deliveryMemo
 
-                        // 받는 이
-                        textViewOrderPersonName.text = deliveryName
-                        // 연락처
-                        textViewOrderPhone.text = deliveryPhone
-                        // 주소 (주소 + 상세주소)
-                        textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
 
-                        // 배송 메모 세팅
-                        with(spinnerOrderMainDeliveryMemo){
+                    // 데이터가 있다면
+                    if (it.isNotEmpty()) {
+                        // 배송지 관리에서 선택한 배송지정보로 세팅
+                        // deliveryIdx 값이 존재한다면 (배송지관리에서 선택하여 넘어왔다면)
+                        if (deliveryIdx != null) {
+                            // 배송지관리에서 선택한 데이터를 세팅한다.
+                            viewModel.getDeliveryDataByDeliveryIdx(deliveryIdx ?: 0)
+                            viewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) {
+                                val deliveryName = it[0].deliveryName
+                                val deliveryPhone = it[0].deliveryPhone
+                                val deliveryAddress = it[0].deliveryAddress
+                                val deliveryAddressDetail = it[0].deliveryAddressDetail
+                                val basicMemo = it[0].deliveryMemo
 
-                            val items = arrayOf(basicMemo, "문 앞", "경비실", "택배함", "선택 안함")
-                            val adapter =
-                                ArrayAdapter(context, android.R.layout.simple_spinner_dropdown_item, items)
-                            val spinner: Spinner = findViewById(R.id.spinnerOrderMainDeliveryMemo)
-                            spinner.adapter = adapter
+                                // 받는 이
+                                textViewOrderPersonName.text = deliveryName
+                                // 연락처
+                                textViewOrderPhone.text = deliveryPhone
+                                // 주소 (주소 + 상세주소)
+                                textViewOrderAddress.text =
+                                    "${deliveryAddress} ${deliveryAddressDetail}"
 
+                                // 배송 메모 세팅
+                                with(spinnerOrderMainDeliveryMemo) {
+
+                                    val items = arrayOf(basicMemo, "문 앞", "경비실", "택배함", "선택 안함")
+                                    val adapter =
+                                        ArrayAdapter(
+                                            context,
+                                            android.R.layout.simple_spinner_dropdown_item,
+                                            items
+                                        )
+                                    val spinner: Spinner =
+                                        findViewById(R.id.spinnerOrderMainDeliveryMemo)
+                                    spinner.adapter = adapter
+
+                                }
+                            }
+                            // deliveryIdx 값이 존재하지 않는다면 (배송지관리에서 받은 데이터가 없다면)
+                        } else {
+                            // 기본배송지를 세팅한다.
+                            val deliveryName = it[0].deliveryName
+                            val deliveryPhone = it[0].deliveryPhone
+                            val deliveryAddress = it[0].deliveryAddress
+                            val deliveryAddressDetail = it[0].deliveryAddressDetail
+                            val basicMemo = it[0].deliveryMemo
+
+                            // 받는 이
+                            textViewOrderPersonName.text = deliveryName
+                            // 연락처
+                            textViewOrderPhone.text = deliveryPhone
+                            // 주소 (주소 + 상세주소)
+                            textViewOrderAddress.text =
+                                "${deliveryAddress} ${deliveryAddressDetail}"
+
+                            // 배송 메모 세팅
+                            with(spinnerOrderMainDeliveryMemo) {
+
+                                val items = arrayOf(basicMemo, "문 앞", "경비실", "택배함", "선택 안함")
+                                val adapter =
+                                    ArrayAdapter(
+                                        context,
+                                        android.R.layout.simple_spinner_dropdown_item,
+                                        items
+                                    )
+                                val spinner: Spinner =
+                                    findViewById(R.id.spinnerOrderMainDeliveryMemo)
+                                spinner.adapter = adapter
+                            }
                         }
                     }
                 }
