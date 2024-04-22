@@ -57,7 +57,10 @@ class DeliveryAddFragment : Fragment() {
                 // 뒤로가기 버튼 클릭 시
                 setNavigationOnClickListener {
                     val supportFragmentManager = parentFragmentManager.beginTransaction()
-                    supportFragmentManager.replace(R.id.containerDelivery, DeliveryManagerFragment())
+                    supportFragmentManager.replace(
+                        R.id.containerDelivery,
+                        DeliveryManagerFragment()
+                    )
                         .addToBackStack(DeliveryFragmentName.DELIVERY_MANAGER_FRAGMENT.str)
                         .commit()
                 }
@@ -120,13 +123,14 @@ class DeliveryAddFragment : Fragment() {
                 setOnClickListener {
                     viewLifecycleOwner.lifecycleScope.launch {
                         val deliveryData = setInsertDeliveryData()
-                        viewModel.insertDeliveryData(deliveryData)
-
-                        viewModel.dataLoading.observe(viewLifecycleOwner) {
-                            // 데이터 삽입 작업이 완료되었을 때 호출됨
-                            if(it == true){
-                                viewModel.setdata()
-                                parentFragmentManager.popBackStack()
+                        with(viewModel) {
+                            insertDeliveryData(deliveryData)
+                            insertDataLoading.observe(viewLifecycleOwner) {
+                                // 데이터 삽입 작업이 완료되었을 때 호출됨
+                                if (it == true) {
+                                    viewModel.setInsertData()
+                                    parentFragmentManager.popBackStack()
+                                }
                             }
                         }
                     }

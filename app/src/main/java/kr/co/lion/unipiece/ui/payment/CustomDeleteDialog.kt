@@ -29,9 +29,9 @@ class CustomDeleteDialog(val title:String, val message:String) : DialogFragment(
             buttonCilckListener.okButtonClick()
         }
 
+
         binding.buttonNo.setOnClickListener {
             buttonCilckListener.noButtonClick()
-            dismiss()
         }
 
 
