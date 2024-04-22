@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.repository
 
 import kr.co.lion.unipiece.db.remote.LikePieceDataSource
+import kr.co.lion.unipiece.model.LikePieceData
 
 class LikePieceRepository {
 
@@ -13,4 +14,6 @@ class LikePieceRepository {
     suspend fun countLikePiece(pieceIdx: Int) = likePieceDataSource.countLikePiece(pieceIdx)
 
     suspend fun isLikePiece(pieceIdx: Int, userIdx: Int) = likePieceDataSource.isLikePiece(pieceIdx, userIdx)
+
+    suspend fun getUserLikedPiece(userIdx: Int): List<LikePieceData> = likePieceDataSource.getUserLikedPiece(userIdx)
 }
