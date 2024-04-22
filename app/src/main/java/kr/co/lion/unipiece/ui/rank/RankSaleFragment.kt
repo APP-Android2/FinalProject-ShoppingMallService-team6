@@ -45,28 +45,28 @@ class RankSaleFragment : Fragment() {
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.setLoading(true)
             viewModel.getAuthorInfoSale()
-
-            viewModel.authorSaleList.observe(viewLifecycleOwner) { value ->
-
-                val rankSaleAdapter =
-                    RankSaleAdapter(
-                        value,
-                        itemClickListener = { poisition ->
-                            val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
-                            intent.putExtra("authorIdx", value[poisition].authorIdx)
-                            startActivity(intent)
-                        }
-                    )
-
-                with(binding){
-                    rankSaleRV.adapter = rankSaleAdapter
-                    rankSaleRV.layoutManager = GridLayoutManager(activity, 2)
-                }
-
-                viewModel.setLoading(false)
-            }
         }
 
+        viewModel.authorSaleList.observe(viewLifecycleOwner) { value ->
+
+            val rankSaleAdapter =
+                RankSaleAdapter(
+                    value,
+                    itemClickListener = { poisition ->
+                        val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+                        intent.putExtra("authorIdx", value[poisition].authorIdx)
+                        startActivity(intent)
+                    }
+                )
+
+            with(binding){
+                rankSaleRV.adapter = rankSaleAdapter
+                rankSaleRV.layoutManager = GridLayoutManager(activity, 2)
+            }
+
+            viewModel.setLoading(false)
+        }
+        
     }
 
     fun setLoading(){
