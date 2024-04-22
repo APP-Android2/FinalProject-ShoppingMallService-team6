@@ -173,8 +173,10 @@ class RegisterAuthorFragment : Fragment() {
 
                 viewModel.insertAuthorInfo(userIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate){ sucess->
                     if (sucess){
-                        startActivity(Intent(requireActivity(), MainActivity::class.java))
-                        requireActivity().finish()
+                        Toast.makeText(requireActivity(), "작가 등록 신청이 완료되었습니다", Toast.LENGTH_SHORT).show()
+                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                        newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                        startActivity(newIntent)
                     }
                 }
             }
