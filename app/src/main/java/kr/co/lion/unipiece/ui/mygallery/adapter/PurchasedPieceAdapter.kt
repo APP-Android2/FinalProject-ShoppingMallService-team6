@@ -1,43 +1,57 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowPurchasedPieceBinding
+import kr.co.lion.unipiece.databinding.RowSalePieceBinding
+import kr.co.lion.unipiece.model.PieceAddInfoData
+import kr.co.lion.unipiece.model.PieceBuyInfoData
+import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.ui.mygallery.SalesApplicationActivity
+import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
-class PurchasedPieceAdapter (private val onItemClick: (position: Int) -> Unit): RecyclerView.Adapter<PurchasedPieceViewHolderClass>() {
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PurchasedPieceViewHolderClass {
-        val inflater = LayoutInflater.from(parent.context)
-        val binding = RowPurchasedPieceBinding.inflate(inflater, parent, false)
-        return PurchasedPieceViewHolderClass(binding, onItemClick)
+class PurchasedPieceAdapter (val pieceBuyInfoList: List<Pair<PieceBuyInfoData, PieceInfoData?>>, private val onItemClick: (Int) -> Unit) : RecyclerView.Adapter<PurchasedPieceViewHolderClass>() {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): PurchasedPieceViewHolderClass {
+        val inflater = LayoutInflater.from(viewGroup.context)
+        val binding = RowPurchasedPieceBinding.inflate(inflater, viewGroup, false)
+
+        return PurchasedPieceViewHolderClass(binding)
     }
 
     override fun getItemCount(): Int {
-        return 10
+        return pieceBuyInfoList.size
     }
 
     override fun onBindViewHolder(holder: PurchasedPieceViewHolderClass, position: Int) {
-        holder.bind(position)
+        holder.bind(pieceBuyInfoList[position], onItemClick)
     }
 }
 
-class PurchasedPieceViewHolderClass(private val binding: RowPurchasedPieceBinding, onItemClick: (position: Int) -> Unit) : RecyclerView.ViewHolder(binding.root) {
-    init {
-        binding.root.setOnClickListener {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                onItemClick(position)
+class PurchasedPieceViewHolderClass(private val binding: RowPurchasedPieceBinding) : RecyclerView.ViewHolder(binding.root) {
+    fun bind(pair: Pair<PieceBuyInfoData, PieceInfoData?>, onItemClick: (Int) -> Unit) {
+        val pieceBuyInfoData = pair.first
+        val pieceInfoData = pair.second
+
+        with(binding) {
+            textViewRowPurchasedPieceState.text = pieceBuyInfoData.pieceBuyState
+
+            if (pieceInfoData != null) {
+                val priceFormat = DecimalFormat("###,###")
+                val price = priceFormat.format(pieceInfoData.piecePrice)
+
+                textViewRowPurchasedPieceName.text = pieceInfoData.pieceName
+                textViewRowPurchasedPieceArtistName.text = pieceInfoData.authorName
+                textViewRowPurchasedPiecePrice.text = "${price}원"
+                root.context.setImage(imageViewRowPurchasedPiece, pieceInfoData.pieceImg)
             }
         }
 
-        binding.root.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
-
-    }
-
-    fun bind(position: Int) {
-        binding.textViewRowPurchasedPieceName.text = "$position"
+        binding.root.setOnClickListener {
+            onItemClick(adapterPosition)
+        }
     }
 }
