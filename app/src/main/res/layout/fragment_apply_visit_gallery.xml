@@ -1,162 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.mypage.ApplyVisitGalleryFragment">
+<layout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.google.android.material.appbar.MaterialToolbar
-        android:id="@+id/toolbarApplyVisitGallery"
+    <data>
+        <variable
+            name="viewModel"
+            type="kr.co.lion.unipiece.ui.mypage.viewmodel.ApplyVisitGalleryViewModel" />
+    </data>
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:background="@color/white"
-        android:minHeight="?attr/actionBarSize"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:theme="?attr/actionBarTheme"
-        app:titleTextAppearance="@style/Theme.Title.Toolbar" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.mypage.ApplyVisitGalleryFragment">
 
-    <TextView
-        android:id="@+id/textViewAvailableTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/lightgray"
-        android:padding="10dp"
-        android:text="방문 가능 시간대는 09:00 ~ 12:00, 13:00 ~ 17:00 입니다."
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/toolbarApplyVisitGallery"
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:background="@color/white"
+            android:minHeight="?attr/actionBarSize"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
+            android:theme="?attr/actionBarTheme"
+            app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/textViewAvailableTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
+            android:background="@color/lightgray"
+            android:padding="10dp"
+            android:text="방문 가능 시간대는 09:00 ~ 12:00, 13:00 ~ 17:00 입니다."
+            android:textSize="16sp"
+            android:textStyle="bold" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:hint="이름"
-                app:boxStrokeColor="@color/second"
-                app:cursorColor="@color/second"
-                app:hintTextColor="@color/second">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputApplyVisitGalleryName"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/textfield_radius"
-                    android:inputType="text"
-                    android:paddingLeft="10dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="16dp"
-                android:hint="휴대폰 번호"
-                app:boxStrokeColor="@color/second"
-                app:cursorColor="@color/second"
-                app:hintTextColor="@color/second">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/textInputApplyVisitGalleryPhoneNumber"
-                    android:layout_width="match_parent"
-                    android:layout_height="56dp"
-                    android:background="@drawable/textfield_radius"
-                    android:inputType="text|textPhonetic"
-                    android:paddingLeft="10dp" />
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/textViewApplyVisitGalleryMemberCount"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="방문 인원"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:padding="20dp">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutVisitorName"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="이름"
+                    app:boxStrokeColor="@color/second"
+                    app:cursorColor="@color/second"
+                    app:hintTextColor="@color/second">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputApplyVisitGalleryName"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/textfield_radius"
+                        android:inputType="text"
+                        android:paddingLeft="10dp"
+                        android:text="@={viewModel.visitAddData.visitorName}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/layoutVisitorPhoneNumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    android:hint="휴대폰 번호"
+                    app:boxStrokeColor="@color/second"
+                    app:cursorColor="@color/second"
+                    app:hintTextColor="@color/second">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputApplyVisitGalleryPhoneNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@drawable/textfield_radius"
+                        android:inputType="text|textPhonetic"
+                        android:paddingLeft="10dp"
+                        android:text="@={viewModel.visitAddData.visitorPhone}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textViewApplyVisitGalleryMemberCount"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="방문 인원"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:gravity="center_horizontal"
+                    android:orientation="vertical">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonMemberCountDown"
-                        style="@style/Widget.Material3.Button.IconButton.Filled"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginRight="8dp"
-                        android:theme="@style/Theme.Material3"
-                        app:backgroundTint="@color/first"
-                        app:cornerRadius="15dp"
-                        app:icon="@drawable/minus_icon" />
-
-                    <EditText
-                        android:id="@+id/editTextApplyVisitGalleryMemberCounter"
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:backgroundTint="#AC87C5"
-                        android:ems="2"
-                        android:inputType="number"
-                        android:maxLength="2"
-                        android:textAlignment="center" />
+                        android:orientation="horizontal">
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/buttonMemberCountUp"
-                        style="@style/Widget.Material3.Button.IconButton.Filled"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="8dp"
-                        android:theme="@style/Theme.Material3"
-                        app:backgroundTint="@color/first"
-                        app:cornerRadius="15dp"
-                        app:icon="@drawable/add_icon" />
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonMemberCountDown"
+                            style="@style/Widget.Material3.Button.IconButton.Filled"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginRight="8dp"
+                            android:theme="@style/Theme.Material3"
+                            app:backgroundTint="@color/first"
+                            app:cornerRadius="15dp"
+                            app:icon="@drawable/minus_icon" />
 
+                        <EditText
+                            android:id="@+id/editTextApplyVisitGalleryMemberCounter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:backgroundTint="#AC87C5"
+                            android:ems="2"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:textAlignment="center"
+                            android:text="@={viewModel.visitAddData.visitorNumber}" />
+
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/buttonMemberCountUp"
+                            style="@style/Widget.Material3.Button.IconButton.Filled"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="8dp"
+                            android:theme="@style/Theme.Material3"
+                            app:backgroundTint="@color/first"
+                            app:cornerRadius="15dp"
+                            app:icon="@drawable/add_icon" />
+
+                    </LinearLayout>
                 </LinearLayout>
+
+                <TextView
+                    android:id="@+id/textViewApplyVisitGalleryDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="32dp"
+                    android:text="방문 날짜"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/buttonDatePicker"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/textfield_radius"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:text="@{viewModel.isEmpty()?`방문 날짜 선택`:viewModel.visitAddData.timestampToString()}"
+                    android:textSize="18sp" />
+
+                <Button
+                    android:id="@+id/buttonApplyVisitGalleryConfirm"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="64dp"
+                    android:background="@drawable/button_radius"
+                    android:text="신청 완료"
+                    android:textColor="@color/white"
+                    android:textSize="18sp" />
             </LinearLayout>
-
-            <TextView
-                android:id="@+id/textViewApplyVisitGalleryDate"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:text="방문 날짜"
-                android:textSize="18sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/buttonDatePicker"
-                android:layout_width="match_parent"
-                android:layout_height="56dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/textfield_radius"
-                android:gravity="center_horizontal|center_vertical"
-                android:text="방문 날짜 선택"
-                android:textSize="18sp" />
-
-            <Button
-                android:id="@+id/buttonApplyVisitGalleryConfirm"
-                android:layout_width="match_parent"
-                android:layout_height="40dp"
-                android:layout_marginTop="64dp"
-                android:background="@drawable/button_radius"
-                android:text="신청 완료"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-        </LinearLayout>
-    </ScrollView>
-</LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+</layout>
