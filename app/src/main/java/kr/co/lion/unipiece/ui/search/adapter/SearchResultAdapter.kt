@@ -13,7 +13,7 @@ import kr.co.lion.unipiece.model.SearchResultData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType.*
 
 class SearchResultAdapter(
-    private val itemClickListener: (SearchResultData) -> Unit )
+    private val itemClickListener: (Int) -> Unit )
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         private var items = ArrayList<SearchResultData>()
@@ -21,8 +21,7 @@ class SearchResultAdapter(
         return when(viewType) {
             R.layout.title_search_author -> {
                 TitleAuthorViewHolder(TitleSearchAuthorBinding.inflate(LayoutInflater.from(parent.context),
-                    parent, false),
-                    itemClickListener
+                    parent, false)
                 )
             }
             R.layout.item_search_author -> {
@@ -32,8 +31,8 @@ class SearchResultAdapter(
             }
             R.layout.title_search_piece -> {
                 TitlePieceViewHolder(TitleSearchPieceBinding.inflate(LayoutInflater.from(parent.context),
-                    parent, false),
-                    itemClickListener)
+                    parent, false)
+                )
             }
             else -> {
                 SearchPieceViewHolder(ItemSearchPieceBinding.inflate(LayoutInflater.from(parent.context),
@@ -70,9 +69,4 @@ class SearchResultAdapter(
         PIECE_CONTENT -> R.layout.item_search_piece
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun setData(list: ArrayList<SearchResultData>){
-        items = list
-        notifyDataSetChanged()
-    }
 }

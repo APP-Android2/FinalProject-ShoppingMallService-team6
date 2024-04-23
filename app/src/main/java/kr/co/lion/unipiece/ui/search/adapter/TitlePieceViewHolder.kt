@@ -6,8 +6,7 @@ import kr.co.lion.unipiece.databinding.TitleSearchPieceBinding
 import kr.co.lion.unipiece.model.SearchResultData
 
 class TitlePieceViewHolder (
-    private val binding: TitleSearchPieceBinding,
-    private val itemClickListener: (SearchResultData) -> Unit
+    private val binding: TitleSearchPieceBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
     val title = binding.searchPieceTitle
@@ -20,9 +19,6 @@ class TitlePieceViewHolder (
             title.visibility = View.VISIBLE
         }
 
-        binding.root.setOnClickListener {
-
-        }
     }
 
 }
