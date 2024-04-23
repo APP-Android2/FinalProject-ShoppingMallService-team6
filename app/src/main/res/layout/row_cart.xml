@@ -41,10 +41,10 @@
                 android:padding="10dp">
 
                 <TextView
-                    android:id="@+id/textViewRowCart"
+                    android:id="@+id/textViewRowCartPieceName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=""
+                    android:text="작품 이름"
 
                     android:textSize="20dp"
                     app:layout_constraintStart_toStartOf="parent"
@@ -65,7 +65,7 @@
                     android:text="작가 이름"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textViewRowCart" />
+                    app:layout_constraintTop_toBottomOf="@+id/textViewRowCartPieceName" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </LinearLayout>
