@@ -107,35 +107,4 @@ class AuthorInfoViewModel: ViewModel() {
         authorInfoRepository.updateAuthorFollow(authorIdx, countFollow)
     }
 
-    fun insertAuthorInfo(
-        userIdx: Int, authorImg: String, authorName:String, authorBasic:String, authorInfo:String,
-        authorSale:Int, authorDate:Timestamp, authorFollow:Int ,callback:(Boolean) -> Unit
-    ){
-        viewModelScope.launch {
-            val authorSequence = authorInfoRepository.getAuthorSequence()
-
-            authorInfoRepository.updateAuthorSequence(authorSequence + 1)
-
-            val authorIdx = authorSequence + 1
-
-            val authorInfoData = AuthorInfoData(userIdx, authorIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate, authorFollow)
-
-            val success = withContext(Dispatchers.IO){
-                try {
-                    authorInfoRepository.insertAuthorInfoData(authorInfoData)
-                    true
-                }catch (e:Exception){
-                    false
-                }
-            }
-            callback(success)
-
-        }
-    }
-
-    //이미지 업로드
-    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String){
-        return authorInfoRepository.uploadImageByApp(context, fileName, uploadFileName)
-    }
-
 }

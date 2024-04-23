@@ -62,6 +62,4 @@ class AuthorInfoRepository {
     suspend fun updateAuthorFollow(authorIdx: Int, authorFollow: Int) = authorInfoDataSource.updateAuthorFollow(authorIdx, authorFollow)
 
 
-    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String) = authorInfoDataSource.uploadImageByApp(context, fileName, uploadFileName)
-
 }

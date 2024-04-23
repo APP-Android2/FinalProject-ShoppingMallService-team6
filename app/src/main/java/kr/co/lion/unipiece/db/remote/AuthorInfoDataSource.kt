@@ -323,19 +323,4 @@ class AuthorInfoDataSource {
             Log.e("Firebase Error", "Error updating pieceLike: ${e.message}")
         }
     }
-
-
-    //이미지 데이터를 firebase storage에 업로드하는 메서드
-    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String){
-        val path = context.getExternalFilesDir(null).toString()
-        //서버에 업로드할 파일의 경로
-        val file = File("${path}/${fileName}")
-        val uri = Uri.fromFile(file)
-
-        val job1 = CoroutineScope(Dispatchers.IO).launch {
-            val storageRef = storage.child("AuthorInfo/${uploadFileName}")
-            storageRef.putFile(uri)
-        }
-        job1.join()
-    }
 }

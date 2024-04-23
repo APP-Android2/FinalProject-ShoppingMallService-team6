@@ -25,6 +25,7 @@ import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentRegisterAuthorBinding
 import kr.co.lion.unipiece.ui.MainActivity
+import kr.co.lion.unipiece.ui.author.viewmodel.AuthorAddViewModel
 import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.util.AddAuthorFragmentName
 import kr.co.lion.unipiece.util.CustomDialog
@@ -43,7 +44,7 @@ class RegisterAuthorFragment : Fragment() {
 
     lateinit var imageLauncher:ActivityResultLauncher<Intent>
 
-    val viewModel: AuthorInfoViewModel by viewModels()
+    val viewModel: AuthorAddViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -162,24 +163,33 @@ class RegisterAuthorFragment : Fragment() {
         //서버에서의 첨부 이미지 이름
         fragmentRegisterAuthorBinding.apply {
             viewLifecycleOwner.lifecycleScope.launch {
-                var serverName:String? = null
+                //첨부파일
+                var fileServerName:String? = null
 
-                fragmentRegisterAuthorBinding.imageView3.saveAsImage(requireActivity(), "authorInfo")
-                serverName = "authorInfo_${System.currentTimeMillis()}.jpg"
+                fragmentRegisterAuthorBinding.imageView3.saveAsImage(requireActivity(), "authorFile")
+                fileServerName = "authorFile_${System.currentTimeMillis()}.jpg"
 
-                viewModel.uploadImageByApp(requireActivity(), "authorInfo", serverName)
+                viewModel.uploadFileByApp(requireActivity(), "authorFile", fileServerName)
+
+                //프로필 이미지
+                var imageServerName:String? = null
+
+                fragmentRegisterAuthorBinding.imageView4.saveAsImage(requireActivity(), "authorImage")
+                imageServerName = "authorImage_${System.currentTimeMillis()}.jpg"
+
+                viewModel.uploadImageByApp(requireActivity(), "authorImage", imageServerName)
+
 
                 //업로드 할 정보를 담아준다
                 val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", -1)
-                val authorImg = serverName
+                val authorFile = fileServerName
                 val authorName = textRegisterName.text.toString()
-                val authorBasic = textRegisterUni.text.toString()
-                val authorInfo = textRegisterMajor.text.toString()
-                val authorSale = 0
-                val authorDate = Timestamp.now()
-                val authorFollow = 0
+                val authorMajor = textRegisterMajor.text.toString()
+                val authorUni = textRegisterUni.text.toString()
+                val authorInfo = ""
+                val authorImg = imageServerName
 
-                viewModel.insertAuthorInfo(userIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate, authorFollow){ sucess->
+                viewModel.insertAuthorInfo(userIdx, authorFile, authorName, authorMajor, authorInfo, authorUni, authorImg){ sucess->
                     if (sucess){
                         val dialog = CustomDialog("작가 등록 신청 완료", "작가 등록이 신청되었습니다\n등록 완료 시까지 1 ~ 2일 소요됩니다")
                         dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
@@ -236,6 +246,8 @@ class RegisterAuthorFragment : Fragment() {
 
                     })
                     dialog.show(parentFragmentManager, "CustomDialog")
+                }else{
+                    saveAuthorInfo()
                 }
             }
         }

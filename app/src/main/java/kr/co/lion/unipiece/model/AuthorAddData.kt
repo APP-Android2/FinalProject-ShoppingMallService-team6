@@ -1,7 +1,7 @@
 package kr.co.lion.unipiece.model
 
 data class AuthorAddData (
-    var userIdx:String = "",
+    var userIdx:Int = 0,
     var authorFile:String = "",
     var authorName:String = "",
     var authorMajor:String = "",
