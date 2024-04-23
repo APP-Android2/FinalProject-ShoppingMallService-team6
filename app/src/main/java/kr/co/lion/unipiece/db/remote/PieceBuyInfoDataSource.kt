@@ -7,6 +7,7 @@ import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import com.google.firebase.storage.storage
 import kotlinx.coroutines.tasks.await
+import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.model.PieceBuyInfoData
 import java.util.UUID
 
@@ -25,6 +26,20 @@ class PieceBuyInfoDataSource {
             querySnapshot.toObjects(PieceBuyInfoData::class.java)
         } catch (e: Exception) {
             emptyList()
+        }
+    }
+
+    // pieceBuyIdx로 구매한 작품 정보 가져오기
+    suspend fun getPieceBuyInfoByPieceBuyIdx(pieceBuyIdx: Int): PieceBuyInfoData? {
+        return try {
+            val querySnapshot = db.whereEqualTo("pieceBuyIdx", pieceBuyIdx)
+                .get()
+                .await()
+
+            querySnapshot.documents.first()?.toObject(PieceBuyInfoData::class.java)
+        } catch (e: Exception) {
+            Log.e("getPieceBuyInfoByPieceBuyIdx", "${e.message}")
+            null
         }
     }
 

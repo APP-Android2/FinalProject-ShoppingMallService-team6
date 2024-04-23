@@ -11,6 +11,10 @@ class PieceBuyInfoRepository {
         return pieceBuyInfoDataSource.getPieceBuyInfo(userIdx)
     }
 
+    suspend fun getPieceBuyInfoByPieceBuyIdx(pieceBuyIdx: Int): PieceBuyInfoData? {
+        return pieceBuyInfoDataSource.getPieceBuyInfoByPieceBuyIdx(pieceBuyIdx)
+    }
+
     suspend fun updatePieceBuyCancel(pieceBuyInfoData: PieceBuyInfoData): Boolean {
         return pieceBuyInfoDataSource.updatePieceBuyCancel(pieceBuyInfoData)
     }
