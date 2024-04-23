@@ -134,9 +134,16 @@ class PurchasedPieceDetailFragment : Fragment() {
         val supportFragmentManager = parentFragmentManager.beginTransaction()
         binding.apply {
             buttonPurchasedPieceDetailOrderCancel.setOnClickListener {
-            supportFragmentManager.replace(R.id.containerPurchasedPieceDetail, PurchaseCancelFragment())
-                .addToBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str)
-                .commit()
+                val bundle = Bundle()
+                bundle.putInt("pieceIdx", pieceIdx)
+                bundle.putInt("pieceBuyIdx", pieceBuyIdx)
+
+                val fragment = PurchaseCancelFragment()
+                fragment.arguments = bundle
+
+                supportFragmentManager.replace(R.id.containerPurchasedPieceDetail, fragment)
+                    .addToBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str)
+                    .commit()
             }
 
             buttonPurchasedPieceDetailRefund.setOnClickListener {
