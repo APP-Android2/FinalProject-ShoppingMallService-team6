@@ -76,10 +76,10 @@ class RefundViewModel : ViewModel() {
         }
     }
 
-    fun uploadImage(userIdx: Int, imageUri: Uri) {
+    fun uploadImage(pieceBuyIdx: Int, imageUri: Uri) {
         viewModelScope.launch {
             try {
-                val fileName = pieceBuyInfoRepository.uploadRefundImage(userIdx, imageUri)
+                val fileName = pieceBuyInfoRepository.uploadRefundImage(pieceBuyIdx, imageUri)
                 _uploadImageResult.value = fileName
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")

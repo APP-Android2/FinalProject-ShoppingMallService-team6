@@ -47,7 +47,6 @@ class RefundFragment : Fragment() {
 
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
-    val userIdxPref = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
     private var pieceIdx = 0
     private var pieceBuyIdx = 0
     private var isAddPicture = false
@@ -165,7 +164,7 @@ class RefundFragment : Fragment() {
 
                             lifecycleScope.launch {
                                 selectedImageUri?.let { imageUri ->
-                                    viewModel.uploadImage(userIdxPref, imageUri)
+                                    viewModel.uploadImage(pieceBuyIdx, imageUri)
                                 }
 
                                 viewModel.uploadImageResult.observe(viewLifecycleOwner) { imageFileName ->

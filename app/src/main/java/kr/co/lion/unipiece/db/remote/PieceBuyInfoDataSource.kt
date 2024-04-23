@@ -94,9 +94,9 @@ class PieceBuyInfoDataSource {
     }
 
     // 반품 신청 이미지 저장
-    fun uploadRefundImage(userIdx: Int, imageUri: Uri): String {
+    fun uploadRefundImage(pieceBuyIdx: Int, imageUri: Uri): String {
         val imageFileName = "${UUID.randomUUID()}.jpg"
-        val imageRef = storageRef.child("pieceBuyInfo/${userIdx}/${imageFileName}")
+        val imageRef = storageRef.child("pieceBuyInfo/${pieceBuyIdx}/${imageFileName}")
 
         imageRef.putFile(imageUri)
 
