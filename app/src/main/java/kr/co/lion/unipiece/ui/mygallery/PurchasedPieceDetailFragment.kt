@@ -28,6 +28,9 @@ class PurchasedPieceDetailFragment : Fragment() {
 
     private var pieceIdx = 0
     private var pieceBuyIdx = 0
+    private var isCancel = false
+    private var isRefund = false
+    private var isRefundDone = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPurchasedPieceDetailBinding.inflate(inflater, container, false)
@@ -46,19 +49,62 @@ class PurchasedPieceDetailFragment : Fragment() {
                 binding.progressBarPurchasedPieceDetail.isVisible = true
             } else {
                 binding.progressBarPurchasedPieceDetail.isVisible = false
+
+                settingView()
             }
         }
 
+        initData()
         initView()
         settingPieceBuyInfo()
         settingToolbar()
-        settingRefundApprovalView()
         settingButtons()
     }
 
-    private fun initView() {
+    private fun initData() {
         lifecycleScope.launch {
             viewModel.getPieceBuyInfoByPieceBuyIdx(pieceIdx, pieceBuyIdx)
+        }
+    }
+
+    private fun initView() {
+        binding.apply {
+            linearLayoutPurchaseCancel.isVisible = false
+            dividerPurchaseCancel.isVisible = false
+            linearLayoutRefundApproval.isVisible = false
+            dividerRefundApproval.isVisible = false
+        }
+    }
+
+    private fun settingView() {
+        isCancel = if(viewModel.pieceBuyState.value == "주문 취소") true else false
+        isRefund = if(viewModel.pieceBuyState.value == "반품 승인") true else false
+        isRefundDone = if(viewModel.pieceBuyState.value == "반품 완료") true else false
+
+        binding.apply {
+            if(isCancel) {
+                linearLayoutPurchaseCancel.isVisible = true
+                dividerPurchaseCancel.isVisible = true
+            }
+
+            if(isRefund || isRefundDone) {
+                linearLayoutRefundApproval.isVisible = true
+                dividerRefundApproval.isVisible = true
+            }
+
+            val isCancelAvailable = viewModel.pieceBuyState.value == "결제 대기"
+                    || viewModel.pieceBuyState.value == "결제 완료"
+                    || viewModel.pieceBuyState.value == "배송 준비 중"
+            buttonPurchasedPieceDetailOrderCancel.isEnabled = isCancelAvailable
+            if (!isCancelAvailable) {
+                buttonPurchasedPieceDetailOrderCancel.setBackgroundResource(R.drawable.button_radius_inactive)
+            }
+
+            val isRefundAvailable = viewModel.pieceBuyState.value == "배송 완료"
+            buttonPurchasedPieceDetailRefund.isEnabled = isRefundAvailable
+            if (!isRefundAvailable) {
+                buttonPurchasedPieceDetailRefund.setBackgroundResource(R.drawable.button_radius_inactive)
+            }
         }
     }
 
@@ -120,13 +166,10 @@ class PurchasedPieceDetailFragment : Fragment() {
             binding.textViewPurchasedPieceDetailPaymentMethod.text = pair.first?.pieceBuyMethod
             binding.textViewPurchasedPieceDetailPaymentMethodPrice.text = "${pieceBuyTotalPrice}원"
             requireActivity().setImage(binding.imageViewPurchasedPieceDetail, pair.second?.pieceImg)
-        }
-    }
 
-    private fun settingRefundApprovalView() {
-        binding.apply {
-            linearLayoutRefundApproval.isVisible = false
-            dividerRefundApproval.isVisible = false
+            if(isCancel) {
+                binding.textViewPurchaseCancel.text = pair.first?.pieceBuyCancel
+            }
         }
     }
 

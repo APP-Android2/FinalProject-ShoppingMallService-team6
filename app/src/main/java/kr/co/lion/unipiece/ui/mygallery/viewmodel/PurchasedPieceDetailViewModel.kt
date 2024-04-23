@@ -18,6 +18,9 @@ class PurchasedPieceDetailViewModel : ViewModel() {
     private val _pieceBuyInfoData = MutableLiveData<Pair<PieceBuyInfoData?, PieceInfoData?>>()
     val pieceBuyInfoData : LiveData<Pair<PieceBuyInfoData?, PieceInfoData?>> = _pieceBuyInfoData
 
+    private val _pieceBuyState = MutableLiveData<String>()
+    val pieceBuyState: LiveData<String> = _pieceBuyState
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -31,6 +34,10 @@ class PurchasedPieceDetailViewModel : ViewModel() {
                 val resultData: Pair<PieceBuyInfoData?, PieceInfoData?> = Pair(pieceBuyInfoData, pieceInfoData)
 
                 _pieceBuyInfoData.value = resultData
+
+                _pieceBuyState.value = resultData.first?.pieceBuyState
+
+                Log.d("test1234", "${_pieceBuyInfoData.value?.first?.pieceBuyState}")
 
                 _isLoading.value = false
 
