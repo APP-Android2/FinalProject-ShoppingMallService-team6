@@ -68,6 +68,26 @@ class RefundViewModel : ViewModel() {
         }
     }
 
+    suspend fun updatePieceBuyRefund(pieceBuyInfoData: PieceBuyInfoData): Boolean {
+        return try {
+            pieceBuyInfoRepository.updatePieceBuyRefund(pieceBuyInfoData)
+        } catch (throwable: Throwable) {
+            false
+        }
+    }
+
+    fun uploadImage(userIdx: Int, imageUri: Uri) {
+        viewModelScope.launch {
+            try {
+                val fileName = pieceBuyInfoRepository.uploadRefundImage(userIdx, imageUri)
+                _uploadImageResult.value = fileName
+            } catch (throwable: Throwable) {
+                Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")
+                _uploadImageResult.value = null
+            }
+        }
+    }
+
     private suspend fun getPieceAddInfoImage(pieceIdx: String, pieceImg: String): String? {
         return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)
     }
