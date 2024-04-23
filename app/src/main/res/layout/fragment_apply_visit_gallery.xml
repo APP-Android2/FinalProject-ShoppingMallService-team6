@@ -26,15 +26,24 @@
             android:theme="?attr/actionBarTheme"
             app:titleTextAppearance="@style/Theme.Title.Toolbar" />
 
-        <TextView
-            android:id="@+id/textViewAvailableTime"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/lightgray"
-            android:padding="10dp"
-            android:text="방문 가능 시간대는 09:00 ~ 12:00, 13:00 ~ 17:00 입니다."
-            android:textSize="16sp"
-            android:textStyle="bold" />
+            android:background="@color/lightgray">
+
+            <TextView
+                android:id="@+id/textViewAvailableTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:ellipsize="marquee"
+                android:marqueeRepeatLimit="marquee_forever"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:text="방문 가능 시간대는 09:00 ~ 12:00, 13:00 ~ 17:00 입니다."
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
 
         <ProgressBar
             android:id="@+id/progressBarApplyVisit"
