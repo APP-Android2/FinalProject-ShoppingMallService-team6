@@ -4,19 +4,26 @@ import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
 import android.os.SystemClock
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentPurchaseCancelBinding
+import kr.co.lion.unipiece.model.PieceAddInfoData
+import kr.co.lion.unipiece.model.PieceBuyInfoData
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.PurchaseCancelViewModel
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.PurchasedPieceDetailFragmentName
@@ -61,6 +68,7 @@ class PurchaseCancelFragment : Fragment() {
         settingToolbar()
         settingTextFieldPurchaseCancelReason()
         settingButtonPurchaseCancel()
+        setupErrorHandling()
     }
 
     private fun initData() {
@@ -127,19 +135,85 @@ class PurchaseCancelFragment : Fragment() {
     private fun settingButtonPurchaseCancel() {
         binding.apply {
             buttonPurchaseCancel.setOnClickListener {
-                val dialog = CustomDialog("주문 취소", "취소하면 되돌일 수 없습니다.\n취소하시겠습니까?")
+                if(isFormValid()) {
+                    val dialog = CustomDialog("주문 취소", "취소하면 되돌일 수 없습니다.\n취소하시겠습니까?")
 
-                dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
-                    override fun okButtonClick() {
-                        parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-                    }
+                    dialog.setButtonClickListener(object: CustomDialog.OnButtonClickListener{
+                        override fun okButtonClick() {
+                            val purchaseCancelData = createPurchaseCancelData()
 
-                    override fun noButtonClick() {
-                    }
-                })
+                            lifecycleScope.launch {
+                                val isSuccess = viewModel.updatePieceBuyCancel(purchaseCancelData)
 
-                dialog.show(requireActivity().supportFragmentManager, "CustomDialog")
+                                if(isSuccess) {
+                                    Snackbar.make(requireView(), "주문 취소가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                                    parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                                } else {
+                                    Snackbar.make(requireView(), "네트워크 오류로 주문 취소를 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+
+                        override fun noButtonClick() {
+                        }
+                    })
+
+                    dialog.show(requireActivity().supportFragmentManager, "CustomDialog")
+                }
             }
+        }
+    }
+
+    fun createPurchaseCancelData(): PieceBuyInfoData {
+        val pieceBuyState = "주문 취소"
+        val pieceBuyName = ""
+        val pieceBuyPhone = ""
+        val pieceBuyAddress = ""
+        val pieceBuyMemo = ""
+        val pieceBuyCo = ""
+        val pieceBuySendNum = ""
+        val pieceBuyPrice = 0
+        val pieceBuySendPrice = 0
+        val pieceBuyTotalPrice = 0
+        val pieceBuyMethod = ""
+        val pieceBuyCancel = binding.textFieldPurchaseCancelReason.text.toString()
+        val pieceBuyRefund = ""
+        val pieceBuyDetailRefund = ""
+        val pieceBuyImg = ""
+        val pieceBuyDate = Timestamp.now()
+        val pieceBuyIdx = pieceBuyIdx
+        val pieceIdx = 0
+        val userIdx = 0
+
+        return PieceBuyInfoData(
+            pieceBuyState, pieceBuyName, pieceBuyPhone, pieceBuyAddress, pieceBuyMemo,
+            pieceBuyCo, pieceBuySendNum, pieceBuyPrice, pieceBuySendPrice, pieceBuyTotalPrice,
+            pieceBuyMethod, pieceBuyCancel, pieceBuyRefund, pieceBuyDetailRefund,
+            pieceBuyImg, pieceBuyDate, pieceBuyIdx, pieceIdx, userIdx)
+    }
+
+    private fun isFormValid(): Boolean {
+        var isValid = true
+
+        binding.apply {
+            if (textFieldPurchaseCancelReason.text.isNullOrBlank()) {
+                textInputLayoutPurchaseCancelReason.error = "취소 사유를 선택해주세요."
+                isValid = false
+            }
+        }
+
+        return isValid
+    }
+
+    private fun setupErrorHandling() {
+        binding.apply {
+            textFieldPurchaseCancelReason.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                    textInputLayoutPurchaseCancelReason.isErrorEnabled = false
+                }
+                override fun afterTextChanged(s: Editable?) {}
+            })
         }
     }
 }
