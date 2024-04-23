@@ -264,9 +264,10 @@
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/textFieldRefundDetailReason"
                             android:layout_width="match_parent"
-                            android:layout_height="56dp"
+                            android:layout_height="150dp"
                             android:background="@drawable/textfield_radius"
                             android:fontFamily="@font/pretendard_regular"
+                            android:gravity="top"
                             android:inputType="text|textMultiLine"
                             tools:ignore="SpeakableTextPresentCheck" />
                     </com.google.android.material.textfield.TextInputLayout>
