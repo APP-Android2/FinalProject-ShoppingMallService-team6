@@ -35,6 +35,36 @@
         android:textColorHint="@color/lightgray"
         android:textSize="12sp" />
 
+    <ProgressBar
+        android:id="@+id/searchLoading"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:indeterminateTint="@color/first" />
+
+    <ImageView
+        android:id="@+id/searchImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="-65dp"
+        android:src="@drawable/search_icon"
+        android:layout_gravity="center"
+        app:tint="@color/second"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/searchTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:fontFamily="@font/pretendard_medium"
+        android:text="검색어가 없습니다."
+        android:textColor="@color/black"
+        android:textSize="16sp"
+        android:layout_gravity="center"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchResultRV"
         android:layout_width="match_parent"

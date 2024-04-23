@@ -12,11 +12,11 @@ import kr.co.lion.unipiece.databinding.TitleSearchPieceBinding
 import kr.co.lion.unipiece.model.SearchResultData
 import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType.*
 
-class SearchResultAdapter(
-    private val itemClickListener: (Int) -> Unit )
+class SearchResultAdapter(private val items : List<SearchResultData>,
+    private val itemClickListener: (Int) -> Unit)
     : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-        private var items = ArrayList<SearchResultData>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when(viewType) {
             R.layout.title_search_author -> {

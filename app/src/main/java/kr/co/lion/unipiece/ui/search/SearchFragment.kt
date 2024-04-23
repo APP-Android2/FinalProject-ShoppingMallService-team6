@@ -8,15 +8,29 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
+import android.widget.SearchView
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSearchBinding
+import kr.co.lion.unipiece.model.SearchResultData
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.CartActivity
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultAdapter
+import kr.co.lion.unipiece.ui.search.adapter.SearchResultViewType
+import kr.co.lion.unipiece.ui.search.viewmodel.SearchViewModel
 import kr.co.lion.unipiece.util.hideSoftInput
 import kr.co.lion.unipiece.util.setMenuIconColor
 
 class SearchFragment : Fragment() {
 
     lateinit var binding: FragmentSearchBinding
+
+    private val viewModel: SearchViewModel by viewModels()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -29,7 +43,79 @@ class SearchFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         settingToolbarSearch()
+        initView()
         search()
+        setLoading()
+    }
+
+    fun initView() {
+
+        viewModel.searchList.observe(viewLifecycleOwner){ value ->
+
+            if(value.size > 0){
+                val searchResultAdapter =
+                    SearchResultAdapter(
+                        value,
+                        itemClickListener = {position ->
+                            moveToPage(value[position].viewType, value[position])
+                        }
+                    )
+
+                with(binding){
+                    searchLoading.visibility = View.GONE
+                    searchImageView.visibility = View.GONE
+                    searchTextView.visibility = View.GONE
+                    searchResultRV.visibility = View.VISIBLE
+
+                    searchResultRV.adapter = searchResultAdapter
+                    searchResultRV.layoutManager = GridLayoutManager(activity, 2)
+                }
+
+            } else {
+                with(binding){
+                    searchLoading.visibility = View.GONE
+                    searchImageView.visibility = View.VISIBLE
+                    searchTextView.visibility = View.VISIBLE
+                    searchTextView.text = "검색 결과가 없습니다"
+                    searchResultRV.visibility = View.GONE
+                }
+            }
+            viewModel.setLoading(false)
+        }
+    }
+
+    fun setLoading(){
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.loading.observe(viewLifecycleOwner) { value ->
+                if (value == true) {
+                    binding.searchResultRV.scrollToPosition(0)
+                    binding.searchLoading.visibility = View.VISIBLE
+                    binding.searchImageView.visibility = View.GONE
+                    binding.searchTextView.visibility = View.GONE
+                    binding.searchResultRV.visibility = View.GONE
+
+                } else {
+                    binding.searchLoading.visibility = View.GONE
+                }
+            }
+        }
+    }
+
+    fun moveToPage(viewType: SearchResultViewType, data: SearchResultData) {
+        if(viewType == SearchResultViewType.PIECE_CONTENT){
+            val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
+            val pieceIdx = data.searchPieceData.pieceIdx
+            val authorIdx = data.searchPieceData.authorIdx
+            intent.putExtra("pieceIdx", pieceIdx)
+            intent.putExtra("authorIdx", authorIdx)
+            startActivity(intent)
+        }
+        if(viewType == SearchResultViewType.AUTHOR_CONTENT){
+            val intent = Intent(requireActivity(), AuthorInfoActivity::class.java)
+            val idx = data.searchAuthorData.authorIdx
+            intent.putExtra("authorIdx", idx)
+            startActivity(intent)
+        }
     }
 
     fun settingToolbarSearch(){
@@ -56,29 +142,34 @@ class SearchFragment : Fragment() {
 
     fun search(){
         with(binding){
-            var handled = false
-
-            searchBar.setOnEditorActionListener { textView, action, Event ->
-                if(action == EditorInfo.IME_ACTION_SEARCH){
-                    val fragmentManager = parentFragmentManager.beginTransaction()
-                    fragmentManager.replace(R.id.fl_container, SearchResultFragment()).addToBackStack("SearchResultFragment").commit()
-                    handled = true
-                    requireActivity().hideSoftInput()
-                }
-                handled
+            searchBar.setOnEditorActionListener { _, action, _ ->
+                if (action == EditorInfo.IME_ACTION_SEARCH) {
+                    startSearch()
+                    true
+                } else false
             }
 
             searchBar.setOnTouchListener { view, event ->
-                if(event.action == MotionEvent.ACTION_UP) {
-                    val touchArea = searchBar.right - searchBar.compoundDrawables[2].bounds.width() - 50
-                    if(event.rawX >= touchArea) {
-                        val fragmentManager = parentFragmentManager.beginTransaction()
-                        fragmentManager.replace(R.id.fl_container, SearchResultFragment()).addToBackStack("SearchResultFragment").commit()
-                        requireActivity().hideSoftInput()
-                        handled = true
+                if (event.action == MotionEvent.ACTION_UP) {
+                    searchBar.compoundDrawables[2]?.let {
+                        val touchArea = searchBar.right - it.bounds.width() - 50
+                        if (event.rawX >= touchArea) {
+                            startSearch()
+                            return@setOnTouchListener true
+                        }
                     }
                 }
-                handled
+                false
+            }
+        }
+    }
+
+    fun startSearch() {
+        requireActivity().hideSoftInput()
+        viewModel.setLoading(true)
+        viewModel.search(binding.searchBar.text.toString()) { success ->
+            if (success) {
+                viewModel.setLoading(false)
             }
         }
     }
