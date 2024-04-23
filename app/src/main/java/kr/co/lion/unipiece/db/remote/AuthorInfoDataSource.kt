@@ -333,7 +333,7 @@ class AuthorInfoDataSource {
         val uri = Uri.fromFile(file)
 
         val job1 = CoroutineScope(Dispatchers.IO).launch {
-            val storageRef = storage.child("authorInfo/${uploadFileName}")
+            val storageRef = storage.child("AuthorInfo/${uploadFileName}")
             storageRef.putFile(uri)
         }
         job1.join()
