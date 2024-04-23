@@ -133,6 +133,7 @@ class AuthorInfoViewModel: ViewModel() {
         }
     }
 
+    //이미지 업로드
     suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String){
         return authorInfoRepository.uploadImageByApp(context, fileName, uploadFileName)
     }
