@@ -11,15 +11,12 @@ import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.PieceBuyInfoRepository
 import kr.co.lion.unipiece.repository.PieceInfoRepository
 
-class PurchasedPieceDetailViewModel : ViewModel() {
+class PurchaseCancelViewModel : ViewModel() {
     private val pieceBuyInfoRepository = PieceBuyInfoRepository()
     private val pieceInfoRepository = PieceInfoRepository()
 
     private val _pieceBuyInfoData = MutableLiveData<Pair<PieceBuyInfoData?, PieceInfoData?>>()
     val pieceBuyInfoData : LiveData<Pair<PieceBuyInfoData?, PieceInfoData?>> = _pieceBuyInfoData
-
-    private val _pieceBuyState = MutableLiveData<String>()
-    val pieceBuyState: LiveData<String> = _pieceBuyState
 
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
@@ -34,10 +31,6 @@ class PurchasedPieceDetailViewModel : ViewModel() {
                 val resultData: Pair<PieceBuyInfoData?, PieceInfoData?> = Pair(pieceBuyInfoData, pieceInfoData)
 
                 _pieceBuyInfoData.value = resultData
-
-                _pieceBuyState.value = resultData.first?.pieceBuyState
-
-                Log.d("test1234", "${_pieceBuyInfoData.value?.first?.pieceBuyState}")
 
                 _isLoading.value = false
 
@@ -70,6 +63,15 @@ class PurchasedPieceDetailViewModel : ViewModel() {
             _pieceBuyInfoData.postValue(buyInfoWithPieceInfo)
         }
     }
+
+    suspend fun updatePieceBuyCancel(pieceBuyInfoData: PieceBuyInfoData): Boolean {
+        return try {
+            pieceBuyInfoRepository.updatePieceBuyCancel(pieceBuyInfoData)
+        } catch (throwable: Throwable) {
+            false
+        }
+    }
+
 
     private suspend fun getPieceAddInfoImage(pieceIdx: String, pieceImg: String): String? {
         return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)

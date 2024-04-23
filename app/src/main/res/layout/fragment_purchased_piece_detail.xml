@@ -133,6 +133,126 @@
                     app:dividerInsetStart="16dp" />
 
                 <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:src="@drawable/info_icon"
+                            app:tint="@color/first" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="10dp"
+                            android:layout_weight="1"
+                            android:fontFamily="@font/pretendard_bold"
+                            android:text="주문 취소 및 반품 접수"
+                            android:textColor="@color/first"
+                            android:textSize="16sp"
+                            android:textStyle="bold" />
+
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="주문 취소는 배송이 시작되면 불가합니다." />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="반품 접수는 배송이 완료된 이후부터 가능합니다." />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="34dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="반품 접수가 불가한 경우" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="1. 작품을 수령한 후 7일이 초과한 경우" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="50dp"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:text="2. 고객님의 부주의로 작품이 변형/훼손/파손된 경우" />
+
+
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="@color/lightgray"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayoutPurchaseCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:padding="20dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:text="주문 취소 완료"
+                        android:textSize="16sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:text="주문 취소 사유"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/textViewPurchaseCancel"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:fontFamily="@font/pretendard_regular"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+                <com.google.android.material.divider.MaterialDivider
+                    android:id="@+id/dividerPurchaseCancel"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:dividerColor="@color/lightgray"
+                    app:dividerInsetEnd="16dp"
+                    app:dividerInsetStart="16dp" />
+
+                <LinearLayout
                     android:id="@+id/linearLayoutRefundApproval"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"

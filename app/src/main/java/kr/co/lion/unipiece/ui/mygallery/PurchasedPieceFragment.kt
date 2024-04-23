@@ -1,11 +1,13 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -17,6 +19,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceBinding
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mygallery.adapter.InterestingPieceAdapter
@@ -28,6 +31,15 @@ class PurchasedPieceFragment : Fragment() {
     lateinit var binding: FragmentPurchasedPieceBinding
     private val viewModel: PurchasedPieceViewModel by viewModels()
 
+    val userIdxPref = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
+
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_CANCELED) {
+            lifecycleScope.launch {
+                viewModel.getPieceBuyInfo(userIdxPref)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPurchasedPieceBinding.inflate(inflater, container, false)
@@ -64,7 +76,7 @@ class PurchasedPieceFragment : Fragment() {
                     val intent = Intent(requireActivity(), PurchasedPieceDetailActivity::class.java)
                     intent.putExtra("pieceIdx", pieceBuyInfo.pieceIdx)
                     intent.putExtra("pieceBuyIdx", pieceBuyInfo.pieceBuyIdx)
-                    startActivity(intent)
+                    activityResultLauncher.launch(intent)
                 }
 
                 with(binding) {
