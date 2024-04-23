@@ -46,7 +46,6 @@
                         android:hint="이름"
                         app:boxStrokeColor="@color/second"
                         app:cursorColor="@color/second"
-                        app:endIconMode="clear_text"
                         app:hintTextColor="@color/second">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -67,7 +66,6 @@
                         android:hint="닉네임"
                         app:boxStrokeColor="@color/second"
                         app:cursorColor="@color/second"
-                        app:endIconMode="clear_text"
                         app:hintTextColor="@color/second">
 
                         <com.google.android.material.textfield.TextInputEditText
@@ -88,7 +86,6 @@
                         android:hint="휴대폰 번호"
                         app:boxStrokeColor="@color/second"
                         app:cursorColor="@color/second"
-                        app:endIconMode="clear_text"
                         app:hintTextColor="@color/second">
 
                         <com.google.android.material.textfield.TextInputEditText
