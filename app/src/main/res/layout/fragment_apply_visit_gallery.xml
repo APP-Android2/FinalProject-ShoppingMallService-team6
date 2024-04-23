@@ -92,6 +92,7 @@
                         android:layout_height="56dp"
                         android:background="@drawable/textfield_radius"
                         android:inputType="text|textPhonetic"
+                        android:maxLength="11"
                         android:paddingLeft="10dp"
                         android:text="@={viewModel.visitAddData.visitorPhone}" />
                 </com.google.android.material.textfield.TextInputLayout>
