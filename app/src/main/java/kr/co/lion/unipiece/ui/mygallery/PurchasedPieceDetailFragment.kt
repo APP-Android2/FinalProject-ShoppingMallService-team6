@@ -2,6 +2,7 @@ package kr.co.lion.unipiece.ui.mygallery
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,11 +22,19 @@ class PurchasedPieceDetailFragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentPurchasedPieceDetailBinding.inflate(inflater, container, false)
 
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        val pieceIdx = arguments?.getInt("pieceIdx", -1)
+        val pieceBuyIdx = arguments?.getInt("pieceBuyIdx", -1)
+        Log.d("test1234", "PurchasedPieceDetailFragment : pieceIdx=${pieceIdx}, pieceBuyIdx=${pieceBuyIdx}")
+
         settingToolbar()
         settingRefundApprovalView()
         settingButtons()
-
-        return binding.root
     }
 
     fun settingToolbar() {
