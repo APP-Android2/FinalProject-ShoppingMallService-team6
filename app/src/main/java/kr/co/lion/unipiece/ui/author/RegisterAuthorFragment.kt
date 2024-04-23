@@ -170,8 +170,9 @@ class RegisterAuthorFragment : Fragment() {
                 val authorInfo = textRegisterMajor.text.toString()
                 val authorSale = 0
                 val authorDate = Timestamp.now()
+                val authorFollow = 0
 
-                viewModel.insertAuthorInfo(userIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate){ sucess->
+                viewModel.insertAuthorInfo(userIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate, authorFollow){ sucess->
                     if (sucess){
                         Toast.makeText(requireActivity(), "작가 등록 신청이 완료되었습니다", Toast.LENGTH_SHORT).show()
                         val newIntent = Intent(requireActivity(), MainActivity::class.java)

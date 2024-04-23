@@ -1,5 +1,6 @@
 package kr.co.lion.unipiece.repository
 
+import android.content.Context
 import android.net.Uri
 import kr.co.lion.unipiece.db.remote.AuthorInfoDataSource
 import kr.co.lion.unipiece.model.AuthorInfoData
@@ -59,4 +60,8 @@ class AuthorInfoRepository {
     suspend fun getAuthorInfoFollow():List<AuthorInfoData> = authorInfoDataSource.getAuthorInfoFollow()
 
     suspend fun updateAuthorFollow(authorIdx: Int, authorFollow: Int) = authorInfoDataSource.updateAuthorFollow(authorIdx, authorFollow)
+
+
+    suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String) = authorInfoDataSource.uploadImageByApp(context, fileName, uploadFileName)
+
 }
