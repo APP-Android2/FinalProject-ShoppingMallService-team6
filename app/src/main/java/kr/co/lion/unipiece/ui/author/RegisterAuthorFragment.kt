@@ -41,6 +41,8 @@ class RegisterAuthorFragment : Fragment() {
 
     lateinit var albumLauncher: ActivityResultLauncher<Intent>
 
+    lateinit var imageLauncher:ActivityResultLauncher<Intent>
+
     val viewModel: AuthorInfoViewModel by viewModels()
 
 
@@ -51,6 +53,7 @@ class RegisterAuthorFragment : Fragment() {
         initView()
         settingEvent()
         settingView()
+        settingImageLauncher()
         settingAlbumLauncher()
         return fragmentRegisterAuthorBinding.root
     }
@@ -80,6 +83,10 @@ class RegisterAuthorFragment : Fragment() {
             }
 
             buttonGetPicture.setOnClickListener {
+                startImageLauncher()
+            }
+
+            buttonGetFile.setOnClickListener {
                 startAlbumLauncher()
             }
         }
@@ -174,10 +181,23 @@ class RegisterAuthorFragment : Fragment() {
 
                 viewModel.insertAuthorInfo(userIdx, authorImg, authorName, authorBasic, authorInfo, authorSale, authorDate, authorFollow){ sucess->
                     if (sucess){
-                        Toast.makeText(requireActivity(), "작가 등록 신청이 완료되었습니다", Toast.LENGTH_SHORT).show()
-                        val newIntent = Intent(requireActivity(), MainActivity::class.java)
-                        newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                        startActivity(newIntent)
+                        val dialog = CustomDialog("작가 등록 신청 완료", "작가 등록이 신청되었습니다\n등록 완료 시까지 1 ~ 2일 소요됩니다")
+                        dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
+                            override fun okButtonClick() {
+                                val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(newIntent)
+                            }
+
+                            override fun noButtonClick() {
+                                val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(newIntent)
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "CustomDialog")
+
                     }
                 }
             }
@@ -187,12 +207,13 @@ class RegisterAuthorFragment : Fragment() {
     //이미지 체크
     private fun checkImg(){
         fragmentRegisterAuthorBinding.apply {
-            val image = textAddFile.text.toString()
-            if (image.trim().isEmpty()){
+            val file = textAddFile.text.toString()
+            val image = textAddImage.text.toString()
+            if (file.trim().isEmpty()){
                 val dialog = CustomDialog("첨부파일 오류", "첨부파일을 추가해주세요")
                 dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
                     override fun okButtonClick() {
-
+                        requireActivity().showSoftInput(textAddFile)
                     }
 
                     override fun noButtonClick() {
@@ -202,13 +223,26 @@ class RegisterAuthorFragment : Fragment() {
                 })
                 dialog.show(parentFragmentManager, "CustomDialog")
             }else{
-                saveAuthorInfo()
+                if (image.trim().isEmpty()){
+                    val dialog = CustomDialog("프로필 오류", "프로필 이미지를 추가해주세요")
+                    dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
+                        override fun okButtonClick() {
+                            requireActivity().showSoftInput(textAddImage)
+                        }
+
+                        override fun noButtonClick() {
+
+                        }
+
+                    })
+                    dialog.show(parentFragmentManager, "CustomDialog")
+                }
             }
         }
     }
 
 
-    //엘범 런쳐 설정
+    //첨부파일 런쳐 설정
     private fun settingAlbumLauncher(){
         val contract = ActivityResultContracts.StartActivityForResult()
         albumLauncher = registerForActivityResult(contract){ result ->
@@ -253,14 +287,70 @@ class RegisterAuthorFragment : Fragment() {
 
     }
 
-    //앨범 런쳐를 실행하는 메서드
+    //첨부파일 런쳐 설정
+    private fun settingImageLauncher(){
+        val contract = ActivityResultContracts.StartActivityForResult()
+        imageLauncher = registerForActivityResult(contract){ result ->
+            if(result.resultCode == AppCompatActivity.RESULT_OK){
+                // 선택한 이미지 경로 데이터 관리하는 Uri 객체 추출
+                val uri = result.data?.data
+                if(uri != null){
+                    val bitmap = if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+                        // 이미지 생성할 수 있는 객체 생성
+                        val source = ImageDecoder.createSource(requireActivity().contentResolver, uri)
+                        // Bitmap 생성
+                        ImageDecoder.decodeBitmap(source)
+                    } else {
+                        // 컨텐츠 프로바이더를 통해 이미지 데이터에 접근
+                        val cursor = requireActivity().contentResolver.query(uri, null, null, null, null)
+                        if(cursor != null){
+                            cursor.moveToNext()
+
+                            // 이미지 경로 가져오기
+                            val idx = cursor.getColumnIndex(MediaStore.Images.Media.DATA)
+                            val source = cursor.getString(idx)
+
+                            // 이미지 생성
+                            BitmapFactory.decodeFile(source)
+                        }  else {
+                            null
+                        }
+                    }
+
+                    // 회전 각도값 가져오기
+                    val degree = requireActivity().getDegree(uri)
+                    // 회전 이미지 가져오기
+                    val bitmap2 = bitmap?.rotate(degree.toFloat())
+                    // 크기를 줄인 이미지 가져오기
+                    val bitmap3 = bitmap2?.resize(1024)
+
+                    fragmentRegisterAuthorBinding.imageView4.setImageBitmap(bitmap3)
+                    fragmentRegisterAuthorBinding.textAddImage.setText(bitmap3.toString())
+                }
+            }
+        }
+
+    }
+
+    //첨부파일 런쳐를 실행하는 메서드
     private fun startAlbumLauncher(){
         //사진 가져오기
         val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        albumIntent.setType("AuthorInfo/*")
-        val mimeType = arrayOf("AuthorInfo/*")
+        albumIntent.setType("AuthorAdd/*")
+        val mimeType = arrayOf("AuthorAdd/*")
         albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
 
         albumLauncher.launch(albumIntent)
+    }
+
+    //프로필 이미지 런쳐를 실행하는 메서드
+    private fun startImageLauncher(){
+        //사진 가져오기
+        val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        imageIntent.setType("ProfileInfo/*")
+        val mimeType = arrayOf("ProfileInfo/*")
+        imageIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
+
+        imageLauncher.launch(imageIntent)
     }
 }
