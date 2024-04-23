@@ -30,7 +30,7 @@ class PurchasedPieceViewModel : ViewModel() {
         }
     }
 
-    private suspend fun getPieceBuyInfo(userIdx: Int) {
+    suspend fun getPieceBuyInfo(userIdx: Int) {
         _isLoading.value = true
 
         viewModelScope.launch {

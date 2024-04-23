@@ -17,6 +17,7 @@ import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceBinding
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.mygallery.adapter.InterestingPieceAdapter
@@ -28,6 +29,7 @@ class PurchasedPieceFragment : Fragment() {
     lateinit var binding: FragmentPurchasedPieceBinding
     private val viewModel: PurchasedPieceViewModel by viewModels()
 
+    val userIdxPref = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPurchasedPieceBinding.inflate(inflater, container, false)
@@ -48,6 +50,14 @@ class PurchasedPieceFragment : Fragment() {
 
         initView()
     }
+
+    override fun onResume() {
+        super.onResume()
+        lifecycleScope.launch {
+            viewModel.getPieceBuyInfo(userIdxPref)
+        }
+    }
+
 
     fun initView() {
         binding.recyclerViewPurchasedPiece.isVisible = false
