@@ -1,11 +1,13 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -31,6 +33,14 @@ class PurchasedPieceFragment : Fragment() {
 
     val userIdxPref = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_CANCELED) {
+            lifecycleScope.launch {
+                viewModel.getPieceBuyInfo(userIdxPref)
+            }
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentPurchasedPieceBinding.inflate(inflater, container, false)
 
@@ -51,14 +61,6 @@ class PurchasedPieceFragment : Fragment() {
         initView()
     }
 
-    override fun onResume() {
-        super.onResume()
-        lifecycleScope.launch {
-            viewModel.getPieceBuyInfo(userIdxPref)
-        }
-    }
-
-
     fun initView() {
         binding.recyclerViewPurchasedPiece.isVisible = false
         binding.layoutNotExistPurchasedPiece.isVisible = false
@@ -74,7 +76,7 @@ class PurchasedPieceFragment : Fragment() {
                     val intent = Intent(requireActivity(), PurchasedPieceDetailActivity::class.java)
                     intent.putExtra("pieceIdx", pieceBuyInfo.pieceIdx)
                     intent.putExtra("pieceBuyIdx", pieceBuyInfo.pieceBuyIdx)
-                    startActivity(intent)
+                    activityResultLauncher.launch(intent)
                 }
 
                 with(binding) {
