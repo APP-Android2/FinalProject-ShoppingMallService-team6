@@ -3,37 +3,68 @@ package kr.co.lion.unipiece.ui.payment
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
+import android.util.Log
 import android.util.TypedValue
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
+import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityCartBinding
+import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.adapter.CartAdapter
-import kr.co.lion.unipiece.ui.payment.adapter.OnItemCheckStateChangeListener
+import kr.co.lion.unipiece.ui.payment.viewmodel.CartViewModel
 
 class CartActivity : AppCompatActivity() {
-    lateinit var activityCartBinding: ActivityCartBinding
+    lateinit var binding: ActivityCartBinding
+    private val viewModel : CartViewModel by viewModels()
+    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
+    val cartAdapter:CartAdapter = CartAdapter(
+        emptyList(),
+
+        // 항목 작품 이미지 클릭 시 (pieceIdx를 받아옴)
+        pieceImgOnClickListener = { pieceIdx ->
+            Log.d("테스트 pieceImgOnClickListener pieceIdx", pieceIdx.toString())
+            lifecycleScope.launch {
+                val intent = Intent(this@CartActivity, BuyDetailActivity::class.java).putExtra(
+                    "pieceIdx",
+                    pieceIdx
+                )
+                startActivity(intent)
+                finish()
+            }
+        },
+        authorNameOnClickListener = {
+
+        }
+
+    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        activityCartBinding = ActivityCartBinding.inflate(layoutInflater)
-        setContentView(activityCartBinding.root)
+        binding = ActivityCartBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        setToolbar()
-        setRecyclerViewCart()
-        clickButtonOrder()
-        setCheckBoxAll()
+        initView()
+        viewModel.getCartDataByUserIdx(userIdx)
+        observeData()
     }
 
-    /////////////////////////////// 기능 구현 ///////////////////////////////////////
+
 
     // 툴바 셋팅
-    fun setToolbar() {
-        activityCartBinding.apply {
-            toolbarCart.apply {
+
+    fun initView() {
+        with(binding){
+
+            // 툴바 세팅
+            with(toolbarCart) {
                 // 타이틀
                 setTitle("장바구니")
 
@@ -45,39 +76,16 @@ class CartActivity : AppCompatActivity() {
                     finish()
                 }
             }
-        }
-    }
 
-    // 주문하기 버튼 클릭 시
-    fun clickButtonOrder() {
-        activityCartBinding.apply {
-            buttonCartOrder.apply {
-                setOnClickListener {
-                    // OrderActivity를 실행한다.
-                    val orderIntent = Intent(this@CartActivity, OrderActivity::class.java)
-                    startActivity(orderIntent)
 
-                }
-            }
-        }
-    }
 
-    ///////////////////////////////////// 리사이클러뷰 ////////////////////////////////////
-
-    // 장바구니 화면의 RecyclerView 설정
-    fun setRecyclerViewCart() {
-        activityCartBinding.apply {
-            recyclerViewCartList.apply {
+            // 장바구니 화면의 RecyclerView 설정
+            with(recyclerViewCartList){
                 // 어댑터 초기화 시 OnItemCheckStateChangeListener 구현을 전달
                 // CartRecyclerViewAdapter의 초기화 시점에 받는 리스너
                 // 이 리스너는 항목의 체크 상태가 변경될 때 호출되어,
                 // 전체 선택 체크박스의 상태를 업데이트하는 데 사용됩니다.
-                adapter = CartAdapter(object : OnItemCheckStateChangeListener {
-                    override fun onItemCheckStateChanged(isAllSelected: Boolean) {
-                        // 모든 항목이 선택되었는지 여부에 따라 전체 선택 체크박스의 상태를 업데이트합니다.
-                        checkBoxCartAll.isChecked = isAllSelected
-                    }
-                })
+                adapter = cartAdapter
 
                 layoutManager = LinearLayoutManager(this@CartActivity)
 
@@ -95,28 +103,48 @@ class CartActivity : AppCompatActivity() {
                     }
 
                 )
-
             }
+
+
+
+            // 선택한 작품 제거 버튼
+            with(buttonCartDelete){
+                // 버튼 클릭 시
+                setOnClickListener {
+
+
+
+                }
+            }
+
+            // 주문하기 버튼 클릭 시
+            with(buttonCartOrder) {
+                setOnClickListener {
+                    // CartAdapter에서 현재 데이터를 가져온다.
+                    val currentData = cartAdapter.getCurrentData()
+                    Log.d("currentData","$currentData")
+                    // pieceIdx만 추출하여 리스트로 만든다.
+                    val pieceIdxList = currentData.map { it.pieceIdx }
+                    Log.d("pieceIdxList","$pieceIdxList")
+                    // Intent에 pieceIdx 리스트를 넣어서 OrderActivity로 전달한다.
+                    val orderIntent = Intent(this@CartActivity, OrderActivity::class.java).apply {
+                        putExtra("pieceIdxList", ArrayList(pieceIdxList)) // ArrayList로 변환하여 넣는다.
+                    }
+                    startActivity(orderIntent)
+                }
+            }
+
         }
     }
 
-    fun setCheckBoxAll() {
-        // 전체 선택 체크박스 클릭 리스너 설정
-        activityCartBinding.checkBoxCartAll.apply {
-            setOnClickListener {
-                // 체크박스의 체크 상태를 가져옵니다.
-                val isChecked = this.isChecked
-
-                // 어댑터를 가져와서 selectAll 함수를 호출합니다.
-                // 이때, 체크박스의 현재 상태(isChecked)를 인자로 전달합니다.
-                // 이는 모든 항목을 현재 체크박스의 상태와 동일하게 선택하거나 선택 해제하는 기능을 수행합니다.
-                val adapter = activityCartBinding.recyclerViewCartList.adapter as CartAdapter
-                adapter.selectAll(isChecked)
+    fun observeData() {
+        // 데이터 변경 관찰
+        lifecycleScope.launch {
+            viewModel.getCartDataByUserIdxList.observe(this@CartActivity) { cartDataList ->
+                cartAdapter.updateData(cartDataList)
             }
         }
     }
-
-
 }
 
 
