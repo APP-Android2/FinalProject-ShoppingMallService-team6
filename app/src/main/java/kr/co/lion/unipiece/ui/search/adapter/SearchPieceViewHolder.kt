@@ -2,27 +2,34 @@ package kr.co.lion.unipiece.ui.search.adapter
 
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.ItemSearchPieceBinding
+import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.model.SearchAuthorData
 import kr.co.lion.unipiece.model.SearchPieceData
 import kr.co.lion.unipiece.model.SearchResultData
+import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
 class SearchPieceViewHolder(
     private val binding: ItemSearchPieceBinding,
-    private val itemClickListener: (SearchResultData) -> Unit
+    private val itemClickListener: (Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root){
-    val pieceImage = binding.pieceImg
-    val authorName = binding.authorName
-    val pieceName = binding.pieceName
-    val piecePrice = binding.piecePrice
 
-    fun bind(searchPiecedata: SearchPieceData){
-        pieceImage.setImageResource(searchPiecedata.pieceImg)
-        authorName.text = searchPiecedata.authorName
-        pieceName.text = searchPiecedata.pieceName
-        piecePrice.text = searchPiecedata.piecePrice
-
+    init {
         binding.root.setOnClickListener {
-            itemClickListener.invoke(SearchResultData(SearchAuthorData(), searchPiecedata, SearchResultViewType.PIECE_CONTENT))
+            itemClickListener.invoke(adapterPosition)
+        }
+    }
+
+    fun bind(item: PieceInfoData){
+
+        val priceFormat = DecimalFormat("###,###")
+        val price = priceFormat.format(item.piecePrice)
+
+        with(binding) {
+            root.context.setImage(pieceImg, item.pieceImg)
+            authorName.text = item.authorName
+            pieceName.text = item.pieceName
+            piecePrice.text = price
         }
 
     }

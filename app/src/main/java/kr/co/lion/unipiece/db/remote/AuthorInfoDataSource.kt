@@ -321,4 +321,23 @@ class AuthorInfoDataSource {
             Log.e("Firebase Error", "Error updating pieceLike: ${e.message}")
         }
     }
+
+    // 작가 이름 검색하기
+    suspend fun searchAuthor(authorName: String): List<AuthorInfoData> {
+        return try {
+            if(authorName == ""){
+                emptyList()
+            } else{
+                val query = db.collection("AuthorInfo")
+
+                val querySnapShot = query.get().await()
+                querySnapShot.map { it.toObject(AuthorInfoData::class.java) }
+                    .filter { authorInfoData -> authorInfoData.authorName.contains(authorName) }
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getAuthorInfoFollow: ${e.message}")
+            emptyList()
+        }
+    }
+
 }
