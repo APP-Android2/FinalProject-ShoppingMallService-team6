@@ -64,6 +64,15 @@ class PurchaseCancelViewModel : ViewModel() {
         }
     }
 
+    suspend fun updatePieceBuyCancel(pieceBuyInfoData: PieceBuyInfoData): Boolean {
+        return try {
+            pieceBuyInfoRepository.updatePieceBuyCancel(pieceBuyInfoData)
+        } catch (throwable: Throwable) {
+            false
+        }
+    }
+
+
     private suspend fun getPieceAddInfoImage(pieceIdx: String, pieceImg: String): String? {
         return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)
     }
