@@ -1,16 +1,24 @@
 package kr.co.lion.unipiece.ui.mypage
 
 import android.annotation.SuppressLint
+import android.graphics.text.LineBreaker
+import android.icu.lang.UCharacter.LineBreak
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.Animation
+import android.view.animation.LinearInterpolator
+import android.view.animation.TranslateAnimation
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
@@ -54,6 +62,7 @@ class ApplyVisitGalleryFragment : Fragment() {
         fragmentApplyVisitGalleryBinding.lifecycleOwner = this
 
         fetchData()
+        settingTextViewAvailableTime()
         settingToolbar()
         settingButtonMember()
         settingDatePicker()
@@ -75,6 +84,14 @@ class ApplyVisitGalleryFragment : Fragment() {
                 applyVisitGalleryViewModel.setEmptyData(emptyData)
             }
             fragmentApplyVisitGalleryBinding.progressBarApplyVisit.visibility = View.GONE
+        }
+    }
+
+    private fun settingTextViewAvailableTime(){
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED){
+                fragmentApplyVisitGalleryBinding.textViewAvailableTime.isSelected = true
+            }
         }
     }
 

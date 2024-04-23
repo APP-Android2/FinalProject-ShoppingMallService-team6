@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
@@ -134,7 +135,8 @@ class VisitGalleryHistoryFragment : Fragment() {
             // 레이아웃 매니저
             layoutManager = LinearLayoutManager(requireActivity())
             // 데코레이션
-            val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
+            val deco = MaterialDividerItemDecoration(requireActivity(), DividerItemDecoration.VERTICAL)
+            deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
             addItemDecoration(deco)
         }
 
