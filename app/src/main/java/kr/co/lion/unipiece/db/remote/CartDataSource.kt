@@ -2,6 +2,7 @@ package kr.co.lion.unipiece.db.remote
 
 import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.tasks.await
 import kr.co.lion.unipiece.model.AuthorInfoData
@@ -53,7 +54,7 @@ class CartDataSource {
     suspend fun getCartDataByUserIdx(userIdx: Int): List<PieceInfoData> {
         return try {
             // Cart 컬렉션에서 userIdx로 장바구니 데이터 가져오기
-            val cartQuery = db.whereEqualTo("userIdx", userIdx)
+            val cartQuery = db.whereEqualTo("userIdx", userIdx).orderBy("cartPieceDate",Query.Direction.DESCENDING)
             val cartQuerySnapshot = cartQuery.get().await()
             // 장바구니 데이터에서 pieceIdx 추출하기
             val pieceIdxs = cartQuerySnapshot.map { it.toObject(CartData::class.java).pieceIdx }.distinct()
@@ -75,20 +76,21 @@ class CartDataSource {
         }
     }
 
-    // authorIdx에 해당하는 작품정보 데이터를 들고온다.
-
-    // 선택한 장바구니  장바구니에 담긴 데이터를 삭제한다.
-    suspend fun deleteCartDataByUserIdx(userIdx:Int): Int{
-        return try {
+    suspend fun deleteCartDataByUserIdx(userIdx: Int, pieceIdx: Int) {
+        try {
+            // 특정 사용자의 특정 작품에 해당하는 문서를 찾기 위한 쿼리 생성
             val query = db.whereEqualTo("userIdx", userIdx)
+                .whereEqualTo("pieceIdx", pieceIdx)
 
+            // 쿼리 실행하여 결과 가져오기
             val querySnapshot = query.get().await()
 
-            val result = querySnapshot.documents[0].reference.delete().toString().toInt()
-            result
-        } catch (e:Exception){
-            Log.e("Firebase Error", "Error dbGetCartPieceByUserIdx: ${e.message}")
-            0
+            // 결과 중 첫 번째 문서(해당하는 문서가 있을 경우)를 찾아 삭제
+            for (document in querySnapshot.documents) {
+                document.reference.delete().await()
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error in deleteCartDataByUserIdx: ${e.message}")
         }
     }
 }

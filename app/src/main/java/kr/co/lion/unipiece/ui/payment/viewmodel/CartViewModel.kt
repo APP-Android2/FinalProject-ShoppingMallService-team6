@@ -34,8 +34,17 @@ class CartViewModel : ViewModel() {
     private val _getCartDataByUserIdxLoading = MutableLiveData<Boolean?>(null)
     val getCartDataByUserIdxLoading : LiveData<Boolean?> = _getCartDataByUserIdxLoading
 
+    // 데이터 삭제시 로딩
+    private val _deleteDataLoading = MutableLiveData<Boolean?>(null)
+    val deleteDataLoading : LiveData<Boolean?> = _deleteDataLoading
+
+
     fun setDataLoading() {
         _getCartDataByUserIdxLoading.value = null
+    }
+
+    fun setDeleteData(){
+        _deleteDataLoading.value = null
     }
 
     init {
@@ -50,12 +59,36 @@ class CartViewModel : ViewModel() {
     fun getCartDataByUserIdx(userIdx: Int) = viewModelScope.launch {
         try {
             val response = cartRepository.getCartDataByUserIdx(userIdx)
+            val updatedPieceInfoList = updateImagePieceInfo(response)
 
-            _getCartDataByUserIdxList.value = response
+            _getCartDataByUserIdxList.value = updatedPieceInfoList
             _getCartDataByUserIdxLoading.value = true
             Log.d("테스트 vm2","${_getCartDataByUserIdxList.value.toString()}")
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmGetDeliveryDataByDeliveryIdx : ${e.message}")
+        }
+    }
+
+    suspend fun updateImagePieceInfo(pieceInfoList: List<PieceInfoData>): List<PieceInfoData> {
+        return pieceInfoList.map { pieceInfoData ->
+            val pieceImgUrl = getPieceImg(pieceInfoData.pieceIdx.toString(), pieceInfoData.pieceImg)
+            pieceInfoData.copy(pieceImg = pieceImgUrl ?: pieceInfoData.pieceImg)
+        }
+    }
+
+    private suspend fun getPieceImg(pieceIdx: String, pieceImg: String): String? {
+        return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)
+    }
+
+    // 특정 사용자의 특정 작품을 장바구니에서 삭제하는 함수
+    fun deleteCartDataByUserIdx(userIdx: Int, pieceIdx: Int) {
+        viewModelScope.launch {
+            try {
+                cartRepository.deleteCartDataByUserIdx(userIdx, pieceIdx)
+                _deleteDataLoading.value = true
+            } catch (e: Exception) {
+                Log.e("Firebase Error", "Error vmDeleteCartDataByUserIdx : ${e.message}")
+            }
         }
     }
 

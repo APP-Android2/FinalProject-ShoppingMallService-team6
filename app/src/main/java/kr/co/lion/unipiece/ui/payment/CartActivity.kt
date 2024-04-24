@@ -18,29 +18,50 @@ import kr.co.lion.unipiece.databinding.ActivityCartBinding
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.adapter.CartAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.CartViewModel
+import kr.co.lion.unipiece.util.CustomDialog
 
 class CartActivity : AppCompatActivity() {
     lateinit var binding: ActivityCartBinding
-    private val viewModel : CartViewModel by viewModels()
+    private val viewModel: CartViewModel by viewModels()
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
-    val cartAdapter:CartAdapter = CartAdapter(
+    val cartAdapter: CartAdapter = CartAdapter(
         emptyList(),
 
         // 항목 작품 이미지 클릭 시 (pieceIdx를 받아옴)
-        pieceImgOnClickListener = { pieceIdx ->
-            Log.d("테스트 pieceImgOnClickListener pieceIdx", pieceIdx.toString())
-            lifecycleScope.launch {
-                val intent = Intent(this@CartActivity, BuyDetailActivity::class.java).putExtra(
-                    "pieceIdx",
-                    pieceIdx
-                )
-                startActivity(intent)
-                finish()
-            }
-        },
-        authorNameOnClickListener = {
+        pieceImgOnClickListener = {
 
+
+        },
+        authorNameOnClickListener = { authorIdx ->
+
+        },
+        closeButtonOnClickListener = { pieceIdx ->
+            val dialog = CustomCloseDialog("", "이 작품을 장바구니에서 삭제하시겠습니까?")
+            dialog.setButtonClickListener(object :
+                CustomCloseDialog.OnButtonClickListener {
+                // 확인 버튼 클릭 시
+                override fun okButtonClick() {
+                    lifecycleScope.launch {
+                        // 삭제 처리
+                        viewModel.deleteCartDataByUserIdx(userIdx,pieceIdx)
+                        viewModel.deleteDataLoading.observe(this@CartActivity) {
+                            if (it == true) {
+                                viewModel.setDeleteData()
+                                viewModel.getCartDataByUserIdx(userIdx)
+                                dialog.dismiss()
+                            }
+                        }
+                    }
+                }
+
+                // 취소 버튼 클릭 시
+                override fun noButtonClick() {
+
+                }
+
+            })
+            dialog.show(supportFragmentManager, "deleteDialog")
         }
 
     )
@@ -57,11 +78,10 @@ class CartActivity : AppCompatActivity() {
     }
 
 
-
     // 툴바 셋팅
 
     fun initView() {
-        with(binding){
+        with(binding) {
 
             // 툴바 세팅
             with(toolbarCart) {
@@ -78,9 +98,8 @@ class CartActivity : AppCompatActivity() {
             }
 
 
-
             // 장바구니 화면의 RecyclerView 설정
-            with(recyclerViewCartList){
+            with(recyclerViewCartList) {
                 // 어댑터 초기화 시 OnItemCheckStateChangeListener 구현을 전달
                 // CartRecyclerViewAdapter의 초기화 시점에 받는 리스너
                 // 이 리스너는 항목의 체크 상태가 변경될 때 호출되어,
@@ -106,12 +125,10 @@ class CartActivity : AppCompatActivity() {
             }
 
 
-
             // 선택한 작품 제거 버튼
-            with(buttonCartDelete){
+            with(buttonCartDelete) {
                 // 버튼 클릭 시
                 setOnClickListener {
-
 
 
                 }
@@ -122,10 +139,10 @@ class CartActivity : AppCompatActivity() {
                 setOnClickListener {
                     // CartAdapter에서 현재 데이터를 가져온다.
                     val currentData = cartAdapter.getCurrentData()
-                    Log.d("currentData","$currentData")
+                    Log.d("currentData", "$currentData")
                     // pieceIdx만 추출하여 리스트로 만든다.
                     val pieceIdxList = currentData.map { it.pieceIdx }
-                    Log.d("pieceIdxList","$pieceIdxList")
+                    Log.d("pieceIdxList", "$pieceIdxList")
                     // Intent에 pieceIdx 리스트를 넣어서 OrderActivity로 전달한다.
                     val orderIntent = Intent(this@CartActivity, OrderActivity::class.java).apply {
                         putExtra("pieceIdxList", ArrayList(pieceIdxList)) // ArrayList로 변환하여 넣는다.

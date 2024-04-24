@@ -17,6 +17,7 @@ class CartAdapter(
     private var cartList: List<PieceInfoData>,
     private val pieceImgOnClickListener: (HashMap<String,Int>) -> Unit,
     private val authorNameOnClickListener : (Int) -> Unit,
+    private val closeButtonOnClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<CartViewHolder>() {
 
     fun getCurrentData(): List<PieceInfoData> {
@@ -28,7 +29,7 @@ class CartAdapter(
             RowCartBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return CartViewHolder(
-            viewGroup.context, binding, pieceImgOnClickListener, authorNameOnClickListener
+            viewGroup.context, binding, pieceImgOnClickListener, authorNameOnClickListener, closeButtonOnClickListener
         )
     }
 
@@ -55,6 +56,7 @@ class CartViewHolder(
     private val binding: RowCartBinding,
     private val pieceImgOnClickListener: (HashMap<String,Int>) -> Unit,
     private val authorNameOnClickListener: (Int) -> Unit,
+    private val closeButtonOnClickListener: (Int) -> Unit
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
@@ -75,7 +77,7 @@ class CartViewHolder(
             imageView.setOnClickListener {
                 val pieceIdx = data.pieceIdx
                 val authorIdx = data.authorIdx
-                var hashMap = HashMap<String,Int>()
+                val hashMap = HashMap<String,Int>()
                 hashMap["pieceIdx"] = pieceIdx
                 hashMap["authorIdx"] = authorIdx
                 pieceImgOnClickListener.invoke(hashMap)
@@ -93,6 +95,10 @@ class CartViewHolder(
             val dec = DecimalFormat("#,###")
             val result = data.piecePrice
             textViewRowCartPiecePrice.text = "${dec.format(result)} 원"
+
+            imageButtonRowCartClose.setOnClickListener {
+                closeButtonOnClickListener.invoke(data.pieceIdx)
+            }
 
 
 
