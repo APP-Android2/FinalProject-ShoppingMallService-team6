@@ -15,11 +15,11 @@ class AuthorAddViewModel : ViewModel() {
 
     fun insertAuthorInfo(
         userIdx: Int, authorFile: String, authorName:String, authorMajor:String, authorUni:String,
-        authorInfo:String, authorImg:String, callback:(Boolean) -> Unit
+        authorInfo:String, authorImg:String, authorNew:Boolean, callback:(Boolean) -> Unit
     ){
         viewModelScope.launch {
 
-            val authorAddData = AuthorAddData(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg)
+            val authorAddData = AuthorAddData(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg, authorNew)
 
             val success = withContext(Dispatchers.IO){
                 try {
