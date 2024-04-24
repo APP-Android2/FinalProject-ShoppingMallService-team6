@@ -18,6 +18,7 @@ class DeliveryDataSource {
     // 배송지 번호 시퀀스값을 가져온다.
     suspend fun getDeliverySequence(): Int {
         try {
+
             var deliverySequence = -1
 
             val job1 = CoroutineScope(Dispatchers.IO).launch {
@@ -35,7 +36,6 @@ class DeliveryDataSource {
             Log.e("Firebase Error", "Error dbGetDeliverySequence : ${e.message}")
             return 0
         }
-
     }
 
     // 배송지 시퀀스 값을 업데이트 한다.
@@ -152,15 +152,15 @@ class DeliveryDataSource {
 
     // deliveryIdx 를 통해 해당 배송지 정보를 삭제한다.
     suspend fun deleteDeliveryData(deliveryIdx: Int): Int {
-        try {
+        return try {
             val query = deliveryStore.whereEqualTo("deliveryIdx", deliveryIdx)
             val querySnapshot = query.get().await()
 
             val result = querySnapshot.documents[0].reference.delete().toString().toInt()
-            return result
+            result
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error dbDeleteDeliveryData : ${e.message}")
-            return 0
+            0
         }
     }
 
@@ -189,5 +189,6 @@ class DeliveryDataSource {
             Log.e("Firebase Error", "Error dbGetDeliveryDataByDeliveryIdx : ${e.message}")
             emptyList()
         }
+
     }
 }
