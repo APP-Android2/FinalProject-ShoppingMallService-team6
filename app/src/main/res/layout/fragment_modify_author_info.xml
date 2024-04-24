@@ -118,6 +118,7 @@
                     android:hint="기본 정보"
                     app:boxStrokeColor="@color/second"
                     app:cursorColor="@color/second"
+                    app:endIconMode="clear_text"
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
@@ -127,7 +128,7 @@
                         android:background="@drawable/textfield_radius"
                         android:inputType="text"
                         android:paddingLeft="10dp"
-                        android:text="@={modifyAuthorInfoViewModel.authorInfoData.authorBasic}"/>
+                        android:text="@={modifyAuthorInfoViewModel.authorInfoData.authorBasic}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -137,16 +138,18 @@
                     android:hint="작가 소개"
                     app:boxStrokeColor="@color/second"
                     app:cursorColor="@color/second"
+                    app:endIconMode="clear_text"
                     app:hintTextColor="@color/second">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/textInputModifyAuthorDetailInfo"
                         android:layout_width="match_parent"
-                        android:layout_height="56dp"
+                        android:layout_height="wrap_content"
                         android:background="@drawable/textfield_radius"
                         android:inputType="text|textMultiLine"
+                        android:minHeight="56dp"
                         android:paddingLeft="10dp"
-                        android:text="@={modifyAuthorInfoViewModel.authorInfoData.authorInfo}"/>
+                        android:text="@={modifyAuthorInfoViewModel.authorInfoData.authorInfo}" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button

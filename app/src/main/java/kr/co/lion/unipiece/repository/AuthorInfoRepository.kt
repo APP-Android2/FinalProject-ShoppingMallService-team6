@@ -61,5 +61,6 @@ class AuthorInfoRepository {
 
     suspend fun updateAuthorFollow(authorIdx: Int, authorFollow: Int) = authorInfoDataSource.updateAuthorFollow(authorIdx, authorFollow)
 
+    suspend fun searchAuthor(authorName: String) = authorInfoDataSource.searchAuthor(authorName)
 
 }

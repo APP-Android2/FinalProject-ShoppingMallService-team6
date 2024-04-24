@@ -1,6 +1,7 @@
 package kr.co.lion.unipiece.repository
 
 import kr.co.lion.unipiece.db.remote.PieceInfoDataSource
+import kr.co.lion.unipiece.model.PieceInfoData
 
 class PieceInfoRepository {
 
@@ -21,4 +22,6 @@ class PieceInfoRepository {
     suspend fun getAuthorPieceInfo(authorIdx: Int) = pieceInfoDataSource.getAuthorPieceInfo(authorIdx)
 
     suspend fun updatePieceLike(pieceIdx: Int, pieceLike: Int) = pieceInfoDataSource.updatePieceLike(pieceIdx, pieceLike)
+
+    suspend fun searchPiece(searchPiece: String) = pieceInfoDataSource.searchPiece(searchPiece)
 }

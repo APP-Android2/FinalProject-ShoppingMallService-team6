@@ -70,25 +70,6 @@ class MainActivity : AppCompatActivity() {
             super.onBackPressed()
             updateBottomNavi()
 
-            var isSearchFragmentOnTop = false
-
-            if (supportFragmentManager.backStackEntryCount > 0) {
-                // 백 스택의 마지막 항목의 이름을 가져옵니다.
-                val lastFragmentName = supportFragmentManager.getBackStackEntryAt(supportFragmentManager.backStackEntryCount - 1).name
-                // 마지막 항목의 이름이 "SearchFragment"와 일치하는지 확인합니다.
-                isSearchFragmentOnTop = SEARCH_FRAGMENT.str == lastFragmentName || "SearchResultFragment" == lastFragmentName
-
-            } else {
-                // 백 스택이 비어있으면, SearchFragment가 최상단에 있을 수 없습니다.
-                isSearchFragmentOnTop = false
-            }
-
-            if (isSearchFragmentOnTop) {
-                // SearchFragment가 백 스택의 최상단에 존재합니다.
-                // 안드로이드 뒤로가기 버튼 실행 -> searchresultfragment에서 뒤로갔을때 searchfragment로 가지 않고 그 전으로 가기
-                super.onBackPressed()
-            }
-
             // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
             if(supportFragmentManager.backStackEntryCount == 0) {
                 finish()
@@ -98,7 +79,6 @@ class MainActivity : AppCompatActivity() {
 
 
     fun updateBottomNavi(){
-        // printFragmentBackStack("update")
         val fragment = supportFragmentManager.findFragmentById(R.id.fl_container)
         when(fragment) {
             is HomeFragment -> {
