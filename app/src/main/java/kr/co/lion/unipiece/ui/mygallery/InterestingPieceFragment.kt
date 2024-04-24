@@ -105,14 +105,6 @@ class InterestingPieceFragment : Fragment() {
                     with(binding) {
                         recyclerViewInterestingPiece.adapter = interestingPieceAdapter
                         recyclerViewInterestingPiece.layoutManager = LinearLayoutManager(requireActivity())
-                        val deco = MaterialDividerItemDecoration(
-                            requireActivity(),
-                            MaterialDividerItemDecoration.VERTICAL
-                        )
-                        deco.dividerInsetStart = 50
-                        deco.dividerInsetEnd = 50
-                        deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                        recyclerViewInterestingPiece.addItemDecoration(deco)
                     }
                 }
             })
