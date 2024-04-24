@@ -17,6 +17,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -170,12 +171,16 @@ class RefundFragment : Fragment() {
                                         lifecycleScope.launch {
                                             viewModel.updatePieceBuyRefund(pieceInfoData)
 
-                                            Snackbar.make(requireView(), "반품 접수 신청이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                                            Snackbar.make(requireView(), "반품 접수 신청이 완료되었습니다.", Snackbar.LENGTH_SHORT)
+                                                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
+                                                .show()
 
                                             parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                                         }
                                     } else {
-                                        Snackbar.make(requireView(), "네트워크 오류로 반품 접수 신청을 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                                        Snackbar.make(requireView(), "네트워크 오류로 반품 접수 신청을 실패했습니다.", Snackbar.LENGTH_SHORT)
+                                            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
+                                            .show()
                                     }
                                 }
                             }

@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -141,10 +142,14 @@ class PurchaseCancelFragment : Fragment() {
                                 val isSuccess = viewModel.updatePieceBuyCancel(purchaseCancelData)
 
                                 if(isSuccess) {
-                                    Snackbar.make(requireView(), "주문 취소가 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                                    Snackbar.make(requireView(), "주문 취소가 완료되었습니다.", Snackbar.LENGTH_SHORT)
+                                        .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
+                                        .show()
                                     parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.PURCHASE_CANCEL_FRAGEMNT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                                 } else {
-                                    Snackbar.make(requireView(), "네트워크 오류로 주문 취소를 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                                    Snackbar.make(requireView(), "네트워크 오류로 주문 취소를 실패했습니다.", Snackbar.LENGTH_SHORT)
+                                        .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
+                                        .show()
                                 }
                             }
                         }

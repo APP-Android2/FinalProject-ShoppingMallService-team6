@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,6 +19,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
+import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSalePieceBinding
 import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
@@ -123,6 +125,7 @@ class SalePieceFragment : Fragment() {
 
     private fun createSnackBar(message: String, duration: Int): Snackbar {
         return Snackbar.make(requireView(), message, duration)
+            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
     }
 
     fun settingButtonSalePieceAddPiece() {
