@@ -31,7 +31,7 @@ class InterestingPieceViewModel : ViewModel() {
         }
     }
 
-    private suspend fun getUserLikedPieceInfo(userIdx: Int) {
+    suspend fun getUserLikedPieceInfo(userIdx: Int) {
         _isLoading.value = true
 
         val userLikedPieceList = likePieceInfoRepository.getUserLikedPiece(userIdx)
