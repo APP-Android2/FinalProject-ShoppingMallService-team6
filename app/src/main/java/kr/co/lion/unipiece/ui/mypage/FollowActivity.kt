@@ -31,6 +31,7 @@ class FollowActivity : AppCompatActivity() {
     val followAdapter: FollowAdapter= FollowAdapter(
         emptyList(),
 
+
         // 항목 클릭 시
         rowClickListener = { authorIdx ->
             Log.d("테스트 rowClickListener authorIdx", authorIdx.toString())
