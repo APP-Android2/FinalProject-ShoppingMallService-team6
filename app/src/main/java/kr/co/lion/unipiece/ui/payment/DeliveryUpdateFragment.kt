@@ -1,5 +1,7 @@
 package kr.co.lion.unipiece.ui.payment
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -7,6 +9,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -22,6 +26,7 @@ import kr.co.lion.unipiece.util.DeliveryFragmentName
 class DeliveryUpdateFragment : Fragment() {
     private lateinit var binding: FragmentDeliveryUpdateBinding
     private val viewModel: DeliveryViewModel by activityViewModels()
+    private lateinit var addressResultLauncher: ActivityResultLauncher<Intent>
 
     val deliveryIdx by lazy {
         requireArguments().getInt("deliveryIdx")
@@ -40,6 +45,18 @@ class DeliveryUpdateFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        addressResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                // Intent에서 주소 데이터 추출
+                val fullRoadAddr = intent?.getStringExtra("EXTRA_ROAD_ADDR")
+                val jibunAddr = intent?.getStringExtra("EXTRA_JIBUN_ADDR")
+                // 추출한 주소 데이터를 텍스트 필드에 설정
+                binding.textFieldDeliveryUpdateAddress.setText(fullRoadAddr)
+                binding.textFieldDeliveryUpdateAddress.setText(jibunAddr)
+            }
+        }
 
         initView()
     }
@@ -129,7 +146,8 @@ class DeliveryUpdateFragment : Fragment() {
             // 주소 검색
             with(buttonDeliveryUpdateAddessSearch) {
                 setOnClickListener {
-
+                    val intent = Intent(context, SearchAddressActivity::class.java)
+                    addressResultLauncher.launch(intent)
                 }
             }
 
