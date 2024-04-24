@@ -24,20 +24,13 @@
                 android:id="@+id/imageViewPieceRowOrderMain"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                app:srcCompat="@drawable/mygallery_icon" />
+                app:srcCompat="@drawable/mygallery_icon"
+                android:scaleType="centerCrop"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/textViewRowOrderMainAddDeliveryPrice"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="추가배송비 4,000원"
-                    android:textAlignment="textEnd"
-                    android:textSize="14dp" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
