@@ -91,11 +91,19 @@ class DeliveryViewHolder(
             imageViewBasicDeliveryCheck.isVisible = data.basicDelivery
 
 
-            // 클릭 리스너 설정. 클릭하면 deliveryIdx를 전달한다.
-            root.setOnClickListener {
-                rowClickListener.invoke(data.deliveryIdx)
-            }
+            // 항목 하나
+            with(root) {
+                layoutParams = ViewGroup.LayoutParams(
+                    // 항목 클릭 시 클릭되는 범위 설정
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT
+                )
 
+                // 클릭 리스너 설정. 클릭하면 deliveryIdx를 전달한다.
+                setOnClickListener {
+                    rowClickListener.invoke(data.deliveryIdx)
+                }
+            }
             // 화살표 버튼 클릭 시
             buttonDeliverySelect.setOnClickListener {
                 rowClickListener.invoke(data.deliveryIdx)
@@ -115,12 +123,6 @@ class DeliveryViewHolder(
                     updateButtonClickListener.invoke(data.deliveryIdx)
                 }
             }
-
-            // 항목 클릭 시 클릭되는 범위 설정
-            root.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
         }
     }
 }
