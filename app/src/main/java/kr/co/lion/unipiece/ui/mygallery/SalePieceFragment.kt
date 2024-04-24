@@ -9,9 +9,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
-import androidx.core.view.indices
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,10 +16,8 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentSalePieceBinding
 import kr.co.lion.unipiece.ui.author.AddAuthorActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
@@ -56,10 +51,8 @@ class SalePieceFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                // 프로그래스바를 표시
                 binding.progressBarSalePiece.isVisible = true
             } else {
-                // 프로그래스바를 숨김
                 binding.progressBarSalePiece.isVisible = false
             }
         }

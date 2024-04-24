@@ -1,17 +1,13 @@
 package kr.co.lion.unipiece.ui.mygallery
 
-import android.content.Context
 import android.content.DialogInterface
 import android.os.Bundle
-import android.os.SystemClock
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -22,7 +18,6 @@ import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentPurchaseCancelBinding
-import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.model.PieceBuyInfoData
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.PurchaseCancelViewModel
 import kr.co.lion.unipiece.util.CustomDialog

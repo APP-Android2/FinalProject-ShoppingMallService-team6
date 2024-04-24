@@ -63,7 +63,6 @@ class PieceAddInfoViewModel : ViewModel() {
             try {
                 val authorIdx = authorInfoRepository.getAuthorIdxByUserIdx(userIdx)
                 _authorIdx.value = authorIdx
-                Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
 
                 getPieceAddInfo()
                 getAuthorName()
@@ -79,7 +78,6 @@ class PieceAddInfoViewModel : ViewModel() {
                 val authorIdx = _authorIdx.value ?: 0
                 val authorInfo = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
                 _authorName.value = authorInfo?.authorName
-                Log.e("PieceAddInfoViewModel", "_authorName : ${_authorName.value}")
 
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Failed to get authorName: $throwable")
@@ -112,10 +110,8 @@ class PieceAddInfoViewModel : ViewModel() {
                     }
                 }
 
-                Log.e("PieceAddInfoViewModel", "pieceAddInfoList : $pieceAddInfoList")
             } catch (throwable: Throwable) {
                 _isLoading.value = false
-                Log.e("PieceAddInfoViewModel", "Failed to get pieceAddInfo: $throwable")
             }
         }
     }
@@ -127,7 +123,6 @@ class PieceAddInfoViewModel : ViewModel() {
 
                 if (pieceAddInfo != null) {
                     _imageFileName.value = pieceAddInfo.addPieceImg
-                    Log.e("PieceAddInfoViewModel", "pieceAddInfo.addPieceImg : ${_imageFileName.value}")
                     // 이미지를 제외한 데이터 먼저 UI에 반영
                     updateUIWithOneData(pieceAddInfo)
 
@@ -194,7 +189,6 @@ class PieceAddInfoViewModel : ViewModel() {
                 val fileName = pieceAddInfoRepository.uploadImage(authorIdx, imageUri)
                 _uploadImageResult.value = fileName
             } catch (throwable: Throwable) {
-                Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")
                 _uploadImageResult.value = null
             }
         }

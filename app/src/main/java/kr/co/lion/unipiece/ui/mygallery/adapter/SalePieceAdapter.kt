@@ -1,7 +1,6 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
 import android.content.Intent
-import android.opengl.Visibility
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
@@ -9,7 +8,6 @@ import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowSalePieceBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
-import kr.co.lion.unipiece.ui.mygallery.SalePieceFragment
 import kr.co.lion.unipiece.ui.mygallery.SalesApplicationActivity
 import kr.co.lion.unipiece.util.setImage
 import java.text.DecimalFormat

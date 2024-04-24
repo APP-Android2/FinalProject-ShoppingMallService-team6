@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.ui.mygallery.viewmodel
 
-import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -8,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.UniPieceApplication
-import kr.co.lion.unipiece.model.LikePieceData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.LikePieceRepository
 import kr.co.lion.unipiece.repository.PieceInfoRepository
@@ -56,7 +54,6 @@ class InterestingPieceViewModel : ViewModel() {
                     likedPieceInfoList[index] = updatedPieceInfoWithImage
                     // UI에 데이터 및 이미지 업데이트
                     updateUIWithData(likedPieceInfoList.filterNotNull())
-                    Log.d("test1234", updatedPieceInfoWithImage.pieceImg)
                 }
             }
         }
@@ -65,7 +62,6 @@ class InterestingPieceViewModel : ViewModel() {
     private fun updateUIWithData(updatedData: List<PieceInfoData>) {
         _likePieceInfoList.postValue(updatedData)
     }
-
 
     fun cancelLikePiece(pieceIdx: Int, userIdx: Int) {
         viewModelScope.launch {
@@ -80,7 +76,6 @@ class InterestingPieceViewModel : ViewModel() {
             likePieceInfoRepository.cancelLikePiece(pieceIdx, userIdx)
         }
     }
-
 
     private suspend fun getPieceAddInfoImage(pieceIdx: String, pieceImg: String): String? {
         return pieceInfoRepository.getPieceInfoImg(pieceIdx, pieceImg)

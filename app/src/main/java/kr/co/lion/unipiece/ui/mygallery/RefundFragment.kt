@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.ui.mygallery
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -11,7 +10,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -28,7 +26,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentRefundBinding
 import kr.co.lion.unipiece.model.PieceBuyInfoData
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.RefundViewModel

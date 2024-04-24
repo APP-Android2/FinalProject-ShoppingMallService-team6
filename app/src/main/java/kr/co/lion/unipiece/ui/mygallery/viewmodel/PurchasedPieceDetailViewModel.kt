@@ -37,8 +37,6 @@ class PurchasedPieceDetailViewModel : ViewModel() {
 
                 _pieceBuyState.value = resultData.first?.pieceBuyState
 
-                Log.d("test1234", "${_pieceBuyInfoData.value?.first?.pieceBuyState}")
-
                 _isLoading.value = false
 
                 updateUIWithImage(resultData)
