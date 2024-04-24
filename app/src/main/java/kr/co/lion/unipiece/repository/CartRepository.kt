@@ -14,4 +14,5 @@ class CartRepository {
 
     suspend fun getCartDataByUserIdx(userIdx: Int) = cartDataSource.getCartDataByUserIdx(userIdx)
 
+    suspend fun deleteCartDataByUserIdx(pieceIdx: Int, userIdx: Int) = cartDataSource.deleteCartDataByUserIdx(pieceIdx, userIdx)
 }
