@@ -8,6 +8,8 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
+import java.util.Date
+import kotlin.math.abs
 
 class ModifyAuthorInfoViewModel: ViewModel() {
 
@@ -16,6 +18,22 @@ class ModifyAuthorInfoViewModel: ViewModel() {
     val authorInfoData: LiveData<AuthorInfoData> = _authorInfoData
 
     private val authorInfoRepository = AuthorInfoRepository()
+
+
+    // 작가 정보 갱신 여부 확인
+    fun checkAuthorDate(): Boolean {
+        val currentTime = Date()
+        val oneYearInMillis: Long = 365 * 24 * 60 * 60 * 1000
+
+        val authorDate = authorInfoData.value?.authorDate?.toDate()
+
+        if (authorDate != null) {
+            val timeDiff = abs(currentTime.time - authorDate.time)
+            return timeDiff >= oneYearInMillis
+        }
+
+        return false
+    }
 
     // 작가 정보를 불러오기
     suspend fun getAuthorInfoData(authorIdx: Int) {

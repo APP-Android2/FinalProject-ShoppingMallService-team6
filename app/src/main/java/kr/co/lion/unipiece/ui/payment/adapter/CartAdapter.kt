@@ -1,98 +1,110 @@
 package kr.co.lion.unipiece.ui.payment.adapter
 
+import android.annotation.SuppressLint
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowCartBinding
+import kr.co.lion.unipiece.model.CartData
+import kr.co.lion.unipiece.model.DeliveryData
+import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.util.setImage
+import java.text.DecimalFormat
 
-class CartAdapter(private val listener: OnItemCheckStateChangeListener) :
-    RecyclerView.Adapter<CartViewHolder>() {
-    // 장바구니 화면의 RecyclerView의 어댑터
+class CartAdapter(
+    private var cartList: List<PieceInfoData>,
+    private val pieceImgOnClickListener: (HashMap<String,Int>) -> Unit,
+    private val authorNameOnClickListener : (Int) -> Unit,
+    private val closeButtonOnClickListener: (Int) -> Unit
+) : RecyclerView.Adapter<CartViewHolder>() {
 
-    // 항목의 선택 상태를 저장하는 리스트
-    var isCheckedList = MutableList(10) { false } // 여기서 10은 항목의 수, 초기 상태는 모두 false(선택 안됨)
-
-    // CartRecyclerViewAdapter 내부
-    fun selectAll(isChecked: Boolean) {
-        // 모든 항목의 선택 상태를 변경합니다.
-        // isSelected 파라미터 값에 따라 모든 항목을 선택하거나 선택 해제합니다.
-        isCheckedList = MutableList(itemCount) { isChecked }
-
-        // 데이터가 변경되었음을 어댑터에게 알려 UI를 갱신합니다.
-        notifyDataSetChanged()
+    fun getCurrentData(): List<PieceInfoData> {
+        return cartList
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CartViewHolder {
-        val inflater = LayoutInflater.from(parent.context)
-        val rowCartBinding = RowCartBinding.inflate(inflater, parent, false)
-        val cartViewHolder = CartViewHolder(rowCartBinding)
-        return cartViewHolder
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CartViewHolder {
+        val binding =
+            RowCartBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
+
+        return CartViewHolder(
+            viewGroup.context, binding, pieceImgOnClickListener, authorNameOnClickListener, closeButtonOnClickListener
+        )
     }
 
     override fun getItemCount(): Int {
-        return isCheckedList.size
+        return cartList.size
     }
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
-        // 체크박스 상태를 명시적으로 설정
-        // isSelectedList에서 현재 position에 해당하는 항목의 선택 상태를 가져와서
-        // 해당 항목의 체크박스 상태를 설정합니다.
-        holder.rowCartBinding.checkBoxCartRow.isChecked = isCheckedList[position]
+        holder.bind(cartList[position])
 
-        // 체크박스 리스너 설정 전에 기존 리스너를 제거
-        // 이는 리사이클러 뷰가 뷰를 재활용할 때 발생할 수 있는 중복 클릭 이벤트를 방지하기 위함입니다.
-        holder.rowCartBinding.checkBoxCartRow.setOnCheckedChangeListener(null)
-
-        // 체크박스 클릭 리스너 설정
-        holder.rowCartBinding.checkBoxCartRow.setOnClickListener {
-            // 클릭된 항목의 현재 위치를 가져옵니다.
-            // RecyclerView에서 항목이 재활용되기 때문에 클릭 이벤트가 발생할 때
-            // 현재 항목의 정확한 위치를 얻기 위해 holder.adapterPosition을 사용합니다.
-            val currentPosition = holder.position
-
-            // 현재 항목의 선택 상태를 반전시킵니다.
-            // 현재 상태가 선택됨(true)이면 선택되지 않음(false)으로, 선택되지 않음(false)이면 선택됨(true)으로 변경합니다.
-            val isChecked = !isCheckedList[currentPosition]
-
-            // 변경된 상태를 isSelectedList에 반영합니다.
-            isCheckedList[currentPosition] = isChecked
-
-            // 해당 항목만 업데이트하여 UI를 최신 상태로 갱신합니다.
-            // 이는 성능 최적화를 위해 전체 목록을 다시 로드하는 것이 아니라 변경된 부분만 업데이트합니다.
-            notifyItemChanged(currentPosition)
-
-            // 리스너를 통해 액티비티에 체크 상태 변경을 알립니다.
-            // 모든 항목의 선택 상태를 확인한 후, 모든 항목이 선택되었다면 true, 그렇지 않다면 false를 전달합니다.
-            // 이를 통해 액티비티에서는 전체 선택 체크박스의 상태를 업데이트할 수 있습니다.
-            listener.onItemCheckStateChanged(isAllSelected())
-        }
     }
 
-    // 모든 항목이 선택되었는지 확인하는 함수
-    fun isAllSelected(): Boolean {
-        // isSelectedList의 모든 항목이 true(선택됨)일 경우에만 true를 반환하고,
-        // 하나라도 false(선택되지 않음)가 있다면 false를 반환합니다.
-        return isCheckedList.all { it }
+    @SuppressLint("NotifyDataSetChanged")
+    fun updateData(list: List<PieceInfoData>) {
+        cartList = list
+        notifyDataSetChanged()
+        Log.d("update adapter", list.toString())
     }
 }
 
 // 리사이클러뷰 뷰홀더
-class CartViewHolder(rowCartBinding: RowCartBinding) :
-    RecyclerView.ViewHolder(rowCartBinding.root) {
-    val rowCartBinding: RowCartBinding
+class CartViewHolder(
+    private val context: Context,
+    private val binding: RowCartBinding,
+    private val pieceImgOnClickListener: (HashMap<String,Int>) -> Unit,
+    private val authorNameOnClickListener: (Int) -> Unit,
+    private val closeButtonOnClickListener: (Int) -> Unit
+) : RecyclerView.ViewHolder(binding.root) {
 
-    init {
-        this.rowCartBinding = rowCartBinding
+    fun bind(
+        data: PieceInfoData
+    ) {
+        with(binding) {
 
-        this.rowCartBinding.root.layoutParams = ViewGroup.LayoutParams(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT
-        )
+            // 항목 하나
+            with(root) {
+                layoutParams = ViewGroup.LayoutParams(
+                    // 클릭되는 범위 지정
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT
+                )
+            }
+
+            // 작품 이미지 세팅
+            root.context.setImage(imageView, data.pieceImg)
+            imageView.setOnClickListener {
+                val pieceIdx = data.pieceIdx
+                val authorIdx = data.authorIdx
+                val hashMap = HashMap<String,Int>()
+                hashMap["pieceIdx"] = pieceIdx
+                hashMap["authorIdx"] = authorIdx
+                pieceImgOnClickListener.invoke(hashMap)
+
+            }
+            // 해당 작품 이름
+            textViewRowCartPieceName.text = data.pieceName
+
+            // 해당 작품 작가 이름
+            textViewRowCartAuthorName.text = data.authorName
+            textViewRowCartAuthorName.setOnClickListener {
+                authorNameOnClickListener.invoke(data.authorIdx)
+            }
+            // 해당 작품 가격 (,표시)
+            val dec = DecimalFormat("#,###")
+            val result = data.piecePrice
+            textViewRowCartPiecePrice.text = "${dec.format(result)} 원"
+
+            imageButtonRowCartClose.setOnClickListener {
+                closeButtonOnClickListener.invoke(data.pieceIdx)
+            }
+
+
+
+
+        }
     }
-}
-
-interface OnItemCheckStateChangeListener {
-    fun onItemCheckStateChanged(isAllSelected: Boolean)
 }
 
 

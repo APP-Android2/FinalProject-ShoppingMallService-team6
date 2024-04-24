@@ -1,16 +1,13 @@
 package kr.co.lion.unipiece.ui.author.viewmodel
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.google.firebase.Timestamp
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.model.PieceInfoData
+import kr.co.lion.unipiece.repository.AuthorFollowRepository
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.PieceInfoRepository
 
@@ -37,6 +34,7 @@ class AuthorInfoViewModel: ViewModel() {
 
 
     private val authorInfoRepository = AuthorInfoRepository()
+    private val authorFollowRepository = AuthorFollowRepository()
 
     // 작가 정보를 불러오기
     suspend fun getAuthorInfoData(authorIdx: Int) {
@@ -55,7 +53,7 @@ class AuthorInfoViewModel: ViewModel() {
     // 팔로우 수 불러오기
     fun getFollowCount(authorIdx: Int){
         viewModelScope.launch {
-            val followCount = authorInfoRepository.getAuthorFollow(authorIdx)
+            val followCount = authorFollowRepository.getAuthorFollow(authorIdx)
             _authorFollow.value = "${followCount} 팔로워"
         }
     }
@@ -63,21 +61,21 @@ class AuthorInfoViewModel: ViewModel() {
     // 팔로우 여부 확인
     fun checkFollow(userIdx:Int, authorIdx:Int){
         viewModelScope.launch {
-            _checkFollow.value = authorInfoRepository.checkFollow(userIdx, authorIdx)
+            _checkFollow.value = authorFollowRepository.checkFollow(userIdx, authorIdx)
         }
     }
 
     // 팔로우 하기
     suspend fun followAuthor(userIdx:Int, authorIdx:Int){
         val job1 = viewModelScope.launch {
-            authorInfoRepository.addAuthorFollow(userIdx, authorIdx)
+            authorFollowRepository.addAuthorFollow(userIdx, authorIdx)
         }
         job1.join()
     }
     // 팔로우 취소
     suspend fun cancelFollowing(userIdx:Int, authorIdx:Int){
         val job1 = viewModelScope.launch {
-            authorInfoRepository.cancelFollowing(userIdx, authorIdx)
+            authorFollowRepository.cancelFollowing(userIdx, authorIdx)
         }
         job1.join()
     }
@@ -103,7 +101,7 @@ class AuthorInfoViewModel: ViewModel() {
     }
     
     suspend fun updateAuthorFollow(authorIdx: Int){
-        val countFollow = authorInfoRepository.getAuthorFollow(authorIdx)
+        val countFollow = authorFollowRepository.getAuthorFollow(authorIdx)
         authorInfoRepository.updateAuthorFollow(authorIdx, countFollow)
     }
 

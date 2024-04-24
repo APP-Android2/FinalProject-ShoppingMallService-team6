@@ -23,10 +23,6 @@ class RankAuthorFragment : Fragment() {
 
     lateinit var binding: FragmentRankAuthorBinding
 
-    val vpAdapter: RankAuthorVPAdapter by lazy {
-        RankAuthorVPAdapter(this)
-    }
-
     private val viewModel: RankViewModel by viewModels( ownerProducer = { requireParentFragment() } )
 
     override fun onCreateView(
@@ -44,6 +40,8 @@ class RankAuthorFragment : Fragment() {
     }
 
     fun initViewPager() {
+
+        val vpAdapter = RankAuthorVPAdapter(this)
 
         val titles = listOf("팔로워 순", "판매횟수 순")
         vpAdapter.addFragment(RankFollowerFragment())

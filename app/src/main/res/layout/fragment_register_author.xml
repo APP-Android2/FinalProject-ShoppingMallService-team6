@@ -80,6 +80,25 @@
                     android:paddingLeft="10dp" />
             </com.google.android.material.textfield.TextInputLayout>
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterUniStateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:hint="학적 상태"
+                app:boxStrokeColor="@color/second"
+                app:cursorColor="@color/second"
+                app:endIconMode="clear_text"
+                app:hintTextColor="@color/second">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/textRegisterUniState"
+                    android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:background="@drawable/textfield_radius"
+                    android:paddingLeft="10dp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="70dp"
