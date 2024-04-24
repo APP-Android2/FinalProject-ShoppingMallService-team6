@@ -9,12 +9,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.model.PieceAddInfoData
+import kr.co.lion.unipiece.repository.AuthorAddRepository
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.PieceAddInfoRepository
 
 class PieceAddInfoViewModel : ViewModel() {
     private val pieceAddInfoRepository = PieceAddInfoRepository()
     private val authorInfoRepository = AuthorInfoRepository()
+    private val authorAddRepository = AuthorAddRepository()
 
     private val _addPieceInfoResult = MutableLiveData<Boolean>()
     val addPieceInfoResult: LiveData<Boolean> = _addPieceInfoResult
@@ -43,6 +45,9 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _isAuthor = MutableLiveData<Boolean>()
     val isAuthor: LiveData<Boolean> = _isAuthor
 
+    private val _isAuthorAdd = MutableLiveData<Boolean>()
+    val isAuthorAdd: LiveData<Boolean> = _isAuthorAdd
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -54,6 +59,8 @@ class PieceAddInfoViewModel : ViewModel() {
 
             if (isAuthor) {
                 getAuthorIdx(userIdx)
+            } else {
+                _isAuthorAdd.value = authorAddRepository.isAuthorAdd(userIdx)
             }
         }
     }

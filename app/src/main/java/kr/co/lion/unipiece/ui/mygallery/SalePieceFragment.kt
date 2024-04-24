@@ -32,7 +32,8 @@ class SalePieceFragment : Fragment() {
 
     private val viewModel: PieceAddInfoViewModel by viewModels()
 
-    var isArtist = false
+    private var isArtist = false
+    private var isArtistAdd = false
 
     val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -116,9 +117,19 @@ class SalePieceFragment : Fragment() {
                 } else {
                     progressBarSalePiece.isVisible = false
                     layoutNotArtist.isVisible = true
-                    settingButtonSalePieceAddArtist()
-                }
+                    viewModel.isAuthorAdd.observe(viewLifecycleOwner) { isAuthorAdd ->
+                        isArtistAdd = isAuthorAdd
 
+                        if (isAuthorAdd) {
+                            binding.buttonSalePieceAddArtist.isEnabled = false
+                            binding.textViewNotArtist.text = "작가 등록 신청이 되었습니다\n등록 완료 시까지 1~2일 소요됩니다"
+                            binding.buttonSalePieceAddArtist.text = "작가 등록 신청 완료"
+                            binding.buttonSalePieceAddArtist.setBackgroundResource(R.drawable.button_radius_inactive)
+                        } else {
+                            settingButtonSalePieceAddArtist()
+                        }
+                    }
+                }
             }
         }
     }
