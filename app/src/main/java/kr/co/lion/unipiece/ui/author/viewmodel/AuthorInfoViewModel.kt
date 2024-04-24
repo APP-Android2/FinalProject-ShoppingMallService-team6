@@ -1,10 +1,14 @@
 package kr.co.lion.unipiece.ui.author.viewmodel
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import kr.co.lion.unipiece.model.AuthorInfoData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.AuthorInfoRepository

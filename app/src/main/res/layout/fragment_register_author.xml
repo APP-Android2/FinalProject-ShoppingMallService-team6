@@ -25,6 +25,7 @@
             android:orientation="vertical" >
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterUniLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="학교 입력"
@@ -42,6 +43,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterNameLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -60,6 +62,7 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textRegisterMajorLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -84,6 +87,7 @@
                 android:orientation="horizontal">
 
                 <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textAddFileLayout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginRight="8dp"
@@ -94,6 +98,64 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/textAddFile"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_weight="4"
+                        android:background="@drawable/textfield_radius"
+                        android:cursorVisible="false"
+                        android:editable="false"
+                        android:paddingLeft="10dp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <Button
+                    android:id="@+id/buttonGetFile"
+                    style="@style/Widget.Material3.Button.OutlinedButton.Icon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="70dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="14dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_weight="4"
+                    android:drawableStart="@drawable/album_24fx"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:paddingBottom="@dimen/m3_btn_padding_bottom" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="재학 증명서 또는 작품 전시 사진을 첨부 해주세요"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:adjustViewBounds="true"
+                app:srcCompat="@drawable/mygallery_icon" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:layout_marginTop="50dp"
+                android:orientation="horizontal">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textAddImageLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginRight="8dp"
+                    android:layout_weight="4"
+                    android:clickable="false"
+                    android:hint="프로필 사진 추가"
+                    app:hintTextColor="@color/second">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textAddImage"
                         android:layout_width="match_parent"
                         android:layout_height="56dp"
                         android:layout_weight="4"
@@ -116,19 +178,18 @@
                     android:drawableStart="@drawable/album_24fx"
                     android:gravity="center_horizontal|center_vertical"
                     android:paddingBottom="@dimen/m3_btn_padding_bottom" />
-
             </LinearLayout>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textView7"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="재학 증명서 또는 작품 전시 사진을 첨부 해주세요"
+                android:text="사용할 프로필 사진을 첨부해주세요"
                 android:textAppearance="@style/TextAppearance.AppCompat.Small"
                 android:textStyle="bold" />
 
             <ImageView
-                android:id="@+id/imageView3"
+                android:id="@+id/imageView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"

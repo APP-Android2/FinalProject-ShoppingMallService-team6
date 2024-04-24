@@ -50,7 +50,7 @@
         android:padding="20dp">
 
         <CheckBox
-            android:id="@+id/checkBox2"
+            android:id="@+id/checkBoxGuideLine"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="위 안내사항에 동의합니다." />

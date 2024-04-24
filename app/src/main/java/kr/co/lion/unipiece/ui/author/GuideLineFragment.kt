@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.FragmentGuideLineBinding
 import kr.co.lion.unipiece.util.AddAuthorFragmentName
+import kr.co.lion.unipiece.util.CustomDialog
 
 class GuideLineFragment : Fragment() {
 
@@ -45,10 +46,26 @@ class GuideLineFragment : Fragment() {
     private fun settingEvent(){
         fragmentGuideLineBinding.apply {
             buttonGuideOK.setOnClickListener {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.containerAuthor, RegisterAuthorFragment())
-                    .addToBackStack(AddAuthorFragmentName.REGISTER_AUTHOR_FRAGMENT.str)
-                    .commit()
+                if (checkBoxGuideLine.isChecked){
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.containerAuthor, RegisterAuthorFragment())
+                        .addToBackStack(AddAuthorFragmentName.REGISTER_AUTHOR_FRAGMENT.str)
+                        .commit()
+
+                }else{
+                    val diaLog = CustomDialog("안내사항 미동의", "안내사항을 동의하지 않으시면\n작가 등록이 불가능합니다.")
+                    diaLog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
+                        override fun okButtonClick() {
+
+                        }
+
+                        override fun noButtonClick() {
+
+                        }
+
+                    })
+                    diaLog.show(parentFragmentManager, "CustomDialog")
+                }
             }
         }
     }
