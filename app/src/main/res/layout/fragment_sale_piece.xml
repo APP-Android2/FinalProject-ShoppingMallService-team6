@@ -54,12 +54,14 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/textViewNotArtist"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|center"
             android:layout_marginBottom="100dp"
             android:fontFamily="@font/pretendard_medium"
-            android:text="작가로 등록되어 있지 않습니다" />
+            android:text="작가로 등록되어 있지 않습니다"
+            android:textAlignment="center" />
 
         <Button
             android:id="@+id/buttonSalePieceAddArtist"

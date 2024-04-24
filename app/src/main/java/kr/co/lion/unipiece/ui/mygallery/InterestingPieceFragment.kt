@@ -1,21 +1,20 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
@@ -31,6 +30,14 @@ class InterestingPieceFragment : Fragment() {
     private val viewModel: InterestingPieceViewModel by viewModels()
 
     val userIdxPref = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
+
+    private val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_CANCELED) {
+            lifecycleScope.launch {
+                viewModel.getUserLikedPieceInfo(userIdxPref)
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentInterestingPieceBinding.inflate(inflater, container, false)
@@ -70,30 +77,30 @@ class InterestingPieceFragment : Fragment() {
                             intent.putExtra("MyGalleryFragment", true)
                             intent.putExtra("pieceIdx", likePieceInfo.pieceIdx)
                             intent.putExtra("authorIdx", likePieceInfo.authorIdx)
-                            startActivity(intent)
+                            activityResultLauncher.launch(intent)
                         },
                         onLikeClick = { position ->
                             val likePieceInfo = value[position]
-                            viewModel.cancelLikePiece(likePieceInfo.pieceIdx, userIdxPref)
+                            lifecycleScope.launch {
+                                viewModel.cancelLikePiece(likePieceInfo.pieceIdx, userIdxPref)
 
-                            createSnackBar("관심 작품에서 삭제되었습니다.", Snackbar.LENGTH_SHORT).apply {
-                                val layoutParams = this.view.layoutParams as CoordinatorLayout.LayoutParams
-                                layoutParams.setMargins(20, 0, 20, 50)
-                                this.view.layoutParams = layoutParams
-                            }.show()
+                                viewModel.likePieceInfoList.observe(viewLifecycleOwner) { likePieceList ->
+                                    if (likePieceList.isNullOrEmpty()) {
+                                        binding.recyclerViewInterestingPiece.isVisible = false
+                                    }
+                                }
+
+                                createSnackBar("관심 작품에서 삭제되었습니다.", Snackbar.LENGTH_SHORT).apply {
+                                    val layoutParams = this.view.layoutParams as CoordinatorLayout.LayoutParams
+                                    layoutParams.setMargins(20, 0, 20, 50)
+                                    this.view.layoutParams = layoutParams
+                                }.show()
+                            }
                         })
 
                     with(binding) {
                         recyclerViewInterestingPiece.adapter = interestingPieceAdapter
                         recyclerViewInterestingPiece.layoutManager = LinearLayoutManager(requireActivity())
-                        val deco = MaterialDividerItemDecoration(
-                            requireActivity(),
-                            MaterialDividerItemDecoration.VERTICAL
-                        )
-                        deco.dividerInsetStart = 50
-                        deco.dividerInsetEnd = 50
-                        deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                        recyclerViewInterestingPiece.addItemDecoration(deco)
                     }
                 }
             })
@@ -102,5 +109,6 @@ class InterestingPieceFragment : Fragment() {
 
     private fun createSnackBar(message: String, duration: Int): Snackbar {
         return Snackbar.make(requireView(), message, duration)
+            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
     }
 }

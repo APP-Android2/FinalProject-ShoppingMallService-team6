@@ -11,7 +11,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
@@ -26,7 +25,6 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivitySalesApplicationBinding
 import kr.co.lion.unipiece.databinding.CategoryDialogBinding
 import kr.co.lion.unipiece.model.PieceAddInfoData
@@ -448,6 +446,7 @@ class SalesApplicationActivity : AppCompatActivity() {
             }
 
             setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                setResult(RESULT_OK)
                 finish()
             }
 

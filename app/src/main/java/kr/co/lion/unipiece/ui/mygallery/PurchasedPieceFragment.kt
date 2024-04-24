@@ -8,21 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDividerItemDecoration
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentPurchasedPieceBinding
-import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
-import kr.co.lion.unipiece.ui.mygallery.adapter.InterestingPieceAdapter
 import kr.co.lion.unipiece.ui.mygallery.adapter.PurchasedPieceAdapter
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.PurchasedPieceViewModel
 
@@ -76,20 +69,13 @@ class PurchasedPieceFragment : Fragment() {
                     val intent = Intent(requireActivity(), PurchasedPieceDetailActivity::class.java)
                     intent.putExtra("pieceIdx", pieceBuyInfo.pieceIdx)
                     intent.putExtra("pieceBuyIdx", pieceBuyInfo.pieceBuyIdx)
+                    intent.putExtra("pieceBuyState", pieceBuyInfo.pieceBuyState)
                     activityResultLauncher.launch(intent)
                 }
 
                 with(binding) {
                     recyclerViewPurchasedPiece.adapter = purchasedPieceAdapter
                     recyclerViewPurchasedPiece.layoutManager = LinearLayoutManager(requireActivity())
-                    val deco = MaterialDividerItemDecoration(
-                        requireActivity(),
-                        MaterialDividerItemDecoration.VERTICAL
-                    )
-                    deco.dividerInsetStart = 50
-                    deco.dividerInsetEnd = 50
-                    deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                    recyclerViewPurchasedPiece.addItemDecoration(deco)
                 }
             }
         })

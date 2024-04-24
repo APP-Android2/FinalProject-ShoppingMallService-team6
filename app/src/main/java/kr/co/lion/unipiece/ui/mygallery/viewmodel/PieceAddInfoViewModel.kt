@@ -9,12 +9,14 @@ import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.model.PieceAddInfoData
+import kr.co.lion.unipiece.repository.AuthorAddRepository
 import kr.co.lion.unipiece.repository.AuthorInfoRepository
 import kr.co.lion.unipiece.repository.PieceAddInfoRepository
 
 class PieceAddInfoViewModel : ViewModel() {
     private val pieceAddInfoRepository = PieceAddInfoRepository()
     private val authorInfoRepository = AuthorInfoRepository()
+    private val authorAddRepository = AuthorAddRepository()
 
     private val _addPieceInfoResult = MutableLiveData<Boolean>()
     val addPieceInfoResult: LiveData<Boolean> = _addPieceInfoResult
@@ -43,6 +45,9 @@ class PieceAddInfoViewModel : ViewModel() {
     private val _isAuthor = MutableLiveData<Boolean>()
     val isAuthor: LiveData<Boolean> = _isAuthor
 
+    private val _isAuthorAdd = MutableLiveData<Boolean>()
+    val isAuthorAdd: LiveData<Boolean> = _isAuthorAdd
+
     private val _isLoading = MutableLiveData<Boolean>()
     val isLoading: LiveData<Boolean> = _isLoading
 
@@ -54,6 +59,8 @@ class PieceAddInfoViewModel : ViewModel() {
 
             if (isAuthor) {
                 getAuthorIdx(userIdx)
+            } else {
+                _isAuthorAdd.value = authorAddRepository.isAuthorAdd(userIdx)
             }
         }
     }
@@ -63,7 +70,6 @@ class PieceAddInfoViewModel : ViewModel() {
             try {
                 val authorIdx = authorInfoRepository.getAuthorIdxByUserIdx(userIdx)
                 _authorIdx.value = authorIdx
-                Log.e("PieceAddInfoViewModel", "authorIdx : $authorIdx")
 
                 getPieceAddInfo()
                 getAuthorName()
@@ -79,7 +85,6 @@ class PieceAddInfoViewModel : ViewModel() {
                 val authorIdx = _authorIdx.value ?: 0
                 val authorInfo = authorInfoRepository.getAuthorInfoDataByIdx(authorIdx)
                 _authorName.value = authorInfo?.authorName
-                Log.e("PieceAddInfoViewModel", "_authorName : ${_authorName.value}")
 
             } catch (throwable: Throwable) {
                 Log.e("PieceAddInfoViewModel", "Failed to get authorName: $throwable")
@@ -87,7 +92,7 @@ class PieceAddInfoViewModel : ViewModel() {
         }
     }
 
-    private fun getPieceAddInfo() {
+    suspend fun getPieceAddInfo() {
         _isLoading.value = true
 
         viewModelScope.launch {
@@ -112,10 +117,8 @@ class PieceAddInfoViewModel : ViewModel() {
                     }
                 }
 
-                Log.e("PieceAddInfoViewModel", "pieceAddInfoList : $pieceAddInfoList")
             } catch (throwable: Throwable) {
                 _isLoading.value = false
-                Log.e("PieceAddInfoViewModel", "Failed to get pieceAddInfo: $throwable")
             }
         }
     }
@@ -127,7 +130,6 @@ class PieceAddInfoViewModel : ViewModel() {
 
                 if (pieceAddInfo != null) {
                     _imageFileName.value = pieceAddInfo.addPieceImg
-                    Log.e("PieceAddInfoViewModel", "pieceAddInfo.addPieceImg : ${_imageFileName.value}")
                     // 이미지를 제외한 데이터 먼저 UI에 반영
                     updateUIWithOneData(pieceAddInfo)
 
@@ -194,7 +196,6 @@ class PieceAddInfoViewModel : ViewModel() {
                 val fileName = pieceAddInfoRepository.uploadImage(authorIdx, imageUri)
                 _uploadImageResult.value = fileName
             } catch (throwable: Throwable) {
-                Log.e("PieceAddInfoViewModel", "Image upload failed: $throwable")
                 _uploadImageResult.value = null
             }
         }

@@ -1,6 +1,5 @@
 package kr.co.lion.unipiece.ui.mygallery
 
-import android.content.Context
 import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.BitmapFactory
@@ -11,7 +10,6 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -19,6 +17,7 @@ import android.view.ViewGroup
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.viewModels
@@ -28,7 +27,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentRefundBinding
 import kr.co.lion.unipiece.model.PieceBuyInfoData
 import kr.co.lion.unipiece.ui.mygallery.viewmodel.RefundViewModel
@@ -173,12 +171,16 @@ class RefundFragment : Fragment() {
                                         lifecycleScope.launch {
                                             viewModel.updatePieceBuyRefund(pieceInfoData)
 
-                                            Snackbar.make(requireView(), "반품 접수 신청이 완료되었습니다.", Snackbar.LENGTH_SHORT).show()
+                                            Snackbar.make(requireView(), "반품 접수 신청이 완료되었습니다.", Snackbar.LENGTH_SHORT)
+                                                .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
+                                                .show()
 
                                             parentFragmentManager.popBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
                                         }
                                     } else {
-                                        Snackbar.make(requireView(), "네트워크 오류로 반품 접수 신청을 실패했습니다.", Snackbar.LENGTH_SHORT).show()
+                                        Snackbar.make(requireView(), "네트워크 오류로 반품 접수 신청을 실패했습니다.", Snackbar.LENGTH_SHORT)
+                                            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
+                                            .show()
                                     }
                                 }
                             }

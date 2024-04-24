@@ -74,4 +74,18 @@ class AuthorAddDataSource {
 
         return authorAddData
     }
+
+    // 작가 등록 확인
+    suspend fun isAuthorAdd(userIdx: Int): Boolean {
+        return try {
+            val querySnapshot = db.collection("AuthorAdd")
+                .whereEqualTo("userIdx", userIdx)
+                .get()
+                .await()
+
+            !querySnapshot.isEmpty
+        } catch (e: Exception) {
+            false
+        }
+    }
 }

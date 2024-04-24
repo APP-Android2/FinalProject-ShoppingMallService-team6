@@ -1,10 +1,8 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.databinding.RowInterestingPieceBinding
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.util.setImage

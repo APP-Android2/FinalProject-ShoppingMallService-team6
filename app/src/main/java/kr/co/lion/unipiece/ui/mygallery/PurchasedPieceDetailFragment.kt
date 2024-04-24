@@ -2,14 +2,12 @@ package kr.co.lion.unipiece.ui.mygallery
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
@@ -28,6 +26,7 @@ class PurchasedPieceDetailFragment : Fragment() {
 
     private var pieceIdx = 0
     private var pieceBuyIdx = 0
+    private var pieceBuyState = ""
     private var isCancel = false
     private var isRefund = false
     private var isRefundDone = false
@@ -43,6 +42,7 @@ class PurchasedPieceDetailFragment : Fragment() {
 
         pieceIdx = arguments?.getInt("pieceIdx", -1) ?: -1
         pieceBuyIdx = arguments?.getInt("pieceBuyIdx", -1) ?: -1
+        pieceBuyState = arguments?.getString("pieceBuyState") ?:""
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
@@ -77,9 +77,9 @@ class PurchasedPieceDetailFragment : Fragment() {
     }
 
     private fun settingView() {
-        isCancel = if(viewModel.pieceBuyState.value == "주문 취소") true else false
-        isRefund = if(viewModel.pieceBuyState.value == "반품 승인") true else false
-        isRefundDone = if(viewModel.pieceBuyState.value == "반품 완료") true else false
+        isCancel = if(pieceBuyState == "주문 취소") true else false
+        isRefund = if(pieceBuyState == "반품 승인") true else false
+        isRefundDone = if(pieceBuyState == "반품 완료") true else false
 
         binding.apply {
             if(isCancel) {

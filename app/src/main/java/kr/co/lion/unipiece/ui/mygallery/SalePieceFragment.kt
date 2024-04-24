@@ -1,15 +1,15 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
-import androidx.core.view.indices
-import androidx.core.view.isInvisible
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,7 +17,6 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.divider.MaterialDividerItemDecoration
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
@@ -33,7 +32,16 @@ class SalePieceFragment : Fragment() {
 
     private val viewModel: PieceAddInfoViewModel by viewModels()
 
-    var isArtist = false
+    private var isArtist = false
+    private var isArtistAdd = false
+
+    val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            lifecycleScope.launch {
+                viewModel.getPieceAddInfo()
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)
@@ -46,10 +54,8 @@ class SalePieceFragment : Fragment() {
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
-                // 프로그래스바를 표시
                 binding.progressBarSalePiece.isVisible = true
             } else {
-                // 프로그래스바를 숨김
                 binding.progressBarSalePiece.isVisible = false
             }
         }
@@ -78,7 +84,7 @@ class SalePieceFragment : Fragment() {
                                     recyclerViewSalePiece.isVisible = false
                                     layoutNotExistPiece.isVisible = true
                                 } else {
-                                    val salePieceAdapter = SalePieceAdapter(value) { position ->
+                                    val salePieceAdapter = SalePieceAdapter(value, activityResultLauncher) { position ->
                                         val addPieceInfo = value[position]
                                         if (addPieceInfo.addPieceState == "판매 완료" || addPieceInfo.addPieceState == "판매 중") {
                                             val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
@@ -103,11 +109,6 @@ class SalePieceFragment : Fragment() {
                                     with(binding){
                                         recyclerViewSalePiece.adapter = salePieceAdapter
                                         recyclerViewSalePiece.layoutManager = LinearLayoutManager(requireActivity())
-                                        val deco = MaterialDividerItemDecoration(requireActivity(), MaterialDividerItemDecoration.VERTICAL)
-                                        deco.dividerInsetStart = 50
-                                        deco.dividerInsetEnd = 50
-                                        deco.dividerColor = ContextCompat.getColor(requireActivity(), R.color.lightgray)
-                                        recyclerViewSalePiece.addItemDecoration(deco)
                                     }
                                 }
                             })
@@ -116,15 +117,26 @@ class SalePieceFragment : Fragment() {
                 } else {
                     progressBarSalePiece.isVisible = false
                     layoutNotArtist.isVisible = true
-                    settingButtonSalePieceAddArtist()
-                }
+                    viewModel.isAuthorAdd.observe(viewLifecycleOwner) { isAuthorAdd ->
+                        isArtistAdd = isAuthorAdd
 
+                        if (isAuthorAdd) {
+                            binding.buttonSalePieceAddArtist.isEnabled = false
+                            binding.textViewNotArtist.text = "작가 등록 신청이 되었습니다\n등록 완료 시까지 1~2일 소요됩니다"
+                            binding.buttonSalePieceAddArtist.text = "작가 등록 신청 완료"
+                            binding.buttonSalePieceAddArtist.setBackgroundResource(R.drawable.button_radius_inactive)
+                        } else {
+                            settingButtonSalePieceAddArtist()
+                        }
+                    }
+                }
             }
         }
     }
 
     private fun createSnackBar(message: String, duration: Int): Snackbar {
         return Snackbar.make(requireView(), message, duration)
+            .setBackgroundTint(ContextCompat.getColor(requireContext(), R.color.second))
     }
 
     fun settingButtonSalePieceAddPiece() {
@@ -132,7 +144,7 @@ class SalePieceFragment : Fragment() {
             buttonSalePieceAddPiece.setOnClickListener {
                 val intent = Intent(requireActivity(), SalesApplicationActivity::class.java)
                 intent.putExtra("isModify", false)
-                startActivity(intent)
+                activityResultLauncher.launch(intent)
             }
         }
     }

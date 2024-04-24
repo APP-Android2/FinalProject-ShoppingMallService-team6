@@ -1,16 +1,11 @@
 package kr.co.lion.unipiece.ui.mygallery.adapter
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowPurchasedPieceBinding
-import kr.co.lion.unipiece.databinding.RowSalePieceBinding
-import kr.co.lion.unipiece.model.PieceAddInfoData
 import kr.co.lion.unipiece.model.PieceBuyInfoData
 import kr.co.lion.unipiece.model.PieceInfoData
-import kr.co.lion.unipiece.ui.mygallery.SalesApplicationActivity
 import kr.co.lion.unipiece.util.setImage
 import java.text.DecimalFormat
 

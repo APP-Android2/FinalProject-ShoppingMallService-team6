@@ -3,7 +3,6 @@ package kr.co.lion.unipiece.ui.mygallery
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import kr.co.lion.unipiece.R
@@ -24,10 +23,12 @@ class PurchasedPieceDetailActivity : AppCompatActivity() {
 
         val pieceIdx = intent.getIntExtra("pieceIdx", -1)
         val pieceBuyIdx = intent.getIntExtra("pieceBuyIdx", -1)
+        val pieceBuyState = intent.getStringExtra("pieceBuyState")
 
         val bundle = Bundle()
         bundle.putInt("pieceIdx", pieceIdx)
         bundle.putInt("pieceBuyIdx", pieceBuyIdx)
+        bundle.putString("pieceBuyState", pieceBuyState)
 
         replaceFragment(PurchasedPieceDetailFragmentName.PURCHEASED_PIECE_DETAIL_FRAGMENT, false, bundle)
     }
