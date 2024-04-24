@@ -25,17 +25,43 @@ class OrderActivity : AppCompatActivity() {
         setContentView(activityOrderBinding.root)
 
         lifecycleScope.launch {
-            // 배송지관리에서 배송지 번호를 들고온다. 없다면 0
+            // 인텐트에서 "deliveryIdx"로 넘어온 값을 가져옴. 값이 없으면 기본값으로 0을 사용
             val deliveryIdx = intent.getIntExtra("deliveryIdx", 0)
-            // 배송지 관리에서 받은 배송지 번호를 주문하기 화면에 전달한다.
-            if(deliveryIdx != 0){
-                val orderMainFragment = OrderMainFragment()
-                val bundle = Bundle()
-                bundle.putInt("deliveryIdx",deliveryIdx)
-                orderMainFragment.arguments = bundle
-                supportFragmentManager.beginTransaction().replace(R.id.containerOrder,orderMainFragment).commit()
-            }else{
-                // 다른 접근이라면 null 값을 전달하며 주문하기 화면을 띄운다.
+            // 인텐트에서 "pieceIdxList"로 넘어온 ArrayList<Integer> 타입의 값을 가져옴. 값이 없으면 null을 반환
+            val pieceIdxList = intent.getIntegerArrayListExtra("pieceIdxList")
+            // 인텐트에서 "pieceIdx"로 넘어온 Int 타입의 값을 가져옴. 값이 없으면 0을 반환
+            val pieceIdx = intent.getIntExtra("pieceIdx",0)
+            Log.d("pieceIdx orderActivity",pieceIdx.toString())
+            val bundle = Bundle()
+
+
+
+            // 배송지 관리에서 선택된 배송지가 있다면 Bundle에 이 값을 추가
+            if (deliveryIdx != 0) {
+                bundle.putInt("deliveryIdx", deliveryIdx)
+            }
+
+            // 장바구니에서 선택된 상품 목록이 있다면 Bundle에 이 목록을 추가
+            pieceIdxList?.let {
+                bundle.putIntegerArrayList("pieceIdxList", it)
+            }
+
+            // 작품 상세에서 넘어온 작품번호가 있다면 Bundle에 이 값을 추가
+            if (pieceIdx != 0) {
+                bundle.putInt("pieceIdx", pieceIdx)
+                Log.d("pieceIdx bundle",bundle.toString())
+            }
+
+            // deliveryIdx나 pieceIdxList 또는 pieceIdx 중 하나라도 존재한다면
+            if (!bundle.isEmpty) {
+                // OrderMainFragment를 생성하고, Bundle을 이 Fragment의 arguments로 설정
+                val orderMainFragment = OrderMainFragment().apply {
+                    arguments = bundle
+                }
+                // FragmentManager를 사용하여 containerOrder 레이아웃에 orderMainFragment 표시
+                supportFragmentManager.beginTransaction().replace(R.id.containerOrder, orderMainFragment).commit()
+            } else {
+                // Bundle이 비어있다면, 즉 전달할 데이터가 없다면 기본 화면을 표시하는 로직 실행
                 replaceFragment(OrderFragmentName.ORDER_MAIN_FRAGMENT, false, null)
             }
         }
