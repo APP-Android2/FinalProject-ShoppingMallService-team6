@@ -27,6 +27,7 @@ import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentModifyAuthorInfoBinding
 import kr.co.lion.unipiece.ui.author.viewmodel.ModifyAuthorInfoViewModel
 import kr.co.lion.unipiece.util.AuthorInfoFragmentName
+import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.getDegree
 import kr.co.lion.unipiece.util.getPictureUri
 import kr.co.lion.unipiece.util.hideSoftInput
@@ -34,6 +35,8 @@ import kr.co.lion.unipiece.util.resize
 import kr.co.lion.unipiece.util.rotate
 import kr.co.lion.unipiece.util.setImage
 import java.io.File
+import java.util.Date
+import kotlin.math.abs
 
 class ModifyAuthorInfoFragment : Fragment() {
 
@@ -248,10 +251,36 @@ class ModifyAuthorInfoFragment : Fragment() {
     // 작가 갱신 버튼
     private fun settingButtonUpdateAuthor(){
         fragmentModifyAuthorInfoBinding.buttonModifyAuthorUpdateAuthor.setOnClickListener {
-            // 작가 갱신 액티비티로 이동
-            val updateAuthorIntent = Intent(requireActivity(), UpdateAuthorActivity::class.java)
-            updateAuthorIntent.putExtra("authorIdx", authorIdx)
-            startActivity(updateAuthorIntent)
+
+            viewLifecycleOwner.lifecycleScope.launch{
+                modifyAuthorInfoViewModel.getAuthorInfoData(authorIdx)
+
+                //authorIdx로 작가 정보 가져오기
+                if (modifyAuthorInfoViewModel.authorInfoData.value != null){
+                    val isOneYearPassed = modifyAuthorInfoViewModel.checkAuthorDate()
+
+                    if (isOneYearPassed){
+                        // 작가 갱신 액티비티로 이동
+                        val updateAuthorIntent = Intent(requireActivity(), UpdateAuthorActivity::class.java)
+                        updateAuthorIntent.putExtra("authorIdx", authorIdx)
+                        startActivity(updateAuthorIntent)
+                    }else{
+                        val dialog = CustomDialog("갱신 기간 오류", "작가 정보는 1년마다 갱신하시면 됩니다!")
+                        dialog.setButtonClickListener(object :CustomDialog.OnButtonClickListener{
+                            override fun okButtonClick() {
+
+                            }
+
+                            override fun noButtonClick() {
+
+                            }
+
+                        })
+                        dialog.show(parentFragmentManager, "CustomDialog")
+                    }
+
+                }
+            }
         }
     }
 

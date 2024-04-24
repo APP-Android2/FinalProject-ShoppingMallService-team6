@@ -188,8 +188,11 @@ class RegisterAuthorFragment : Fragment() {
                 val authorUni = textRegisterUni.text.toString()
                 val authorInfo = ""
                 val authorImg = imageServerName
+                val authorIdx = -1
+                val authorUniState = textRegisterUniState.text.toString()
+                val authorRegisterTime = Timestamp.now()
 
-                viewModel.insertAuthorInfo(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg){ sucess->
+                viewModel.insertAuthorInfo(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg, true, authorIdx, authorUniState, authorRegisterTime){ sucess->
                     if (sucess){
                         val dialog = CustomDialog("작가 등록 신청 완료", "작가 등록이 신청되었습니다\n등록 완료 시까지 1 ~ 2일 소요됩니다")
                         dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{

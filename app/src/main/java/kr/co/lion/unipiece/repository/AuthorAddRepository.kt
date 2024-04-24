@@ -14,4 +14,7 @@ class AuthorAddRepository {
     suspend fun uploadImageByApp(context: Context, fileName:String, uploadFileName:String) = authorAddDataSource.uploadImageByApp(context, fileName, uploadFileName)
 
     suspend fun insertAuthorAddData(authorAddData: AuthorAddData) = authorAddDataSource.insertAuthorAddData(authorAddData)
+
+    suspend fun getAuthorInfoByAuthorIdx(authorIdx:Int) = authorAddDataSource.getAuthorInfoByAuthorIdx(authorIdx)
+
 }
