@@ -14,6 +14,9 @@ class DeliveryViewModel : ViewModel() {
 
     private val deliveryRepository = DeliveryRepository()
 
+    // 유저 Idx 찾기
+    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
+
     // userIdx로 가져온 배송지
     private val _userIdxDeliveryDataList = MutableLiveData<List<DeliveryData>>()
     val userIdxDeliveryDataList: LiveData<List<DeliveryData>> = _userIdxDeliveryDataList
@@ -33,9 +36,6 @@ class DeliveryViewModel : ViewModel() {
     // 기본 배송지
     private val _getBasicDeliveryData = MutableLiveData<List<DeliveryData>>()
     val getBasicDeliveryData: LiveData<List<DeliveryData>> = _getBasicDeliveryData
-
-    // 유저 Idx 찾기
-    val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     // 신규 데이터 등록시 로딩
     private val _insertDataLoading = MutableLiveData<Boolean?>(null)
