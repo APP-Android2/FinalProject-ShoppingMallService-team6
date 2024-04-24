@@ -190,7 +190,14 @@ class PurchasedPieceDetailFragment : Fragment() {
             }
 
             buttonPurchasedPieceDetailRefund.setOnClickListener {
-                supportFragmentManager.replace(R.id.containerPurchasedPieceDetail, RefundFragment())
+                val bundle = Bundle()
+                bundle.putInt("pieceIdx", pieceIdx)
+                bundle.putInt("pieceBuyIdx", pieceBuyIdx)
+
+                val fragment = RefundFragment()
+                fragment.arguments = bundle
+
+                supportFragmentManager.replace(R.id.containerPurchasedPieceDetail, fragment)
                     .addToBackStack(PurchasedPieceDetailFragmentName.REFUND_FRAGMENT.str)
                     .commit()
             }

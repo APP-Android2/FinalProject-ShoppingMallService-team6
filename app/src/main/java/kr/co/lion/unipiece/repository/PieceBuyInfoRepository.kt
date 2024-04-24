@@ -23,7 +23,7 @@ class PieceBuyInfoRepository {
         return pieceBuyInfoDataSource.updatePieceBuyRefund(pieceBuyInfoData)
     }
 
-    suspend fun uploadRefundImage(userIdx: Int, imageUri: Uri): String {
-        return pieceBuyInfoDataSource.uploadRefundImage(userIdx, imageUri)
+    suspend fun uploadRefundImage(pieceBuyIdx: Int, imageUri: Uri): String {
+        return pieceBuyInfoDataSource.uploadRefundImage(pieceBuyIdx, imageUri)
     }
 }
