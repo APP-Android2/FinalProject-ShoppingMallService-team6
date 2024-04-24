@@ -1,11 +1,14 @@
 package kr.co.lion.unipiece.ui.payment
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -31,12 +34,16 @@ class DeliveryManagerFragment : Fragment() {
         rowClickListener = { deliveryIdx ->
             Log.d("테스트 rowClickListener deliveryIdx", deliveryIdx.toString())
             viewLifecycleOwner.lifecycleScope.launch {
-                val intent = Intent(requireActivity(), OrderActivity::class.java).putExtra(
-                    "deliveryIdx",
-                    deliveryIdx
-                )
+                // 배송지 관리 화면 내부에서
+                val intent = Intent(context, OrderActivity::class.java).apply {
+
+                    // FLAG_ACTIVITY_CLEAR_TOP 및 FLAG_ACTIVITY_SINGLE_TOP 플래그 추가
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+
+                    // 필요한 데이터를 인텐트에 추가
+                    putExtra("deliveryIdx", deliveryIdx)
+                }
                 startActivity(intent)
-                requireActivity().finish()
             }
 
         },
@@ -92,7 +99,6 @@ class DeliveryManagerFragment : Fragment() {
             }
         }
     )
-
 
     override fun onCreateView(
         inflater: LayoutInflater,

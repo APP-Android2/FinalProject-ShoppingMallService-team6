@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowCartBinding
-import kr.co.lion.unipiece.model.CartData
-import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.util.setImage
 import java.text.DecimalFormat
@@ -23,7 +21,6 @@ class CartAdapter(
     fun getCurrentData(): List<PieceInfoData> {
         return cartList
     }
-
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CartViewHolder {
         val binding =
             RowCartBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -39,7 +36,6 @@ class CartAdapter(
 
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         holder.bind(cartList[position])
-
     }
 
     @SuppressLint("NotifyDataSetChanged")
@@ -77,7 +73,7 @@ class CartViewHolder(
             imageView.setOnClickListener {
                 val pieceIdx = data.pieceIdx
                 val authorIdx = data.authorIdx
-                val hashMap = HashMap<String,Int>()
+                val hashMap = HashMap<String, Int>()
                 hashMap["pieceIdx"] = pieceIdx
                 hashMap["authorIdx"] = authorIdx
                 pieceImgOnClickListener.invoke(hashMap)
@@ -99,9 +95,6 @@ class CartViewHolder(
             imageButtonRowCartClose.setOnClickListener {
                 closeButtonOnClickListener.invoke(data.pieceIdx)
             }
-
-
-
 
         }
     }

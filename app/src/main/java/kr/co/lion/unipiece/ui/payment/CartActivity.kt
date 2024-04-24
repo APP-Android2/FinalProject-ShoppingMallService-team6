@@ -15,6 +15,7 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityCartBinding
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.adapter.CartAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.CartViewModel
@@ -25,16 +26,23 @@ class CartActivity : AppCompatActivity() {
     private val viewModel: CartViewModel by viewModels()
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
-    val cartAdapter: CartAdapter = CartAdapter(
+    private val cartAdapter: CartAdapter = CartAdapter(
         emptyList(),
 
         // 항목 작품 이미지 클릭 시 (pieceIdx를 받아옴)
         pieceImgOnClickListener = {
-
+            val intent = Intent(this, BuyDetailActivity::class.java).apply {
+                putExtra("authorIdx", it["authorIdx"])
+                putExtra("pieceIdx", it["pieceIdx"])
+            }
+            startActivity(intent)
 
         },
         authorNameOnClickListener = { authorIdx ->
-
+            val intent = Intent(this, AuthorInfoActivity::class.java).apply {
+                putExtra("authorIdx", authorIdx)
+            }
+            startActivity(intent)
         },
         closeButtonOnClickListener = { pieceIdx ->
             val dialog = CustomCloseDialog("", "이 작품을 장바구니에서 삭제하시겠습니까?")
@@ -44,7 +52,7 @@ class CartActivity : AppCompatActivity() {
                 override fun okButtonClick() {
                     lifecycleScope.launch {
                         // 삭제 처리
-                        viewModel.deleteCartDataByUserIdx(userIdx,pieceIdx)
+                        viewModel.deleteCartDataByUserIdx(userIdx, pieceIdx)
                         viewModel.deleteDataLoading.observe(this@CartActivity) {
                             if (it == true) {
                                 viewModel.setDeleteData()
@@ -63,6 +71,7 @@ class CartActivity : AppCompatActivity() {
             })
             dialog.show(supportFragmentManager, "deleteDialog")
         }
+
 
     )
 
@@ -124,12 +133,14 @@ class CartActivity : AppCompatActivity() {
                 )
             }
 
+            // 전체선택 체크박스
+            with(checkBoxCartAll) {
+
+            }
 
             // 선택한 작품 제거 버튼
             with(buttonCartDelete) {
-                // 버튼 클릭 시
                 setOnClickListener {
-
 
                 }
             }
@@ -144,16 +155,19 @@ class CartActivity : AppCompatActivity() {
                     val pieceIdxList = currentData.map { it.pieceIdx }
                     Log.d("pieceIdxList", "$pieceIdxList")
                     // Intent에 pieceIdx 리스트를 넣어서 OrderActivity로 전달한다.
-                    val orderIntent = Intent(this@CartActivity, OrderActivity::class.java).apply {
-                        putExtra("pieceIdxList", ArrayList(pieceIdxList)) // ArrayList로 변환하여 넣는다.
-                    }
+                    val orderIntent =
+                        Intent(this@CartActivity, OrderActivity::class.java).apply {
+                            putExtra(
+                                "pieceIdxList",
+                                ArrayList(pieceIdxList)
+                            ) // ArrayList로 변환하여 넣는다.
+                        }
                     startActivity(orderIntent)
                 }
             }
 
         }
     }
-
     fun observeData() {
         // 데이터 변경 관찰
         lifecycleScope.launch {
