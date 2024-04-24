@@ -8,11 +8,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentMyPageBinding
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.login.LoginActivity
+import kr.co.lion.unipiece.ui.mypage.viewmodel.MyPageViewModel
 import kr.co.lion.unipiece.ui.payment.CartActivity
 import kr.co.lion.unipiece.util.setMenuIconColor
 
@@ -20,6 +24,11 @@ import kr.co.lion.unipiece.util.setMenuIconColor
 class MyPageFragment : Fragment() {
 
     lateinit var binding: FragmentMyPageBinding
+    val myPageViewModel:MyPageViewModel by viewModels()
+
+    val userIdx by lazy {
+        UniPieceApplication.prefs.getUserIdx("userIdx", -1)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,7 +45,25 @@ class MyPageFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        fetchData()
         initView()
+    }
+
+    fun fetchData(){
+        lifecycleScope.launch {
+            // 닉네임 설정
+            binding.textViewMyPageNicName.text = myPageViewModel.getUserNickname(userIdx)
+            // 작가 여부 확인
+            val isAuthor = myPageViewModel.isAuthor(userIdx)
+            // 작가인 경우에만 작가 정보 버튼 보여주기
+            if(isAuthor){
+                binding.textButtonMyPageAuthInfo.visibility = View.VISIBLE
+                binding.textViewMyPageAuth.visibility = View.VISIBLE
+                binding.MaterialDividerAuthInfo.visibility = View.VISIBLE
+            }
+            // 작가 정보를 불러오는데 시간차가 있어서 프로그래스바 사용
+            binding.progressBarMyPage.visibility = View.GONE
+        }
     }
 
     fun initView() {
