@@ -76,6 +76,7 @@ class PurchasedPieceFragment : Fragment() {
                     val intent = Intent(requireActivity(), PurchasedPieceDetailActivity::class.java)
                     intent.putExtra("pieceIdx", pieceBuyInfo.pieceIdx)
                     intent.putExtra("pieceBuyIdx", pieceBuyInfo.pieceBuyIdx)
+                    intent.putExtra("pieceBuyState", pieceBuyInfo.pieceBuyState)
                     activityResultLauncher.launch(intent)
                 }
 

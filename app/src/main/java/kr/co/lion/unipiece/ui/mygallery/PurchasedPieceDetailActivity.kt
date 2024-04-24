@@ -24,10 +24,12 @@ class PurchasedPieceDetailActivity : AppCompatActivity() {
 
         val pieceIdx = intent.getIntExtra("pieceIdx", -1)
         val pieceBuyIdx = intent.getIntExtra("pieceBuyIdx", -1)
+        val pieceBuyState = intent.getStringExtra("pieceBuyState")
 
         val bundle = Bundle()
         bundle.putInt("pieceIdx", pieceIdx)
         bundle.putInt("pieceBuyIdx", pieceBuyIdx)
+        bundle.putString("pieceBuyState", pieceBuyState)
 
         replaceFragment(PurchasedPieceDetailFragmentName.PURCHEASED_PIECE_DETAIL_FRAGMENT, false, bundle)
     }

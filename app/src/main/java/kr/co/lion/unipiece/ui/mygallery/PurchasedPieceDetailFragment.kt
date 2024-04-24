@@ -28,6 +28,7 @@ class PurchasedPieceDetailFragment : Fragment() {
 
     private var pieceIdx = 0
     private var pieceBuyIdx = 0
+    private var pieceBuyState = ""
     private var isCancel = false
     private var isRefund = false
     private var isRefundDone = false
@@ -43,6 +44,7 @@ class PurchasedPieceDetailFragment : Fragment() {
 
         pieceIdx = arguments?.getInt("pieceIdx", -1) ?: -1
         pieceBuyIdx = arguments?.getInt("pieceBuyIdx", -1) ?: -1
+        pieceBuyState = arguments?.getString("pieceBuyState") ?:""
 
         viewModel.isLoading.observe(viewLifecycleOwner) { isLoading ->
             if (isLoading) {
@@ -77,9 +79,9 @@ class PurchasedPieceDetailFragment : Fragment() {
     }
 
     private fun settingView() {
-        isCancel = if(viewModel.pieceBuyState.value == "주문 취소") true else false
-        isRefund = if(viewModel.pieceBuyState.value == "반품 승인") true else false
-        isRefundDone = if(viewModel.pieceBuyState.value == "반품 완료") true else false
+        isCancel = if(pieceBuyState == "주문 취소") true else false
+        isRefund = if(pieceBuyState == "반품 승인") true else false
+        isRefundDone = if(pieceBuyState == "반품 완료") true else false
 
         binding.apply {
             if(isCancel) {
