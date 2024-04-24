@@ -14,13 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.lifecycleScope
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityUpdateAuthorBinding
 import kr.co.lion.unipiece.ui.MainActivity
-import kr.co.lion.unipiece.ui.author.viewmodel.UpdateAuthorViewModel
-import kr.co.lion.unipiece.ui.infomation.InfoOneActivity
+import kr.co.lion.unipiece.ui.author.viewmodel.AuthorAddViewModel
 import kr.co.lion.unipiece.util.CustomDialog
 import kr.co.lion.unipiece.util.getDegree
 import kr.co.lion.unipiece.util.resize
@@ -34,7 +34,7 @@ class UpdateAuthorActivity : AppCompatActivity() {
 
     lateinit var fileLauncher: ActivityResultLauncher<Intent>
 
-    val viewModel: UpdateAuthorViewModel by viewModels()
+    val viewModel: AuthorAddViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         activityUpdateAuthorBinding = ActivityUpdateAuthorBinding.inflate(layoutInflater)
@@ -73,6 +73,7 @@ class UpdateAuthorActivity : AppCompatActivity() {
                 textUpdateUni.setText(authorInfo?.authorUni)
                 textUpdateName.setText(authorInfo?.authorName)
                 textUpdateMajor.setText(authorInfo?.authorMajor)
+                textUpdateUniState.setText(authorInfo?.authorUniState)
 
             }
 
@@ -94,6 +95,9 @@ class UpdateAuthorActivity : AppCompatActivity() {
             textUpdateMajor.addTextChangedListener {
                 textUpdateMajorLayout.error = null
             }
+            textUpdateUniState.addTextChangedListener {
+                textUpdateUniStateLayout.error = null
+            }
         }
     }
 
@@ -114,6 +118,8 @@ class UpdateAuthorActivity : AppCompatActivity() {
 
                 })
                 dialog.show(supportFragmentManager, "CustomDialog")
+            }else{
+                saveAuthorUpdateInfo()
             }
         }
     }
@@ -125,6 +131,7 @@ class UpdateAuthorActivity : AppCompatActivity() {
             val uni = textUpdateUni.text.toString()
             val name = textUpdateName.text.toString()
             val major = textUpdateMajor.text.toString()
+            val uniState = textUpdateUniState.text.toString()
 
             if (uni.trim().isEmpty()){
                 textUpdateUniLayout.error = "학교를 입력해주세요"
@@ -152,6 +159,15 @@ class UpdateAuthorActivity : AppCompatActivity() {
                     textUpdateMajorLayout.error = null
                 }
             }
+            if (uniState.trim().isEmpty()){
+                textUpdateUniStateLayout.error = "학적 상태를 입력해주세요"
+                if (emptyList == null){
+                    emptyList = textUpdateUniState
+                }else{
+                    textUpdateUniStateLayout.error = null
+                }
+            }
+
             if (emptyList != null){
                 showSoftInput(emptyList)
                 return false
@@ -213,5 +229,60 @@ class UpdateAuthorActivity : AppCompatActivity() {
         albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
 
         fileLauncher.launch(albumIntent)
+    }
+
+    //저장하기
+    private fun saveAuthorUpdateInfo(){
+        //서버에서의 첨부 이미지 이름
+        activityUpdateAuthorBinding.apply {
+            lifecycleScope.launch {
+                //첨부파일
+                var fileServerName:String? = null
+
+                activityUpdateAuthorBinding.imageViewUpdate.saveAsImage(this@UpdateAuthorActivity, "authorFile")
+                fileServerName = "authorFile_${System.currentTimeMillis()}.jpg"
+
+                viewModel.uploadFileByApp(this@UpdateAuthorActivity, "authorFile", fileServerName)
+
+                val getIdx = intent?.getIntExtra("authorIdx", -1)
+
+                val getInfo = viewModel.getAuthorInfoByAuthorIdx(getIdx?:-1)
+
+
+                //업로드 할 정보를 담아준다
+                val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", -1)
+                val authorFile = fileServerName
+                val authorName = textUpdateName.text.toString()
+                val authorMajor = textUpdateMajor.text.toString()
+                val authorUni = textUpdateUni.text.toString()
+                val authorInfo = ""
+                val authorImg = getInfo?.authorImg.toString()
+                val authorIdx = getInfo?.authorIdx?:-1
+                val authorUniState = textUpdateUniState.text.toString()
+                val authorRegisterTime = Timestamp.now()
+
+                viewModel.insertAuthorInfo(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg, false, authorIdx, authorUniState, authorRegisterTime){ sucess->
+                    if (sucess){
+                        val dialog = CustomDialog("작가 갱신 신청 완료", "작가 갱신이 신청되었습니다\n갱신 완료 시까지 1 ~ 2일 소요됩니다")
+                        dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
+                            override fun okButtonClick() {
+                                val newIntent = Intent(this@UpdateAuthorActivity, MainActivity::class.java)
+                                newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(newIntent)
+                            }
+
+                            override fun noButtonClick() {
+                                val newIntent = Intent(this@UpdateAuthorActivity, MainActivity::class.java)
+                                newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(newIntent)
+                            }
+
+                        })
+                        dialog.show(supportFragmentManager, "CustomDialog")
+
+                    }
+                }
+            }
+        }
     }
 }

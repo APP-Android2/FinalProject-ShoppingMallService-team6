@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.author.viewmodel
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.Timestamp
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -15,11 +16,11 @@ class AuthorAddViewModel : ViewModel() {
 
     fun insertAuthorInfo(
         userIdx: Int, authorFile: String, authorName:String, authorMajor:String, authorUni:String,
-        authorInfo:String, authorImg:String?, authorNew:Boolean, authorIdx:Int, callback:(Boolean) -> Unit
+        authorInfo:String, authorImg:String?, authorNew:Boolean, authorIdx:Int, authorUniState:String, authorRegisterTime:Timestamp, callback:(Boolean) -> Unit
     ){
         viewModelScope.launch {
 
-            val authorAddData = AuthorAddData(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg, authorNew, authorIdx)
+            val authorAddData = AuthorAddData(userIdx, authorFile, authorName, authorMajor, authorUni, authorInfo, authorImg, authorNew, authorIdx, authorUniState, authorRegisterTime)
 
             val success = withContext(Dispatchers.IO){
                 try {
@@ -44,5 +45,10 @@ class AuthorAddViewModel : ViewModel() {
     //프로필 이미지 업로드
     suspend fun uploadImageByApp(context: Context, fileName: String, uploadFileName: String){
         return authorAddRepository.uploadImageByApp(context, fileName, uploadFileName)
+    }
+
+    //작가 정보 가져오기
+    suspend fun getAuthorInfoByAuthorIdx(authorIdx:Int): AuthorAddData? {
+        return authorAddRepository.getAuthorInfoByAuthorIdx(authorIdx)
     }
 }
