@@ -107,19 +107,20 @@ class RankFragment : Fragment() {
 
         val fragmentMananger = childFragmentManager.beginTransaction()
 
-            when(name) {
-                RANK_PIECE_FRAGMENT -> {
-                    viewLifecycleOwner.lifecycleScope.launch {
-                        viewModel.setLoading(true)
-                        fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
-                        binding.rankTitle.text = "작품 랭킹"
-                    }
-                }
-                RANK_AUTHOR_FRAGMENT -> {
-                    fragmentMananger.replace(R.id.rank_fragment, RankAuthorFragment())
-                    binding.rankTitle.text = "작가 랭킹"
+        when (name) {
+            RANK_PIECE_FRAGMENT -> {
+                viewLifecycleOwner.lifecycleScope.launch {
+                    viewModel.setLoading(true)
+                    fragmentMananger.replace(R.id.rank_fragment, RankPieceFragment())
+                    binding.rankTitle.text = "작품 랭킹"
                 }
             }
+
+            RANK_AUTHOR_FRAGMENT -> {
+                fragmentMananger.replace(R.id.rank_fragment, RankAuthorFragment())
+                binding.rankTitle.text = "작가 랭킹"
+            }
+        }
         fragmentMananger.commit()
     }
 
