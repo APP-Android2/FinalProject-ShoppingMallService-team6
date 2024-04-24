@@ -87,7 +87,7 @@ class PieceAddInfoViewModel : ViewModel() {
         }
     }
 
-    private fun getPieceAddInfo() {
+    suspend fun getPieceAddInfo() {
         _isLoading.value = true
 
         viewModelScope.launch {

@@ -1,11 +1,13 @@
 package kr.co.lion.unipiece.ui.mygallery
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.view.indices
@@ -34,6 +36,14 @@ class SalePieceFragment : Fragment() {
     private val viewModel: PieceAddInfoViewModel by viewModels()
 
     var isArtist = false
+
+    val activityResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            lifecycleScope.launch {
+                viewModel.getPieceAddInfo()
+            }
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentSalePieceBinding.inflate(inflater, container, false)
@@ -78,7 +88,7 @@ class SalePieceFragment : Fragment() {
                                     recyclerViewSalePiece.isVisible = false
                                     layoutNotExistPiece.isVisible = true
                                 } else {
-                                    val salePieceAdapter = SalePieceAdapter(value) { position ->
+                                    val salePieceAdapter = SalePieceAdapter(value, activityResultLauncher) { position ->
                                         val addPieceInfo = value[position]
                                         if (addPieceInfo.addPieceState == "판매 완료" || addPieceInfo.addPieceState == "판매 중") {
                                             val intent = Intent(requireActivity(), BuyDetailActivity::class.java)
@@ -132,7 +142,7 @@ class SalePieceFragment : Fragment() {
             buttonSalePieceAddPiece.setOnClickListener {
                 val intent = Intent(requireActivity(), SalesApplicationActivity::class.java)
                 intent.putExtra("isModify", false)
-                startActivity(intent)
+                activityResultLauncher.launch(intent)
             }
         }
     }

@@ -448,6 +448,7 @@ class SalesApplicationActivity : AppCompatActivity() {
             }
 
             setPositiveButton("확인") { dialogInterface: DialogInterface, i: Int ->
+                setResult(RESULT_OK)
                 finish()
             }
 
