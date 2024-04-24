@@ -1,11 +1,15 @@
 package kr.co.lion.unipiece.ui.payment
 
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -24,7 +28,7 @@ class DeliveryAddFragment : Fragment() {
     lateinit var binding: FragmentDeliveryAddBinding
     private val viewModel: DeliveryViewModel by activityViewModels()
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
-
+    private lateinit var addressResultLauncher: ActivityResultLauncher<Intent>
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +41,18 @@ class DeliveryAddFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        addressResultLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                // Intent에서 주소 데이터 추출
+                val fullRoadAddr = intent?.getStringExtra("EXTRA_ROAD_ADDR")
+                val jibunAddr = intent?.getStringExtra("EXTRA_JIBUN_ADDR")
+                // 추출한 주소 데이터를 텍스트 필드에 설정
+                binding.textFieldDeliveryAddAddress.setText(fullRoadAddr)
+                binding.textFieldDeliveryAddAddress.setText(jibunAddr)
+            }
+        }
 
 
         initView()
@@ -110,7 +126,8 @@ class DeliveryAddFragment : Fragment() {
             // 주소 검색
             with(buttonDeliveryAddAddressSearch) {
                 setOnClickListener {
-
+                    val intent = Intent(context, SearchAddressActivity::class.java)
+                    addressResultLauncher.launch(intent)
                 }
             }
 
@@ -168,6 +185,7 @@ class DeliveryAddFragment : Fragment() {
             )
         }
     }
+
 
     fun String.toEditable(): Editable = Editable.Factory.getInstance().newEditable(this)
 

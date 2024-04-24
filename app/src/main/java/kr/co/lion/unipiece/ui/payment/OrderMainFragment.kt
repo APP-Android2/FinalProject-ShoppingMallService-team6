@@ -21,18 +21,44 @@ import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentOrderMainBinding
 import kr.co.lion.unipiece.ui.payment.adapter.OrderMainAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
+import kr.co.lion.unipiece.ui.payment.viewmodel.OrderViewModel
+import java.text.DecimalFormat
 
 
 class OrderMainFragment : Fragment() {
 
     lateinit var binding: FragmentOrderMainBinding
-    private val viewModel: DeliveryViewModel by viewModels()
+    private val orderViewModel: OrderViewModel by viewModels()
+    private val deliveryViewModel: DeliveryViewModel by viewModels()
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
-    val deliveryIdx by lazy {
-        arguments?.getInt("deliveryIdx")
-
+    // 배송지관리에서 넘어온 배송지 번호
+    private val deliveryIdx: Int by lazy {
+        arguments?.getInt("deliveryIdx", 0) ?: 0
     }
+
+    // 장바구니에서 넘어온 작품 번호 리스트
+    private val pieceIdxList: ArrayList<Int>? by lazy {
+        arguments?.getIntegerArrayList("pieceIdxList")
+    }
+
+    // 작품상세에서 넘어온 작품 번호 하나
+    private val pieceIdx: Int by lazy{
+        arguments?.getInt("pieceIdx",0)?:0
+    }
+
+    // 어답터 조작
+    val orderMainAdapter: OrderMainAdapter = OrderMainAdapter(
+        emptyList(),
+        pieceImgOnClickListener = {
+
+        },
+        authorNameOnClickListener = {
+
+        }
+
+    )
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,6 +75,21 @@ class OrderMainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initView()
+        observeData()
+        viewLifecycleOwner.lifecycleScope.launch {
+
+            // 작품상세에서 넘어온 경우
+            if (pieceIdx != 0) {
+                orderViewModel.getIdxPieceInfoOne(pieceIdx) // 단일 작품 정보 가져오는 메소드를 구현해야 함.
+            }
+            Log.d("pieceIdxList test5678",pieceIdxList.toString())
+            // 장바구니에서 넘어온 경우
+            pieceIdxList?.let {
+                if (it.isNotEmpty()) {
+                    orderViewModel.getIdxPieceInfo(it)
+                }
+            }
+        }
 
 
     }
@@ -71,9 +112,8 @@ class OrderMainFragment : Fragment() {
                 }
             }
 
-
             // 처음 들어왔을 때 기본 배송지 세팅
-            viewModel.getBasicDeliveryData.observe(viewLifecycleOwner) {
+            deliveryViewModel.getBasicDeliveryData.observe(viewLifecycleOwner) {
                 lifecycleScope.launch {
 
 
@@ -81,10 +121,10 @@ class OrderMainFragment : Fragment() {
                     if (it.isNotEmpty()) {
                         // 배송지 관리에서 선택한 배송지정보로 세팅
                         // deliveryIdx 값이 존재한다면 (배송지관리에서 선택하여 넘어왔다면)
-                        if (deliveryIdx != null) {
+                        if (deliveryIdx != 0) {
                             // 배송지관리에서 선택한 데이터를 세팅한다.
-                            viewModel.getDeliveryDataByDeliveryIdx(deliveryIdx ?: 0)
-                            viewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) {
+                            deliveryViewModel.getDeliveryDataByDeliveryIdx(deliveryIdx ?: 0)
+                            deliveryViewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) {
                                 val deliveryName = it[0].deliveryName
                                 val deliveryPhone = it[0].deliveryPhone
                                 val deliveryAddress = it[0].deliveryAddress
@@ -151,6 +191,9 @@ class OrderMainFragment : Fragment() {
                 }
             }
 
+
+
+
             // 배송지 변경 버튼 클릭
             with(buttonOrderDeliveryChange) {
                 setOnClickListener {
@@ -173,15 +216,25 @@ class OrderMainFragment : Fragment() {
 
             // 주문 상세 설정
 
-            // 추가 배송비 합계
-            with(textViewOrderMainAddDeliveryPrice) {
-                text = "${"추가 배송비 합계"} 원"
+            // 작품 가격 합계
+            viewLifecycleOwner.lifecycleScope.launch {
+                orderViewModel.pieceIdxPieceInfoDataList.observe(viewLifecycleOwner) {
+                    // 작품 가격의 합계를 계산합니다.
+                    val totalPrice = (it.sumOf { it.piecePrice })
+                    val totalMoney = totalPrice + 3000
+
+                    // 계산된 총 금액을 포맷하여 TextView에 설정합니다.
+                    val decPrice = DecimalFormat("#,###")
+                    textViewOrderMainPiecePrice.text = "${decPrice.format(totalPrice)} 원"
+
+                    val decMoney = DecimalFormat("#,###")
+                    textViewOrderMoneyMain.text = "${decMoney.format(totalMoney)} 원"
+
+                }
+
             }
 
-            // 작품 가격 합계
-            with(textViewOrderMainPiecePrice) {
-                text = "${"작품 가격 합계"} 원"
-            }
+
 
 
             // 주문하기 화면 RecyclerView
@@ -189,7 +242,7 @@ class OrderMainFragment : Fragment() {
 
 
                 // 어뎁터
-                adapter = OrderMainAdapter()
+                adapter = orderMainAdapter
                 // 레이아웃 매니저
                 layoutManager = LinearLayoutManager(requireActivity())
 
@@ -209,6 +262,14 @@ class OrderMainFragment : Fragment() {
         }
     }
 
+
+    fun observeData() {
+        orderViewModel.pieceIdxPieceInfoDataList.observe(viewLifecycleOwner) { pieceInfoList ->
+            orderMainAdapter.updateData(pieceInfoList)
+        }
+    }
+
+
     // dp값으로 변환하는 확장함수 ex) 16dp로 적용시 16.dp 로 작성 //////////////////////////////////
     inline val Int.dp: Int
         get() = TypedValue.applyDimension(
@@ -220,4 +281,6 @@ class OrderMainFragment : Fragment() {
             TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
         )
 }
+
+
 
