@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.model.CartData
+import kr.co.lion.unipiece.model.CartInfoData
 import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.repository.CartRepository
@@ -28,7 +29,8 @@ class CartViewModel : ViewModel() {
     private val _getCartDataByUserIdxList = MutableLiveData<List<PieceInfoData>>()
     val getCartDataByUserIdxList: LiveData<List<PieceInfoData>> = _getCartDataByUserIdxList
 
-
+    private val _cartInfoData = MutableLiveData<List<CartInfoData>>()
+    val cartInfoData: LiveData<List<CartInfoData>> = _cartInfoData
 
     // 장바구니 데이터 로딩
     private val _getCartDataByUserIdxLoading = MutableLiveData<Boolean?>(null)
@@ -60,9 +62,17 @@ class CartViewModel : ViewModel() {
         try {
             val response = cartRepository.getCartDataByUserIdx(userIdx)
             val updatedPieceInfoList = updateImagePieceInfo(response)
+            val list = mutableListOf<CartInfoData>()
 
-            _getCartDataByUserIdxList.value = updatedPieceInfoList
-            _getCartDataByUserIdxLoading.value = true
+            updatedPieceInfoList.map {
+                list.add(CartInfoData(it, false))
+            }
+
+            /*_getCartDataByUserIdxList.value = updatedPieceInfoList
+            _getCartDataByUserIdxLoading.value = true*/
+
+            _cartInfoData.value = list
+
             Log.d("테스트 vm2","${_getCartDataByUserIdxList.value.toString()}")
         } catch (e: Exception) {
             Log.e("Firebase Error", "Error vmGetDeliveryDataByDeliveryIdx : ${e.message}")

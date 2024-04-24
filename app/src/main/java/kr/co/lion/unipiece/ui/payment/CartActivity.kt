@@ -152,7 +152,7 @@ class CartActivity : AppCompatActivity() {
                     val currentData = cartAdapter.getCurrentData()
                     Log.d("currentData", "$currentData")
                     // pieceIdx만 추출하여 리스트로 만든다.
-                    val pieceIdxList = currentData.map { it.pieceIdx }
+                    val pieceIdxList = currentData.map { it.pieceInfo.pieceIdx }
                     Log.d("pieceIdxList", "$pieceIdxList")
                     // Intent에 pieceIdx 리스트를 넣어서 OrderActivity로 전달한다.
                     val orderIntent =
@@ -171,7 +171,7 @@ class CartActivity : AppCompatActivity() {
     fun observeData() {
         // 데이터 변경 관찰
         lifecycleScope.launch {
-            viewModel.getCartDataByUserIdxList.observe(this@CartActivity) { cartDataList ->
+            viewModel.cartInfoData.observe(this@CartActivity) { cartDataList ->
                 cartAdapter.updateData(cartDataList)
             }
         }

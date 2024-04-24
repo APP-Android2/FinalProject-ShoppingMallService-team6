@@ -7,18 +7,21 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import kr.co.lion.unipiece.databinding.RowCartBinding
+import kr.co.lion.unipiece.model.CartData
+import kr.co.lion.unipiece.model.CartInfoData
+import kr.co.lion.unipiece.model.DeliveryData
 import kr.co.lion.unipiece.model.PieceInfoData
 import kr.co.lion.unipiece.util.setImage
 import java.text.DecimalFormat
 
 class CartAdapter(
-    private var cartList: List<PieceInfoData>,
+    private var cartList: List<CartInfoData>,
     private val pieceImgOnClickListener: (HashMap<String,Int>) -> Unit,
     private val authorNameOnClickListener : (Int) -> Unit,
     private val closeButtonOnClickListener: (Int) -> Unit
 ) : RecyclerView.Adapter<CartViewHolder>() {
 
-    fun getCurrentData(): List<PieceInfoData> {
+    fun getCurrentData(): List<CartInfoData> {
         return cartList
     }
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): CartViewHolder {
@@ -39,7 +42,7 @@ class CartAdapter(
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updateData(list: List<PieceInfoData>) {
+    fun updateData(list: List<CartInfoData>) {
         cartList = list
         notifyDataSetChanged()
         Log.d("update adapter", list.toString())
@@ -56,7 +59,7 @@ class CartViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(
-        data: PieceInfoData
+        data: CartInfoData
     ) {
         with(binding) {
 
@@ -69,31 +72,31 @@ class CartViewHolder(
             }
 
             // 작품 이미지 세팅
-            root.context.setImage(imageView, data.pieceImg)
+            root.context.setImage(imageView, data.pieceInfo.pieceImg)
             imageView.setOnClickListener {
-                val pieceIdx = data.pieceIdx
-                val authorIdx = data.authorIdx
-                val hashMap = HashMap<String, Int>()
+                val pieceIdx = data.pieceInfo.pieceIdx
+                val authorIdx = data.pieceInfo.authorIdx
+                val hashMap = HashMap<String,Int>()
                 hashMap["pieceIdx"] = pieceIdx
                 hashMap["authorIdx"] = authorIdx
                 pieceImgOnClickListener.invoke(hashMap)
 
             }
             // 해당 작품 이름
-            textViewRowCartPieceName.text = data.pieceName
+            textViewRowCartPieceName.text = data.pieceInfo.pieceName
 
             // 해당 작품 작가 이름
-            textViewRowCartAuthorName.text = data.authorName
+            textViewRowCartAuthorName.text = data.pieceInfo.authorName
             textViewRowCartAuthorName.setOnClickListener {
-                authorNameOnClickListener.invoke(data.authorIdx)
+                authorNameOnClickListener.invoke(data.pieceInfo.authorIdx)
             }
             // 해당 작품 가격 (,표시)
             val dec = DecimalFormat("#,###")
-            val result = data.piecePrice
+            val result = data.pieceInfo.piecePrice
             textViewRowCartPiecePrice.text = "${dec.format(result)} 원"
 
             imageButtonRowCartClose.setOnClickListener {
-                closeButtonOnClickListener.invoke(data.pieceIdx)
+                closeButtonOnClickListener.invoke(data.pieceInfo.pieceIdx)
             }
 
         }
