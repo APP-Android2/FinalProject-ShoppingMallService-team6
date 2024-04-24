@@ -49,6 +49,11 @@ class MyPageFragment : Fragment() {
         initView()
     }
 
+    override fun onResume() {
+        super.onResume()
+        fetchData()
+    }
+
     fun fetchData(){
         lifecycleScope.launch {
             // 닉네임 설정
