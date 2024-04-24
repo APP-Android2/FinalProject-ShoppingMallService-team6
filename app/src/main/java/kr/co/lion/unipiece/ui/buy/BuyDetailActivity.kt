@@ -307,10 +307,7 @@ class BuyDetailActivity : AppCompatActivity() {
             setOnClickListener {
                 val intent = Intent(this@BuyDetailActivity, OrderActivity::class.java)
 
-                intent.putExtra("pieceName", viewModel.pieceInfo.value?.pieceName)
-                intent.putExtra("piecePrice", viewModel.pieceInfo.value?.piecePrice)
-                intent.putExtra("pieceImg", viewModel.pieceInfo.value?.pieceImg)
-                intent.putExtra("authorName", viewModel.pieceInfo.value?.authorName)
+                intent.putExtra("pieceIdx", viewModel.pieceInfo.value?.pieceIdx)
 
                 startActivity(intent)
             }
