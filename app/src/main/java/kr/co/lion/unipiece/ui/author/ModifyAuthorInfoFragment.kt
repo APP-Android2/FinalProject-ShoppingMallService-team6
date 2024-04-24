@@ -257,8 +257,7 @@ class ModifyAuthorInfoFragment : Fragment() {
 
                 //authorIdx로 작가 정보 가져오기
                 if (modifyAuthorInfoViewModel.authorInfoData.value != null){
-                    val authorDate = modifyAuthorInfoViewModel.authorInfoData.value?.authorDate
-                    val isOneYearPassed = checkIfYearPassed(authorDate!!.toDate())
+                    val isOneYearPassed = modifyAuthorInfoViewModel.checkAuthorDate()
 
                     if (isOneYearPassed){
                         // 작가 갱신 액티비티로 이동
@@ -283,17 +282,6 @@ class ModifyAuthorInfoFragment : Fragment() {
                 }
             }
         }
-    }
-
-
-    //작가 정보 갱신 시간
-    private fun checkIfYearPassed(authorDate:Date):Boolean{
-        val currentTime = Date()
-        val oneYearInMillis:Long = 365 * 24 * 60 * 60 * 1000
-
-        val timeDiff = abs(currentTime.time - authorDate.time)
-
-        return timeDiff >= oneYearInMillis
     }
 
     // 수정 버튼
