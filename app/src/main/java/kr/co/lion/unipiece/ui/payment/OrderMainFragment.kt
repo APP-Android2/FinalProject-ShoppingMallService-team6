@@ -47,8 +47,8 @@ class OrderMainFragment : Fragment() {
     }
 
     // 작품상세에서 넘어온 작품 번호 하나
-    private val pieceIdx: Int by lazy{
-        arguments?.getInt("pieceIdx",0)?:0
+    private val pieceIdx: Int by lazy {
+        arguments?.getInt("pieceIdx", 0) ?: 0
     }
 
     // 어답터 조작
@@ -93,7 +93,7 @@ class OrderMainFragment : Fragment() {
             if (pieceIdx != 0) {
                 orderViewModel.getIdxPieceInfoOne(pieceIdx) // 단일 작품 정보 가져오는 메소드를 구현해야 함.
             }
-            Log.d("pieceIdxList test5678",pieceIdxList.toString())
+            Log.d("pieceIdxList test5678", pieceIdxList.toString())
             // 장바구니에서 넘어온 경우
             pieceIdxList?.let {
                 if (it.isNotEmpty()) {
@@ -145,9 +145,13 @@ class OrderMainFragment : Fragment() {
                                 // 받는 이
                                 textViewOrderPersonName.text = deliveryName
                                 // 연락처
-                                textViewOrderPhone.text = PhoneNumberUtils.formatNumber(deliveryPhone, Locale.getDefault().country)
+                                textViewOrderPhone.text = PhoneNumberUtils.formatNumber(
+                                    deliveryPhone,
+                                    Locale.getDefault().country
+                                )
                                 // 주소 (주소 + 상세주소)
-                                textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
+                                textViewOrderAddress.text =
+                                    "${deliveryAddress} ${deliveryAddressDetail}"
 
                                 // 배송 메모 세팅
                                 with(spinnerOrderMainDeliveryMemo) {
@@ -177,9 +181,13 @@ class OrderMainFragment : Fragment() {
                             // 받는 이
                             textViewOrderPersonName.text = deliveryName
                             // 연락처
-                            textViewOrderPhone.text = PhoneNumberUtils.formatNumber(deliveryPhone, Locale.getDefault().country)
+                            textViewOrderPhone.text = PhoneNumberUtils.formatNumber(
+                                deliveryPhone,
+                                Locale.getDefault().country
+                            )
                             // 주소 (주소 + 상세주소)
-                            textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
+                            textViewOrderAddress.text =
+                                "${deliveryAddress} ${deliveryAddressDetail}"
 
                             // 배송 메모 세팅
                             with(spinnerOrderMainDeliveryMemo) {
@@ -201,13 +209,18 @@ class OrderMainFragment : Fragment() {
             }
 
 
-
-
             // 배송지 변경 버튼 클릭
             with(buttonOrderDeliveryChange) {
                 setOnClickListener {
                     // DeliveryActivity를 실행한다.
-                    val deliveryIntent = Intent(requireActivity(), DeliveryActivity::class.java)
+                    val deliveryIntent = Intent(requireActivity(), DeliveryActivity::class.java).apply {
+
+                        // 장바구니 데이터
+                        putExtra("pieceIdxList", pieceIdxList)
+                        // 작품 상세 데이터
+                        putExtra("pieceIdx",pieceIdx)
+                    }
+
                     startActivity(deliveryIntent)
                 }
             }
@@ -242,8 +255,6 @@ class OrderMainFragment : Fragment() {
                 }
 
             }
-
-
 
 
             // 주문하기 화면 RecyclerView

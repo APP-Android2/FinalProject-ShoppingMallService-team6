@@ -53,8 +53,9 @@ class DeliveryUpdateFragment : Fragment() {
                 val fullRoadAddr = intent?.getStringExtra("EXTRA_ROAD_ADDR")
                 val jibunAddr = intent?.getStringExtra("EXTRA_JIBUN_ADDR")
                 // 추출한 주소 데이터를 텍스트 필드에 설정
-                binding.textFieldDeliveryUpdateAddress.setText(fullRoadAddr)
                 binding.textFieldDeliveryUpdateAddress.setText(jibunAddr)
+                binding.textFieldDeliveryUpdateAddress.setText(fullRoadAddr)
+
             }
         }
 
@@ -89,20 +90,22 @@ class DeliveryUpdateFragment : Fragment() {
                     getDeliveryIdxDataLoading.observe(viewLifecycleOwner) {
                         if (it == true) {
                             viewModel.setGetDeliverIdxData()
-                            viewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) {
+                            viewModel.deliveryIdxDeliveryDataList.observe(viewLifecycleOwner) { list ->
                                 // 받는 이
-                                textFieldDeliveryUpdateReceiver.text = it[0].deliveryName.toEditable()
+                                textFieldDeliveryUpdateReceiver.text = list[0].deliveryName.toEditable()
                                 // 연락처
-                                textFieldDeliveryUpdatePhone.text = it[0].deliveryPhone.toEditable()
+                                textFieldDeliveryUpdatePhone.text = list[0].deliveryPhone.toEditable()
                                 // 배송지명
-                                textFieldDeliveryUpdateNickName.text = it[0].deliveryNickName.toEditable()
+                                textFieldDeliveryUpdateNickName.text = list[0].deliveryNickName.toEditable()
                                 // 주소
-                                textFieldDeliveryUpdateAddress.text = it[0].deliveryAddress.toEditable()
+                                textFieldDeliveryUpdateAddress.text = list[0].deliveryAddress.toEditable()
                                 // 상세주소
                                 textFieldDeliveryUpdateAddressDetail.text =
-                                    it[0].deliveryAddressDetail.toEditable()
+                                    list[0].deliveryAddressDetail.toEditable()
+                                // 배송메모
+                                textFieldDeliveryUpdateMemo.text = list[0].deliveryMemo.toEditable()
                                 // 기본 배송지 여부
-                                checkBoxUpdateDeliveryBasicDelivery.isChecked = it[0].basicDelivery
+                                checkBoxUpdateDeliveryBasicDelivery.isChecked = list[0].basicDelivery
                             }
                         }
                     }
@@ -187,7 +190,7 @@ class DeliveryUpdateFragment : Fragment() {
             val deliveryAddress = textFieldDeliveryUpdateAddress.text.toString()
             val deliveryAddressDetail = textFieldDeliveryUpdateAddressDetail.text.toString()
             val basicDelivery = checkBoxUpdateDeliveryBasicDelivery.isChecked
-            val deliveryMemo = ""
+            val deliveryMemo = textFieldDeliveryUpdateMemo.text.toString()
             val userIdx = userIdx
 
             return DeliveryData(

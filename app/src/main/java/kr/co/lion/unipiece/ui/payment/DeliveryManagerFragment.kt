@@ -27,6 +27,16 @@ class DeliveryManagerFragment : Fragment() {
     private val viewModel: DeliveryViewModel by activityViewModels()
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
+    // 장바구니에서 넘어온 작품 번호 리스트
+    private val pieceIdxList: ArrayList<Int>? by lazy {
+        arguments?.getIntegerArrayList("pieceIdxList")
+    }
+
+    // 작품상세에서 넘어온 작품 번호 하나
+    private val pieceIdx: Int by lazy {
+        arguments?.getInt("pieceIdx", 0) ?: 0
+    }
+
     val deliveryAdapter: DeliveryAdapter = DeliveryAdapter(
         emptyList(),
 
@@ -42,6 +52,8 @@ class DeliveryManagerFragment : Fragment() {
 
                     // 필요한 데이터를 인텐트에 추가
                     putExtra("deliveryIdx", deliveryIdx)
+                    putExtra("pieceIdxList", pieceIdxList)
+                    putExtra("pieceIdx",pieceIdx)
                 }
                 startActivity(intent)
             }

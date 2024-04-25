@@ -12,6 +12,7 @@
         android:layout_height="64dp"
         app:titleCentered="true"
         android:background="@color/white"
+        app:titleTextColor="@color/black"
         android:theme="@style/Theme.UniPiece"/>
 
 
@@ -73,6 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="56dp"
                 android:background="@drawable/textfield_radius"
+                android:textColor="@color/black"
                 android:paddingLeft="15dp"/>
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -243,6 +245,25 @@
                 android:background="@drawable/textfield_radius"
                 android:paddingLeft="15dp" />
         </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:hint="배송메모"
+            app:boxStrokeColor="@color/second"
+            app:cursorColor="@color/second"
+            app:endIconMode="clear_text"
+            app:hintTextColor="@color/second">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textFieldDeliveryAddMemo"
+                android:layout_width="match_parent"
+                android:layout_height="56dp"
+                android:background="@drawable/textfield_radius"
+                android:paddingLeft="15dp" />
+        </com.google.android.material.textfield.TextInputLayout>
+
         <CheckBox
             android:id="@+id/checkBoxAddDeliveryBasicDelivery"
             android:layout_width="wrap_content"

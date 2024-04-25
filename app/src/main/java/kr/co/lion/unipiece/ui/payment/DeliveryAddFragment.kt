@@ -49,8 +49,9 @@ class DeliveryAddFragment : Fragment() {
                 val fullRoadAddr = intent?.getStringExtra("EXTRA_ROAD_ADDR")
                 val jibunAddr = intent?.getStringExtra("EXTRA_JIBUN_ADDR")
                 // 추출한 주소 데이터를 텍스트 필드에 설정
-                binding.textFieldDeliveryAddAddress.setText(fullRoadAddr)
                 binding.textFieldDeliveryAddAddress.setText(jibunAddr)
+                binding.textFieldDeliveryAddAddress.setText(fullRoadAddr)
+
             }
         }
 
@@ -88,6 +89,8 @@ class DeliveryAddFragment : Fragment() {
             textFieldDeliveryAddNickName.text = "".toEditable()
             textFieldDeliveryAddAddress.text = "".toEditable()
             textFieldDeliveryAddAddressDetail.text = "".toEditable()
+            textFieldDeliveryAddMemo.text = "".toEditable()
+
             checkBoxAddDeliveryBasicDelivery.isChecked = false
 
             // 집 클릭 시
@@ -166,7 +169,7 @@ class DeliveryAddFragment : Fragment() {
             val deliveryAddress = textFieldDeliveryAddAddress.text.toString()
             val deliveryAddressDetail = textFieldDeliveryAddAddressDetail.text.toString()
             val basicDelivery = checkBoxAddDeliveryBasicDelivery.isChecked
-            val deliveryMemo = ""
+            val deliveryMemo = textFieldDeliveryAddMemo.text.toString()
             val userIdx = userIdx
             val deliveryIdx = 0
 
