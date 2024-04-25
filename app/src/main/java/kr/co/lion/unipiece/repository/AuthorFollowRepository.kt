@@ -16,4 +16,6 @@ class AuthorFollowRepository {
 
     // 작가 팔로우 취소
     suspend fun cancelFollowing(userIdx:Int, authorIdx:Int) = authorFollowDataSource.cancelFollowing(userIdx, authorIdx)
+
+    suspend fun getAuthorIdxsByUserIdx(userIdx: Int) = authorFollowDataSource.getAuthorIdxsByUserIdx(userIdx)
 }

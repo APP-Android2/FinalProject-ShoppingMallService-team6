@@ -37,13 +37,15 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/icon" />
             </androidx.cardview.widget.CardView>
+
             <TextView
+                android:id="@+id/textViewFollowerCount"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="팔로워 123"
-                android:textColor="@color/black"
                 android:textAlignment="center"
-                android:textSize="15sp"/>
+                android:textColor="@color/black"
+                android:textSize="15sp" />
 
             <TextView
                 android:id="@+id/textViewFollowListAuthorName"

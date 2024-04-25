@@ -51,4 +51,9 @@ class AuthorInfoRepository {
 
     suspend fun searchAuthor(authorName: String) = authorInfoDataSource.searchAuthor(authorName)
 
+    suspend fun getAuthorInfoByAuthorIdxs(authorIdxs: List<Int>) = authorInfoDataSource.getAuthorInfoByAuthorIdxs(authorIdxs)
+
+    // 작가 이미지 url 받아오기
+    suspend fun getAuthorInfoImg(authorIdx: String,authorImg:String) = authorInfoDataSource.getAuthorInfoImg(authorIdx,authorImg)
+
 }

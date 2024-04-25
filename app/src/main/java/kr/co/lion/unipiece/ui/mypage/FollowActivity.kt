@@ -15,6 +15,7 @@ import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.author.viewmodel.AuthorInfoViewModel
 import kr.co.lion.unipiece.ui.home.AuthorAdapter
 import kr.co.lion.unipiece.ui.mypage.adapter.FollowAdapter
+import kr.co.lion.unipiece.ui.mypage.viewmodel.FollowViewModel
 import kr.co.lion.unipiece.ui.payment.OrderActivity
 import kr.co.lion.unipiece.ui.payment.adapter.DeliveryAdapter
 import kr.co.lion.unipiece.util.CustomDialog
@@ -24,7 +25,8 @@ class FollowActivity : AppCompatActivity() {
     // 바인딩
     private lateinit var binding: ActivityFollowBinding
     // 작가정보 뷰모델
-    private val viewModel:AuthorInfoViewModel by viewModels()
+    private val viewModel:FollowViewModel by viewModels()
+    private val authorInfoViewModel : AuthorInfoViewModel by viewModels()
     // 현재 유저 인덱스
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx",0)
 
@@ -36,11 +38,10 @@ class FollowActivity : AppCompatActivity() {
         rowClickListener = { authorIdx ->
             Log.d("테스트 rowClickListener authorIdx", authorIdx.toString())
 
-            // 작가 번호를 작가정보액티비티로 전달한다.
+            // 작가 번호를 작가정보 액티비티로 전달한다.
             val intent = Intent(this,AuthorInfoActivity::class.java)
             intent.putExtra("authorIdx",authorIdx)
             startActivity(intent)
-            finish()
 
         },
 
@@ -52,13 +53,21 @@ class FollowActivity : AppCompatActivity() {
 
                 // 팔로우 취소 다이얼로그 호출
                 val dialog = CustomDialog("팔로우 취소", "해당 작가 팔로우를 취소하시겠습니까?")
-                dialog.show(dialog.parentFragmentManager,"FollowCancelCustomDialog")
+                dialog.show(this@FollowActivity.supportFragmentManager,"FollowCancelCustomDialog")
                 dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener {
                     // 확인 버튼
                     override fun okButtonClick() {
                         lifecycleScope.launch {
                             // 팔로우 취소 처리
                             viewModel.cancelFollowing(userIdx,authorIdx)
+                            viewModel.cancelFollowingLoading.observe(this@FollowActivity){
+                                if(it ==true){
+                                    viewModel.cancelFollowingLoading()
+                                    viewModel.getFollowDataByUserIdx(userIdx)
+                                    dialog.dismiss()
+                                }
+                            }
+
                         }
 
 
@@ -67,12 +76,8 @@ class FollowActivity : AppCompatActivity() {
                     override fun noButtonClick() {
 
                     }
-
                 })
-
             }
-
-
         }
     )
 
@@ -84,6 +89,8 @@ class FollowActivity : AppCompatActivity() {
 
 
         initView()
+        viewModel.getFollowDataByUserIdx(userIdx)
+        observeData()
 
     }
 
@@ -111,6 +118,15 @@ class FollowActivity : AppCompatActivity() {
                 adapter = followAdapter
                 // 레이아웃 매니저
                 layoutManager = GridLayoutManager(this@FollowActivity, 2)
+            }
+        }
+    }
+
+    fun observeData() {
+        // 데이터 변경 관찰
+        lifecycleScope.launch {
+            viewModel.userIdxAuthorInfoDataList.observe(this@FollowActivity) { authorInfoDataList ->
+                followAdapter.updateData(authorInfoDataList)
             }
         }
     }

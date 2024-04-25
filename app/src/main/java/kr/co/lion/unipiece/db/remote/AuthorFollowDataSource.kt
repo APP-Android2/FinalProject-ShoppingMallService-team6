@@ -1,11 +1,16 @@
 package kr.co.lion.unipiece.db.remote
 
+import android.util.Log
 import com.google.firebase.Firebase
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kr.co.lion.unipiece.model.AuthorInfoData
+import kr.co.lion.unipiece.model.CartData
+import kr.co.lion.unipiece.model.PieceInfoData
 
 class AuthorFollowDataSource {
     private val db = Firebase.firestore
@@ -79,4 +84,42 @@ class AuthorFollowDataSource {
         }
         job1.join()
     }
+
+    // userIdx에 해당하는 authorIdx들로 작가 정보들을 들고온다.
+    suspend fun getAuthorIdxsByUserIdx(userIdx: Int): List<Int> {
+        return try {
+            val followQuery = db.collection("Following").whereEqualTo("userIdx", userIdx)
+            val followQuerySnapshot = followQuery.get().await()
+            followQuerySnapshot.map { it.toObject(AuthorInfoData::class.java).authorIdx }.distinct()
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error in getAuthorIdxsByUserIdx: ${e.message}")
+            emptyList()
+        }
+    }
+
+//    // userIdx에 해당하는 authorIdx들로 작가 정보들을 들고온다.
+//    suspend fun getFollowDataByUserIdx(userIdx: Int): List<AuthorInfoData> {
+//        return try {
+//            // Following 컬렉션에서 userIdx로 팔로우 데이터 가져오기
+//            val followQuery = db.collection("Following").whereEqualTo("userIdx", userIdx)
+//            val followQuerySnapshot = followQuery.get().await()
+//            // 팔로우 데이터에서 pieceIdx 추출하기
+//            val authorIdxs = followQuerySnapshot.map { it.toObject(AuthorInfoData::class.java).authorIdx }.distinct()
+//
+//            // 작품 정보를 담을 리스트 초기화
+//            val authorInfoList = mutableListOf<AuthorInfoData>()
+//
+//            // PieceInfo 컬렉션에서 각 pieceIdx에 해당하는 작품 정보 가져오기
+//            for (authorIdx in authorIdxs) {
+//                val authorInfoQuery = db.collection("AuthorInfo").whereEqualTo("authorIdx", authorIdx)
+//                val authorInfoQuerySnapshot = authorInfoQuery.get().await()
+//                authorInfoList.addAll(authorInfoQuerySnapshot.map { it.toObject(AuthorInfoData::class.java) })
+//            }
+//
+//            return authorInfoList
+//        } catch (e: Exception) {
+//            Log.e("Firebase Error", "Error in getCartDataByUserIdx: ${e.message}")
+//            emptyList()
+//        }
+//    }
 }
