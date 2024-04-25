@@ -351,8 +351,8 @@ class RegisterAuthorFragment : Fragment() {
     private fun startAlbumLauncher(){
         //사진 가져오기
         val albumIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        albumIntent.setType("AuthorAdd/*")
-        val mimeType = arrayOf("AuthorAdd/*")
+        albumIntent.setType("image/*")
+        val mimeType = arrayOf("image/*")
         albumIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
 
         albumLauncher.launch(albumIntent)
@@ -362,8 +362,8 @@ class RegisterAuthorFragment : Fragment() {
     private fun startImageLauncher(){
         //사진 가져오기
         val imageIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        imageIntent.setType("ProfileInfo/*")
-        val mimeType = arrayOf("ProfileInfo/*")
+        imageIntent.setType("image/*")
+        val mimeType = arrayOf("image/*")
         imageIntent.putExtra(Intent.EXTRA_MIME_TYPES, mimeType)
 
         imageLauncher.launch(imageIntent)
