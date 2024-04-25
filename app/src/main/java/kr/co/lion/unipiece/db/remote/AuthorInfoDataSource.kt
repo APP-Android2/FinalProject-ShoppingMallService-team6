@@ -272,4 +272,33 @@ class AuthorInfoDataSource {
         }
     }
 
+    // 작가정보들을 가져와서 각각의 작가정보를 반환한다.
+    suspend fun getAuthorInfoByAuthorIdxs(authorIdxs: List<Int>): List<AuthorInfoData> {
+        val authorInfoList = mutableListOf<AuthorInfoData>()
+        try {
+            for (authorIdx in authorIdxs) {
+                val authorInfoQuery = db.collection("AuthorInfo").whereEqualTo("authorIdx", authorIdx)
+                val authorInfoQuerySnapshot = authorInfoQuery.get().await()
+                authorInfoList.addAll(authorInfoQuerySnapshot.map { it.toObject(AuthorInfoData::class.java) })
+            }
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error in getAuthorInfoByAuthorIdxs: ${e.message}")
+        }
+        return authorInfoList
+    }
+
+    // 작가 이미지 url 받아오기
+    suspend fun getAuthorInfoImg(authorIdx: String, authorImg: String): String? {
+
+        val authorImgData = "${authorIdx}.jpg"
+
+        val path = "AuthorInfo/$authorImgData"
+        return try {
+            storage.child(path).downloadUrl.await().toString()
+        } catch (e: Exception) {
+            Log.e("Firebase Error", "Error getAuthorInfoImg: ${e.message} ${path}")
+            null
+        }
+    }
+
 }
