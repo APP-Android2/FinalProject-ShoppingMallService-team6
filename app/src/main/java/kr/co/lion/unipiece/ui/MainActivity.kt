@@ -48,6 +48,7 @@ class MainActivity : AppCompatActivity() {
         openSearchFragment()
         openHomeFragment()
         openBuyFragment()
+        openMyGalleryFragment()
     }
 
 
@@ -187,6 +188,12 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
+    fun openMyGalleryFragment(){
+        val isMyGalleryFragment = intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false)
+        if(isMyGalleryFragment) {
+            replaceFragment(MY_GALLERY_FRAGMENT, true)
+        }
+    }
     fun openSearchFragment() {
 
         val isSearchFragment = intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)

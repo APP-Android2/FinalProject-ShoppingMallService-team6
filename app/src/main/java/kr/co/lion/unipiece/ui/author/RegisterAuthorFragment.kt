@@ -197,11 +197,14 @@ class RegisterAuthorFragment : Fragment() {
                         val dialog = CustomDialog("작가 등록 신청 완료", "작가 등록이 신청되었습니다\n등록 완료 시까지 1 ~ 2일 소요됩니다")
                         dialog.setButtonClickListener(object : CustomDialog.OnButtonClickListener{
                             override fun okButtonClick() {
-                                val newIntent = Intent(requireActivity(), MainActivity::class.java)
+                                /*val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                 newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(newIntent)
+                                startActivity(newIntent)*/
+                                // 나의 갤러리 fragment로 이동
+                                setIntent("MyGalleryFragment")
                             }
 
+                            // 이 버튼을 눌렀을때는 작가 등록에 추가가 안되게 해야할 것 같습니다!
                             override fun noButtonClick() {
                                 val newIntent = Intent(requireActivity(), MainActivity::class.java)
                                 newIntent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or  Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -215,6 +218,17 @@ class RegisterAuthorFragment : Fragment() {
                 }
             }
         }
+    }
+
+    fun setIntent(name: String) {
+
+        val intent = Intent(requireActivity(), MainActivity::class.java).apply {
+            // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
+        intent.putExtra(name, true)
+        startActivity(intent)
+        requireActivity().finish()
     }
 
     //이미지 체크
