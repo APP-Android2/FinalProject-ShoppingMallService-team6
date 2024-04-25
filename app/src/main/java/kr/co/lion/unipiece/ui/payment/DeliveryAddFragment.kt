@@ -85,8 +85,6 @@ class DeliveryAddFragment : Fragment() {
             // 텍스트 필드 초기값 셋팅
             textFieldDeliveryAddReceiver.text = "".toEditable()
             textFieldDeliveryAddPhone.text = "".toEditable()
-//            val length = addNickName.length
-//            textFieldDeliveryAddNickName.text = addNickName.substring(1, length - 1).toEditable()
             textFieldDeliveryAddNickName.text = "".toEditable()
             textFieldDeliveryAddAddress.text = "".toEditable()
             textFieldDeliveryAddAddressDetail.text = "".toEditable()
