@@ -5,21 +5,29 @@ import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.util.TypedValue
+import android.view.View
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.divider.MaterialDividerItemDecoration
+import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityCartBinding
+import kr.co.lion.unipiece.model.CartInfoData
 import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
 import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.adapter.CartAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.CartViewModel
 import kr.co.lion.unipiece.util.CustomDialog
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class CartActivity : AppCompatActivity() {
     lateinit var binding: ActivityCartBinding
@@ -27,7 +35,7 @@ class CartActivity : AppCompatActivity() {
     val userIdx = UniPieceApplication.prefs.getUserIdx("userIdx", 0)
 
     private val cartAdapter: CartAdapter = CartAdapter(
-        emptyList(),
+        emptyList<CartInfoData>().toMutableList(),
 
         // 항목 작품 이미지 클릭 시 (pieceIdx를 받아옴)
         pieceImgOnClickListener = {
@@ -52,10 +60,9 @@ class CartActivity : AppCompatActivity() {
                 override fun okButtonClick() {
                     lifecycleScope.launch {
                         // 삭제 처리
-                        viewModel.deleteCartDataByUserIdx(userIdx, pieceIdx)
-                        viewModel.deleteDataLoading.observe(this@CartActivity) {
-                            if (it == true) {
-                                viewModel.setDeleteData()
+                        viewModel.deleteCartDataByUserIdx(userIdx, pieceIdx){
+                            // viewModel.setLoading(true)
+                            if(it){
                                 viewModel.getCartDataByUserIdx(userIdx)
                                 dialog.dismiss()
                             }
@@ -82,8 +89,22 @@ class CartActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         initView()
-        viewModel.getCartDataByUserIdx(userIdx)
         observeData()
+        setLoading()
+    }
+
+    fun setLoading(){
+        viewModel.loading.observe(this@CartActivity) { loading ->
+            with(binding){
+                if(loading){
+                    progressBar.visibility = View.VISIBLE
+                    cardView.visibility = View.GONE
+                } else {
+                    progressBar.visibility = View.GONE
+                    cardView.visibility = View.VISIBLE
+                }
+            }
+        }
     }
 
 
@@ -135,13 +156,46 @@ class CartActivity : AppCompatActivity() {
 
             // 전체선택 체크박스
             with(checkBoxCartAll) {
-
+                setOnClickListener {
+                    if (isChecked) {
+                        cartAdapter.selectAll()
+                    } else {
+                        cartAdapter.clearSelection()
+                    }
+                }
             }
 
             // 선택한 작품 제거 버튼
             with(buttonCartDelete) {
                 setOnClickListener {
+                    val snackbar = showLikeSnackbar("장바구니에서 삭제했습니다.")
+                    // viewModel.setLoading(true)
+                    val list = cartAdapter.getSelectedData()
+                    lifecycleScope.launch {
+                        val deletionTasks = list.map { item ->
+                            async {
+                                suspendCoroutine<Boolean> { cont ->
+                                    viewModel.deleteCartDataByUserIdx(userIdx, item.pieceInfo.pieceIdx) { success ->
+                                        cont.resume(success)
+                                    }
+                                }
+                            }
+                        }
+                        val results = deletionTasks.awaitAll()
 
+                        if (results.all { it }) {
+                            viewModel.getCartDataByUserIdx(userIdx)
+                            // snackbar.dismiss()
+                        }
+                    }
+
+                    /*list.forEach {
+                        viewModel.deleteCartDataByUserIdx(userIdx, it.pieceInfo.pieceIdx) {
+                            if(it){
+                                viewModel.getCartDataByUserIdx(userIdx)
+                            }
+                        }
+                    }*/
                 }
             }
 
@@ -173,19 +227,30 @@ class CartActivity : AppCompatActivity() {
         lifecycleScope.launch {
             viewModel.cartInfoData.observe(this@CartActivity) { cartDataList ->
                 cartAdapter.updateData(cartDataList)
+                Log.d("viewmodel", "${viewModel.cartInfoData.value.toString()}")
             }
         }
+    }
+
+    private fun showLikeSnackbar(message: String): Snackbar {
+        return Snackbar.make(binding.root, message, Snackbar.LENGTH_LONG)
+            .setAnchorView(binding.bottomCart)
+            .setBackgroundTint(ContextCompat.getColor(this@CartActivity, R.color.second))
+            .setTextColor(ContextCompat.getColor(this@CartActivity, R.color.white))
+            .also { it.show() }
     }
 }
 
 
-// dp값으로 변환하는 확장함수
-inline val Int.dp: Int
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics
-    ).toInt()
 
-inline val Float.dp: Float
-    get() = TypedValue.applyDimension(
-        TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
-    )
+
+    // dp값으로 변환하는 확장함수
+    inline val Int.dp: Int
+        get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, this.toFloat(), Resources.getSystem().displayMetrics
+        ).toInt()
+
+    inline val Float.dp: Float
+        get() = TypedValue.applyDimension(
+            TypedValue.COMPLEX_UNIT_DIP, this, Resources.getSystem().displayMetrics
+        )
