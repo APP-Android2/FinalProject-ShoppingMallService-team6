@@ -3,6 +3,7 @@ package kr.co.lion.unipiece.ui.payment
 import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
+import android.telephony.PhoneNumberUtils
 import android.util.Log
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -19,10 +20,13 @@ import kotlinx.coroutines.launch
 import kr.co.lion.unipiece.R
 import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.FragmentOrderMainBinding
+import kr.co.lion.unipiece.ui.author.AuthorInfoActivity
+import kr.co.lion.unipiece.ui.buy.BuyDetailActivity
 import kr.co.lion.unipiece.ui.payment.adapter.OrderMainAdapter
 import kr.co.lion.unipiece.ui.payment.viewmodel.DeliveryViewModel
 import kr.co.lion.unipiece.ui.payment.viewmodel.OrderViewModel
 import java.text.DecimalFormat
+import java.util.Locale
 
 
 class OrderMainFragment : Fragment() {
@@ -51,10 +55,17 @@ class OrderMainFragment : Fragment() {
     val orderMainAdapter: OrderMainAdapter = OrderMainAdapter(
         emptyList(),
         pieceImgOnClickListener = {
-
+            val intent = Intent(context, BuyDetailActivity::class.java).apply {
+                putExtra("authorIdx", it["authorIdx"])
+                putExtra("pieceIdx", it["pieceIdx"])
+            }
+            startActivity(intent)
         },
         authorNameOnClickListener = {
-
+            val intent = Intent(context, AuthorInfoActivity::class.java).apply {
+                putExtra("authorIdx", it)
+            }
+            startActivity(intent)
         }
 
     )
@@ -134,10 +145,9 @@ class OrderMainFragment : Fragment() {
                                 // 받는 이
                                 textViewOrderPersonName.text = deliveryName
                                 // 연락처
-                                textViewOrderPhone.text = deliveryPhone
+                                textViewOrderPhone.text = PhoneNumberUtils.formatNumber(deliveryPhone, Locale.getDefault().country)
                                 // 주소 (주소 + 상세주소)
-                                textViewOrderAddress.text =
-                                    "${deliveryAddress} ${deliveryAddressDetail}"
+                                textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
 
                                 // 배송 메모 세팅
                                 with(spinnerOrderMainDeliveryMemo) {
@@ -167,10 +177,9 @@ class OrderMainFragment : Fragment() {
                             // 받는 이
                             textViewOrderPersonName.text = deliveryName
                             // 연락처
-                            textViewOrderPhone.text = deliveryPhone
+                            textViewOrderPhone.text = PhoneNumberUtils.formatNumber(deliveryPhone, Locale.getDefault().country)
                             // 주소 (주소 + 상세주소)
-                            textViewOrderAddress.text =
-                                "${deliveryAddress} ${deliveryAddressDetail}"
+                            textViewOrderAddress.text = "${deliveryAddress} ${deliveryAddressDetail}"
 
                             // 배송 메모 세팅
                             with(spinnerOrderMainDeliveryMemo) {
