@@ -80,6 +80,8 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
 
+            </intent-filter>
+            <intent-filter>
                 <data
                     android:host="oauth"
                     android:scheme="${NATIVE_APP_KEY}" />
