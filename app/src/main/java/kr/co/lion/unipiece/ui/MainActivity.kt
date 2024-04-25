@@ -47,6 +47,7 @@ class MainActivity : AppCompatActivity() {
         // 새로운 intent로 새로운 fragment들로 화면 설정
         openSearchFragment()
         openHomeFragment()
+        openBuyFragment()
     }
 
 
@@ -192,6 +193,15 @@ class MainActivity : AppCompatActivity() {
         // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
         if (isSearchFragment) {
             replaceFragment(SEARCH_FRAGMENT, true)
+        }
+    }
+
+    fun openBuyFragment() {
+
+        val isBuyFragment = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
+        // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
+        if (isBuyFragment) {
+            replaceFragment(BUY_FRAGMENT, true)
         }
     }
 

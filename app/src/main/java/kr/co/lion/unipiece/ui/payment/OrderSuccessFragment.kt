@@ -44,17 +44,26 @@ class OrderSuccessFragment : Fragment() {
                     val purchasedIntent =
                         Intent(requireActivity(), PurchasedPieceDetailActivity::class.java)
                     startActivity(purchasedIntent)
+                    requireActivity().finish()
                 }
             }
             // 계속 쇼핑하기 버튼 클릭 시 /////////////////////////////////////////////////
             with(buttonContinueShopping) {
                 setOnClickListener {
-                    val buyIntent = Intent(requireActivity(), MainActivity::class.java)
-                    val mainActivity = startActivity(buyIntent)
-
-
+                    setIntent("BuyFragment")
                 }
             }
         }
+    }
+
+    fun setIntent(name: String) {
+
+        val intent = Intent(requireActivity(), MainActivity::class.java).apply {
+            // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
+            flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
+        }
+        intent.putExtra(name, true)
+        startActivity(intent)
+        requireActivity().finish()
     }
 }
