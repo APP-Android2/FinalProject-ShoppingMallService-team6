@@ -37,7 +37,7 @@ class GuideLineFragment : Fragment() {
                 }
             }
 
-            textGuideLine1.text = "1, 이거이거이거 확인하시구요\n2, 이것도 확인 하셔야해요\n3, 이건 보셨나요??"
+            textGuideLine1.text = "1. 작가 등록 후 1년마다 갱신이 필요합니다. \n2. 작가 신분이 재학 혹은 휴학, 졸업유예 중인 대학생이여햡니다. \n3. 단, 졸업 후 2년까지는 작가 활동이 가능합니다."
         }
     }
 
