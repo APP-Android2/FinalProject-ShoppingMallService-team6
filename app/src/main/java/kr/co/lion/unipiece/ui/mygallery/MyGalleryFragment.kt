@@ -21,15 +21,14 @@ class MyGalleryFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = FragmentMyGalleryBinding.inflate(inflater, container, false)
 
-        settingToolbar()
-        initView()
-
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        settingToolbar()
+        initView()
         // ViewPager의 높이를 동적으로 계산하여 설정
         binding.viewpagerMyGallery.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {

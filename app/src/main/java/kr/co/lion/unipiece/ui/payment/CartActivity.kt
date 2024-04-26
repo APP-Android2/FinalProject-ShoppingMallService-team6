@@ -202,9 +202,15 @@ class CartActivity : AppCompatActivity() {
             // 주문하기 버튼 클릭 시
             with(buttonCartOrder) {
                 setOnClickListener {
-                    // CartAdapter에서 현재 데이터를 가져온다.
-                    val currentData = cartAdapter.getCurrentData()
+                    // CartAdapter에서 현재 체크된 데이터를 가져온다.
+                    var currentData = cartAdapter.getSelectedData()
                     Log.d("currentData", "$currentData")
+
+                    // 전체 다 선택이 안 되어있으면 장바구니 전체 데이터를 주문하기로 넘겨준다
+                    if(currentData.isNullOrEmpty()){
+                        currentData = cartAdapter.getCurrentData()
+                    }
+                    
                     // pieceIdx만 추출하여 리스트로 만든다.
                     val pieceIdxList = currentData.map { it.pieceInfo.pieceIdx }
                     Log.d("pieceIdxList", "$pieceIdxList")

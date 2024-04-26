@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pretendard_regular"
-                android:text="삼성카드(123*-****-****-5678)(일시불)"
+                android:text="국민카드(123*-****-****-5678)(일시불)"
                 android:textAlignment="textEnd" />
 
         </LinearLayout>
@@ -88,7 +88,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/textViewDeliveryAdressTitle"
@@ -128,7 +129,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:fontFamily="@font/pretendard_extrabold"
-                android:text="15,447,979 원"
+                android:text="321,000 원"
                 android:textAlignment="textEnd" />
 
 
