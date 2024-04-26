@@ -227,8 +227,8 @@ class RegisterAuthorFragment : Fragment() {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP
         }
         intent.putExtra(name, true)
-        startActivity(intent)
         requireActivity().finish()
+        startActivity(intent)
     }
 
     //이미지 체크

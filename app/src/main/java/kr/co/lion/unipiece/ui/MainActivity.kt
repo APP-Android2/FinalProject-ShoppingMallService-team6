@@ -4,16 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.SystemClock
-import android.util.Log
-import android.view.Gravity
-import androidx.core.view.GravityCompat
-import androidx.core.view.get
-import androidx.drawerlayout.widget.DrawerLayout
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.FragmentManager
+import com.google.android.material.snackbar.Snackbar
 import kr.co.lion.unipiece.R
-import kr.co.lion.unipiece.UniPieceApplication
 import kr.co.lion.unipiece.databinding.ActivityMainBinding
-import kr.co.lion.unipiece.databinding.HeaderBuyDrawerBinding
 import kr.co.lion.unipiece.ui.buy.BuyFragment
 import kr.co.lion.unipiece.ui.home.HomeFragment
 import kr.co.lion.unipiece.ui.mygallery.MyGalleryFragment
@@ -27,7 +22,9 @@ class MainActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
 
-    lateinit var buyFragment: BuyFragment
+    private var backPressedTime: Long = 0
+    private var backSnackbar: Snackbar? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -36,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         bottomNaviClick()
         initView()
 
-        buyFragment = BuyFragment()
     }
 
     override fun onNewIntent(intent: Intent) {
@@ -45,39 +41,43 @@ class MainActivity : AppCompatActivity() {
         setIntent(intent)
 
         // 새로운 intent로 새로운 fragment들로 화면 설정
-        openSearchFragment()
-        openHomeFragment()
-        openBuyFragment()
-        openMyGalleryFragment()
+        openFragment()
     }
-
-
-    fun printFragmentBackStack(name: String) {
-        val fragmentManager = supportFragmentManager
-        val count = fragmentManager.backStackEntryCount
-        Log.d("$name BackStack", "백 스택에 있는 프래그먼트 수: $count")
-        for (index in 0 until count) {
-            val backStackEntry = fragmentManager.getBackStackEntryAt(index)
-            Log.d("$name BackStack", "백 스택 #$index: ${backStackEntry.name}")
-        }
-    }
-
 
     fun initView() {
         updateBottomNavi()
         replaceFragment(HOME_FRAGMENT, true)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-            super.onBackPressed()
-            updateBottomNavi()
 
-            // Fragment BackStack에 아무것도 남아있지 않을 때 activity 종료
-            if(supportFragmentManager.backStackEntryCount == 0) {
+        // fragment가 1개 남아있을때
+        if (supportFragmentManager.backStackEntryCount == 1) {
+            // 2초 안에 두번 누르면 뒤로가기
+            if (System.currentTimeMillis() - backPressedTime >=2000) {
+                backPressedTime = System.currentTimeMillis()
+                backSnackbar = showSnackbar("뒤로가기를 한 번 더 누르면 종료됩니다.")
+            } else {
+                backSnackbar?.dismiss() // 스낵바 메시지를 제거
                 finish()
             }
-
         }
+        // fragment 여러개 남아있을때
+        else {
+            super.onBackPressed()
+            updateBottomNavi()
+        }
+    }
+
+
+    private fun showSnackbar(message: String): Snackbar {
+        return Snackbar.make(binding.root, message, Snackbar.LENGTH_SHORT)
+            .setAnchorView(binding.bottomNavigationView)
+            .setBackgroundTint(ContextCompat.getColor(this, R.color.second))
+            .setTextColor(ContextCompat.getColor(this, R.color.white))
+            .also { it.show() }
+    }
 
 
     fun updateBottomNavi(){
@@ -85,23 +85,18 @@ class MainActivity : AppCompatActivity() {
         when(fragment) {
             is HomeFragment -> {
                 binding.bottomNavigationView.selectedItemId = R.id.fragment_home
-                printFragmentBackStack("update home")
             }
             is BuyFragment -> {
                 binding.bottomNavigationView.selectedItemId = R.id.fragment_buy
-                printFragmentBackStack("update buy")
             }
             is RankFragment -> {
                 binding.bottomNavigationView.selectedItemId = R.id.fragment_rank
-                printFragmentBackStack("update rank")
             }
             is MyGalleryFragment -> {
                 binding.bottomNavigationView.selectedItemId = R.id.fragment_mygallery
-                printFragmentBackStack("update gallery")
             }
             is MyPageFragment ->{
                 binding.bottomNavigationView.selectedItemId = R.id.fragment_mypage
-                printFragmentBackStack("update mypage")
             }
         }
     }
@@ -111,27 +106,22 @@ class MainActivity : AppCompatActivity() {
             when(it.itemId) {
                 R.id.fragment_home -> {
                     replaceFragment(HOME_FRAGMENT, true)
-                    printFragmentBackStack("navi home")
                     true
                 }
                 R.id.fragment_buy -> {
                     replaceFragment(BUY_FRAGMENT, true)
-                    printFragmentBackStack("navi buy")
                     true
                 }
                 R.id.fragment_rank -> {
                     replaceFragment(RANK_FRAGMENT, true)
-                    printFragmentBackStack("navi rank")
                     true
                 }
                 R.id.fragment_mygallery -> {
                     replaceFragment(MY_GALLERY_FRAGMENT, true)
-                    printFragmentBackStack("navi gallery")
                     true
                 }
                 R.id.fragment_mypage -> {
                     replaceFragment(MY_PAGE_FRAGMENT, true)
-                    printFragmentBackStack("navi mypage")
                     true
                 }
                 else -> {
@@ -188,39 +178,26 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.popBackStack(name.str, FragmentManager.POP_BACK_STACK_INCLUSIVE)
     }
 
-    fun openMyGalleryFragment(){
-        val isMyGalleryFragment = intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false)
-        if(isMyGalleryFragment) {
-            replaceFragment(MY_GALLERY_FRAGMENT, true)
+    fun openFragment() {
+        val fragmentId: Int? = when {
+            intent.getBooleanExtra(MY_GALLERY_FRAGMENT.str, false) -> R.id.fragment_mygallery
+            intent.getBooleanExtra(SEARCH_FRAGMENT.str, false) -> null // SearchFragment는 백스택 처리를 하지 않음
+            intent.getBooleanExtra(BUY_FRAGMENT.str, false) -> R.id.fragment_buy
+            intent.getBooleanExtra(HOME_FRAGMENT.str, false) -> R.id.fragment_home
+            else -> null
         }
-    }
-    fun openSearchFragment() {
 
-        val isSearchFragment = intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)
-        // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
-        if (isSearchFragment) {
-            replaceFragment(SEARCH_FRAGMENT, true)
-        }
-    }
-
-    fun openBuyFragment() {
-
-        val isBuyFragment = intent.getBooleanExtra(BUY_FRAGMENT.str, false)
-        // SearchFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
-        if (isBuyFragment) {
-            replaceFragment(BUY_FRAGMENT, true)
-        }
-    }
-
-    fun openHomeFragment() {
-        val isHomeFragment = intent.getBooleanExtra(HOME_FRAGMENT.str, false)
-        // HomeFragment가 true인 경우 프래그먼트 변경 로직을 실행합니다.
-        if (isHomeFragment) {
-            // backStack을 비워준다.
+        // 백스택을 비워야 하는 경우 (SearchFragment가 아닐 때)
+        if (fragmentId != null) {
             supportFragmentManager.popBackStackImmediate(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+        }
 
-            // MainActivity가 이미 실행 중인 경우 해당 인스턴스를 재사용합니다.
-            binding.bottomNavigationView.selectedItemId = R.id.fragment_home
+        // SearchFragment 처리
+        if (fragmentId == null && intent.getBooleanExtra(SEARCH_FRAGMENT.str, false)) {
+            replaceFragment(SEARCH_FRAGMENT, true)
+        } else if (fragmentId != null) {
+            // 다른 프래그먼트들 처리
+            binding.bottomNavigationView.selectedItemId = fragmentId
         }
     }
 }
